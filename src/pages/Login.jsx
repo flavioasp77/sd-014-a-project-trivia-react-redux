@@ -45,6 +45,7 @@ class Login extends React.Component {
           <Input
             htmlFor="name"
             label="Nome"
+            testid="input-player-name"
             onChange={ this.handleChange }
             type="text"
             value={ name }
@@ -52,11 +53,16 @@ class Login extends React.Component {
           <Input
             htmlFor="email"
             label="E-mail"
+            testid="input-gravatar-email"
             onChange={ this.handleChange }
             type="text"
             value={ email }
           />
-          <button type="submit" disabled={ !this.validateEmail(email) }>
+          <button
+            type="submit"
+            data-testid="btn-play"
+            disabled={ !name.length || !this.validateEmail(email) }
+          >
             SUA VEZ
           </button>
         </fieldset>

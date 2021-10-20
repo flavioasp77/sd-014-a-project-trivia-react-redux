@@ -6,6 +6,11 @@ import rootReducer from '../reducers';
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(reduxThunk)),
+
 );
+if (window.Cypress) {
+  window.store = store;
+}
+
 
 export default store;

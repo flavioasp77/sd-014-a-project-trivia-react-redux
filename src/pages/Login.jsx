@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import saveToken from '../services/localStorage';
+import { setGravatarEmail, setUsername } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -18,9 +20,14 @@ class Login extends Component {
   }
 
   async handleClick() {
+    const { dispatchGravatarEmail, dispatchUsername, history } = this.props;
+    const { email, username } = this.state;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const { token } = await response.json();
     saveToken(token);
+    dispatchGravatarEmail(email);
+    dispatchUsername(username);
+    history.push('/game');
   }
 
   render() {
@@ -73,9 +80,16 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  dispatchGravatarEmail: PropTypes.func.isRequired,
+  dispatchUsername: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  dispatchGravatarEmail: (email) => dispatch(setGravatarEmail(email)),
+  dispatchUsername: (username) => dispatch(setUsername(username)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

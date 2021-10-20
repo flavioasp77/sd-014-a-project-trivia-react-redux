@@ -1,6 +1,6 @@
 import React from 'react';
 
-class RequisitoCinco extends React.Component {
+class Trivia extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -36,8 +36,7 @@ class RequisitoCinco extends React.Component {
   render() {
     const { perguntas, indice } = this.state;
     return (
-      <>
-        { console.log(perguntas) }
+      <div>
         {perguntas.length > 0
         && (
           <>
@@ -61,9 +60,9 @@ class RequisitoCinco extends React.Component {
               </button>
             ))}
           </>)}
-      </>
+      </div>
     );
   }
 }
 
-export default RequisitoCinco;
+export default Trivia;

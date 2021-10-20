@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import { getToken } from '../actions';
 
-export default class Login extends Component {
+
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,9 +33,12 @@ export default class Login extends Component {
   }
 
   async handleClick() {
+    const { actionToken, history } = this.props;
     const response = await (await fetch('https://opentdb.com/api_token.php?command=request')).json();
     localStorage.setItem('token', response.token);
-    return <Redirect to="/game" />;
+    const { token } = response;
+    actionToken(token);
+    history.push('/game');
   }
 
   render() {
@@ -66,7 +72,7 @@ export default class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            disabled={this.verify()}
+            disabled={ this.verify() }
             onClick={ this.handleClick }
           >
             Jogar
@@ -83,3 +89,9 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  actionToken: (token) => dispatch(getToken(token)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -42,13 +42,13 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-          <button
-            type="submit"
-            data-testid="btn-play"
-            disabled={ !(email && nome) }
-          >
-            Jogar
-          </button>        
+        <button
+          type="submit"
+          data-testid="btn-play"
+          disabled={ !(email && nome) }
+        >
+          Jogar
+        </button>
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>

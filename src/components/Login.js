@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { getToken } from '../services/APIrequests';
+import { saveToken } from '../services/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -10,6 +13,7 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.verifyInputs = this.verifyInputs.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async handleChange({ target }) {
@@ -17,6 +21,12 @@ class Login extends Component {
       [target.name]: target.value,
     });
     this.verifyInputs();
+  }
+
+  async handleClick() {
+    const tokenReponse = await getToken();
+    const { token } = tokenReponse;
+    saveToken(token);
   }
 
   verifyInputs() {
@@ -33,6 +43,7 @@ class Login extends Component {
   }
 
   render() {
+    const { history } = this.props;
     const { disabled } = this.state;
     return (
       <form>
@@ -57,17 +68,32 @@ class Login extends Component {
           />
         </label>
         <button
-          type="submit"
+          type="button"
           disabled={ disabled }
           data-testid="btn-play"
           id="botao-submit"
+          onClick={ this.handleClick }
         >
           Jogar
-
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => {
+            history.push('/config');
+          } }
+        >
+          ...
         </button>
       </form>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Login;

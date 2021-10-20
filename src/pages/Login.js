@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 
 export default class Login extends Component {
   constructor(props) {
@@ -6,6 +7,7 @@ export default class Login extends Component {
     this.state = {
       name: '',
       email: '',
+      settings: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -27,7 +29,8 @@ export default class Login extends Component {
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, settings } = this.state;
+    if (settings) return <Redirect to="/settings" />;
     return (
       <div>
         <fieldset>
@@ -59,6 +62,13 @@ export default class Login extends Component {
             disabled={ this.verify() }
           >
             Jogar
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => this.setState({ settings: true }) }
+          >
+            Configurações
           </button>
         </fieldset>
       </div>

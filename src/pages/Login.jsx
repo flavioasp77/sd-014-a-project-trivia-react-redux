@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import saveToken from '../services/localStorage';
 
 class Login extends Component {
@@ -24,6 +25,7 @@ class Login extends Component {
 
   render() {
     const { username, email } = this.state;
+    const { history } = this.props;
     const buttonDisabled = !(username.length > 0 && email.length > 0);
     return (
       <main>
@@ -58,9 +60,22 @@ class Login extends Component {
             Jogar
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </main>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Login;

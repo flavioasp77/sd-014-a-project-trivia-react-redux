@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import saveToken from '../services/localStorage';
+import { saveToken } from '../services/localStorage';
 import { setGravatarEmail, setUsername } from '../redux/actions';
 
 class Login extends Component {

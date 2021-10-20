@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loginAction } from '../redux/actions';
+import { loginAction, triviaApiThuk } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -20,11 +20,11 @@ class Login extends Component {
     history.push('/settings');
   }
 
-  handleClick(event) {
+  async handleClick(event) {
     event.preventDefault();
-    const { loginSave, history } = this.props;
-    loginSave(this.state);
-
+    const { loginSave, tokenTrivia, history } = this.props;
+    await loginSave(this.state);
+    await tokenTrivia();
     history.push('/jogo');
   }
 
@@ -63,7 +63,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="submit"
             >
-              Entrar
+              Jogar
             </button>
           </fieldset>
         </form>
@@ -75,18 +75,19 @@ class Login extends Component {
           Configurações
         </button>
       </>
-
     );
   }
 }
 
 Login.propTypes = {
   loginSave: PropTypes.func.isRequired,
+  tokenTrivia: PropTypes.func.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   loginSave: (payload) => dispatch(loginAction(payload)),
+  tokenTrivia: () => dispatch(triviaApiThuk()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

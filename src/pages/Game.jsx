@@ -14,6 +14,8 @@ class Game extends Component {
 
   componentDidMount() {
     this.fetchGravatar();
+    const { token } = this.props;
+    localStorage.setItem('token', JSON.stringify(token));
   }
 
   convertEmailtoHash(email) {
@@ -52,14 +54,17 @@ class Game extends Component {
   }
 }
 
+
 const mapStateToProps = (state) => ({
   nome: state.player.name,
   email: state.player.email,
+  token: state.token.success,
 });
 
 Game.propTypes = {
   nome: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Game);

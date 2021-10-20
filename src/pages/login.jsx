@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import '../App.css';
+import getToken from '../services/triviaAPI';
 
 class Login extends React.Component {
   constructor() {
@@ -13,6 +15,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyInfo = this.verifyInfo.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -26,6 +29,14 @@ class Login extends React.Component {
     if (validEmail.test(email) && name) return false;
 
     return true;
+  }
+
+  async handleClick() {
+    const { history } = this.props;
+    const token = await getToken();
+    const stringf = JSON.stringify(token);
+    localStorage.setItem('token', stringf);
+    history.push('/trivia');
   }
 
   render() {
@@ -63,6 +74,7 @@ class Login extends React.Component {
             <button
               type="button"
               data-testid="btn-play"
+              onClick={ this.handleClick }
               disabled={ this.verifyInfo() }
             >
               Jogar
@@ -73,5 +85,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 export default Login;

@@ -3,6 +3,7 @@ const INICIAL_STATE = {
   assertions: '',
   score: '',
   gravatarEmail: '',
+  token: '',
 };
 
 function playerReducer(state = INICIAL_STATE, action) {

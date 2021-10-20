@@ -17,9 +17,7 @@ class Login extends Component {
   handleChange({ target }) {
     const { name, value } = target;
 
-    this.setState({ [name]: value });
-
-    this.handleValidation();
+    this.setState({ [name]: value }, () => { this.handleValidation(); });
   }
 
   handleValidation() {

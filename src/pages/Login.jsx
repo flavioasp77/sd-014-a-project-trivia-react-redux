@@ -4,8 +4,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      name: '',
+      // email: '',
+      // name: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -15,7 +15,7 @@ class Login extends Component {
   }
 
   render() {
-    const { email, name } = this.state;
+    // const { email, name } = this.state;
     return (
       <form>
         <label htmlFor="email">
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  login: PropTypes.func.isRequired,
+  // login: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

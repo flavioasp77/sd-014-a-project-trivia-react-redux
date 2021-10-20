@@ -1,4 +1,4 @@
-// import { USER_INFO } from '../actions';
+import { USER_INFO } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -7,10 +7,10 @@ const INITIAL_STATE = {
 
 function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'USER_INFO':
+  case USER_INFO:
     return {
       ...state,
-      name: action.payload.name,
+      name: action.payload.user,
       email: action.payload.email,
     };
   default:

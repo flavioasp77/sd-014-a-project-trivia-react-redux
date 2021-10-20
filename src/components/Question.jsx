@@ -27,6 +27,13 @@ class Question extends Component {
     return array;
   }
 
+  handleClick() {
+    document.querySelectorAll('.wrong').forEach((button) => {
+      button.style.border = '3px solid rgb(255, 0, 0)';
+    });
+    document.querySelector('.correct').style.border = '3px solid rgb(6, 240, 15)';
+  }
+
   createAnswers() {
     const { question } = this.props;
     const wrongAnswers = question.incorrect_answers.map((answer, index) => (
@@ -34,11 +41,18 @@ class Question extends Component {
         key={ index }
         type="button"
         data-testid={ `wrong-answer-${index}` }
+        className="wrong"
+        onClick={ this.handleClick }
       >
         { answer }
       </button>));
     const correctAnswer = (
-      <button type="button" data-testid="correct-answer">
+      <button
+        type="button"
+        data-testid="correct-answer"
+        className="correct"
+        onClick={ this.handleClick }
+      >
         {question.correct_answer}
       </button>);
     const answers = [...wrongAnswers, correctAnswer];

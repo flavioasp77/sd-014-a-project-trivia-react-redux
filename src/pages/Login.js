@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { login } from '../actions';
 import { fetchAPI } from '../services/tokenAPI';
 
 class Login extends React.Component {
@@ -23,8 +26,10 @@ class Login extends React.Component {
   }
 
   async handleClick() {
+    const { loginSave } = this.props;
     const token = await fetchAPI();
     localStorage.setItem('token', token);
+    loginSave(this.state);
   }
 
   enableButton() {
@@ -62,14 +67,16 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ disableButton }
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ disableButton }
+            onClick={ this.handleClick }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/settings">
           <button
             type="button"
@@ -83,4 +90,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  loginSave: (payload) => dispatch(login(payload)),
+});
+
+Login.propTypes = {
+  loginSave: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -7,5 +7,3 @@ export const login = (payload) => ({
 export const requestToken = (payload) => ({
   type: REQUEST, payload,
 });
-
-export const test = 'test';

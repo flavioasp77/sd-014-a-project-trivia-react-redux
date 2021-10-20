@@ -10,7 +10,7 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
-      disabled: true 
+      disabled: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,7 +31,7 @@ class Login extends React.Component {
 
     const data = {
       email,
-      name
+      name,
     };
 
     sendLogin(data);
@@ -57,7 +57,7 @@ class Login extends React.Component {
   render() {
     const { name, email, disabled } = this.state;
 
-    return(
+    return (
       <section>
         <br />
         <label htmlFor="input-name">
@@ -101,7 +101,7 @@ class Login extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    sendLogin: (data) => dispatch(loginAction(data)), 
+    sendLogin: (data) => dispatch(loginAction(data)),
   };
 }
 

@@ -22,8 +22,10 @@ class Login extends Component {
 
   handleClick(event) {
     event.preventDefault();
-    const { loginSave } = this.props;
+    const { loginSave, history } = this.props;
     loginSave(this.state);
+
+    history.push('/jogo');
   }
 
   handleChange({ target: { name, value } }) {

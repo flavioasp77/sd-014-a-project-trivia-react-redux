@@ -1,8 +1,8 @@
 import { LOGIN_CASE } from '../actions';
 
-INITIAL_STATE = {
-  login: '',
-  password: '',
+const INITIAL_STATE = {
+  name: '',
+  email: '',
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
@@ -10,8 +10,8 @@ export default function loginReducer(state = INITIAL_STATE, action) {
   case LOGIN_CASE:
     return {
       ...state,
-      login: action.payload.login,
-      password: action.payload.password,
+      name: action.payload.name,
+      email: action.payload.email,
     };
   default:
     return state;

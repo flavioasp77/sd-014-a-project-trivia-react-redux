@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { fetchAPI } from '../services/tokenAPI';
 
 class Login extends React.Component {
@@ -69,6 +70,14 @@ class Login extends React.Component {
         >
           Jogar
         </button>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </form>
     );
   }

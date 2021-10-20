@@ -36,7 +36,7 @@ class Game extends React.Component {
   render() {
     const { questions } = this.state;
     console.log(questions);
-    if (questions.length === 0) return <p>teste</p>
+    if (questions.length === 0) return <p>teste</p>;
     return (
       <main>
         <Header />

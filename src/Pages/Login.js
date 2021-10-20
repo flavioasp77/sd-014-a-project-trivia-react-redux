@@ -7,7 +7,6 @@ import {
   emailValidation,
   loginValidation,
   getTriviaToken,
-  fetchTriviaQuestions,
   fetchGravatar,
   userToStorage,
 } from '../helper';

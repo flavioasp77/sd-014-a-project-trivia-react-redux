@@ -1,4 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+// import { connect } from 'react-redux';
+import { getToken } from '../services/triviaAPI';
+import saveTokenInLocalStorage from '../services/saveToStorage';
 import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
@@ -16,8 +20,11 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  playBTNClick() {
-    // Do something
+  async playBTNClick() {
+    const { history } = this.props;
+    const resultTriviaAPI = await getToken();
+    saveTokenInLocalStorage(resultTriviaAPI.token);
+    history.push('/trivia');
   }
 
   render() {
@@ -66,4 +73,15 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+// const mapsStateToProps = (state) => {
+// //
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   //
+// };
+
+export default (Login);

@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router';
 import './App.css';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
+import Trivia from './pages/Trivia';
 
 export default function App() {
   return (
@@ -11,7 +12,8 @@ export default function App() {
       <header className="App-header">
         <Switch>
           <Route exact path="/" component={ Login } />
-          <Route exact path="/settings" component={ Settings } />
+          <Route path="/trivia" component={ Trivia } />
+          <Route path="/settings" component={ Settings } />
         </Switch>
       </header>
     </div>

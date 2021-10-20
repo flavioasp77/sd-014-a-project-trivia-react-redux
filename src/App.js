@@ -1,13 +1,18 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 // import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
+import Trivia from './pages/Trivia';
 
 export default function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Login />
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          <Route path="/trivia" component={ Trivia } />
+        </Switch>
       </header>
     </div>
   );

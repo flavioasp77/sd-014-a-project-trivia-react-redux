@@ -9,4 +9,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(reduxThunk)),
 );
 
+if (window.Cypress) {
+  window.store = store;
+}
+
 export default store;

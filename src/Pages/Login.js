@@ -9,6 +9,7 @@ import {
   getTriviaToken,
   fetchTriviaQuestions,
   fetchGravatar,
+  userToStorage,
 } from '../helper';
 
 class Login extends Component {
@@ -28,11 +29,12 @@ class Login extends Component {
     const { history, userToState } = this.props;
     const { login, email } = this.state;
     const img = fetchGravatar(email);
-    userToState(login, email, img);
     const token = await getTriviaToken();
     const questions = await fetchTriviaQuestions(token);
     console.log(questions);
     history.push('/game');
+    userToStorage(login, email);
+    userToState(login, email, img);
   }
 
   handleDisabled = (email, login) => {

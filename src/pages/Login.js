@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 
 export default class Login extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class Login extends Component {
       email: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -24,6 +26,12 @@ export default class Login extends Component {
       return false;
     }
     return true;
+  }
+
+  async handleClick() {
+    const response = await (await fetch('https://opentdb.com/api_token.php?command=request')).json();
+    localStorage.setItem('token', response.token);
+    return <Redirect to="/game" />;
   }
 
   render() {
@@ -56,7 +64,8 @@ export default class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            disabled={ this.verify() }
+            disabled={this.verify()}
+            onClick={ this.handleClick }
           >
             Jogar
           </button>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class Trivia extends Component {
+class Trivia extends Component {
   render() {
     return (
       <div>

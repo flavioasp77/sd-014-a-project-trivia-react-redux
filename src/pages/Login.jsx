@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  setUser as setUserAction, setTokenAPI as setTokenAPIAction,
+} from '../actions/indexActions';
 
 class Login extends Component {
   constructor() {
@@ -8,10 +13,19 @@ class Login extends Component {
       email: '',
     };
     this.handleInput = this.handleInput.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInput({ target: { name, value } }) {
     this.setState({ [name]: value });
+  }
+
+  handleClick() {
+    const { history, setUser, setTokenAPI } = this.props;
+    const { name, email } = this.state;
+    setUser({ name, email });
+    setTokenAPI();
+    history.push('/jogo');
   }
 
   render() {
@@ -38,6 +52,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ email.length <= 1 || name.length <= 1 }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
@@ -46,4 +61,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  setUser: PropTypes.func.isRequired,
+  setTokenAPI: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (payload) => dispatch(setUserAction(payload)),
+  setTokenAPI: () => dispatch(setTokenAPIAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

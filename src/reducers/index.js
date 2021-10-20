@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import trivia from './indexRedux';
+import user from './indexRedux';
 
 const rootReducer = combineReducers({
-  trivia,
+  user,
 });
 
 export default rootReducer;

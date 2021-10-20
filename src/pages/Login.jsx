@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
@@ -8,12 +9,17 @@ class Login extends Component {
       email: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { value, name } }) {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleClick() {
+
   }
 
   render() {
@@ -44,6 +50,14 @@ class Login extends Component {
             Jogar
           </button>
         </form>
+        <Link to="/settings">
+          <button
+            data-testid="btn-settings"
+            type="button"
+          >
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 // import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { login as loginAction } from '../actions';
+import { getTokenThunk, login as loginAction } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -12,16 +13,30 @@ class Login extends Component {
       nome: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { userToken } = this.props;
+    console.log(userToken);
   }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const { userToken } = this.props;
+
+    console.log(userToken);
+  }
+
   render() {
     const { email, nome } = this.state;
+    const { sendToken, login } = this.props;
     return (
-      <form>
+      <form onSubmit={ () => sendToken() }>
         <label htmlFor="email">
           {'Email: '}
           <input
@@ -42,13 +57,19 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ !(email && nome) }
+        <Link
+          to="/jogo"
+          style={ !(email && nome) ? { pointerEvents: 'none' } : null }
         >
-          Jogar
-        </button>
+          <button
+            type="submit"
+            data-testid="btn-play"
+            disabled={ !(email && nome) }
+            onClick={ () => login() }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
@@ -59,10 +80,15 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (email) => dispatch(loginAction(email)),
+  sendToken: () => dispatch(getTokenThunk()),
 });
 
-// Login.propTypes = {
-//   login: PropTypes.func.isRequired,
-// };
+const mapStateToProps = (state) => ({
+  userToken: state.tokenReducer.token,
+});
 
-export default connect(null, mapDispatchToProps)(Login);
+Login.propTypes = {
+  userToken: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

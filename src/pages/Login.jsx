@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import saveToken from '../services/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -8,10 +9,17 @@ class Login extends Component {
       email: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
+  }
+
+  async handleClick() {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const { token } = await response.json();
+    saveToken(token);
   }
 
   render() {
@@ -45,6 +53,7 @@ class Login extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ buttonDisabled }
+            onClick={ this.handleClick }
           >
             Jogar
           </button>

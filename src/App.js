@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 import './App.css';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
+import GameScreen from './pages/GameScreen';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       </header> */}
       <Route exact path="/" component={ Login } />
       <Route exact path="/settings" component={ Settings } />
+      <Route exact path="/game" component={ GameScreen } />
     </div>
   );
 }

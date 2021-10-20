@@ -66,7 +66,7 @@ export default class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            disabled={this.verify()}
+            disabled={ this.verify() }
             onClick={ this.handleClick }
           >
             Jogar

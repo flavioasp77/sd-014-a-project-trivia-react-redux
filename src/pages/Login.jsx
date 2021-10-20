@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { saveUserInfo } from '../redux/actions/index';
+import getTriviaToken from '../services/triviaAPI';
 
 class Login extends Component {
   constructor(props) {
@@ -30,9 +32,33 @@ class Login extends Component {
 
   handleClick() {
     const { name, email } = this.state;
-    const { saveUser } = this.props;
-
+    const { saveUser, history } = this.props;
     saveUser({ name, email });
+    getTriviaToken();
+    history.push('/trivia');
+  }
+
+  showButtons() {
+    return (
+      <>
+        <button
+          type="button"
+          disabled={ this.checkInputs() }
+          onClick={ this.handleClick }
+          className="btn btn-dark"
+          data-testid="btn-play"
+        >
+          Jogar
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          className="btn btn-dark"
+        >
+          <Link to="/settings">&#128295;</Link>
+        </button>
+      </>
+    );
   }
 
   render() {
@@ -68,15 +94,9 @@ class Login extends Component {
             />
           </label>
         </div>
-        <button
-          type="button"
-          disabled={ this.checkInputs() }
-          onClick={ this.handleClick }
-          className="btn btn-dark"
-          data-testid="btn-play"
-        >
-          Entrar
-        </button>
+        <div>
+          { this.showButtons() }
+        </div>
       </form>
     );
   }
@@ -90,4 +110,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   saveUser: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };

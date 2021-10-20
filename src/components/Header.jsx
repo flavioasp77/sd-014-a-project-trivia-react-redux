@@ -11,7 +11,7 @@ class Header extends Component {
     };
   }
 
-  convertEmail(email) {
+  imgGravatar(email) {
     const link = 'https://www.gravatar.com/avatar/';
     const emailCrypto = MD5(email).toString();
     return link + emailCrypto;
@@ -24,7 +24,7 @@ class Header extends Component {
       <header>
         <img
           data-testid="header-profile-picture"
-          src={ this.convertEmail(getEmail) }
+          src={ this.imgGravatar(getEmail) }
           alt="Gravatar do player"
         />
         <p data-testid="header-player-name">{getName}</p>

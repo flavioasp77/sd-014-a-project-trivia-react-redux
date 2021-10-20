@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   token: '',
 };
 
-const triviaReducer = (state = INITIAL_STATE) => {
+const triviaReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   default:
     return state;

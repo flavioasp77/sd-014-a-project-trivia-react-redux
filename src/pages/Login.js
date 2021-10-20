@@ -11,6 +11,7 @@ class Login extends Component {
       emailInput: '',
     };
     this.handleInput = this.handleInput.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInput({ target: { value, name } }) {

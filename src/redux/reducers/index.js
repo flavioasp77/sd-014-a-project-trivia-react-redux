@@ -1,11 +1,11 @@
-// Criar Reducers aqui
-
 import { combineReducers } from 'redux';
+import user from './user';
 
 const rootReducer = combineReducers({
-  assertions,
-  score,
-  gravatarEmail,
+  user,
+  // assertions,
+  // score,
+  // gravatarEmail,
 });
 
 export default rootReducer;

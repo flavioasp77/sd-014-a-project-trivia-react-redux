@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-import { emailValidation, loginValidation } from '../helper';
+import {
+  emailValidation,
+  loginValidation,
+  getTriviaToken,
+  fetchTriviaQuestions,
+} from '../helper';
 
 class Login extends Component {
   constructor(props) {
@@ -17,8 +22,12 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleLogin = () => {
-
+  handleLogin = async () => {
+    const { history } = this.props;
+    const token = await getTriviaToken();
+    const questions = await fetchTriviaQuestions(token);
+    console.log(questions);
+    history.push('/game');
   }
 
   handleDisabled = (email, login) => {
@@ -30,6 +39,7 @@ class Login extends Component {
 
   render() {
     const { email, login } = this.state;
+    const { history } = this.props;
     return (
       <form>
         <label htmlFor="login">
@@ -62,9 +72,20 @@ class Login extends Component {
         >
           Jogar
         </button>
+        <button
+          type="button"
+          onClick={ () => history.push('/settings') }
+          data-testid="btn-settings"
+        >
+          Settings
+        </button>
       </form>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default connect(null, null)(Login);

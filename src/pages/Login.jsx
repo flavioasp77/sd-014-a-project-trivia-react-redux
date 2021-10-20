@@ -1,5 +1,5 @@
 import React from 'react';
-import md5 from 'crypto-js/md5';
+import { Link } from 'react-router-dom';
 import Button from '../Components/Button';
 import Input from '../Components/Input';
 
@@ -22,15 +22,14 @@ class Login extends React.Component {
     });
   }
 
-  async handleClick() {
+  handleClick() {
     const { email, name } = this.state;
-    const hash = md5(email).toString();
     const state = {
       player: {
         name,
         assertions: 0,
         score: 0,
-        gravatarEmail: `https://br.gravatar.com/avatar/${hash}`,
+        gravatarEmail: email,
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
@@ -61,12 +60,14 @@ class Login extends React.Component {
           onChange={ this.handleChange }
           dataTestid="input-gravatar-email"
         />
-        <Button
-          label="Jogar"
-          onClick={ this.handleClick }
-          name={ name }
-          emailValidation={ validation }
-        />
+        <Link to="/game">
+          <Button
+            label="Jogar"
+            onClick={ this.handleClick }
+            name={ name }
+            emailValidation={ validation }
+          />
+        </Link>
       </main>
     );
   }

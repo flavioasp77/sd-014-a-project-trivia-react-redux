@@ -19,7 +19,6 @@ class Button extends React.Component {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
   emailValidation: PropTypes.func.isRequired,
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { fetchAPI } from '../services/tokenAPI';
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,11 +13,17 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
     this.setState({ [target.name]: target.value });
     this.enableButton();
+  }
+
+  async handleClick() {
+    const token = await fetchAPI();
+    localStorage.setItem('token', token);
   }
 
   enableButton() {
@@ -58,6 +65,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ disableButton }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>

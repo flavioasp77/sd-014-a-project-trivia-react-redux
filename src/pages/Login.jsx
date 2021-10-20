@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { fetchTokenApi } from '../services/triviaTokenApi';
+import { Link } from 'react-router-dom';
+import fetchTokenApi from '../services/triviaTokenApi';
 
 class Login extends Component {
   constructor() {
@@ -20,7 +20,7 @@ class Login extends Component {
   }
 
   handleClick() {
-    fetchTokenApi().then()
+    fetchTokenApi().then();
   }
 
   render() {
@@ -43,27 +43,20 @@ class Login extends Component {
             name="email"
             placeholder="E-mail"
           />
-          <button
-            type="button"
-            onClick={ this.handleClick }
-            data-testid="btn-play"
-            disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              type="button"
+              onClick={ this.handleClick }
+              data-testid="btn-play"
+              disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </div>
     );
   }
 }
-
-Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
-  push: PropTypes.string,
-};
-
-Login.defaultProps = {
-  push: 'select',
-};
 
 export default Login;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveUserInfo } from '../redux/actions/index';
+import getTriviaToken from '../services/triviaAPI';
 
 class Login extends Component {
   constructor(props) {
@@ -30,9 +31,10 @@ class Login extends Component {
 
   handleClick() {
     const { name, email } = this.state;
-    const { saveUser } = this.props;
-
+    const { saveUser, history } = this.props;
     saveUser({ name, email });
+    getTriviaToken();
+    history.push('/trivia');
   }
 
   render() {
@@ -75,7 +77,7 @@ class Login extends Component {
           className="btn btn-dark"
           data-testid="btn-play"
         >
-          Entrar
+          Jogar
         </button>
       </form>
     );
@@ -90,4 +92,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   saveUser: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };

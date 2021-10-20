@@ -1,7 +1,12 @@
 import React from 'react';
-import Input from '../../components/Input';
+// import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Login extends React.Component {
+import Input from '../components/Input';
+import { setUserData } from '../redux/actions';
+
+class Login extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +24,7 @@ export default class Login extends React.Component {
   }
 
   handleSubmit(event) {
+    const { dispatchPayload } = this.props;
     event.preventDefault();
     dispatchPayload(this.state);
     this.setState({ redirect: '/trivia' });
@@ -47,3 +53,13 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  dispatchPayload: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchPayload: (payload) => dispatch(setUserData(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

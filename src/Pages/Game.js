@@ -1,6 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Header from '../Components/Header';
 
 class Game extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Game extends React.Component {
 
   render() {
     return (
-      null
+      <Header />
     );
   }
 }

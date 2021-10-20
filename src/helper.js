@@ -1,3 +1,5 @@
+import { MD5 } from 'crypto-js';
+
 export function emailValidation(email) {
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   return emailRegex.test(email);
@@ -25,4 +27,10 @@ export async function fetchTriviaQuestions(token) {
   const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const response = await request.json();
   return response.results;
+}
+
+export function fetchGravatar(email) {
+  const hash = MD5(email).toString();
+  const img = `https://www.gravatar.com/avatar/${hash}`;
+  return img;
 }

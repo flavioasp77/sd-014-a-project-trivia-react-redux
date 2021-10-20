@@ -1,3 +1,5 @@
+import { MD5 } from 'crypto-js';
+
 export function emailValidation(email) {
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   return emailRegex.test(email);
@@ -10,6 +12,17 @@ export function loginValidation(login) {
 
 function tokenToStorage(token) {
   localStorage.setItem('token', JSON.stringify(token));
+}
+
+export function userToStorage(name, email) {
+  localStorage.setItem('state', JSON.stringify({
+    player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    },
+  }));
 }
 
 export async function getTriviaToken() {
@@ -25,4 +38,10 @@ export async function fetchTriviaQuestions(token) {
   const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const response = await request.json();
   return response.results;
+}
+
+export function fetchGravatar(email) {
+  const hash = MD5(email).toString();
+  const img = `https://www.gravatar.com/avatar/${hash}`;
+  return img;
 }

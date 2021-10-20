@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import addInfo from '../Redux/actions/index';
 import {
   emailValidation,
   loginValidation,
   getTriviaToken,
   fetchTriviaQuestions,
+  fetchGravatar,
+  userToStorage,
 } from '../helper';
 
 class Login extends Component {
@@ -23,11 +26,15 @@ class Login extends Component {
   }
 
   handleLogin = async () => {
-    const { history } = this.props;
+    const { history, userToState } = this.props;
+    const { login, email } = this.state;
+    const img = fetchGravatar(email);
     const token = await getTriviaToken();
     const questions = await fetchTriviaQuestions(token);
     console.log(questions);
     history.push('/game');
+    userToStorage(login, email);
+    userToState(login, email, img);
   }
 
   handleDisabled = (email, login) => {
@@ -86,6 +93,13 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  userToState: PropTypes.func.isRequired,
 };
 
-export default connect(null, null)(Login);
+const mapDispatchToProps = (dispatch) => ({
+  userToState: (email, login, img) => {
+    dispatch(addInfo(email, login, img));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Login);

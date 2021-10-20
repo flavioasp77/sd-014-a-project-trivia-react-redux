@@ -26,7 +26,23 @@ class Login extends React.Component {
     }, () => this.checkInputsData());
   }
 
-  handleClick() {
+  async requestQuestions() {
+    const response1 = await fetch('https://opentdb.com/api_token.php?command=request');
+    const json = await response1.json();
+    console.log(json);
+    const response2 = await fetch(`https://opentdb.com/api.php?amount=5&token=${json.token}`);
+    const questions = await response2.json();
+    console.log(questions);
+    if (questions.response_code === 0) {
+      localStorage.setItem('token', json.token);
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
+
+  async handleClick() {
     const { email, name } = this.state;
     const { sendLogin } = this.props;
 
@@ -34,8 +50,13 @@ class Login extends React.Component {
       email,
       name,
     };
+    const response = await this.requestQuestions();
 
-    sendLogin(data);
+    if (response) {
+      sendLogin(data);
+    } else {
+      alert('Clique em jogar novamente. Erro no servidor.');
+    }
   }
 
   checkInputsData() {

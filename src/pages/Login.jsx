@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   setUser as setUserAction, setTokenAPI as setTokenAPIAction,
 } from '../actions/indexActions';
-import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {

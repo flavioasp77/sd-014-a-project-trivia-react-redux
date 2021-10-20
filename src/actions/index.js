@@ -1,4 +1,4 @@
-import fetchAPI from '../services/fetchAPI';
+// import fetchAPI from '../services/fetchAPI';
 
 export const USER_NAME = 'USER_NAME';
 export const LOGIN = 'LOGIN';

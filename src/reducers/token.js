@@ -1,15 +1,15 @@
-import {REQUEST} from './actionType'
+import { REQUEST } from '../actions/actionType';
 
 const INITIAL_TOKEN = {
-  token: ''
-}
+  token: '',
+};
 
 function playerToken(state = INITIAL_TOKEN, action) {
   switch (action.type) {
-    case REQUEST:
-      return {...state, token: action.payload.token}
-    default:
-      return state;
+  case REQUEST:
+    return { ...state, token: action.payload.token };
+  default:
+    return state;
   }
 }
 

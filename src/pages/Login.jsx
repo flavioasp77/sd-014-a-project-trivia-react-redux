@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 // import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getToken } from '../services/triviaAPI';
 import saveTokenInLocalStorage from '../services/saveToStorage';
-import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -83,5 +83,4 @@ Login.propTypes = {
 // const mapDispatchToProps = (dispatch) => {
 //   //
 // };
-
 export default (Login);

@@ -42,16 +42,16 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/settings">
           <button
             type="submit"
             data-testid="btn-play"
             disabled={ !(email && nome) }
           >
             Jogar
-          </button>
+          </button>        
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
-        <button type="button" data-testid="btn-settings">Configurações</button>
       </form>
     );
   }

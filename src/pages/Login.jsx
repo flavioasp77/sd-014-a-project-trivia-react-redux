@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { fetchTokenApi } from '../services/triviaTokenApi';
 
 class Login extends Component {
   constructor() {
@@ -8,12 +10,17 @@ class Login extends Component {
       email: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { value, name } }) {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleClick() {
+    fetchTokenApi().then()
   }
 
   render() {
@@ -38,6 +45,7 @@ class Login extends Component {
           />
           <button
             type="button"
+            onClick={ this.handleClick }
             data-testid="btn-play"
             disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
           >
@@ -48,5 +56,14 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  push: PropTypes.string,
+};
+
+Login.defaultProps = {
+  push: 'select',
+};
 
 export default Login;

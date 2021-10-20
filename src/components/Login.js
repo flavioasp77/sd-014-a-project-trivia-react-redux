@@ -60,6 +60,7 @@ class Login extends Component {
           type="submit"
           disabled={ disabled }
           data-testid="btn-play"
+          id="botao-submit"
         >
           Jogar
 

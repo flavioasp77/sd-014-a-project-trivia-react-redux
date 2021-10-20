@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { saveUserInfo } from '../redux/actions/index';
 import getTriviaToken from '../services/triviaAPI';
 
@@ -37,6 +38,29 @@ class Login extends Component {
     history.push('/trivia');
   }
 
+  showButtons() {
+    return (
+      <>
+        <button
+          type="button"
+          disabled={ this.checkInputs() }
+          onClick={ this.handleClick }
+          className="btn btn-dark"
+          data-testid="btn-play"
+        >
+          Jogar
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          className="btn btn-dark"
+        >
+          <Link to="/settings">&#128295;</Link>
+        </button>
+      </>
+    );
+  }
+
   render() {
     const { name, email } = this.state;
     return (
@@ -70,15 +94,9 @@ class Login extends Component {
             />
           </label>
         </div>
-        <button
-          type="button"
-          disabled={ this.checkInputs() }
-          onClick={ this.handleClick }
-          className="btn btn-dark"
-          data-testid="btn-play"
-        >
-          Jogar
-        </button>
+        <div>
+          { this.showButtons() }
+        </div>
       </form>
     );
   }

@@ -3,6 +3,7 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import { getToken } from '../services/triviaAPI';
 import saveTokenInLocalStorage from '../services/saveToStorage';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,38 +30,46 @@ class Login extends React.Component {
   render() {
     const { userName, email } = this.state;
     return (
-      <form>
-        <label htmlFor="input-player-name">
-          Nome:
-          <input
-            type="text"
-            name="userName"
-            id="input-player-name"
-            data-testid="input-player-name"
-            value={ userName }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="input-gravatar-email">
-          E-mail:
-          <input
-            type="text"
-            name="email"
-            id="input-gravatar-email"
-            data-testid="input-gravatar-email"
-            value={ email }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          onClick={ this.playBTNClick }
-          data-testid="btn-play"
-          disabled={ !(userName) || !(email) }
-        >
-          Jogar
-        </button>
-      </form>);
+      <div>
+        <form>
+          <label htmlFor="input-player-name">
+            Nome:
+            <input
+              type="text"
+              name="userName"
+              id="input-player-name"
+              data-testid="input-player-name"
+              value={ userName }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="input-gravatar-email">
+            E-mail:
+            <input
+              type="text"
+              name="email"
+              id="input-gravatar-email"
+              data-testid="input-gravatar-email"
+              value={ email }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            type="button"
+            onClick={ this.playBTNClick }
+            data-testid="btn-play"
+            disabled={ !(userName) || !(email) }
+          >
+            Jogar
+          </button>
+        </form>
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">
+            Configurações
+          </button>
+        </Link>
+      </div>
+    );
   }
 }
 

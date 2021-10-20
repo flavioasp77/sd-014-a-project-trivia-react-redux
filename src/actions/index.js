@@ -1,9 +1,21 @@
-import md5 from 'crypto-js/md5';
+export const REQUEST_TRIVIA = 'REQUEST_TRIVIA';
 
-export const ADD_USER = 'ADD_USER';
-
-export const addUser = (payload) => ({
-  type: ADD_USER,
+const requestTrivia = (payload) => ({
+  type: REQUEST_TRIVIA,
   payload,
-  generateHash: md5(payload.email).toString(),
 });
+
+// export async function getQuests(token, dispatch) {
+//   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+//   console.log(response);
+//   dispatch(requestTrivia());
+// }
+
+export function getToken(token) {
+  return async (dispatch) => {
+    const response = await (await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)).json();
+    console.log(token);
+    console.log(response);
+    dispatch(requestTrivia(response.results));
+  };
+}

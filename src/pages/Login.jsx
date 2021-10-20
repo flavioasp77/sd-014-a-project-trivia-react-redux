@@ -76,10 +76,8 @@ class Login extends React.Component {
 
   render() {
     const { name, email, disabled } = this.state;
-
     return (
       <section>
-        <br />
         <label htmlFor="input-name">
           Nome:
           <input
@@ -91,8 +89,6 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <br />
-        <br />
         <label htmlFor="input-email">
           Email:
           <input
@@ -104,8 +100,6 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <br />
-        <br />
         <Link to="/game">
           <button
             type="button"
@@ -116,6 +110,7 @@ class Login extends React.Component {
             Jogar
           </button>
         </Link>
+        <Link to="/settings" data-testid="btn-settings">Configurações</Link>
       </section>
     );
   }

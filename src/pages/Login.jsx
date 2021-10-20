@@ -1,11 +1,14 @@
+// import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { login as loginAction } from '../actions';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: '',
-      // name: '',
+      email: '',
+      nome: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -15,15 +18,36 @@ class Login extends Component {
   }
 
   render() {
-    // const { email, name } = this.state;
+    const { email, nome } = this.state;
     return (
       <form>
         <label htmlFor="email">
-          <input />
+          {'Email: '}
+          <input
+            data-testid="input-gravatar-email"
+            value={ email }
+            name="email"
+            type="email"
+            onChange={ this.handleChange }
+          />
         </label>
         <label htmlFor="name">
-          <input />
+          {'Nome: '}
+          <input
+            data-testid="input-player-name"
+            value={ nome }
+            name="nome"
+            type="text"
+            onChange={ this.handleChange }
+          />
         </label>
+        <button
+          type="submit"
+          data-testid="btn-play"
+          disabled={ !(email && nome) }
+        >
+          Jogar
+        </button>
       </form>
     );
   }
@@ -33,8 +57,8 @@ const mapDispatchToProps = (dispatch) => ({
   login: (email) => dispatch(loginAction(email)),
 });
 
-Login.propTypes = {
-  // login: PropTypes.func.isRequired,
-};
+// Login.propTypes = {
+//   login: PropTypes.func.isRequired,
+// };
 
 export default connect(null, mapDispatchToProps)(Login);

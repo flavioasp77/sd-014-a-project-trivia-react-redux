@@ -17,6 +17,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -30,25 +31,35 @@ class Login extends React.Component {
     this.setState({ redirect: '/trivia' });
   }
 
+  validateEmail(email) {
+    const re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    return re.test(String(email).toLowerCase());
+  }
+
   render() {
     const { name, email } = this.state;
     return (
       <form onSubmit={ this.handleSubmit }>
-        <h1>THIS IS LOGIN</h1>
-        <Input
-          htmlFor="name"
-          label="Nome"
-          onChange={ this.handleChange }
-          type="text"
-          value={ name }
-        />
-        <Input
-          htmlFor="email"
-          label="E-mail"
-          onChange={ this.handleChange }
-          type="text"
-          value={ email }
-        />
+        <fieldset>
+          <h1>THIS IS LOGIN</h1>
+          <Input
+            htmlFor="name"
+            label="Nome"
+            onChange={ this.handleChange }
+            type="text"
+            value={ name }
+          />
+          <Input
+            htmlFor="email"
+            label="E-mail"
+            onChange={ this.handleChange }
+            type="text"
+            value={ email }
+          />
+          <button type="submit" disabled={ !this.validateEmail(email) }>
+            SUA VEZ
+          </button>
+        </fieldset>
       </form>
     );
   }

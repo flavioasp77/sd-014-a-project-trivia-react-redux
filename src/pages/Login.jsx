@@ -1,6 +1,7 @@
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { login as loginAction } from '../actions';
 
 class Login extends Component {
@@ -41,13 +42,16 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ !(email && nome) }
-        >
-          Jogar
-        </button>
+        <Link to="/settings">
+          <button
+            type="submit"
+            data-testid="btn-play"
+            disabled={ !(email && nome) }
+          >
+            Jogar
+          </button>
+        </Link>
+        <button type="button" data-testid="btn-settings">Configurações</button>
       </form>
     );
   }

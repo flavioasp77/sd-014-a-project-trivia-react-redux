@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import '../App.css';
 import getToken from '../services/triviaAPI';
+import fetchGravatarAPI from '../services/gravatarAPI';
+import { setPlayer as setPlayerAction } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -32,10 +36,14 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { history } = this.props;
+    const { history, setPlayer } = this.props;
+    const { email, name } = this.state;
     const token = await getToken();
     const stringf = JSON.stringify(token);
     localStorage.setItem('token', stringf);
+    const emailHash = md5(email).toString();
+    const img = await fetchGravatarAPI(emailHash);
+    setPlayer(name, img);
     history.push('/trivia');
   }
 
@@ -87,7 +95,12 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.func).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  setPlayer: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  setPlayer: (name, img) => dispatch(setPlayerAction(name, img)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -29,9 +29,7 @@ class Login extends Component {
     const { history, userToState } = this.props;
     const { login, email } = this.state;
     const img = fetchGravatar(email);
-    const token = await getTriviaToken();
-    const questions = await fetchTriviaQuestions(token);
-    console.log(questions);
+    await getTriviaToken();
     history.push('/game');
     userToStorage(login, email);
     userToState(login, email, img);

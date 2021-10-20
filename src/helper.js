@@ -30,13 +30,13 @@ export async function getTriviaToken() {
   const response = await request.json();
   const { token } = response;
   tokenToStorage(token);
-  // console.log(token);
   return token;
 }
 
 export async function fetchTriviaQuestions(token) {
   const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const response = await request.json();
+  console.log(response);
   return response.results;
 }
 

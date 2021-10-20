@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { saveUserInfo } from '../redux/actions/index';
+
 import getTriviaToken from '../services/triviaAPI';
+import { savePlayerLocal } from '../services/playerInfo';
 
 class Login extends Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class Login extends Component {
     const { saveUser, history } = this.props;
     saveUser({ name, email });
     getTriviaToken();
+    savePlayerLocal(name, 0, 0, email);
     history.push('/trivia');
   }
 

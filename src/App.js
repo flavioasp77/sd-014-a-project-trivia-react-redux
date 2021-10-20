@@ -8,7 +8,7 @@ import './App.css';
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/" component={ Home } />
+      <Route exact path="/" render={ (props) => <Home history={ props.history } /> } />
       <Route path="/configurations" component={ ConfigPage } />
       <Route path="/game" component={ GamePage } />
       <Route path="/feedback" component={ FeedbackPage } />

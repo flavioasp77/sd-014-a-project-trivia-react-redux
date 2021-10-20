@@ -26,7 +26,21 @@ class Login extends React.Component {
     }, () => this.checkInputsData());
   }
 
-  handleClick() {
+  async requestQuestions() {
+    const response1 = await fetch('https://opentdb.com/api_token.php?command=request');
+    const json = await response1.json();
+    //  console.log(json);
+    const response2 = await fetch(`https://opentdb.com/api.php?amount=5&token=${json.token}`);
+    const questions = await response2.json();
+    //  console.log(questions);
+    if (questions.response_code === 0) {
+      localStorage.setItem('token', json.token);
+      return true;
+    }
+    return false;
+  }
+
+  async handleClick() {
     const { email, name } = this.state;
     const { sendLogin } = this.props;
 
@@ -34,8 +48,13 @@ class Login extends React.Component {
       email,
       name,
     };
+    const response = await this.requestQuestions();
 
-    sendLogin(data);
+    if (response) {
+      sendLogin(data);
+    } else {
+      console.error('Clique em jogar novamente. Erro no servidor.');
+    }
   }
 
   checkInputsData() {
@@ -57,10 +76,8 @@ class Login extends React.Component {
 
   render() {
     const { name, email, disabled } = this.state;
-
     return (
       <section>
-        <br />
         <label htmlFor="input-name">
           Nome:
           <input
@@ -72,8 +89,6 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <br />
-        <br />
         <label htmlFor="input-email">
           Email:
           <input
@@ -85,16 +100,16 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <br />
-        <br />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ disabled }
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ disabled }
+            onClick={ this.handleClick }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/settings" data-testid="btn-settings">Configurações</Link>
       </section>
     );

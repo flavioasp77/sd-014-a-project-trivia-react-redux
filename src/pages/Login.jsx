@@ -1,6 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import fetchTokenApi from '../services/triviaTokenApi';
+import { userInfo as userInfoAction } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -20,7 +23,10 @@ class Login extends Component {
   }
 
   handleClick() {
-    fetchTokenApi().then();
+    const { name, email } = this.state;
+    const { userInfo } = this.props;
+    fetchTokenApi();
+    userInfo(name, email);
   }
 
   render() {
@@ -67,4 +73,13 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  userInfo: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  userInfo: (name, email) => (
+    dispatch(userInfoAction(name, email))),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

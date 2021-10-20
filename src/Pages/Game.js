@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class Game extends Component {
+class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

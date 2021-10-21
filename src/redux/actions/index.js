@@ -4,6 +4,7 @@ export const SET_GRAVATAR_EMAIL = 'REQUEST_GRAVATAR';
 export const SET_USERNAME = 'SET_USERNAME';
 export const REQUEST_QUESTION = 'REQUEST_QUESTION';
 export const RECEIVE_QUESTION = 'RECEIVE_QUESTION';
+export const RECIVE_POINTS = 'RECIVE_POINTS';
 
 export const setGravatarEmail = (payload) => ({
   type: SET_GRAVATAR_EMAIL,
@@ -30,3 +31,8 @@ export const fetchQuestion = () => (dispatch) => {
     .then((response) => response.json())
     .then((question) => dispatch(receiveQuestion(question.results)));
 };
+
+export const recivePoint = (payload) => ({
+  type: RECIVE_POINTS,
+  payload,
+});

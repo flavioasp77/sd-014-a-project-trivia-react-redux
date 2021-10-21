@@ -28,3 +28,5 @@ cypress/screenshots/
 cypress/videos/
 cypress/reports/
 /package-lock.json
+/package.json
+

@@ -15,6 +15,8 @@ class login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.playerSaver = this.playerSaver.bind(this);
+    this.tokenFetcher = this.tokenFetcher.bind(this);
   }
 
   handleChange({ target }) {
@@ -29,7 +31,18 @@ class login extends Component {
     return true;
   }
 
-  async handleClick() {
+  playerSaver() {
+    const { username, email } = this.state;
+    const player = {
+      username,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+
+  async tokenFetcher() {
     try {
       const response = await fetch('https://opentdb.com/api_token.php?command=request');
       const JSONObject = await response.json();
@@ -38,6 +51,11 @@ class login extends Component {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  handleClick() {
+    this.playerSaver();
+    this.tokenFetcher();
   }
 
   render() {

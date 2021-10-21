@@ -1,10 +1,17 @@
-import { HANDLE_ANSWER, SET_ANSWERS, SET_QUESTIONS } from '../actions/indexActions';
+import { HANDLE_ANSWER,
+  SET_ANSWERS,
+  SET_QUESTIONS,
+  SET_TIMER } from '../actions/indexActions';
 
 const INITIAL_STATE = {
   questions: [],
   index: 0,
   infoIsLoaded: false,
   answers: [],
+  timer: {
+    value: 0,
+    stop: false,
+  },
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -32,6 +39,14 @@ const game = (state = INITIAL_STATE, action) => {
       }),
     };
   }
+  case SET_TIMER:
+    return {
+      ...state,
+      timer: {
+        value: action.payload.value,
+        stop: true,
+      },
+    };
   default:
     return state;
   }

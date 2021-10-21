@@ -4,6 +4,7 @@ export const SET_USER = 'SET_USER';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_ANSWERS = 'SET_ANSWERS';
 export const HANDLE_ANSWER = 'HANDLE_ANSWER';
+export const SET_TIMER = 'SET_TIMER';
 
 export const setUser = (payload) => ({ type: SET_USER, payload });
 export const setQuestions = (payload) => ({ type: SET_QUESTIONS, payload });
@@ -20,3 +21,8 @@ export const setTokenAPI = () => async (dispatch) => {
     // dispatch();
   }
 };
+
+export const setTimer = (payload) => ({
+  type: SET_TIMER,
+  payload,
+});

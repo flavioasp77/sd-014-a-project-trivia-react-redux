@@ -12,22 +12,34 @@ class Game extends React.Component {
   }
 
   renderQuestions(objectQuestion) {
-    const { type, correct_answer, incorrect_answers } = objectQuestion;
+    const { type, correct_answer: correctAnswer } = objectQuestion;
+    const { incorrect_answers: incorretAnswer } = objectQuestion;
     if (type === 'boolean') {
       return (
         <>
-          <button data-testid="correct-answer">{ correct_answer }</button>
-          <button data-testid={`wrong-answer-0`}>{ incorrect_answers[0] }</button>
+          <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+          <button
+            type="button"
+            data-testid="wrong-answer-0"
+          >
+            { incorretAnswer[0] }
+          </button>
         </>
       );
     }
     return (
       <>
-        <button data-testid="correct-answer">{ correct_answer }</button>
-        { incorrect_answers.map((incorrect, i) => (
+        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        { incorretAnswer.map((incorrect, i) => (
           <>
             <br />
-            <button data-testid={`wrong-answer-${i}`} key={i}>{incorrect}</button>
+            <button
+              type="button"
+              data-testid={ `wrong-answer-${i}` }
+              key={ i }
+            >
+              {incorrect}
+            </button>
           </>
         )) }
       </>
@@ -43,15 +55,13 @@ class Game extends React.Component {
     const { category, question } = objectQuestion;
     console.log(arrayQuestions);
     return (
-      <>
-        <section>
-          <section data-testid="question-category">{ category }</section>
-          <br />
-          <section data-testid="question-text">{ question }</section>
-          <br />
-          { this.renderQuestions(objectQuestion) }
-        </section>
-      </>
+      <section>
+        <section data-testid="question-category">{ category }</section>
+        <br />
+        <section data-testid="question-text">{ question }</section>
+        <br />
+        { this.renderQuestions(objectQuestion) }
+      </section>
     );
   }
 }

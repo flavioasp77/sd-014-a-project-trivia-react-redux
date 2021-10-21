@@ -72,7 +72,7 @@ class Login extends React.Component {
         <Link to="/settings">
           <Button
             label="Configurações"
-            isDisabled={ false } 
+            isDisabled={ false }
             dataTestid="btn-settings"
           />
         </Link>

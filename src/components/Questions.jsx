@@ -2,11 +2,17 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../redux/actions';
+import './questions.css';
 
 class Questions extends Component {
   componentDidMount() {
     const { token, getQuestion } = this.props;
     getQuestion(token);
+  }
+
+  shufflebuttons() {
+    const ANSWER_NUMBER = 4;
+    return (Math.floor(Math.random() * ANSWER_NUMBER)).toString();
   }
 
   render() {
@@ -25,12 +31,23 @@ class Questions extends Component {
         <p data-testid="question-text">
           { results[0].question }
         </p>
-        <div>
-          <button type="button" data-testid="correct-answer">
+        <div className="div-answers">
+          <button
+            type="button"
+            data-testid="correct-answer"
+            className="btn-answer"
+            style={ { order: this.shufflebuttons() } }
+          >
             { results[0].correct_answer }
           </button>
           { results[0].incorrect_answers.map((answer, index) => (
-            <button key={ index } type="button" data-testid={ `wrong-answer-${index}` }>
+            <button
+              key={ index }
+              type="button"
+              data-testid={ `wrong-answer-${index}` }
+              className="btn-answer"
+              style={ { order: this.shufflebuttons() } }
+            >
               { answer }
             </button>
           ))}

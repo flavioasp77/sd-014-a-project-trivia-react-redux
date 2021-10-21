@@ -5,13 +5,22 @@ export const LOGIN = 'LOGIN';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 
-export const login = (email, name) => ({ type: LOGIN, payload: { email, name } });
+export const login = (email, name) => ({
+  type: LOGIN,
+  payload: { email, name },
+});
 
 // export const username = (name) => ({ type: USER_NAME, name });
 
-const getToken = (token) => ({ type: GET_TOKEN, payload: { token } });
+const getToken = (token) => ({
+  type: GET_TOKEN,
+  payload: { token },
+});
 
-const getQuestions = (questions) => ({ type: GET_QUESTIONS, questions });
+const getQuestions = (questions) => ({
+  type: GET_QUESTIONS,
+  payload: { questions },
+});
 
 export const getTokenThunk = () => async (dispatch) => {
   const TOKEN_URL = 'https://opentdb.com/api_token.php?command=request';
@@ -23,18 +32,19 @@ export const getTokenThunk = () => async (dispatch) => {
 };
 
 export const getQuestionsThunk = () => async (dispatch) => {
-  const token = getTokenThunk();
+  const token = localStorage.getItem('token');
   const QUESTIONS_URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
-  const questions = await fetchAPI(QUESTIONS_URL);
+  const response = await fetchAPI(QUESTIONS_URL);
+  const questions = response.results;
   dispatch(getQuestions(questions));
 };
 
 // const addExpense = (expense) => ({
-//   type: ADD_ACTION,
-//   payload: expense,
+// type: ADD_ACTION,
+// payload: expense,
 // });
 
 // export const addExpenseThank = (expense) => (
-//   (dispatch) => getCurrency()
-//     .then((data) => dispatch(addExpense({ ...expense, exchangeRates: data })))
+// (dispatch) => getCurrency()
+// .then((data) => dispatch(addExpense({ ...expense, exchangeRates: data })))
 // );

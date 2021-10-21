@@ -1,9 +1,8 @@
-// import PropTypes from 'prop-types';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { getTokenThunk, login as loginAction } from '../actions';
+import { getTokenThunk, login as loginAction, getQuestionsThunk } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -28,11 +27,12 @@ class Login extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { email, name } = this.state;
-    const { sendToken, login } = this.props;
+    const { sendToken, login, getQuestions } = this.props;
 
     login(email, name);
 
     sendToken();
+    getQuestions();
   }
 
   render() {
@@ -79,6 +79,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(loginAction(email, name)),
   sendToken: () => dispatch(getTokenThunk()),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 const mapStateToProps = (state) => ({
@@ -89,6 +90,7 @@ Login.propTypes = {
   userToken: PropTypes.string.isRequired,
   sendToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  getQuestions: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

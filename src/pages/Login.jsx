@@ -3,7 +3,6 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getToken } from '../services/triviaAPI';
-import saveTokenInLocalStorage from '../services/saveToStorage';
 
 class Login extends React.Component {
   constructor(props) {
@@ -31,7 +30,7 @@ class Login extends React.Component {
     const { history } = this.props;
     const resultTriviaAPI = await getToken();
     localStorage.state = JSON.stringify(player);
-    saveTokenInLocalStorage(resultTriviaAPI.token);
+    localStorage.token = JSON.stringify(resultTriviaAPI.token);
     history.push('/trivia');
   }
 

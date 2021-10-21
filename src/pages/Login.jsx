@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Input from '../components/Input';
+import { getToken } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -11,6 +14,8 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.tokenApi = this.tokenApi.bind(this);
   }
 
   validateEmail(email) {
@@ -25,6 +30,20 @@ class Login extends Component {
         const enableEmail = this.validateEmail(email);
         this.setState({ isEmailValid: enableEmail });
       });
+  }
+
+  handleClick(event) {
+    const { token } = this.props;
+    event.preventDefault();
+    this.tokenApi();
+    token(this.state);
+  }
+
+  async tokenApi() {
+    const data = await fetch('https://opentdb.com/api_token.php?command=request');
+    const jsonApi = await data.json();
+    const { token } = jsonApi;
+    localStorage.setItem('token', JSON.stringify(token));
   }
 
   render() {
@@ -50,6 +69,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ !(username.length >= minChar && isEmailValid) }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
@@ -58,4 +78,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  token: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  token: (token) => dispatch(getToken(token)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

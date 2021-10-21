@@ -1,5 +1,8 @@
 const INITIAL_STATE = {
-  email: '',
+  name: '',
+  assertions: '',
+  score: '',
+  garvatarEmail: '',
 };
 
 function user(state = INITIAL_STATE, action) {
@@ -7,7 +10,7 @@ function user(state = INITIAL_STATE, action) {
   case 'USER_EMAIL':
     return {
       ...state,
-      email: action.payload,
+      gravatarEmail: action.payload,
     };
   default:
     return state;

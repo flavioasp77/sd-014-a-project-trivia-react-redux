@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 
 class Jogo extends Component {
   constructor() {
@@ -45,19 +46,22 @@ class Jogo extends Component {
 
   handleQuestions(questions, index) {
     return (
-      <section>
-        <h3 data-testid="question-category">
-          {questions[index].category}
-        </h3>
-        <p data-testid="question-text">
-          {questions[index].question}
-        </p>
-        <div id="answers">
-          <ul>
-            {this.answerButtons(questions, index)}
-          </ul>
-        </div>
-      </section>
+      <>
+        <Timer />
+        <section>
+          <h3 data-testid="question-category">
+            {questions[index].category}
+          </h3>
+          <p data-testid="question-text">
+            {questions[index].question}
+          </p>
+          <div id="answers">
+            <ul>
+              {this.answerButtons(questions, index)}
+            </ul>
+          </div>
+        </section>
+      </>
     );
   }
 

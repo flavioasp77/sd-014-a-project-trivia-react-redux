@@ -1,4 +1,6 @@
-import { HANDLE_ANSWER, SET_ANSWERS, SET_QUESTIONS } from '../actions/indexActions';
+import {
+  HANDLE_ANSWER, NEXT_QUESTION, SET_ANSWERS, SET_QUESTIONS,
+} from '../actions/indexActions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -21,7 +23,6 @@ const game = (state = INITIAL_STATE, action) => {
       answers: action.payload,
     };
   case HANDLE_ANSWER:
-  {
     return {
       ...state,
       answers: state.answers.map((item) => {
@@ -31,7 +32,12 @@ const game = (state = INITIAL_STATE, action) => {
         return item;
       }),
     };
-  }
+  case NEXT_QUESTION:
+    return {
+      ...state,
+      index: (state.index + 1) < state.questions.length && state.index + 1,
+    };
+
   default:
     return state;
   }

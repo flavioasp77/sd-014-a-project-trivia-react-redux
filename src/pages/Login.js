@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import logo from '../trivia.png';
 import '../css/Login.css';
-import { getToken } from '../services/requests';
+import { setToken } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -24,7 +25,8 @@ class Login extends Component {
   }
 
   handleClick() {
-    console.log(getToken());
+    const { addToken } = this.props;
+    addToken();
   }
 
   render() {
@@ -62,4 +64,12 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login);
+Login.propTypes = {
+  addToken: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  addToken: (payload) => dispatch(setToken(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

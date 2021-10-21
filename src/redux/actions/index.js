@@ -1,4 +1,6 @@
-// Criar as Actions aqui
+import { getToken } from '../../services/requests';
+
+export const SET_TOKEN = 'SET_TOKEN';
 
 export function emailAction(newEmail) {
   return {
@@ -7,9 +9,16 @@ export function emailAction(newEmail) {
   };
 }
 
-export function Temporario(texto) {
+export function setTokenAction(token) {
   return {
-    type: 'TEMP',
-    texto,
+    type: SET_TOKEN,
+    token,
+  };
+}
+
+export function setToken() {
+  return async (dispatch) => {
+    const data = await getToken();
+    dispatch(setTokenAction(data));
   };
 }

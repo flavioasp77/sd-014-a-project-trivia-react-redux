@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
-const SET_TOKEN = 'SET_TOKEN';
+import { SET_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
   email: '',

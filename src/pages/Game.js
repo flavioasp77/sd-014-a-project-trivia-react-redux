@@ -6,6 +6,7 @@ import '../css/borderAnswer.css';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import { timerAction } from '../actions';
+import NextQstButton from '../components/NextQstButton';
 
 class Game extends Component {
   constructor() {
@@ -57,6 +58,7 @@ class Game extends Component {
           handleIndex={ this.handleIndex }
         />
         <Timer answered={ answered } callback={ this.selectAnswer } />
+        {answered && <NextQstButton />}
       </div>
     );
   }

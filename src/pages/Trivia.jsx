@@ -34,8 +34,8 @@ class Trivia extends Component {
     } = questions[index];
     const answers = [...incorrectAnswers, correctAnswer];
     const renderAnswers = answers.map((question, i) => {
-      const three = 3;
-      const test = (i === three) ? 'correct-answer' : `wrong-answer-${i}`;
+      const answerLength = answers.length - 1;
+      const test = (i === answerLength) ? 'correct-answer' : `wrong-answer-${i}`;
       return (
         <button
           type="button"

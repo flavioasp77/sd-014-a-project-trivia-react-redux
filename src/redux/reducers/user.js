@@ -15,7 +15,7 @@ function user(state = INITIAL_STATE, action) {
   case SET_TOKEN:
     return {
       ...state,
-      token: action.payload,
+      token: action.payload.token,
     };
   default:
     return state;

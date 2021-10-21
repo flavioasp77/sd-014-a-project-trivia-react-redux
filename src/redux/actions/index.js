@@ -9,16 +9,17 @@ export function emailAction(newEmail) {
   };
 }
 
-export function setTokenAction(token) {
+export function setTokenAction(payload) {
   return {
     type: SET_TOKEN,
-    token,
+    payload,
   };
 }
 
 export function setToken() {
   return async (dispatch) => {
-    const data = await getToken();
-    dispatch(setTokenAction(data));
+    const token = await getToken();
+    dispatch(setTokenAction(token));
+    localStorage.setItem('token', token.token);
   };
 }

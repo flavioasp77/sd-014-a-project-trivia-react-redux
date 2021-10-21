@@ -8,9 +8,13 @@ import { fetchQuestion } from '../redux/actions';
 class Game extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      question: 0,
+    };
     this.createAnswers = this.createAnswers.bind(this);
     this.shuffle = this.shuffle.bind(this);
     this.createQuestions = this.createQuestions.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +57,17 @@ class Game extends Component {
     return this.shuffle(answers);
   }
 
+  nextQuestion() {
+    const FOURTH = 4;
+    const { history } = this.props;
+    const { question } = this.state;
+    if (question < FOURTH) {
+      this.setState({ question: question + 1 });
+    } else {
+      history.push('/feedback');
+    }
+  }
+
   createQuestions() {
     const { questions } = this.props;
     return questions.map((question, index) => (
@@ -60,17 +75,19 @@ class Game extends Component {
         key={ index }
         question={ question }
         answers={ this.createAnswers(question) }
+        nextQuestion={ this.nextQuestion }
       />
     ));
   }
 
   render() {
     const { isLoaded } = this.props;
+    const { question } = this.state;
     const questionsList = this.createQuestions();
     return (
       <>
         <Header />
-        {isLoaded && questionsList[0]}
+        {isLoaded && questionsList[question]}
       </>
     );
   }
@@ -78,6 +95,9 @@ class Game extends Component {
 
 Game.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   isLoaded: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

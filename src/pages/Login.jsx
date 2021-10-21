@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getTokenActionThunk } from '../actions';
+import { getTokenActionThunk, getUserAction } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -36,8 +36,12 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { getToken } = this.props;
+    const { getToken, getUser, history } = this.props;
+    const { name, email } = this.state;
+
     getToken();
+    getUser({ name, email });
+    history.push('/game');
   }
 
   render() {
@@ -89,6 +93,8 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  history: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   getToken: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
@@ -101,6 +107,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(getTokenActionThunk()),
+  getUser: (payload) => dispatch(getUserAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -10,7 +10,7 @@ class Ranking extends React.Component {
         <section data-testid="ranking-list-section">
           <h1 data-testid="ranking-title">Lista de Ranking</h1>
           {rankingList.map((player, index) => (
-            <React.Fragment key={ index }>
+            <li key={ index }>
               <img
                 src={ `https://www.gravatar.com/avatar/${player.picture}` }
                 alt="Imagem do seu avatar"
@@ -18,7 +18,7 @@ class Ranking extends React.Component {
               />
               <h3 data-testid={ `player-name-${index}` }>{player.name}</h3>
               <h4 data-testid={ `player-score-${index}` }>{player.score}</h4>
-            </React.Fragment>))}
+            </li>))}
         </section>
         <Link to="/">
           <button

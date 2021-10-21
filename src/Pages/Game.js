@@ -9,6 +9,7 @@ import { addScore } from '../Redux/actions/index';
 import {
   fetchTriviaQuestions,
   calculateScore,
+  updateRanking,
   ONE_SECOND,
   CLOCK_TIME,
   INCREASER,
@@ -78,10 +79,15 @@ class Game extends React.Component {
   }
 
   highlightAnswers = () => {
-    document.querySelectorAll('.wrong').forEach((button) => {
-      button.style.border = '3px solid rgb(255, 0, 0)';
-    });
-    document.querySelector('.correct').style.border = '3px solid rgb(6, 240, 15)';
+    const wrongAnswers = document.querySelectorAll('.wrong');
+    const rightAnswers = document.querySelector('.correct');
+
+    if (wrongAnswers && rightAnswers) {
+      wrongAnswers.forEach((button) => {
+        button.style.border = '3px solid rgb(255, 0, 0)';
+      });
+      rightAnswers.style.border = '3px solid rgb(6, 240, 15)';
+    }
   }
 
   handleChoice = (result, difficulty) => {
@@ -103,10 +109,10 @@ class Game extends React.Component {
   }
 
   handleNextButton = () => {
-    const { history } = this.props;
+    const { history, score, name, img } = this.props;
     const { questions, index } = this.state;
-
     if (!questions[index + INCREASER]) {
+      updateRanking(score, name, img);
       history.push('/feedback');
       return;
     }
@@ -154,4 +160,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(Game);
+const mapStateToProps = (state) => ({
+  score: state.score,
+  name: state.user.name,
+  img: state.user.img,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

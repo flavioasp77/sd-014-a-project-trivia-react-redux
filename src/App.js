@@ -10,6 +10,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/configuration" component={ Configuration } />
+        {/* <Route exact path="/game" component={ Game } /> */}
         <Route>
           <Redirect to="/" />
         </Route>

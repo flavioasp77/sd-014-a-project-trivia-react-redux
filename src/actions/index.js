@@ -3,6 +3,12 @@ import { fetchToken, saveTokenInLS, fetchTrivia } from '../services';
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
 export const ADD_TRIVIA = 'ADD_TRIVIA';
+export const GET_USER = 'GET_USER';
+
+export const getUserAction = (payload) => ({
+  type: GET_USER,
+  payload,
+});
 
 export const addTokenAction = (token) => ({
   type: ADD_TOKEN,

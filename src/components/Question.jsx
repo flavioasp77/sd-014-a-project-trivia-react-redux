@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { sumScore } from '../services/localStorage';
 import endQuestion from '../services/questions';
+import Answer from './Answer';
 
 class Question extends Component {
   constructor() {
     super();
 
-    this.setTime = this.setTime.bind(this);
-
     this.state = {
       time: 30,
     };
+
+    this.setTime = this.setTime.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +30,15 @@ class Question extends Component {
       return 0;
     }
     this.setState({ time: newTime });
+  }
+
+  handleClick({ target: { name } }) {
+    const { time } = this.state;
+    const { question: { difficulty } } = this.props;
+    endQuestion();
+    if (name === 'correct-answer') {
+      sumScore(difficulty, time);
+    }
   }
 
   render() {
@@ -49,11 +61,7 @@ class Question extends Component {
         <div>
           <ul>
             { answers.map((answer, index) => (
-              <li
-                key={ index }
-              >
-                { answer }
-              </li>
+              <Answer key={ index } answer={ answer } onClick={ this.handleClick } />
             )) }
           </ul>
         </div>
@@ -76,6 +84,7 @@ Question.propTypes = {
   question: PropTypes.shape({
     category: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.shape({
       map: PropTypes.func,
     }),

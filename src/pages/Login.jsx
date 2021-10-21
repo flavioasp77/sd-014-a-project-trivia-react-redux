@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { saveToken } from '../services/localStorage';
+import { saveToken, createUserLocalStorage } from '../services/localStorage';
 import { setGravatarEmail, setUsername } from '../redux/actions';
 
 class Login extends Component {
@@ -19,6 +19,19 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  generateUser() {
+    const { username, email } = this.state;
+    const state = {
+      player: {
+        name: username,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    createUserLocalStorage(state);
+  }
+
   async handleClick() {
     const { dispatchGravatarEmail, dispatchUsername, history } = this.props;
     const { email, username } = this.state;
@@ -27,6 +40,7 @@ class Login extends Component {
     saveToken(token);
     dispatchGravatarEmail(email);
     dispatchUsername(username);
+    this.generateUser();
     history.push('/game');
   }
 

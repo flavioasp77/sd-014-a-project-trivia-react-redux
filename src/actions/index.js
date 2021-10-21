@@ -1,4 +1,4 @@
-import { fetchToken } from '../services';
+import { fetchToken, saveTokenInLS } from '../services';
 
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
@@ -16,6 +16,7 @@ export const handleErrorAction = (message) => ({
 export const getTokenActionThunk = () => async (dispatch) => {
   try {
     const token = await fetchToken();
+    saveTokenInLS(token);
     dispatch(addTokenAction(token));
   } catch (message) {
     dispatch(handleErrorAction(message));

@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { addLoginUser, fetchGetToken } from '../actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleConfigBtn = this.handleConfigBtn.bind(this);
@@ -32,9 +31,10 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { userLogin, fetchToken } = this.props;
+    const { userLogin, fetchToken, history } = this.props;
     fetchToken();
     userLogin(this.state);
+    history.push('/play');
   }
 
   render() {
@@ -70,7 +70,6 @@ class Login extends React.Component {
             disabled={ this.handleDisabled(name, email) }
           >
             Jogar
-
           </button>
         </form>
         <button

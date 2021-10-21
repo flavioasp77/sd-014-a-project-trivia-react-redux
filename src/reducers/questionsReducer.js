@@ -11,7 +11,7 @@ export default function questionsReducer(state = INITIAL_STATE, action) {
       ...state,
       questions: action.payload,
     };
-    default:
-      return state;
+  default:
+    return state;
   }
 }

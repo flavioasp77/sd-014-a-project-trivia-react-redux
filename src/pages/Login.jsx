@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import fetchTokenApi from '../services/triviaTokenApi';
-import { userInfo as userInfoAction } from '../actions';
+import { userInfo as userInfoAction, questionsInfoThunk } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -14,6 +14,11 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const { questionInfo } = this.props;
+    questionInfo();
   }
 
   handleChange({ target: { value, name } }) {
@@ -80,6 +85,7 @@ Login.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   userInfo: (name, email) => (
     dispatch(userInfoAction(name, email))),
+  questionInfo: () => dispatch(questionsInfoThunk()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

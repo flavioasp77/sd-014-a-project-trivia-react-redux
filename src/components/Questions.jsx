@@ -1,14 +1,8 @@
 /* eslint-disable react/prop-types */
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { questionsInfoThunk } from '../actions';
 
 class Questions extends Component {
-  componentDidMount() {
-    const { questionInfo } = this.props;
-    questionInfo();
-  }
-
   render() {
     const { questionResults, isFetching } = this.props;
     return (
@@ -36,7 +30,7 @@ class Questions extends Component {
                   <button
                     key={ index }
                     type="button"
-                    data-testid={ `correct-answer-${index}` }
+                    data-testid={ `wrong-answer-${index}` }
                   >
                     {question}
                   </button>
@@ -49,13 +43,9 @@ class Questions extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  questionInfo: () => dispatch(questionsInfoThunk()),
-});
-
 const mapStateToProps = (state) => ({
   questionResults: state.questions.response,
   isFetching: state.questions.isFetching,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+export default connect(mapStateToProps, null)(Questions);

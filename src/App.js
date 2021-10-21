@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router';
 import './App.css';
 import Login from './pages/Login';
 import Jogo from './pages/Jogo';
-// import Settings from './pages/Settings';
 
 export default function App() {
   return (

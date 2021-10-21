@@ -45,3 +45,12 @@ export function fetchGravatar(email) {
   const img = `https://www.gravatar.com/avatar/${hash}`;
   return img;
 }
+
+// https://tertiumnon.medium.com/js-how-to-decode-html-entities-8ea807a140e5
+export function decodeHTMLEntities(text) {
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = text;
+  return textArea.value;
+}
+
+export const ONE_SECOND = 1000;

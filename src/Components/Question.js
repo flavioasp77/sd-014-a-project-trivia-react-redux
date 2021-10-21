@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { decodeHTMLEntities } from '../helper';
 
 export default class Question extends Component {
   render() {
     const { question, handleChoice } = this.props;
     const correct = question.correct_answer;
     const incorrect = question.incorrect_answers; // array
-
+    console.log(correct);
     return (
       <div>
         <h2 data-testid="question-category">
           { question.category }
         </h2>
         <p data-testid="question-text">
-          { question.question.toString() }
+          { decodeHTMLEntities(question.question) }
         </p>
         {[correct, ...incorrect].sort().map((answer, index) => (
           <button
@@ -27,7 +28,7 @@ export default class Question extends Component {
             }
             onClick={ handleChoice }
           >
-            {answer}
+            {decodeHTMLEntities(answer)}
           </button>
         ))}
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getApiTokenThunk } from '../actions';
+import { getApiTokenThunk, getApiTriviaThunk } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,17 +19,19 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { setApiToken } = this.props;
+    const { setApiToken, setApiTrivia } = this.props;
     await setApiToken();
     const { token, history } = this.props;
     localStorage.setItem('token', token);
+    await setApiTrivia();
     history.push('/jogo');
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, state } = this.state;
     return (
       <main>
+        { console.log(state, 'state-redux') }
         <label htmlFor="input-name">
           Nome:
           <input
@@ -73,10 +75,12 @@ Login.propTypes = {
 
 const mapDispachToProps = (dispatch) => ({
   setApiToken: () => dispatch(getApiTokenThunk()),
+  setApiTrivia: () => dispatch(getApiTriviaThunk()),
 });
 
 const mapStateToProps = (state) => ({
   token: state.token.token,
+  state,
 });
 
 export default connect(mapStateToProps, mapDispachToProps)(Login);

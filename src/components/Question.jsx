@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { sumScore } from '../services/localStorage';
 import endQuestion from '../services/questions';
+import Answer from './Answer';
 
 class Question extends Component {
   constructor() {
     super();
 
-    this.setTime = this.setTime.bind(this);
-
     this.state = {
       time: 30,
+      next: false,
     };
+
+    this.setTime = this.setTime.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.buttonNext = this.buttonNext.bind(this);
   }
 
   componentDidMount() {
@@ -29,9 +34,23 @@ class Question extends Component {
     this.setState({ time: newTime });
   }
 
+  handleClick({ target: { name } }) {
+    const { time } = this.state;
+    const { question: { difficulty } } = this.props;
+    endQuestion();
+    this.buttonNext();
+    if (name === 'correct-answer') {
+      sumScore(difficulty, time);
+    }
+  }
+
+  buttonNext() {
+    this.setState({ next: true });
+  }
+
   render() {
     const { question, answers } = this.props;
-    const { time } = this.state;
+    const { time, next } = this.state;
     return (
       <section>
         <div>
@@ -49,13 +68,18 @@ class Question extends Component {
         <div>
           <ul>
             { answers.map((answer, index) => (
-              <li
-                key={ index }
-              >
-                { answer }
-              </li>
+              <Answer key={ index } answer={ answer } onClick={ this.handleClick } />
             )) }
           </ul>
+        </div>
+        <div>
+          { next && (
+            <button
+              type="button"
+              data-testid="btn-next"
+            >
+              Próxima
+            </button>) }
         </div>
         <div>
           <p>
@@ -76,6 +100,7 @@ Question.propTypes = {
   question: PropTypes.shape({
     category: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.shape({
       map: PropTypes.func,
     }),

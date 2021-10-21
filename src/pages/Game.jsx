@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchQuestion } from '../redux/actions';
-import endQuestion from '../services/questions';
 
 class Game extends Component {
   constructor(props) {
@@ -38,34 +37,18 @@ class Game extends Component {
     return array;
   }
 
-  handleClick() {
-    endQuestion();
-  }
-
   createAnswers(question) {
     // Precisamos de um disabled global para ser modificado do componente TimeOut
-    const wrongAnswers = question.incorrect_answers.map((answer, index) => (
-      <button
-        key={ index }
-        type="button"
-        data-testid={ `wrong-answer-${index}` }
-        className="wrong"
-        onClick={ this.handleClick }
-        disabled={ false }
-      >
-        { answer }
-      </button>));
-    const correctAnswer = (
-      <button
-        type="button"
-        data-testid="correct-answer"
-        className="correct"
-        name="correct-answer"
-        onClick={ this.handleClick }
-        disabled={ false }
-      >
-        {question.correct_answer}
-      </button>);
+    const wrongAnswers = question.incorrect_answers.map((answer, index) => ({
+      testId: `wrong-answer-${index}`,
+      className: 'wrong',
+      text: answer }
+    ));
+    const correctAnswer = {
+      testId: 'correct-answer',
+      className: 'correct',
+      text: question.correct_answer,
+    };
     const answers = [...wrongAnswers, correctAnswer];
     return this.shuffle(answers);
   }

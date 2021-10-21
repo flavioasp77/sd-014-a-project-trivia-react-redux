@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
-import { getQuestions } from '../services/triviaAPI';
+import React from 'react';
+import Countdown from 'react-countdown';
 
-class Questions extends Component {
-  constructor(props) {
-    super(props);
+class Questions extends React.Component {
+  constructor() {
+    super();
     this.state = {
-      questions: [],
+      allQst: [],
+      answered: false,
+      id: 0,
     };
-    this.setQuestions = this.setQuestions.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.getQuestions = this.getQuestions.bind(this);
+    this.questionAnswered = this.questionAnswered.bind(this);
+    this.questionAnsweredClassName = this.questionAnsweredClassName.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.shuffleQuestions = this.shuffleQuestions.bind(this);
   }
 
   componentDidMount() {
-    this.setQuestions();
+    this.getQuestions();
   }
 
-  async setQuestions() {
-    const results = await getQuestions();
-    this.setState({ questions: results.results });
-  }
-
-  handleClick() {
-    // const { questions } = this.state;
-    // const corrects = questions.reducer((acc,quest) => {
-
-    // }, {})
+  async getQuestions() {
+    const getToken = JSON.parse(localStorage.getItem('token'));
+    const fetchQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${getToken}`);
+    const json = await fetchQuestions.json();
+    const { results } = json;
+    this.setState({ allQst: results });
   }
 
   shuffleQuestions(array) {
@@ -43,44 +44,76 @@ class Questions extends Component {
     return array;
   }
 
+  questionAnswered() {
+    this.setState({
+      answered: true,
+    });
+  }
+
+  questionAnsweredClassName(className) {
+    const { answered } = this.state;
+    return answered ? className : '';
+  }
+
+  questionCompleted() {
+    const { answered } = this.state;
+    return answered;
+  }
+
+  nextQuestion() {
+    const { id } = this.state;
+    this.setState({
+      id: id + 1,
+    });
+  }
+
   render() {
-    const { questions } = this.state;
+    const { allQst, id } = this.state;
+    if (allQst.length === 0) return <p>Loading...</p>;
+    const waiting = 30000;
+    console.log(allQst);
+    const allAnswers = [...allQst[id].incorrect_answers, allQst[id].correct_answer];
+    this.shuffleQuestions(allAnswers);
+    console.log(allAnswers);
+
     return (
       <div>
-        {
-          questions.map((question, index) => {
-            const allAnswers = [...question.incorrect_answers, question.correct_answer];
-            this.shuffleQuestions(allAnswers);
-            return (
-              <div key={ index }>
-                <p>
-                  Category:
-                  <span data-testid="question-category">{ question.category }</span>
-                </p>
-                <p>
-                  Question:
-                  <span data-testid="question-text">{ question.question }</span>
-                </p>
-                <div id={ index }>
-                  {allAnswers.map((ele, i) => (
-                    <button
-                      key={ i }
-                      type="button"
-                      data-testid={ ele === question.correct_answer ? 'correct-answer'
-                        : 'wrong-answer' }
-                      onClick={ this.handleClick }
-                    >
-                      { ele }
-                    </button>
-                  ))}
-                </div>
-              </div>
-            );
-          })
-        }
+        <div>
+          <p>
+            Category:
+            <span data-testid="question-category">{ allQst[id].category }</span>
+          </p>
+          <p>
+            Question:
+            <span data-testid="question-text">{ allQst[id].question }</span>
+          </p>
+          <button
+            type="button"
+            data-testid="correct-answer"
+            onClick={ this.questionAnswered }
+            className={ this.questionAnsweredClassName('correct') }
+            disabled={ this.questionCompleted() }
+          >
+            { allQst[id].correct_answer }
+          </button>
+          { allQst[id].incorrect_answers.map((incorrect, i) => (
+            <div key={ i }>
+              <button
+                type="button"
+                data-testid={ `wrong-answer-${i}` }
+                onClick={ this.questionAnswered }
+                className={ this.questionAnsweredClassName('incorrect') }
+                disabled={ this.questionCompleted() }
+              >
+                { incorrect }
+              </button>
+            </div>
+          ))}
+          <Countdown date={ Date.now() + waiting } onComplete={ this.questionAnswered } />
+        </div>
+        <button type="button" onClick={ this.nextQuestion }>Pŕoxima Questão</button>
       </div>
     );
   }
 }
-
 export default Questions;

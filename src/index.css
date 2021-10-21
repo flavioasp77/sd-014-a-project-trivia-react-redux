@@ -11,3 +11,11 @@ code {
   font-family: Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.correct-answer {
+  border: 3px solid rgb(0, 138, 5);
+}
+
+.wrong-answer {
+  border: 3px solid rgb(187, 0, 0);
+}

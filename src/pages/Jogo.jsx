@@ -65,9 +65,9 @@ class Jogo extends Component {
     const { state: { game: { questions, index, infoIsLoaded } } } = this.props;
     return (
       <main>
-      <Header />
+        <Header />
         {infoIsLoaded && this.handleQuestions(questions, index)}
-        </main>
+      </main>
     );
   }
 }

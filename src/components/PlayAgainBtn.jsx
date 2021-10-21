@@ -6,7 +6,7 @@ class PlayAgain extends React.Component {
     return (
       <div>
         <Link to="/">
-          <button type="button">Jogar novamente</button>
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
         </Link>
       </div>
     );

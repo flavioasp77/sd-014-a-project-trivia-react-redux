@@ -4,11 +4,17 @@ import Img from './Img';
 
 class Header extends Component {
   render() {
-    const { player, score } = this.props;
+    const { player, score, src } = this.props;
     return (
       <header className="">
         <div className="">
-          <Img data-testid="" id="" src="" alt="" className="" />
+          <Img
+            data-testid="header-profile-picture"
+            id=""
+            src={ src }
+            alt=""
+            className=""
+          />
           <span data-testid="header-player-name">
             { player }
           </span>
@@ -26,6 +32,7 @@ class Header extends Component {
 Header.propTypes = {
   player: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  src: PropTypes.string.isRequired,
 };
 
 export default Header;

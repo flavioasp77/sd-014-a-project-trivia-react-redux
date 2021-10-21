@@ -4,7 +4,6 @@
 //   score: 0,
 // });
 
-
 // function trivia( state = SCORE_INITIAL_STATE, action) {
 //   Switch (action.type) {
 //     case MY_SCORE:

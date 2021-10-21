@@ -35,10 +35,6 @@ class Questions extends React.Component {
     }
   }
 
-  refreshPage(){ 
-    window.location.reload(); 
-  }
-
   async getQuestions() {
     const getToken = JSON.parse(localStorage.getItem('token'));
     const fetchQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${getToken}`);

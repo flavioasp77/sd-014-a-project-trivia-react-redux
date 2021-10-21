@@ -33,6 +33,7 @@ class Game extends React.Component {
 
   nextQuestion = () => {
     const { questions } = this.state;
+
     this.setState((prev) => ({
       answered: false,
       index: prev.index + INCREASER,
@@ -43,9 +44,9 @@ class Game extends React.Component {
         button.removeAttribute('style');
       });
       document.querySelector('.correct').removeAttribute('style');
+      this.hiddenCheckButton();
+      this.setQuestionTimer();
     });
-
-    this.setQuestionTimer();
   }
 
   setGame = async () => {
@@ -53,6 +54,7 @@ class Game extends React.Component {
     const questions = await fetchTriviaQuestions(token);
     this.setState({ questions, question: questions[0] }, () => {
       this.setQuestionTimer();
+      this.hiddenCheckButton();
     });
   }
 
@@ -60,7 +62,6 @@ class Game extends React.Component {
     const timer = setInterval(() => {
       const { clock, answered } = this.state;
 
-      // parar o timer: clicar em uma opção ou timer chegar a 0;
       if (clock === 0 || answered) {
         this.highlightAnswers();
         clearInterval(timer);
@@ -85,7 +86,9 @@ class Game extends React.Component {
 
   handleChoice = (result, difficulty) => {
     this.highlightAnswers();
-    this.setState({ answered: true });
+    this.setState({ answered: true }, () => {
+      this.hiddenCheckButton();
+    });
     const { clock } = this.state;
     const { scoreToState } = this.props;
     if (result) {
@@ -93,10 +96,29 @@ class Game extends React.Component {
     }
   }
 
+  hiddenCheckButton = () => {
+    const { answered, clock } = this.state;
+    const button = document.querySelector('.btn-next');
+    button.style.display = (answered || clock === 0 ? 'block' : 'none');
+  }
+
+  handleNextButton = () => {
+    const { history } = this.props;
+    const { questions, index } = this.state;
+
+    if (!questions[index + INCREASER]) {
+      history.push('/feedback');
+      return;
+    }
+
+    this.nextQuestion();
+  }
+
   nextQuestionButton = () => (
     <button
       type="button"
-      onClick={ this.nextQuestion }
+      className="btn-next"
+      onClick={ this.handleNextButton }
       data-testid="btn-next"
     >
       Próxima
@@ -123,6 +145,7 @@ class Game extends React.Component {
 
 Game.propTypes = {
   scoreToState: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

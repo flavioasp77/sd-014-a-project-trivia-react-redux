@@ -15,6 +15,7 @@ export default class Question extends Component {
         </h2>
         <p data-testid="question-text">
           { decodeHTMLEntities(question.question) }
+          {`===> ${correct}`}
         </p>
         {[correct, ...incorrect].sort().map((answer, index) => (
           <button

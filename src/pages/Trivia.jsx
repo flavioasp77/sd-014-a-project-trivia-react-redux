@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/Header';
 
 class Trivia extends React.Component {
   constructor() {
@@ -20,11 +21,11 @@ class Trivia extends React.Component {
     const {
       correct_answer: correct,
       incorrect_answers: incorrect } = perguntas[indice];
-    return [decodeURIComponent(...incorrect), decodeURIComponent(correct)].sort();
+    return [...incorrect, correct].sort();
   }
 
   async chamaApi() {
-    const TOKEN = '796a33bcab7696a71973eb1a8751aa5a55497f12480bb405219914b74973930e';
+    const TOKEN = JSON.parse(localStorage.token);
     const URL = `https://opentdb.com/api.php?amount=5&encode=url3986&token=${TOKEN}`;
     const response = await fetch(URL);
     const result = await response.json();
@@ -37,6 +38,7 @@ class Trivia extends React.Component {
     const { perguntas, indice } = this.state;
     return (
       <div>
+        <Header />
         {perguntas.length > 0
         && (
           <>
@@ -56,7 +58,7 @@ class Trivia extends React.Component {
                     : `wrong-answer-${i}`
                 }
               >
-                {atual}
+                {decodeURIComponent(atual)}
               </button>
             ))}
           </>)}

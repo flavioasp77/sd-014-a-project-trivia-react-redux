@@ -25,7 +25,7 @@ class Header extends React.Component {
 
   render() {
     const { player, hashInfo } = this.state;
-    console.log('Objeto player (Depois apagar) -- components/header:', player);
+    console.log(player);
     return (
       <header>
         <img

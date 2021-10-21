@@ -7,7 +7,7 @@ class Ranking extends React.Component {
       .sort((a, b) => b.score - a.score);
     return (
       <>
-        <section>
+        <section data-testid="ranking-list-section">
           <h1 data-testid="ranking-title">Lista de Ranking</h1>
           {rankingList.map((player, index) => (
             <React.Fragment key={ index }>

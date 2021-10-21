@@ -1,5 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getTokenActionThunk } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -13,6 +16,7 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleValidation = this.handleValidation.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -31,8 +35,14 @@ class Login extends Component {
     }
   }
 
+  handleClick() {
+    const { getToken } = this.props;
+    getToken();
+  }
+
   render() {
     const { name, email, disabled } = this.state;
+    const { error, message } = this.props;
     return (
       <div>
         <form>
@@ -62,6 +72,7 @@ class Login extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ disabled }
+            onClick={ this.handleClick }
           >
             Jogar
           </button>
@@ -71,9 +82,25 @@ class Login extends Component {
             Configurações
           </button>
         </Link>
+        { error && <p>{`Erro: ${message} - tente novamente`}</p>}
       </div>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  error: PropTypes.bool.isRequired,
+  getToken: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  error: state.triviaReducer.error,
+  message: state.triviaReducer.message,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(getTokenActionThunk()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

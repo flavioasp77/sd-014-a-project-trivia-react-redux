@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { login } from '../actions';
+import { login, questAPI } from '../actions';
 import { fetchAPI } from '../services/tokenAPI';
 
 class Login extends React.Component {
@@ -18,6 +18,11 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const { getQuestions } = this.props;
+    getQuestions();
   }
 
   handleChange({ target }) {
@@ -92,10 +97,12 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   loginSave: (payload) => dispatch(login(payload)),
+  getQuestions: () => dispatch(questAPI()),
 });
 
 Login.propTypes = {
   loginSave: PropTypes.func.isRequired,
+  getQuestions: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

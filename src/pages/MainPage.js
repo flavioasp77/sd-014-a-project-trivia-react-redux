@@ -1,15 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { questAPI } from '../actions';
 import Header from '../components/Header';
 
 class MainPage extends React.Component {
-  async componentDidMount() {
-    const { getQuestions } = this.props;
-    await getQuestions();
-  }
-
   render() {
     const { questions } = this.props;
     console.log(questions);
@@ -53,7 +47,6 @@ class MainPage extends React.Component {
 }
 
 MainPage.propTypes = {
-  getQuestions: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
@@ -61,9 +54,4 @@ const mapStateToProps = (state) => ({
   questions: state.questions.questions,
 });
 
-const mapDispatchToProps = (dispatch) => (
-  {
-    getQuestions: () => dispatch(questAPI()),
-  });
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default connect(mapStateToProps, null)(MainPage);

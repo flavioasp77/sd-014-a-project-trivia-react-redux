@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 import getToken from '../services/triviaAPI';
+
 import fetchGravatarAPI from '../services/gravatarAPI';
 import { setPlayer as setPlayerAction } from '../actions';
 
@@ -88,6 +90,11 @@ class Login extends React.Component {
               Jogar
             </button>
           </form>
+          <Link to="/settings">
+            <button type="button" data-testid="btn-settings">
+              Configurações
+            </button>
+          </Link>
         </header>
       </div>
     );

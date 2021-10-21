@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { addLoginUser, fetchGetToken } from '../actions';
 
 class Login extends React.Component {
@@ -13,6 +14,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       name: '',
+      goTo: false,
     };
   }
 
@@ -29,10 +31,14 @@ class Login extends React.Component {
     const { userLogin, fetchToken } = this.props;
     fetchToken();
     userLogin(this.state);
+    this.setState({ goTo: true });
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, goTo } = this.state;
+    if (goTo) {
+      return <Redirect to="/play" />;
+    }
     return (
       <div>
         <form onSubmit={ this.handleSubmit }>
@@ -64,7 +70,6 @@ class Login extends React.Component {
             disabled={ this.handleDisabled(name, email) }
           >
             Jogar
-
           </button>
         </form>
       </div>

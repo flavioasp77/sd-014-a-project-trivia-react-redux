@@ -1,13 +1,8 @@
-import { questionsInfo } from '../actions/index';
-
-function fetchApi() {
-  return (dispatch) => {
-    const token = JSON.parse(localStorage.getItem('token'));
-    dispatch(questionsInfo());
-    return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-      .then((request) => request.json())
-      .then((questions) => dispatch(questionsInfo(questions)));
-  };
-}
+const fetchApi = async () => {
+  const token = JSON.parse(localStorage.getItem('token'));
+  const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+  const response = await request.json();
+  return response.results;
+};
 
 export default fetchApi;

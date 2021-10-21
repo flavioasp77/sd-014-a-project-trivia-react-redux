@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Question from '../components/Question';
+import TimeOut from '../components/TimeOut';
 import { fetchQuestion } from '../redux/actions';
 
 class Game extends Component {
@@ -17,6 +18,7 @@ class Game extends Component {
       <>
         <Header />
         {isLoaded && <Question question={ questions[0] } />}
+        <TimeOut />
       </>
     );
   }

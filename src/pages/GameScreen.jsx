@@ -20,19 +20,6 @@ class GameScreen extends Component {
     this.saveQuestions();
   }
 
-  // {
-  //   "category": "Geography",
-  //   "type": "multiple",
-  //   "difficulty": "medium",
-  //   "question": "What is the largest non-continental island in the world?",
-  //   "correct_answer": "Greenland",
-  //   "incorrect_answers": [
-  //   "New Guinea",
-  //   "Borneo",
-  //   "Madagascar"
-  //   ]
-  //   },
-
   async saveQuestions() {
     const token = getLocalToken();
     const questions = await useToken(token);

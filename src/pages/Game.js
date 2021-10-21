@@ -7,7 +7,7 @@ class Game extends Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
     return (
-      <Header src={ userHash } player={ player.name } score="0" />
+      <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
     );
   }
 }

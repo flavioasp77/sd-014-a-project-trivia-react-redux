@@ -73,7 +73,13 @@ class Login extends React.Component {
 
           </button>
         </form>
-        <button type="button" data-testid="btn-settings" onClick={ this.handleConfigBtn }>Configurações</button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleConfigBtn }
+        >
+          Configurações
+        </button>
       </div>
     );
   }
@@ -82,6 +88,7 @@ class Login extends React.Component {
 Login.propTypes = {
   fetchToken: PropTypes.func.isRequired,
   userLogin: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

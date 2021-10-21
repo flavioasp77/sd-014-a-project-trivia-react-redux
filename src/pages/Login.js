@@ -37,7 +37,7 @@ class Login extends Component {
     }
   }
 
-  // Recebe as validações do Email e Senha para saber se deve ou não mudar o estado do botão;
+  // Recebe as validações do Nome e Email para saber se deve ou não mudar o estado do botão;
   validateButton() {
     const { checkEmail, checkName } = this.state;
     return checkEmail && checkName

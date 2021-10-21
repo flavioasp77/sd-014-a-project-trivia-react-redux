@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 class Button extends React.Component {
   render() {
-    const { label, onClick, emailValidation, dataTestid } = this.props;
+    const { label, onClick, isDisabled, dataTestid } = this.props;
     return (
       <button
         type="button"
         onClick={ onClick }
-        disabled={ emailValidation }
+        disabled={ isDisabled }
         data-testid={ dataTestid }
       >
         { label }
@@ -20,7 +20,7 @@ class Button extends React.Component {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  emailValidation: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   dataTestid: PropTypes.string.isRequired,
 };
 

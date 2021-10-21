@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedbackHeader from '../components/FeedbackHeader';
+import Header from '../components/Header';
 import getGravatar from '../helpers/getGravatar';
 
 class Feedback extends React.Component {
@@ -35,7 +35,7 @@ class Feedback extends React.Component {
     const { name, score, pictureURL } = this.state;
     return (
       <>
-        <FeedbackHeader name={ name } score={ score } pictureURL={ pictureURL } />
+        <Header name={ name } score={ score } pictureURL={ pictureURL } />
         <p>Feedback message</p>
       </>
     );

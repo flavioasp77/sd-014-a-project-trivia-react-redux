@@ -9,7 +9,6 @@ const INITIAL_STATE = {
 
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-<<<<<<< HEAD
   case ADD_USER:
     return {
       ...state,
@@ -18,8 +17,6 @@ const player = (state = INITIAL_STATE, action) => {
       gravatarEmail: `https://www.gravatar.com/avatar/${action.generateHash}` };
   case null:
     return state;
-=======
->>>>>>> 681274a0d722bb5622c00bd3799ea46036380bff
   default:
     return state;
   }

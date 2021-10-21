@@ -4,16 +4,16 @@ import { PropTypes } from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { users } = this.props;
+    const { gravatarEmail, name } = this.props;
     return (
       <div>
         <img
-          src={ users.gravatarEmail }
+          src={ gravatarEmail }
           data-testid="header-profile-picture"
           alt="avatar-user"
         />
         <p data-testid="header-player-name">
-          { `${users.name}` }
+          { `${name}` }
           {' '}
         </p>
         <p data-testid="header-score">0</p>
@@ -24,11 +24,15 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ users }) => ({
-  users,
+  name: users.name,
+  gravatarEmail: users.gravatarEmail,
+
 });
 
 Header.propTypes = {
-  users: PropTypes.objectOf(PropTypes.string).isRequired,
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+
 };
 
 export default connect(mapStateToProps)(Header);

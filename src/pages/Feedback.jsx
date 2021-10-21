@@ -13,6 +13,7 @@ class Feedback extends React.Component {
     };
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
+    this.messageFeedback = this.messageFeedback.bind(this);
 
     document.title = 'Trivia-Feedback';
   }
@@ -31,12 +32,18 @@ class Feedback extends React.Component {
     });
   }
 
+  messageFeedback() {
+    const { score } = this.state;
+    const NUMBER_OF_HITS = 3;
+    return (score < NUMBER_OF_HITS) ? 'Podia ser melhor...' : 'Mandou bem!';
+  }
+
   render() {
     const { name, score, pictureURL } = this.state;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
-        <p>Feedback message</p>
+        <p data-testid="feedback-text">{ this.messageFeedback() }</p>
       </>
     );
   }

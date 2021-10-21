@@ -10,6 +10,10 @@ export function createUserLocalStorage(state) {
   localStorage.setItem('state', JSON.stringify(state));
 }
 
+function getPlayerFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('state'));
+}
+
 export function sumScore(difficulty, time) {
   const TEN = 10;
   const THREE = 3;
@@ -38,4 +42,20 @@ export function sumScore(difficulty, time) {
     },
   };
   createUserLocalStorage(newUser);
+}
+
+export function getRankingFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('ranking'));
+}
+
+export function savePlayerOnRankingLocalStorage() {
+  const { player } = getPlayerFromLocalStorage();
+  let ranking = getRankingFromLocalStorage();
+  if (ranking) {
+    const newRanking = [...ranking, player];
+    localStorage.setItem('ranking', JSON.stringify(newRanking));
+  } else {
+    ranking = [player];
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+  }
 }

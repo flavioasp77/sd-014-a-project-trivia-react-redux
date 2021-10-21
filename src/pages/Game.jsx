@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchQuestion } from '../redux/actions';
+import { savePlayerOnRankingLocalStorage } from '../services/localStorage';
 
 class Game extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class Game extends Component {
     if (question < FOURTH) {
       this.setState({ question: question + 1 });
     } else {
+      savePlayerOnRankingLocalStorage();
       history.push('/feedback');
     }
   }

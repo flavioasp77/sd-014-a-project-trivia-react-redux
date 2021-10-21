@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
+import NextQuestionBtn from '../components/NextQuestionBtn';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       index: 0,
+      answered: false,
     };
     this.handleIndex = this.handleIndex.bind(this);
   }
@@ -31,11 +33,14 @@ class Game extends Component {
     // if (regex.test(correctAnswer)) {
     //   this.setState({ score: score + points });
     // }
+    this.setState({
+      answered: true,
+    });
   }
 
   render() {
     const { questions } = this.props;
-    const { index } = this.state;
+    const { index, answered } = this.state;
     return (
       <div>
         <Header />
@@ -43,7 +48,7 @@ class Game extends Component {
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }
         />
-
+        {answered && <NextQuestionBtn />}
       </div>
     );
   }

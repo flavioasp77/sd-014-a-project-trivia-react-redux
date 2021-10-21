@@ -24,9 +24,10 @@ class Login extends Component {
   handleClick() {
     const { history, setUser, setTokenAPI } = this.props;
     const { name, email } = this.state;
+    const TIME = 2000;
     setUser({ name, email });
     setTokenAPI();
-    history.push('/jogo');
+    setTimeout(() => history.push('/jogo'), TIME);
   }
 
   render() {

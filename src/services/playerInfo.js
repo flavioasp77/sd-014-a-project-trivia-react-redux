@@ -2,13 +2,15 @@ import md5 from 'crypto-js/md5';
 
 export function savePlayerLocal(name = '',
   assertions = 0, score = 0, gravatarEmail = '') {
-  const player = {
-    name,
-    assertions,
-    score,
-    gravatarEmail,
+  const state = {
+    player: {
+      name,
+      assertions,
+      score,
+      gravatarEmail,
+    },
   };
-  return localStorage.setItem('state', JSON.stringify(player));
+  return localStorage.setItem('state', JSON.stringify(state));
 }
 
 export function getPlayerInfo() {

@@ -9,16 +9,18 @@ class Ranking extends React.Component {
       <>
         <section data-testid="ranking-list-section">
           <h1 data-testid="ranking-title">Lista de Ranking</h1>
-          {rankingList.map((player, index) => (
-            <li key={ index }>
-              <img
-                src={ `https://www.gravatar.com/avatar/${player.picture}` }
-                alt="Imagem do seu avatar"
-                data-testid="header-profile-picture"
-              />
-              <h3 data-testid={ `player-name-${index}` }>{player.name}</h3>
-              <h4 data-testid={ `player-score-${index}` }>{player.score}</h4>
-            </li>))}
+          <ul>
+            {rankingList.map((player, index) => (
+              <li key={ index }>
+                <img
+                  src={ `https://www.gravatar.com/avatar/${player.picture}` }
+                  alt="Imagem do seu avatar"
+                  data-testid="header-profile-picture"
+                />
+                <h3 data-testid={ `player-name-${index}` }>{player.name}</h3>
+                <h4 data-testid={ `player-score-${index}` }>{player.score}</h4>
+              </li>))}
+          </ul>
         </section>
         <Link to="/">
           <button

@@ -1,12 +1,14 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Header from '../Components/Header';
 import Question from '../Components/Question';
 
+import { addScore } from '../Redux/actions/index';
 import {
   fetchTriviaQuestions,
+  calculateScore,
   ONE_SECOND,
   CLOCK_TIME,
   INCREASER,
@@ -27,10 +29,6 @@ class Game extends React.Component {
 
   componentDidMount() {
     this.setGame();
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
   }
 
   nextQuestion = () => {
@@ -85,9 +83,14 @@ class Game extends React.Component {
     document.querySelector('.correct').style.border = '3px solid rgb(6, 240, 15)';
   }
 
-  handleChoice = () => {
+  handleChoice = (result, difficulty) => {
     this.highlightAnswers();
     this.setState({ answered: true });
+    const { clock } = this.state;
+    const { scoreToState } = this.props;
+    if (result) {
+      scoreToState(calculateScore(clock, difficulty));
+    }
   }
 
   nextQuestionButton = () => (
@@ -118,4 +121,14 @@ class Game extends React.Component {
   }
 }
 
-export default connect(null, null)(Game);
+Game.propTypes = {
+  scoreToState: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  scoreToState: (score) => {
+    dispatch(addScore(score));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Game);

@@ -1,5 +1,10 @@
 import { MD5 } from 'crypto-js';
 
+export const ONE_SECOND = 1000;
+export const CLOCK_TIME = 30;
+export const INCREASER = 1;
+export const DECREASER = 1;
+
 export function emailValidation(email) {
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   return emailRegex.test(email);
@@ -36,7 +41,6 @@ export async function getTriviaToken() {
 export async function fetchTriviaQuestions(token) {
   const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const response = await request.json();
-  console.log(response);
   return response.results;
 }
 
@@ -53,7 +57,21 @@ export function decodeHTMLEntities(text) {
   return textArea.value;
 }
 
-export const ONE_SECOND = 1000;
-export const CLOCK_TIME = 30;
-export const INCREASER = 1;
-export const DECREASER = 1;
+export function calculateScore(clock, difficulty) {
+  const player = JSON.parse(localStorage.getItem('state'));
+  const difficulties = {
+    hard: 3,
+    medium: 2,
+    easy: 1,
+  };
+  const BASE = 10;
+  const score = (BASE + (clock * difficulties[difficulty]));
+  localStorage.setItem('state', JSON.stringify({
+    player: {
+      ...player.player,
+      score: player.player.score + score,
+      assertions: player.player.assertions + INCREASER,
+    },
+  }));
+  return score;
+}

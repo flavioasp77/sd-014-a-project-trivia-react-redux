@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getApiTokenThunk } from '../actions';
+import { getApiTokenThunk, setPlayerInfo } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -20,10 +20,11 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { setApiToken } = this.props;
+    const { setApiToken, setUserInfo } = this.props;
     await setApiToken();
     const { token, history } = this.props;
     localStorage.setItem('token', token);
+    setUserInfo(this.state);
     history.push('/jogo');
   }
 
@@ -85,10 +86,12 @@ class Login extends React.Component {
 
 Login.propTypes = {
   setApiToken: PropTypes.func,
+  setUserInfo: PropTypes.func,
 }.isRequired;
 
 const mapDispachToProps = (dispatch) => ({
   setApiToken: () => dispatch(getApiTokenThunk()),
+  setUserInfo: (payload) => dispatch(setPlayerInfo(payload)),
 });
 
 const mapStateToProps = (state) => ({

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../redux/actions';
+import Conter from './Conter';
 import './questions.css';
 
 class Questions extends Component {
@@ -10,8 +11,10 @@ class Questions extends Component {
     this.state = {
       isClicked: false,
       order: '',
+      condicion: false,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.isTimerIsZero = this.isTimerIsZero.bind(this);
   }
 
   componentDidMount() {
@@ -34,11 +37,15 @@ class Questions extends Component {
     });
   }
 
+  isTimerIsZero() {
+    this.setState({ condicion: true });
+  }
+
   render() {
     const CODE = 3;
     const { questions } = this.props;
     const { results, response_code: responseCode } = questions;
-    const { isClicked, order } = this.state;
+    const { isClicked, order, condicion } = this.state;
 
     if (results === undefined) return <p>Carregando...</p>;
     if (responseCode === CODE) {
@@ -60,6 +67,7 @@ class Questions extends Component {
             className={ isClicked ? 'correct' : null }
             style={ { order } }
             onClick={ this.handleClick }
+            disabled={ condicion }
           >
             { results[0].correct_answer }
           </button>
@@ -71,11 +79,13 @@ class Questions extends Component {
               className={ isClicked ? 'incorrect' : null }
               style={ { order: index } }
               onClick={ this.handleClick }
+              disabled={ condicion }
             >
               { answer }
             </button>
           ))}
         </div>
+        <Conter solution={ this.handleClick } isTimerZero={ this.isTimerIsZero } />
       </main>
     );
   }

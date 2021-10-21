@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-export class Answer extends Component {
+class Answer extends Component {
   render() {
     const { answer, onClick } = this.props;
     const { text, className, testId } = answer;

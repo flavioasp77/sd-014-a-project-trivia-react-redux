@@ -8,7 +8,7 @@ export default function questions(state = INITIAL_STATE, action) {
   switch (action.type) {
   case GET_QUESTIONS:
     return {
-      ...state, questions: action.payload.questions
+      ...state, questions: action.payload.questions,
     };
   default:
     return state;

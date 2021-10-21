@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Header from '../components/Header';
-// import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Header from '../components/Header';
 import { getQuestionsThunk } from '../actions';
 
 class Jogo extends Component {
@@ -19,8 +18,8 @@ class Jogo extends Component {
     this.pegarPerguntas();
   }
 
-  randomArray(array, questaocerta) {
-    const ar1 = [...array, questaocerta];
+  randomArray(array, questaoCerta) {
+    const ar1 = [...array, questaoCerta];
     const ar2 = ar1.sort();
     console.log(ar1);
     console.log(ar2);
@@ -44,7 +43,7 @@ class Jogo extends Component {
         ))}
         <p>{questions[0].correct_answer}</p>
       </div>
-    )
+    );
   }
 
   render() {
@@ -59,15 +58,16 @@ class Jogo extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
 });
 
-// Jogo.propTypes = {
-// getQuestions: PropTypes.func.isRequired,
-// };
+Jogo.propTypes = {
+  getQuestions: PropTypes.func,
+  questions: PropTypes.any,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

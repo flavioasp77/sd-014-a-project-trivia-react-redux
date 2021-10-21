@@ -27,12 +27,11 @@ class Login extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { email, name } = this.state;
-    const { sendToken, login, getQuestions } = this.props;
+    const { sendToken, login } = this.props;
 
     login(email, name);
 
     sendToken();
-    getQuestions();
   }
 
   render() {
@@ -89,7 +88,6 @@ Login.propTypes = {
   userToken: PropTypes.string.isRequired,
   sendToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  getQuestions: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -10,10 +10,18 @@ class Jogo extends Component {
       isLoading: true,
     };
     this.pegarPerguntas = this.pegarPerguntas.bind(this);
+    this.randomArray = this.randomArray.bind(this);
   }
 
   componentDidMount() {
     this.pegarPerguntas();
+  }
+
+  randomArray(array, questaocerta) {
+    const ar1 = [...array, questaocerta];
+    const ar2 = ar1.sort();
+    console.log(ar1);
+    console.log(ar2);
   }
 
   async pegarPerguntas() {
@@ -24,12 +32,15 @@ class Jogo extends Component {
 
   perguntas() {
     const { questions } = this.props;
-    console.log(questions);
     return (
       <div>
         <h4 data-testid="question-category">{questions[0].category}</h4>
         <p data-testid="question-text">{questions[0].question}</p>
         <p data-testid="correct-answer">{questions[0].correct_answer}</p>
+        {questions[0].incorrect_answers.map((questao, index) => (
+          <p data-testid={ `wrong-answer-${index}` } key={ index }>{questao}</p>
+        ))}
+        <p>{questions[0].correct_answer}</p>
       </div>
     )
   }

@@ -19,7 +19,9 @@ class QuestionCard extends Component {
   render() {
     const { questionInfo, handleIndex } = this.props;
     const {
-      category, question, incorrect_answers: incorrect, correct_answer: correct,
+      category, difficulty,
+      question, incorrect_answers:
+      incorrect, correct_answer: correct,
     } = questionInfo;
     const arrayOfAnswers = [...incorrect, correct];
     return (
@@ -33,7 +35,7 @@ class QuestionCard extends Component {
               key={ index }
               t
               type="button"
-              onClick={ () => handleIndex(verify) }
+              onClick={ () => handleIndex(verify, difficulty) }
               data-testid={ verify }
               className={ /correct/.test(verify)
                 ? 'correct-answer' : 'wrong-answer' }
@@ -51,6 +53,7 @@ QuestionCard.propTypes = {
   questionInfo: PropTypes.shape({
     category: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,
   }).isRequired,

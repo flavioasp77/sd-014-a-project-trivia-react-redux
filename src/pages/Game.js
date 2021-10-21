@@ -13,19 +13,21 @@ class Game extends Component {
     this.state = {
       index: 0,
       answered: false,
+      score: 0,
     };
     this.handleIndex = this.handleIndex.bind(this);
     this.selectAnswer = this.selectAnswer.bind(this);
   }
 
   // correctAnswer
-  handleIndex() {
+  handleIndex(correctAnswer, difficulty) {
     const { decrementTime } = this.props;
+    const { score } = this.state;
     decrementTime(localStorage.getItem('timer'));
     // const { index, score } = this.state;
     // const { questions } = this.props;
     // const points = 10;
-    // const regex = /correct/i;
+    const regex = /correct/i;
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
     correct.classList.add('correct');
@@ -34,9 +36,23 @@ class Game extends Component {
     // if (index < questions.length - 1) {
     //   this.setState({ index: index + 1 });
     // }
-    // if (regex.test(correctAnswer)) {
-    //   this.setState({ score: score + points });
-    // }
+    if (regex.test(correctAnswer)) {
+      const points = localStorage.getItem('timer');
+      this.setState({ score: this.mathPoints(points, difficulty) });
+    }
+  }
+
+  mathPoints(points, difficulty) {
+    const scorePoints = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const total = Number(points) * scorePoints[difficulty];
+    const state = JSON.parse(localStorage.getItem('state'));
+    state.player.score = total;
+    localStorage.setItem('state', JSON.stringify(state));
+    return total;
   }
 
   selectAnswer() {
@@ -48,10 +64,10 @@ class Game extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index, answered } = this.state;
+    const { index, answered, score } = this.state;
     return (
       <div>
-        <Header />
+        <Header score={ score } />
         <QuestionCard
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }

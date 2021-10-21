@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { gravatarEmail, name } = this.props;
+    const { gravatarEmail, name, score } = this.props;
     return (
       <div>
         <img
@@ -16,7 +16,7 @@ class Header extends Component {
           { `${name}` }
           {' '}
         </p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{ score }</p>
       </div>
 
     );

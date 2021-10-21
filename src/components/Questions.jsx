@@ -30,7 +30,7 @@ class Questions extends Component {
 
   render() {
     const { questionResults } = this.props;
-    console.log(questionResults[0]);
+    console.log(questionResults && questionResults[0]);
     return (
       <div>
         <section>

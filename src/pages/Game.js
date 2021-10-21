@@ -5,6 +5,7 @@ import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
+import { timerAction } from '../actions';
 
 class Game extends Component {
   constructor() {
@@ -19,6 +20,8 @@ class Game extends Component {
 
   // correctAnswer
   handleIndex() {
+    const { decrementTime } = this.props;
+    decrementTime(localStorage.getItem('timer'));
     // const { index, score } = this.state;
     // const { questions } = this.props;
     // const points = 10;
@@ -64,10 +67,15 @@ const mapStateToProps = ({ questions, timer }) => ({
   timer: timer.time,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  decrementTime: (time) => dispatch(timerAction(time)),
+});
+
 Game.propTypes = {
+  decrementTime: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
   })).isRequired,
 };
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

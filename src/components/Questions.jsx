@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { saveScore } from '../redux/actions';
 
 const MILISECONDS = 1000;
 const NUMBER_10 = 10;
@@ -13,7 +16,6 @@ class Questions extends React.Component {
       answered: false,
       id: 0,
       seconds: 30,
-      difficulty: '',
     };
     this.timer = 0;
     this.countDown = this.countDown.bind(this);
@@ -98,26 +100,29 @@ class Questions extends React.Component {
     }
   }
 
-  async handleScore() {
+  handleScore({ target }) {
     this.handleState();
-    const { allQst, id, seconds, difficulty } = this.state;
-    await this.setState({
-      difficulty: allQst[id].difficulty,
-    });
+    const { allQst, id, seconds } = this.state;
+    const { saveScoreInfo } = this.props;
     const state = JSON.parse(localStorage.getItem('state'));
-    switch (difficulty) {
-    case 'easy':
-      state.score += NUMBER_10 + (seconds);
-      break;
-    case 'medium':
-      state.score += NUMBER_10 + (seconds * 2);
-      break;
-    case 'hard':
-      state.score += NUMBER_10 + (seconds * NUMBER_3);
-      break;
-    default: return;
+    if (target.id === 'correct') {
+      switch (allQst[id].difficulty) {
+      case 'easy':
+        saveScoreInfo(state.player.score + NUMBER_10 + (seconds));
+        state.player.score += NUMBER_10 + (seconds);
+        break;
+      case 'medium':
+        saveScoreInfo(state.player.score + NUMBER_10 + (seconds * 2));
+        state.player.score += NUMBER_10 + (seconds * 2);
+        break;
+      case 'hard':
+        saveScoreInfo(state.player.score + NUMBER_10 + (seconds * NUMBER_3));
+        state.player.score += NUMBER_10 + (seconds * NUMBER_3);
+        break;
+      default: return;
+      }
+      localStorage.setItem('state', JSON.stringify(state));
     }
-    localStorage.setItem('state', JSON.stringify(state));
   }
 
   renderCountDown() {
@@ -178,6 +183,7 @@ class Questions extends React.Component {
             <button
               type="button"
               data-testid="correct-answer"
+              id="correct"
               onClick={ this.handleScore }
               className={ this.questionAnsweredClassName('correct') }
               disabled={ answered }
@@ -208,4 +214,13 @@ class Questions extends React.Component {
     );
   }
 }
-export default Questions;
+
+const mapDispatchToProps = (dispatch) => ({
+  saveScoreInfo: (payload) => dispatch(saveScore(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Questions);
+
+Questions.propTypes = {
+  saveScoreInfo: PropTypes.func.isRequired,
+};

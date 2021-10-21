@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { getPlayerInfo } from '../services/playerInfo';
+import { saveScore } from '../redux/actions';
 
 class Header extends Component {
   constructor() {
     super();
     this.state = {
       name: '',
-      score: 0,
       imgSrc: null,
     };
     this.getPlayer = this.getPlayer.bind(this);
@@ -16,21 +18,28 @@ class Header extends Component {
 
   componentDidMount() {
     this.getPlayer();
+    this.checkScore();
   }
 
   getPlayer() {
-    const player = getPlayerInfo();
-    const { name, email, score } = player;
+    const state = getPlayerInfo();
+    const { name, email } = state.player;
     const emailMd5 = md5(email).toString();
     this.setState({
       name,
-      score,
       imgSrc: `https://www.gravatar.com/avatar/${emailMd5}`,
     });
   }
 
+  checkScore() {
+    const { saveScoreInfo } = this.props;
+    const ls = JSON.parse(localStorage.getItem('state'));
+    saveScoreInfo(ls.player.score);
+  }
+
   render() {
-    const { name, score, imgSrc } = this.state;
+    const { name, imgSrc } = this.state;
+    const { score } = this.props;
     return (
       <div className="trivia-header d-flex justify-content-between mb-5">
         <img src={ imgSrc } alt={ name } data-testid="header-profile-picture" />
@@ -49,4 +58,17 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  score: state.trivia.score,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  saveScoreInfo: (payload) => dispatch(saveScore(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+Header.propTypes = {
+  score: PropTypes.number.isRequired,
+  saveScoreInfo: PropTypes.func.isRequired,
+};

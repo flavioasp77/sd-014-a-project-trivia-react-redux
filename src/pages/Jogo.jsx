@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import Header from '../components/Header';
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -49,6 +51,7 @@ class Jogo extends Component {
     const { isLoading } = this.state;
     return (
       <div>
+        <Header />
         {isLoading ? null : this.perguntas()}
       </div>
     );

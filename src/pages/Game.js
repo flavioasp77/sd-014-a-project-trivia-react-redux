@@ -1,7 +1,5 @@
-// Aqui vai a página do jogo
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
-
 import Header from '../components/Header';
 
 class Game extends Component {

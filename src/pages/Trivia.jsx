@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
+import Header from './Header';
 
 class Trivia extends Component {
   render() {
     return (
       <div>
+        <Header />
         Trivia
       </div>
     );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import QuestionCard from '../components/QuestionCard';
-import Header from '../Components/Header';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -32,11 +32,12 @@ class Game extends Component {
     const { index } = this.state;
     return (
       <div>
+        <Header />
         <QuestionCard
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }
         />
-        <Header />
+
       </div>
     );
   }

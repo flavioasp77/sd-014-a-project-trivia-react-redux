@@ -23,10 +23,9 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ users }) => ({
-  name: users.name,
-  gravatarEmail: users.gravatarEmail,
-
+const mapStateToProps = ({ player }) => ({
+  name: player.name,
+  gravatarEmail: player.gravatarEmail,
 });
 
 Header.propTypes = {

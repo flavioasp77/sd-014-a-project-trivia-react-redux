@@ -50,6 +50,13 @@ class Game extends Component {
     clearInterval(localStorage.getItem('idInterval'));
   }
 
+  selectAnswer() {
+    const correct = document.querySelector('.correct-answer');
+    correct.disabled = true;
+    this.handleIndex();
+    clearInterval(localStorage.getItem('idInterval'));
+  }
+
   render() {
     const { questions } = this.props;
     const { index, answered } = this.state;

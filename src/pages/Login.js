@@ -4,6 +4,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import logo from '../trivia.png';
 import '../css/Login.css';
+import { getToken } from '../services/requests';
 
 class Login extends Component {
   constructor() {
@@ -22,8 +23,8 @@ class Login extends Component {
     });
   }
 
-  handleClick({ target }) {
-    console.log(target);
+  handleClick() {
+    console.log(getToken());
   }
 
   render() {

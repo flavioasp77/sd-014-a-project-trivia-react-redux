@@ -29,7 +29,6 @@ class Game extends Component {
     const hash = this.convertEmailtoHash(email);
 
     const source = await fetch(`https://www.gravatar.com/avatar/${hash}`);
-
     this.setState({ source: source.url });
   }
 

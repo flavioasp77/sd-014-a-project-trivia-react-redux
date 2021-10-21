@@ -2,6 +2,7 @@ import md5 from 'crypto-js/md5';
 
 export const REQUEST_TRIVIA = 'REQUEST_TRIVIA';
 export const ADD_USER = 'ADD_USER';
+export const TIMER_ACTION = 'TIMER_ACTION';
 
 const requestTrivia = (payload) => ({
   type: REQUEST_TRIVIA,
@@ -26,4 +27,9 @@ export const addUser = (payload) => ({
   type: ADD_USER,
   payload,
   generateHash: md5(payload.email).toString(),
+});
+
+export const timerAction = (timer) => ({
+  type: TIMER_ACTION,
+  timer,
 });

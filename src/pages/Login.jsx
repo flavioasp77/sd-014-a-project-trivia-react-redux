@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { userInfo } from '../redux/actions';
+import fetchAPI from '../services/api';
 
-class LoginPage extends React.Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,6 +13,7 @@ class LoginPage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange({ target }) {
@@ -16,6 +21,14 @@ class LoginPage extends React.Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const { setUserInfo, history } = this.props;
+    await fetchAPI();
+    history.push('/game');
+    setUserInfo(this.state);
   }
 
   checkInputs() {
@@ -27,7 +40,7 @@ class LoginPage extends React.Component {
   render() {
     const { name, gravatarEmail } = this.state;
     return (
-      <form>
+      <form onSubmit={ this.handleSubmit }>
         <label htmlFor="name">
           Nome:
           <input
@@ -51,7 +64,7 @@ class LoginPage extends React.Component {
           />
         </label>
         <button
-          type="button"
+          type="submit"
           data-testid="btn-play"
           disabled={ this.checkInputs() }
         >
@@ -62,4 +75,13 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+Login.propTypes = {
+  setUserInfo: PropTypes.func.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setUserInfo: (payload) => dispatch(userInfo(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

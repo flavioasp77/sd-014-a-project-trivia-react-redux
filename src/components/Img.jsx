@@ -15,6 +15,7 @@ class Img extends Component {
         alt={ alt }
         id={ id }
         className={ className }
+        data-testid="header-profile-picture"
       />
     );
   }

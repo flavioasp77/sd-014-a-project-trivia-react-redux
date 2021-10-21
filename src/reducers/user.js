@@ -1,9 +1,8 @@
-import { SET_USER, SET_TOKEN } from '../actions/indexActions';
+import { SET_USER } from '../actions/indexActions';
 
 const INITIAL_STATE = {
   email: '',
   name: '',
-  token: null,
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -15,14 +14,6 @@ const user = (state = INITIAL_STATE, action) => {
       ...state,
       email,
       name,
-    };
-  }
-  case SET_TOKEN:
-  {
-    const { token } = action.payload;
-    return {
-      ...state,
-      token,
     };
   }
   default:

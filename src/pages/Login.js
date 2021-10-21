@@ -69,6 +69,14 @@ class Login extends Component {
               value="Jogar"
             />
           </Link>
+
+          <Link to="/config">
+            <Button
+              dataTestId="btn-settings"
+              value="Configurações"
+            />
+          </Link>
+
         </div>
       </div>
     );

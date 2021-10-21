@@ -12,6 +12,7 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.redirectConfig = this.redirectConfig.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -26,10 +27,25 @@ class Login extends React.Component {
     history.push('/jogo');
   }
 
+  redirectConfig() {
+    const { history } = this.props;
+    history.push('/config');
+  }
+
   render() {
     const { name, email } = this.state;
     return (
       <main>
+
+        <button
+          id="buttonConfig"
+          data-testid="btn-settings"
+          onClick={ this.redirectConfig }
+          type="button"
+        >
+          Configurações
+        </button>
+
         <label htmlFor="input-name">
           Nome:
           <input

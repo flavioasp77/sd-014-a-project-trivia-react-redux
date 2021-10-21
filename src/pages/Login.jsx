@@ -1,20 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { addLoginUser, fetchGetToken } from '../actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleConfigBtn = this.handleConfigBtn.bind(this);
 
     this.state = {
       email: '',
       name: '',
-      goTo: false,
     };
   }
 
@@ -26,19 +24,21 @@ class Login extends React.Component {
     return !(name && email);
   }
 
+  handleConfigBtn() {
+    const { history } = this.props;
+    history.push('/config');
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    const { userLogin, fetchToken } = this.props;
+    const { userLogin, fetchToken, history } = this.props;
     fetchToken();
     userLogin(this.state);
-    this.setState({ goTo: true });
+    history.push('/play');
   }
 
   render() {
-    const { name, email, goTo } = this.state;
-    if (goTo) {
-      return <Redirect to="/play" />;
-    }
+    const { name, email } = this.state;
     return (
       <div>
         <form onSubmit={ this.handleSubmit }>
@@ -72,6 +72,13 @@ class Login extends React.Component {
             Jogar
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleConfigBtn }
+        >
+          Configurações
+        </button>
       </div>
     );
   }
@@ -80,6 +87,7 @@ class Login extends React.Component {
 Login.propTypes = {
   fetchToken: PropTypes.func.isRequired,
   userLogin: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

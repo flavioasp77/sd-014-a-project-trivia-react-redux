@@ -70,8 +70,15 @@ class Login extends React.Component {
           <Button
             label="Jogar"
             onClick={ this.handleClick }
-            emailValidation={ validation }
+            isDisabled={ validation }
             dataTestid="btn-play"
+          />
+        </Link>
+        <Link to="/settings">
+          <Button
+            label="Configurações"
+            isDisabled={ false }
+            dataTestid="btn-settings"
           />
         </Link>
       </main>

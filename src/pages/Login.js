@@ -26,8 +26,16 @@ class Login extends Component {
   }
 
   handleClick() {
+    const { nameInput, emailInput } = this.state;
     const { addToken } = this.props;
     addToken();
+    localStorage.setItem(
+      'state',
+      JSON.stringify({ player: {
+        name: nameInput,
+        gravatarEmail: emailInput,
+      } }),
+    );
   }
 
   render() {

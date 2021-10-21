@@ -28,8 +28,7 @@ export function fetchData() {
         `https://opentdb.com/api.php?amount=5&token=${token}`,
       );
       const data = await response.json();
-      const { results } = data;
-      dispatch(getData(results));
+      dispatch(getData(data));
     } catch (error) {
       console.error(error);
     }

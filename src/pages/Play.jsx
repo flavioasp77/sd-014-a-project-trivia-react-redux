@@ -10,6 +10,11 @@ class Play extends Component {
   }
 
   render() {
+    const { data } = this.props;
+    const { response_code: code } = data;
+
+    if (code !== 0) return <div>Token expirado!</div>;
+
     return (
       <div>
         <h1>Play</h1>

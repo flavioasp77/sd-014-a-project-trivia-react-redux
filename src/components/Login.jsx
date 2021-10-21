@@ -1,10 +1,16 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { addLoginUser } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleDisabled = this.handleDisabled.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchGetToken = this.fetchGetToken.bind(this);
 
     this.state = {
       email: '',
@@ -23,6 +29,20 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const { userLogin } = this.props;
+    this.fetchGetToken();
+    userLogin(this.state);
+  }
+
+  async fetchGetToken() {
+    try {
+      const response = await fetch('https://opentdb.com/api_token.php?command=request');
+      const responseJsonApi = await response.json();
+      const { token } = responseJsonApi;
+      localStorage.setItem('token', JSON.stringify(token));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render() {
@@ -66,4 +86,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  userLogin: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  userLogin: (value) => dispatch(addLoginUser(value)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

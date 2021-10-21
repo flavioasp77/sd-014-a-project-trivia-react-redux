@@ -5,9 +5,9 @@ import { questAPI } from '../actions';
 import Header from '../components/Header';
 
 class MainPage extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { getQuestions } = this.props;
-    getQuestions();
+    await getQuestions();
   }
 
   render() {

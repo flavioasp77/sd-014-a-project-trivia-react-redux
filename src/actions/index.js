@@ -13,12 +13,8 @@ export const requestQuestions = (payload) => ({ type: QUESTION, payload });
 export function questAPI() {
   return (dispatch) => {
     const token = localStorage.getItem('token');
-    try {
-      fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-        .then((request) => request.json())
-        .then((data) => dispatch(requestQuestions(data.results)));
-    } catch (error) {
-      console.error(error);
-    }
+    fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+      .then((request) => request.json())
+      .then((data) => dispatch(requestQuestions(data.results)));
   };
 }

@@ -45,6 +45,9 @@ class login extends Component {
     return (
       <div className="App">
         <div className="App-header">
+          <Link to="/settings" data-testid="btn-settings">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/settings-3.png" alt="configurações" />
+          </Link>
           <img className="App-logo" src={ logo } alt="logo" />
           <form>
             <label htmlFor="name">

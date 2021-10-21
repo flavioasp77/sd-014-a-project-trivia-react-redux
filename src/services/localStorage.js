@@ -1,5 +1,5 @@
 export const saveToken = (token) => localStorage.setItem('token', token);
-export const getLocalToken = () => localStorage.getIem('token');
+export const getLocalToken = () => localStorage.getItem('token');
 export const savePlayerEmail = (gravatarEmail, name) => {
   const player = {
     player: {

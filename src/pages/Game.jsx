@@ -11,29 +11,73 @@ class Game extends React.Component {
     };
   }
 
-  mixBoolean(correctAnswer, incorretAnswer) {
+  mixBoolean(correctAnswer, incorretAnswers) {
     return (
       <>
         <button
           type="button"
           data-testid="wrong-answer-0"
         >
-          { incorretAnswer[0] }
+          { incorretAnswers[0] }
         </button>
         <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
       </>
     );
   }
 
+  mixMultiple(correctAnswer, incorretAnswers, randomic) {
+    const RANGE05 = 0.5;
+    const RANGE075 = 0.75;
+    let arrangement = [];
+
+    const rightAnswer = <>
+      <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+      <br />
+    </>
+    const incorrectMaped = incorretAnswers.map((incorrect, i) => (
+      <section key={ i }>
+        <button
+          type="button"
+          data-testid={ `wrong-answer-${i}` }
+          key={ i }
+        >
+          {incorrect}
+        </button>
+        <br />
+      </section>
+    ));
+    if (randomic <= RANGE05) {
+      arrangement.push(incorrectMaped[0]);
+      arrangement.push(rightAnswer);
+      arrangement.push(incorrectMaped[1]);
+      arrangement.push(incorrectMaped[2]);
+      arrangement.push(incorrectMaped[3]);
+      //  console.log("Segundo");
+      return arrangement;
+    }
+    if (randomic <= RANGE075) {
+      arrangement.push(incorrectMaped[0]);
+      arrangement.push(incorrectMaped[1]);
+      arrangement.push(rightAnswer);
+      arrangement.push(incorrectMaped[2]);
+      arrangement.push(incorrectMaped[3]);
+      //  console.log("Terceiro");
+      return arrangement;
+    }
+    //  console.log("Quarto");
+    arrangement = [...incorrectMaped, rightAnswer];
+    return arrangement;
+  }
+
   renderQuestions(objectQuestion) {
     const { type, correct_answer: correctAnswer } = objectQuestion;
-    const { incorrect_answers: incorretAnswer } = objectQuestion;
+    const { incorrect_answers: incorretAnswers } = objectQuestion;
     const randomic = Math.random();
-    const RANGE = 0.5;
     //  console.log(randomic);
     if (type === 'boolean') {
+      const RANGE = 0.5;
       if (randomic > RANGE) {
-        return this.mixBoolean(correctAnswer, incorretAnswer);
+        return this.mixBoolean(correctAnswer, incorretAnswers);
       }
       return (
         <>
@@ -42,16 +86,21 @@ class Game extends React.Component {
             type="button"
             data-testid="wrong-answer-0"
           >
-            { incorretAnswer[0] }
+            { incorretAnswers[0] }
           </button>
         </>
       );
     }
+    const RANGE025 = 0.25;
+    if (randomic > RANGE025) {
+      return this.mixMultiple(correctAnswer, incorretAnswers, randomic);
+    }
+    //  console.log("Primeiro");
     return (
       <>
         <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
-        { incorretAnswer.map((incorrect, i) => (
-          <>
+        { incorretAnswers.map((incorrect, i) => (
+          <section key={ i }>
             <br />
             <button
               type="button"
@@ -60,7 +109,7 @@ class Game extends React.Component {
             >
               {incorrect}
             </button>
-          </>
+          </section>
         )) }
       </>
     );
@@ -69,11 +118,11 @@ class Game extends React.Component {
   render() {
     const { arrayQuestions } = this.props;
     const { index } = this.state;
-    console.log(arrayQuestions);
+    //  console.log(arrayQuestions);
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     const objectQuestion = arrayQuestions[index];
     const { category, question } = objectQuestion;
-    console.log(arrayQuestions);
+    //  console.log(arrayQuestions);
     return (
       <section>
         <section data-testid="question-category">{ category }</section>

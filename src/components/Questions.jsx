@@ -14,6 +14,7 @@ class Questions extends React.Component {
     this.questionAnsweredClassName = this.questionAnsweredClassName.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
+    this.renderCountDown = this.renderCountDown.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +53,7 @@ class Questions extends React.Component {
 
   questionAnsweredClassName(className) {
     const { answered } = this.state;
-    return answered ? className : '';
+    return answered ? className : 'secret';
   }
 
   questionCompleted() {
@@ -64,27 +65,43 @@ class Questions extends React.Component {
     const { id } = this.state;
     this.setState({
       id: id + 1,
+      answered: false,
     });
+  }
+
+  renderCountDown() {
+    const waiting = 30000;
+    return (
+      <p className="my-4 trivia-countdown">
+        Hurry up! You have
+        { ' ' }
+        <Countdown
+          date={ Date.now() + waiting }
+          onComplete={ this.questionAnswered }
+          className="trivia-countdown-time"
+        />
+        { ' ' }
+        seconds left!
+      </p>
+    );
   }
 
   render() {
     const { allQst, id } = this.state;
     if (allQst.length === 0) return <p>Loading...</p>;
-    const waiting = 30000;
-    console.log(allQst);
     const allAnswers = [...allQst[id].incorrect_answers, allQst[id].correct_answer];
     this.shuffleQuestions(allAnswers);
-    console.log(allAnswers);
-
     return (
-      <div>
+      <div className="trivia-main">
         <div>
-          <p>
+          <p className="question-cat">
             Category:
+            { ' ' }
             <span data-testid="question-category">{ allQst[id].category }</span>
           </p>
-          <p>
+          <p className="question-qst">
             Question:
+            { ' ' }
             <span data-testid="question-text">{ allQst[id].question }</span>
           </p>
           <button
@@ -109,9 +126,13 @@ class Questions extends React.Component {
               </button>
             </div>
           ))}
-          <Countdown date={ Date.now() + waiting } onComplete={ this.questionAnswered } />
+          { this.renderCountDown() }
         </div>
-        <button type="button" onClick={ this.nextQuestion }>Pŕoxima Questão</button>
+        <div className="d-flex justify-content-center">
+          <button type="button" className="next-btn" onClick={ this.nextQuestion }>
+            Pŕoxima Questão
+          </button>
+        </div>
       </div>
     );
   }

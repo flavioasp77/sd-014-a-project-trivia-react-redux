@@ -12,10 +12,100 @@ code {
     monospace;
 }
 
-.correct-answer {
-  border: 3px solid rgb(0, 138, 5);
+.correct {
+  border: 3px solid rgb(6, 240, 15);
 }
 
-.wrong-answer {
-  border: 3px solid rgb(187, 0, 0);
+.incorrect {
+  border: 3px solid rgb(255, 0, 0);
+}
+
+.secret {
+  border: 3px solid rgb(0, 44, 189);
+}
+
+.next-btn {
+  background-color: rgb(54, 54, 54);
+  color:rgb(240, 240, 240);
+}
+
+.correct , .incorrect , .secret , .next-btn {
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px 15px;
+}
+
+.top-banner {
+  background-color: black;
+  color: white;
+  display: block;
+  font-size: 3em;
+  font-weight: bold;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;;
+
+}
+
+.main-login{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 50px;
+  width: 600px;
+}
+
+.main-title {
+  font-size: 2.3em;
+  font-weight: bold
+}
+
+.trivia-main{
+  margin: auto;
+  width: 800px;
+}
+
+.trivia-header {
+  background-color: rgb(240, 240, 240);
+  padding: 10px;
+  height: 120px;
+}
+
+.th-name {
+  color: gray;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 120px;
+}
+
+.th-score {
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 120px;
+}
+
+.question-cat {
+  color: rgb(0, 36, 153);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.question-qst {
+  background-color: rgb(246, 246, 246);
+  color: rgb(0, 16, 163);
+  font-size: 2.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.trivia-countdown {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: auto;
+  text-align: center;
+}
+
+.trivia-countdown-time {
+  color: rgb(200, 0, 0);
 }

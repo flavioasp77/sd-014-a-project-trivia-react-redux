@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../redux/actions';
 import NextBtn from './NextBtn';
+import Conter from './Conter';
 import './questions.css';
 
 class Questions extends Component {
@@ -12,9 +13,12 @@ class Questions extends Component {
       isClicked: false,
       order: '',
       atualQuestion: 0,
+      condicion: false,
     };
-    this.handleClick = this.handleClick.bind(this);
+    
     this.handleNextBtn = this.handleNextBtn.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.isTimerIsZero = this.isTimerIsZero.bind(this);
   }
 
   componentDidMount() {
@@ -44,13 +48,16 @@ class Questions extends Component {
       atualQuestion: nextQuestion,
       isClicked: false,
     });
+    
+  isTimerIsZero() {
+    this.setState({ condicion: true });
   }
 
   render() {
     const CODE = 3;
     const { questions } = this.props;
     const { results, response_code: responseCode } = questions;
-    const { isClicked, order, atualQuestion } = this.state;
+    const { isClicked, order, condicion, atualQuestion } = this.state;
 
     if (results === undefined) return <p>Carregando...</p>;
     if (responseCode === CODE) {
@@ -72,6 +79,7 @@ class Questions extends Component {
             className={ isClicked ? 'correct' : null }
             style={ { order } }
             onClick={ this.handleClick }
+            disabled={ condicion }
           >
             { results[atualQuestion].correct_answer }
           </button>
@@ -83,12 +91,14 @@ class Questions extends Component {
               className={ isClicked ? 'incorrect' : null }
               style={ { order: index } }
               onClick={ this.handleClick }
+              disabled={ condicion }
             >
               { answer }
             </button>
           ))}
         </div>
         <br />
+        <Conter solution={ this.handleClick } isTimerZero={ this.isTimerIsZero } />
         { isClicked && <NextBtn handleClick={ this.handleNextBtn } />}
       </main>
     );

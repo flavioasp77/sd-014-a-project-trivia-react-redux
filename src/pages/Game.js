@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       index: 0,
+      answered: false,
     };
     this.handleIndex = this.handleIndex.bind(this);
+    this.selectAnswer = this.selectAnswer.bind(this);
   }
 
   // correctAnswer
@@ -23,8 +26,8 @@ class Game extends Component {
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
     correct.classList.add('correct');
-
     wrong.forEach((ans) => ans.classList.add('wrong'));
+    this.setState({ answered: true });
     // if (index < questions.length - 1) {
     //   this.setState({ index: index + 1 });
     // }
@@ -33,9 +36,16 @@ class Game extends Component {
     // }
   }
 
+  selectAnswer() {
+    const correct = document.querySelector('.correct-answer');
+    correct.disabled = true;
+    this.handleIndex();
+    clearInterval(localStorage.getItem('idInterval'));
+  }
+
   render() {
     const { questions } = this.props;
-    const { index } = this.state;
+    const { index, answered } = this.state;
     return (
       <div>
         <Header />
@@ -43,14 +53,15 @@ class Game extends Component {
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }
         />
-
+        <Timer answered={ answered } callback={ this.selectAnswer } />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ questions }) => ({
+const mapStateToProps = ({ questions, timer }) => ({
   questions: questions.questions,
+  timer: timer.time,
 });
 
 Game.propTypes = {

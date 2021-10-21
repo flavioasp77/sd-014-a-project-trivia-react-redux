@@ -26,7 +26,7 @@ class QuestionCard extends Component {
       <div>
         <h2 data-testid="question-category">{category}</h2>
         <h3 data-testid="question-text">{question}</h3>
-        {this.shuffle(arrayOfAnswers).map((item, index) => {
+        {arrayOfAnswers.map((item, index) => {
           const verify = this.verifyCorrectAnswer(item, index);
           return (
             <button

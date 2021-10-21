@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import { getToken } from '../services/APIrequests';
-import { saveToken } from '../services/localStorage';
+import { savePlayerEmail, saveToken } from '../services/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -27,6 +28,10 @@ class Login extends Component {
     const tokenReponse = await getToken();
     const { token } = tokenReponse;
     saveToken(token);
+    const { history } = this.props;
+    const { email, name } = this.state;
+    await savePlayerEmail(md5(email).toString(), name);
+    history.push('/game');
   }
 
   verifyInputs() {

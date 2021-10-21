@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { questionsInfoThunk } from '../actions';

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { getTriviaToken, getTriviaQuestions } from '../helpers/getTrivia';
 
 class Login extends React.Component {
   constructor() {
@@ -22,7 +23,7 @@ class Login extends React.Component {
     });
   }
 
-  handleClick() {
+  async handleClick() {
     const { email, name } = this.state;
     const state = {
       player: {
@@ -33,6 +34,10 @@ class Login extends React.Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
+
+    const token = await getTriviaToken();
+    localStorage.setItem('token', JSON.stringify(token));
+    getTriviaQuestions(token);
   }
 
   emailValidation() {
@@ -65,9 +70,15 @@ class Login extends React.Component {
           <Button
             label="Jogar"
             onClick={ this.handleClick }
-            name={ name }
-            emailValidation={ validation }
+            isDisabled={ validation }
             dataTestid="btn-play"
+          />
+        </Link>
+        <Link to="/settings">
+          <Button
+            label="Configurações"
+            isDisabled={ false }
+            dataTestid="btn-settings"
           />
         </Link>
       </main>

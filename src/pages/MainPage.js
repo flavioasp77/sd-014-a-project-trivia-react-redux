@@ -1,37 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { questAPI } from '../actions';
 import Header from '../components/Header';
 
 class MainPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.questRequest = this.questRequest.bind(this);
-
-    this.state = {
-      questions: [],
-    };
-  }
-
   componentDidMount() {
-    this.questRequest();
-  }
-
-  questRequest() {
-    const token = localStorage.getItem('token');
-    try {
-      fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-        .then((request) => request.json())
-        .then((data) => this.setState({
-          questions: data.results,
-        }));
-      console.log(token);
-    } catch (error) {
-      console.error(error);
-    }
+    const { getQuestions } = this.props;
+    getQuestions();
   }
 
   render() {
-    const { questions } = this.state;
+    const { questions } = this.props;
     console.log(questions);
     return (
       <main>
@@ -61,4 +41,18 @@ class MainPage extends React.Component {
   }
 }
 
-export default MainPage;
+MainPage.propTypes = {
+  getQuestions: PropTypes.func.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.any).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  questions: state.questions.questions,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    getQuestions: () => dispatch(questAPI()),
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

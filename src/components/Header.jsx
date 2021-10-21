@@ -44,6 +44,9 @@ class Header extends React.Component {
 
 Header.propTypes = {
   gravatarEmail: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   username: PropTypes.string.isRequired,
 };
 

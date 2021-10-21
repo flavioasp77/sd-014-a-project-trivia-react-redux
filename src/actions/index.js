@@ -38,7 +38,6 @@ export const getTokenActionThunk = () => async (dispatch) => {
 export const getTriviaActionThunk = (token) => (dispatch) => {
   fetchTrivia(token)
     .then(({ results, response_code: code }) => {
-      console.log(code);
       if (code === 0) {
         dispatch(addTrivia(results));
       } else {

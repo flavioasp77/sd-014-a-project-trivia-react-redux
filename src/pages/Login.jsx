@@ -40,7 +40,7 @@ class Login extends Component {
     const { name, email } = this.state;
 
     getToken();
-    getUser({ name, email });
+    getUser({ name, email: email.toLowerCase() });
     history.push('/game');
   }
 
@@ -93,7 +93,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   getUser: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   getToken: PropTypes.func.isRequired,

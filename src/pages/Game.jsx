@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 import { getTriviaActionThunk } from '../actions';
 
 class Game extends Component {
@@ -16,7 +17,6 @@ class Game extends Component {
 
   componentDidUpdate(prevProps) {
     const { getTrivia, token, questions } = this.props;
-    console.log('token:', token);
     if (prevProps.token !== token && token !== '') getTrivia(token);
     if (prevProps.questions !== questions) {
       this.treatQuestions();
@@ -40,6 +40,7 @@ class Game extends Component {
     const { questions } = this.state;
     return (
       <div>
+        <Header />
         { questions[0].arrayAnswer.sort().map((answer, index, array) => (
           <button
             key={ index }
@@ -76,9 +77,7 @@ class Game extends Component {
 
 Game.propTypes = {
   getTrivia: PropTypes.func.isRequired,
-  questions: PropTypes.shape({
-    reduce: PropTypes.func.isRequired,
-  }).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   token: PropTypes.string.isRequired,
 };
 

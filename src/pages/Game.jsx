@@ -11,10 +11,30 @@ class Game extends React.Component {
     };
   }
 
+  mixBoolean(correctAnswer, incorretAnswer) {
+    return (
+      <>
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+        >
+          { incorretAnswer[0] }
+        </button>
+        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+      </>
+    );
+  }
+
   renderQuestions(objectQuestion) {
     const { type, correct_answer: correctAnswer } = objectQuestion;
     const { incorrect_answers: incorretAnswer } = objectQuestion;
+    const randomic = Math.random();
+    const RANGE = 0.5;
+    //  console.log(randomic);
     if (type === 'boolean') {
+      if (randomic > RANGE) {
+        return this.mixBoolean(correctAnswer, incorretAnswer);
+      }
       return (
         <>
           <button type="button" data-testid="correct-answer">{ correctAnswer }</button>

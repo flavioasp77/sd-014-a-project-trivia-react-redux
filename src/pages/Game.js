@@ -22,7 +22,7 @@ class Game extends Component {
   handleIndex() {
     const { decrementTime } = this.props;
     decrementTime(localStorage.getItem('timer'));
-    // const { index, score } = this.state;
+    // const { index, score  } = this.state;
     // const { questions } = this.props;
     // const points = 10;
     // const regex = /correct/i;

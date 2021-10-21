@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { getTokenThunk, login as loginAction, getQuestionsThunk } from '../actions';
+import { getTokenThunk, login as loginAction } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -79,7 +79,6 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(loginAction(email, name)),
   sendToken: () => dispatch(getTokenThunk()),
-  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 const mapStateToProps = (state) => ({

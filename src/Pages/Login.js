@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import addInfo from '../Redux/actions/index';
+import { addInfo } from '../Redux/actions/index';
 import {
   emailValidation,
   loginValidation,

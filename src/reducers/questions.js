@@ -9,7 +9,7 @@ function user(state = INITIAL_STATE, action) {
   case QUESTIONS_INFO:
     return {
       ...state,
-      questions: action.data,
+      ...action.data,
     };
   default:
     return state;

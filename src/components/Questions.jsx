@@ -10,10 +10,15 @@ class Questions extends Component {
   }
 
   render() {
+    const { questionResults } = this.props;
     return (
       <div>
         <section>
-          <h3 data-testid="question-category">Categoria</h3>
+          <h3 data-testid="question-category">
+            {
+
+            }
+          </h3>
           <p data-testid="question-text">Pergunta</p>
         </section>
         <section>
@@ -28,4 +33,8 @@ const mapDispatchToProps = (dispatch) => ({
   callApi: (data) => dispatch(fetchApi(data)),
 });
 
-export default connect(null, mapDispatchToProps)(Questions);
+const mapStateToProps = (state) => ({
+  questionResults: state.questions.results,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

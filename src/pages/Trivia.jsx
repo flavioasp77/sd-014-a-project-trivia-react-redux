@@ -20,12 +20,12 @@ class Trivia extends React.Component {
     const {
       correct_answer: correct,
       incorrect_answers: incorrect } = perguntas[indice];
-    return [...incorrect, correct].sort();
+    return [decodeURIComponent(...incorrect), decodeURIComponent(correct)].sort();
   }
 
   async chamaApi() {
-    const TOKEN = '9f745c94239dfe9e6d24b224b02ed015bdfea06fb02eebf42b668346fee9d129';
-    const URL = `https://opentdb.com/api.php?amount=5&token=${TOKEN}`;
+    const TOKEN = '796a33bcab7696a71973eb1a8751aa5a55497f12480bb405219914b74973930e';
+    const URL = `https://opentdb.com/api.php?amount=5&encode=url3986&token=${TOKEN}`;
     const response = await fetch(URL);
     const result = await response.json();
     this.setState({
@@ -41,10 +41,10 @@ class Trivia extends React.Component {
         && (
           <>
             <p data-testid="question-category">
-              { perguntas[indice].category }
+              { decodeURIComponent(perguntas[indice].category) }
             </p>
             <p data-testid="question-text">
-              { perguntas[indice].question }
+              { decodeURIComponent(perguntas[indice].question) }
             </p>
             {this.sortArray().map((atual, i) => (
               <button

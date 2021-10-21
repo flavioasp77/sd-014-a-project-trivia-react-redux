@@ -1,66 +1,37 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import endQuestion from '../services/questions';
 
 class Question extends Component {
-  constructor(props) {
-    super(props);
-    this.createAnswers = this.createAnswers.bind(this);
-    this.shuffle = this.shuffle.bind(this);
+  constructor() {
+    super();
+
+    this.setTime = this.setTime.bind(this);
+
+    this.state = {
+      time: 30,
+    };
   }
 
-  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  shuffle(array) {
-    let currentIndex = array.length;
-    let randomIndex;
+  componentDidMount() {
+    this.setTime();
+  }
 
-    // While there remain elements to shuffle...
-    while (currentIndex !== 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+  setTime() {
+    const ONE_SECOND = 1000;
+    setTimeout(this.setTime, ONE_SECOND);
+    const { time } = this.state;
+    const newTime = time - 1;
+    if (time === 0) {
+      endQuestion();
+      return 0;
     }
-
-    return array;
-  }
-
-  handleClick() {
-    document.querySelectorAll('.wrong').forEach((button) => {
-      button.style.border = '3px solid rgb(255, 0, 0)';
-    });
-    document.querySelector('.correct').style.border = '3px solid rgb(6, 240, 15)';
-  }
-
-  createAnswers() {
-    const { question } = this.props;
-    const wrongAnswers = question.incorrect_answers.map((answer, index) => (
-      <button
-        key={ index }
-        type="button"
-        data-testid={ `wrong-answer-${index}` }
-        className="wrong"
-        onClick={ this.handleClick }
-      >
-        { answer }
-      </button>));
-    const correctAnswer = (
-      <button
-        type="button"
-        data-testid="correct-answer"
-        className="correct"
-        onClick={ this.handleClick }
-      >
-        {question.correct_answer}
-      </button>);
-    const answers = [...wrongAnswers, correctAnswer];
-    return this.shuffle(answers);
+    this.setState({ time: newTime });
   }
 
   render() {
-    const { question } = this.props;
+    const { question, answers } = this.props;
+    const { time } = this.state;
     return (
       <section>
         <div>
@@ -77,12 +48,21 @@ class Question extends Component {
         </div>
         <div>
           <ul>
-            { this.createAnswers().map((answer, index) => (
-              <li key={ index }>
+            { answers.map((answer, index) => (
+              <li
+                key={ index }
+              >
                 { answer }
               </li>
             )) }
           </ul>
+        </div>
+        <div>
+          <p>
+            Time Remaining:
+            {' '}
+            { time }
+          </p>
         </div>
       </section>
     );
@@ -90,6 +70,9 @@ class Question extends Component {
 }
 
 Question.propTypes = {
+  answers: PropTypes.shape({
+    map: PropTypes.func,
+  }).isRequired,
   question: PropTypes.shape({
     category: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,

@@ -64,12 +64,11 @@ class Login extends Component {
     );
   }
 
-  render() {
+  showInputs() {
     const { name, email } = this.state;
     return (
-      <form className="main-login">
-        <div className="my-5 align-self-center main-title">Slumdog Milionaire</div>
-        <div className="mb-3 align-self-center">
+      <>
+        <div className="mb-3 align-self-center lg-inp">
           <label htmlFor="email">
             Type in your best e-mail
             <input
@@ -84,7 +83,7 @@ class Login extends Component {
             />
           </label>
         </div>
-        <div className="mb-3 align-self-center">
+        <div className="mb-3 align-self-center lg-inp">
           <label htmlFor="name">
             Choose a nice Screen Name
             <input
@@ -98,8 +97,25 @@ class Login extends Component {
             />
           </label>
         </div>
-        <div>
-          { this.showButtons() }
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <form className="main-login">
+        <div className="login-container">
+          <div
+            className="my-5 align-self-center main-title"
+          >
+            Slumdog Milionaire
+          </div>
+          <div>
+            { this.showInputs() }
+          </div>
+          <div>
+            { this.showButtons() }
+          </div>
         </div>
       </form>
     );

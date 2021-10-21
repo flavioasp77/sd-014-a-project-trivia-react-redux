@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,700&family=Rampart+One&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Fira Sans, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,76 +12,121 @@ code {
     monospace;
 }
 
+.correct , .incorrect , .secret , .next-btn {
+  border-radius: 5px;
+  font-weight: 600;
+  margin: 5px;
+  padding: 5px 15px;
+}
+
 .correct {
+  background-color: rgb(6, 240, 15);
   border: 3px solid rgb(6, 240, 15);
+  color: rgb(8, 8, 8);
+  font-size: 1.5em;
+  font-weight: 600;
 }
 
 .incorrect {
+  background-color: rgb(255, 0, 0);
   border: 3px solid rgb(255, 0, 0);
+  color: rgb(8, 8, 8);                                                                                                                                       
 }
 
 .secret {
+  background-color: rgb(0, 44, 189);
   border: 3px solid rgb(0, 44, 189);
+  color: rgb(238, 238, 238);
 }
 
 .next-btn {
-  background-color: rgb(54, 54, 54);
+  background-color: rgb(0, 15, 151);
   color:rgb(240, 240, 240);
-}
-
-.correct , .incorrect , .secret , .next-btn {
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px 15px;
+  font-weight: 400;
 }
 
 .top-banner {
   background-color: black;
   color: white;
   display: block;
-  font-size: 3em;
-  font-weight: bold;
-  height: 100px;
-  line-height: 100px;
-  text-align: center;;
-
+  font-family: Rampart One, cursive;
+  font-size: 3.5em;
+  height: 130px;
+  line-height: 130px;
+  text-align: center;
 }
 
 .main-login{
+  background-image: url('./slumdog.jpg');
+  background-size: cover;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   margin: auto;
   margin-top: 50px;
-  width: 600px;
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.616);
+  margin: auto;
+  padding: 50px;
+  width: 800px;
+}
+
+.lg-inp {
+  margin: auto;
+  text-align: center;
+  width: 700px;
 }
 
 .main-title {
-  font-size: 2.3em;
-  font-weight: bold
+  font-family: Rampart One, cursive;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
 }
 
 .trivia-main{
   margin: auto;
-  width: 800px;
+  width: 1000px;
+}
+
+.bg-questions {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #10c200);
+	background-size: 400% 400%;
+	animation: gradient 6s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 .trivia-header {
-  background-color: rgb(240, 240, 240);
-  padding: 10px;
-  height: 120px;
+  background-color: rgba(240, 240, 240, 0.281);
+  padding: 20px;
+  height: 130px;
 }
 
 .th-name {
-  color: gray;
+  color: rgb(0, 0, 0);
   font-size: 2em;
   font-weight: bold;
-  line-height: 120px;
+  line-height: 90px;
 }
 
 .th-score {
   font-size: 1.5em;
   font-weight: bold;
-  line-height: 120px;
+  line-height: 90px;
 }
 
 .question-cat {
@@ -91,12 +136,18 @@ code {
 }
 
 .question-qst {
-  background-color: rgb(246, 246, 246);
+  background-color: rgba(246, 246, 246, 0.472);
   color: rgb(0, 16, 163);
-  font-size: 2.2em;
+  font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 20px;
   padding: 20px;
+  text-align: center;
+}
+
+.answers-list {
+  display: flex;
+  flex-direction: column;
 }
 
 .trivia-countdown {

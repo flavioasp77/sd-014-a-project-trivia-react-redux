@@ -7,8 +7,10 @@ class Trivia extends Component {
     return (
       <div>
         <div className="top-banner">Slumdog Milionaire by Group 10</div>
-        <Header />
-        <Questions />
+        <div className="bg-questions">
+          <Header />
+          <Questions />
+        </div>
       </div>
     );
   }

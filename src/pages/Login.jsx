@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { loginAction } from '../actions';
+import { loginAction, questionsAction } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -27,14 +27,16 @@ class Login extends React.Component {
   }
 
   async requestQuestions() {
+    const { saveQuestions } = this.props;
     const response1 = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response1.json();
     //  console.log(json);
     const response2 = await fetch(`https://opentdb.com/api.php?amount=5&token=${json.token}`);
     const questions = await response2.json();
-    //  console.log(questions);
+    console.log(questions);
     if (questions.response_code === 0) {
       localStorage.setItem('token', json.token);
+      saveQuestions(questions.results);
       return true;
     }
     return false;
@@ -119,11 +121,13 @@ class Login extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     sendLogin: (data) => dispatch(loginAction(data)),
+    saveQuestions: (data) => dispatch(questionsAction(data)),
   };
 }
 
 Login.propTypes = {
   sendLogin: PropTypes.func.isRequired,
+  saveQuestions: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

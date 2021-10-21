@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import './App.css';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
-import Jogo from './pages/Jogo';
+import Game from './pages/Game';
 
 export default function App() {
   return (
@@ -11,7 +11,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Settings } />
-        <Route exact path="/game" component={ Jogo } />
+        <Route exact path="/game" component={ Game } />
       </Switch>
     </main>
   );

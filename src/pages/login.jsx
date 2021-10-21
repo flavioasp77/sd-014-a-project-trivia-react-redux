@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
-import getToken from '../services/triviaAPI';
+import { getToken } from '../services/triviaAPI';
 
 import fetchGravatarAPI from '../services/gravatarAPI';
 import { setPlayer as setPlayerAction } from '../actions';

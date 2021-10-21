@@ -22,9 +22,9 @@ const TOKEN_INITIALSTATE = {
 
 export function requisitarToken(state = TOKEN_INITIALSTATE, action) {
   switch (action.type) {
-    case TOKEN_API:
-      return { ...state, token: action.payload }
-    default:
-      return state;
+  case TOKEN_API:
+    return { ...state, token: action.payload };
+  default:
+    return state;
   }
 }

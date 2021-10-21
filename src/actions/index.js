@@ -19,7 +19,7 @@ function falhaToken(payload) {
   return {
     type: FALHA_TOKEN,
     payload,
-  }
+  };
 }
 
 export function fetchApiTrivia() {
@@ -29,7 +29,7 @@ export function fetchApiTrivia() {
       const respostaApi = await resposta.json();
       dispatch(requisitarToken(respostaApi.token));
     } catch (error) {
-    return dispatch(falhaToken);
+      return dispatch(falhaToken);
     }
-  }
+  };
 }

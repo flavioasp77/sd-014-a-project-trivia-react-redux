@@ -4,13 +4,12 @@ import React, { Component } from 'react';
 class Settings extends Component {
   render() {
     return (
-      <div>
+      <div data-testid="settings-title" >
         <p>Ecio bolado 2</p>
       </div>
     );
   }
 }
-
 // Settings.propTypes = {
 
 // };

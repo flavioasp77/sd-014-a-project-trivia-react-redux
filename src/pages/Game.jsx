@@ -1,9 +1,69 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class Jogo extends React.Component {
+class Game extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      index: 0,
+    };
+  }
+
+  renderQuestions(objectQuestion) {
+    const { type, correct_answer, incorrect_answers } = objectQuestion;
+    if (type === 'boolean') {
+      return (
+        <>
+          <button data-testid="correct-answer">{ correct_answer }</button>
+          <button data-testid={`wrong-answer-0`}>{ incorrect_answers[0] }</button>
+        </>
+      );
+    }
+    return (
+      <>
+        <button data-testid="correct-answer">{ correct_answer }</button>
+        { incorrect_answers.map((incorrect, i) => (
+          <>
+            <br />
+            <button data-testid={`wrong-answer-${i}`} key={i}>{incorrect}</button>
+          </>
+        )) }
+      </>
+    );
+  }
+
   render() {
-    return (<section>Página de Jogo</section>);
+    const { arrayQuestions } = this.props;
+    const { index } = this.state;
+    console.log(arrayQuestions);
+    if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
+    const objectQuestion = arrayQuestions[index];
+    const { category, question } = objectQuestion;
+    console.log(arrayQuestions);
+    return (
+      <>
+        <section>
+          <section data-testid="question-category">{ category }</section>
+          <br />
+          <section data-testid="question-text">{ question }</section>
+          <br />
+          { this.renderQuestions(objectQuestion) }
+        </section>
+      </>
+    );
   }
 }
 
-export default Jogo;
+function mapStateToProps(state) {
+  return {
+    arrayQuestions: state.questionsReducer.questions,
+  };
+}
+
+Game.propTypes = {
+  arrayQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStateToProps, null)(Game);

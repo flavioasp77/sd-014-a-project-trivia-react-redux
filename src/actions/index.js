@@ -1,7 +1,8 @@
-import { fetchToken, saveTokenInLS } from '../services';
+import { fetchToken, saveTokenInLS, fetchTrivia } from '../services';
 
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
+export const ADD_TRIVIA = 'ADD_TRIVIA';
 export const GET_USER = 'GET_USER';
 
 export const getUserAction = (payload) => ({
@@ -19,6 +20,11 @@ export const handleErrorAction = (message) => ({
   payload: message,
 });
 
+export const addTrivia = (data) => ({
+  type: ADD_TRIVIA,
+  payload: data,
+});
+
 export const getTokenActionThunk = () => async (dispatch) => {
   try {
     const token = await fetchToken();
@@ -27,4 +33,17 @@ export const getTokenActionThunk = () => async (dispatch) => {
   } catch (message) {
     dispatch(handleErrorAction(message));
   }
+};
+
+export const getTriviaActionThunk = (token) => (dispatch) => {
+  fetchTrivia(token)
+    .then(({ results, response_code: code }) => {
+      console.log(code);
+      if (code === 0) {
+        dispatch(addTrivia(results));
+      } else {
+        dispatch(handleErrorAction('Token expirado, refaça seu login'));
+      }
+    })
+    .catch((error) => dispatch(handleErrorAction(error.message)));
 };

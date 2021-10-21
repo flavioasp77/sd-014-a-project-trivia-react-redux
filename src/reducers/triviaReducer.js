@@ -1,7 +1,7 @@
-import { ADD_TOKEN, HANDLE_ERROR } from '../actions';
+import { ADD_TOKEN, HANDLE_ERROR, ADD_TRIVIA } from '../actions';
 
 const INITIAL_STATE = {
-  questions: '',
+  questions: [],
   token: '',
   error: false,
   message: '',
@@ -16,6 +16,10 @@ const triviaReducer = (state = INITIAL_STATE, action) => {
   case HANDLE_ERROR:
     return {
       ...state, error: true, message: action.payload,
+    };
+  case ADD_TRIVIA:
+    return {
+      ...state, questions: action.payload,
     };
   default:
     return state;

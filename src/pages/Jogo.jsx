@@ -14,6 +14,7 @@ class Jogo extends Component {
     super();
     this.state = {
       secondsTimer: 30,
+      score: JSON.parse(localStorage.getItem('state')).player.score,
     };
     this.handleQuestions = this.handleQuestions.bind(this);
     this.answerButtons = this.answerButtons.bind(this);
@@ -63,9 +64,17 @@ class Jogo extends Component {
     });
   }
 
-  handleResponse() {
-    const { handleUserAnswer, setTimerGlobal } = this.props;
+  handleResponse({ target: { value } }) {
+    const { handleUserAnswer, state: { game: { answers } }, setTimerGlobal } = this.props;
     const { secondsTimer } = this.state;
+    const objFromLS = JSON.parse(localStorage.getItem('state'));
+    const response = answers[value];
+    const RIGHT_ANSWER = 10;
+    const result = response.isCorrect ? (RIGHT_ANSWER + (1 * response.difficulty)) : 0;
+    objFromLS.player.score = result;
+    objFromLS.player.assertions += result !== 0 ? 1 : 0;
+    localStorage.setItem('state', JSON.stringify(objFromLS));
+    this.setState({ score: objFromLS.player.score });
     handleUserAnswer();
     setTimerGlobal({ value: secondsTimer, stop: true });
   }
@@ -119,9 +128,10 @@ class Jogo extends Component {
 
   render() {
     const { state: { game: { questions, index, infoIsLoaded } } } = this.props;
+    const { score } = this.state;
     return (
       <main>
-        <Header />
+        <Header score={ score } />
         {infoIsLoaded && this.handleQuestions(questions, index)}
       </main>
     );

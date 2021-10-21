@@ -6,9 +6,7 @@ import PropTypes from 'prop-types';
 class Header extends Component {
   constructor() {
     super();
-    this.state = {
-      score: '0',
-    };
+    this.imgGravatar = this.imgGravatar.bind(this);
   }
 
   imgGravatar(email) {
@@ -18,8 +16,7 @@ class Header extends Component {
   }
 
   render() {
-    const { score } = this.state;
-    const { getEmail, getName } = this.props;
+    const { getEmail, getName, score } = this.props;
     return (
       <header>
         <img
@@ -37,6 +34,7 @@ class Header extends Component {
 Header.propTypes = {
   getEmail: PropTypes.string.isRequired,
   getName: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

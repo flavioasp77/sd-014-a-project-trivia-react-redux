@@ -2,7 +2,8 @@ import { LOGIN } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
-  name: '',
+  name: 'não informado',
+  image: 'https://www.gravatar.com/avatar/00000000000000000000000000000000',
 };
 
 export default function login(state = INITIAL_STATE, action) {

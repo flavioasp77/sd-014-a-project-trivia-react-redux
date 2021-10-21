@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetchToken from '../services/fetchToken';
 // import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -21,7 +22,12 @@ class Login extends Component {
   }
 
   handleClick() {
+    // const { history } = this.props;
+
+    fetchToken();
     console.log('click');
+
+    // history.push('/game');
   }
 
   render() {

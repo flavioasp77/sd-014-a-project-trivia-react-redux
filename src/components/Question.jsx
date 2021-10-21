@@ -49,7 +49,7 @@ class Question extends Component {
   }
 
   render() {
-    const { question, answers } = this.props;
+    const { question, answers, nextQuestion } = this.props;
     const { time, next } = this.state;
     return (
       <section>
@@ -77,6 +77,7 @@ class Question extends Component {
             <button
               type="button"
               data-testid="btn-next"
+              onClick={ nextQuestion }
             >
               Próxima
             </button>) }
@@ -97,6 +98,10 @@ Question.propTypes = {
   answers: PropTypes.shape({
     map: PropTypes.func,
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  nextQuestion: PropTypes.func.isRequired,
   question: PropTypes.shape({
     category: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,

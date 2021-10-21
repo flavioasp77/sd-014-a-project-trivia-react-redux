@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -37,10 +38,12 @@ class Game extends Component {
     const { index } = this.state;
     return (
       <div>
+        <Header />
         <QuestionCard
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }
         />
+
       </div>
     );
   }

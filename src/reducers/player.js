@@ -1,3 +1,5 @@
+import { ADD_USER } from '../actions';
+
 const INITIAL_STATE = {
   name: '',
   assertions: '',
@@ -7,6 +9,13 @@ const INITIAL_STATE = {
 
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case ADD_USER:
+    return {
+      ...state,
+      email: action.payload.email,
+      name: action.payload.name,
+      gravatarEmail: `https://www.gravatar.com/avatar/${action.generateHash}` };
+
   default:
     return state;
   }

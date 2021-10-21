@@ -27,7 +27,6 @@ const game = (state = INITIAL_STATE, action) => {
       answers: state.answers.map((item) => {
         item.border = item.isCorrect
           ? '3px solid rgb(6, 240, 15)' : '3px solid rgb(255, 0, 0)';
-        // index === action.payload
         item.isDisabled = true;
         return item;
       }),

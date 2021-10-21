@@ -48,7 +48,8 @@ class Questions extends Component {
       atualQuestion: nextQuestion,
       isClicked: false,
     });
-    
+  }
+
   isTimerIsZero() {
     this.setState({ condicion: true });
   }

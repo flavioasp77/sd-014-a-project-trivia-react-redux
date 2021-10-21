@@ -1,4 +1,7 @@
-import { HANDLE_ANSWER, SET_ANSWERS, SET_QUESTIONS, SET_TIMER } from '../actions/indexActions';
+import { HANDLE_ANSWER,
+  SET_ANSWERS,
+  SET_QUESTIONS,
+  SET_TIMER } from '../actions/indexActions';
 
 const INITIAL_STATE = {
   questions: [],

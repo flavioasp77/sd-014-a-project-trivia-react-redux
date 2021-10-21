@@ -63,7 +63,7 @@ class Jogo extends Component {
     });
   }
 
-  handleResponse({ target: { value } }) {
+  handleResponse() {
     const { handleUserAnswer, setTimerGlobal } = this.props;
     const { secondsTimer } = this.state;
     handleUserAnswer();

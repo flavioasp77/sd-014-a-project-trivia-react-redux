@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { loginPlayer as loginAction } from '../redux/actions';
 
 const EMAIL_PATTERN = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const NAME_PATTERN = /\w+/;
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
       name: '',
       gravatarEmail: '',
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { redirect, loginPlayer } = this.props;
+    loginPlayer(this.state);
+    redirect('/game');
   }
 
   disableButton({ name, gravatarEmail }) {
@@ -40,6 +52,7 @@ export default class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ this.disableButton(this.state) }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
@@ -48,3 +61,14 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  loginPlayer: (player) => dispatch(loginAction(player)),
+});
+
+Login.propTypes = {
+  loginPlayer: PropTypes.func.isRequired,
+  redirect: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

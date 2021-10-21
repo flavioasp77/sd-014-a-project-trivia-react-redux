@@ -9,6 +9,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleConfigBtn = this.handleConfigBtn.bind(this);
 
     this.state = {
       email: '',
@@ -22,6 +23,11 @@ class Login extends React.Component {
 
   handleDisabled(name, email) {
     return !(name && email);
+  }
+
+  handleConfigBtn() {
+    const { history } = this.props;
+    history.push('/config');
   }
 
   handleSubmit(event) {
@@ -67,6 +73,13 @@ class Login extends React.Component {
 
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleConfigBtn }
+        >
+          Configurações
+        </button>
       </div>
     );
   }
@@ -75,6 +88,7 @@ class Login extends React.Component {
 Login.propTypes = {
   fetchToken: PropTypes.func.isRequired,
   userLogin: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

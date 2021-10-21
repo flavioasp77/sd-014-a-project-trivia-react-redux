@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class Header extends Component {
+class Header extends Component { // comentario
   render() {
     const { img, nome } = this.props;
     return (

@@ -4,6 +4,7 @@ export const USER_NAME = 'USER_NAME';
 export const LOGIN = 'LOGIN';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
+export const GET_GRAVATAR = 'GET_GRAVATAR';
 
 export const login = (email, name) => ({ type: LOGIN, payload: { email, name } });
 
@@ -12,6 +13,8 @@ export const login = (email, name) => ({ type: LOGIN, payload: { email, name } }
 const getToken = (token) => ({ type: GET_TOKEN, payload: { token } });
 
 const getQuestions = (questions) => ({ type: GET_QUESTIONS, questions });
+
+export const getGravatar = (image) => ({ type: GET_GRAVATAR, payload: image });
 
 export const getTokenThunk = () => async (dispatch) => {
   const TOKEN_URL = 'https://opentdb.com/api_token.php?command=request';

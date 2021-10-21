@@ -3,12 +3,16 @@ const generateRandomAnswers = (questions, index) => {
   answers.splice(Math.floor(Math.random() * ((questions.length - 1) - 0)),
     0, questions[index].correct_answer);
   const arrayAnswers = [];
+  const HARD = 3;
   answers.map((item) => {
     arrayAnswers.push({
       item,
       border: '',
       isDisabled: false,
       isCorrect: item === questions[index].correct_answer,
+      difficulty: (questions[index].difficulty === 'easy' && 1)
+      || (questions[index].difficulty === 'medium' && 2)
+      || (questions[index].difficulty === 'hard' && HARD),
     });
     return item;
   });

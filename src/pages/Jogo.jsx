@@ -10,6 +10,7 @@ import generateRandomAnswers from '../helpers';
 class Jogo extends Component {
   constructor() {
     super();
+    this.state = { score: JSON.parse(localStorage.getItem('state')).player.score };
     this.handleQuestions = this.handleQuestions.bind(this);
     this.answerButtons = this.answerButtons.bind(this);
     this.handleResponse = this.handleResponse.bind(this);
@@ -56,9 +57,16 @@ class Jogo extends Component {
   }
 
   handleResponse({ target: { value } }) {
-    const { handleUserAnswer } = this.props;
-    const response = value;
-    handleUserAnswer(response);
+    const { handleUserAnswer, state: { game: { answers } } } = this.props;
+    const objFromLS = JSON.parse(localStorage.getItem('state'));
+    const response = answers[value];
+    const RIGHT_ANSWER = 10;
+    const result = response.isCorrect ? (RIGHT_ANSWER + (1 * response.difficulty)) : 0;
+    objFromLS.player.score = result;
+    objFromLS.player.assertions += result !== 0 ? 1 : 0;
+    localStorage.setItem('state', JSON.stringify(objFromLS));
+    this.setState({ score: objFromLS.player.score });
+    handleUserAnswer();
   }
 
   handleQuestions(questions, index) {
@@ -81,9 +89,10 @@ class Jogo extends Component {
 
   render() {
     const { state: { game: { questions, index, infoIsLoaded } } } = this.props;
+    const { score } = this.state;
     return (
       <main>
-        <Header />
+        <Header score={ score } />
         {infoIsLoaded && this.handleQuestions(questions, index)}
       </main>
     );
@@ -103,7 +112,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setAnswers: (payload) => dispatch(setAnswersAction(payload)),
-  handleUserAnswer: (payload) => dispatch(handleUserAnswerAction(payload)),
+  handleUserAnswer: () => dispatch(handleUserAnswerAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

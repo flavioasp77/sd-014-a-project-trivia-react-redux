@@ -27,6 +27,13 @@ class Login extends Component {
     const TIME = 2000;
     setUser({ name, email });
     setTokenAPI();
+    const objLocal = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+    localStorage.setItem('state', JSON.stringify(objLocal));
     setTimeout(() => history.push('/jogo'), TIME);
   }
 

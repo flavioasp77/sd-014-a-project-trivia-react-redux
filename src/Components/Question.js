@@ -4,7 +4,7 @@ import { decodeHTMLEntities } from '../helper';
 
 export default class Question extends Component {
   render() {
-    const { question, handleChoice } = this.props;
+    const { question, handleChoice, handleDisabled } = this.props;
     const correct = question.correct_answer;
     const incorrect = question.incorrect_answers; // array
     console.log(correct);
@@ -27,6 +27,7 @@ export default class Question extends Component {
               answer === correct ? 'correct' : 'wrong'
             }
             onClick={ handleChoice }
+            disabled={ handleDisabled() }
           >
             {decodeHTMLEntities(answer)}
           </button>
@@ -39,6 +40,7 @@ export default class Question extends Component {
 Question.propTypes = {
   question: PropTypes.objectOf(PropTypes.any).isRequired,
   handleChoice: PropTypes.func.isRequired,
+  handleDisabled: PropTypes.func.isRequired,
 };
 
 // category: "Geography"

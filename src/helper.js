@@ -54,3 +54,6 @@ export function decodeHTMLEntities(text) {
 }
 
 export const ONE_SECOND = 1000;
+export const CLOCK_TIME = 30;
+export const INCREASER = 1;
+export const DECREASER = 1;

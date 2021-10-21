@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import Question from '../Components/Question';
 
-import { fetchTriviaQuestions, ONE_SECOND } from '../helper';
+import {
+  fetchTriviaQuestions,
+  ONE_SECOND,
+  CLOCK_TIME,
+  INCREASER,
+  DECREASER,
+} from '../helper';
 
 class Game extends React.Component {
   constructor(props) {
@@ -14,7 +20,7 @@ class Game extends React.Component {
       questions: [],
       question: {},
       index: 0,
-      clock: 10,
+      clock: CLOCK_TIME,
       answered: false,
     };
   }
@@ -31,9 +37,9 @@ class Game extends React.Component {
     const { questions } = this.state;
     this.setState((prev) => ({
       answered: false,
-      index: prev.index + 1,
-      clock: 10,
-      question: questions[prev.index + 1],
+      index: prev.index + INCREASER,
+      clock: CLOCK_TIME,
+      question: questions[prev.index + INCREASER],
     }), () => {
       document.querySelectorAll('.wrong').forEach((button) => {
         button.removeAttribute('style');
@@ -63,8 +69,13 @@ class Game extends React.Component {
         return;
       }
 
-      this.setState((prev) => ({ clock: prev.clock - 1 }));
+      this.setState((prev) => ({ clock: prev.clock - DECREASER }));
     }, ONE_SECOND);
+  }
+
+  disableButton = () => {
+    const { clock, answered } = this.state;
+    return (clock === 0 || answered);
   }
 
   highlightAnswers = () => {
@@ -98,6 +109,7 @@ class Game extends React.Component {
         <Question
           question={ question }
           handleChoice={ this.handleChoice }
+          handleDisabled={ this.disableButton }
         />
         { this.nextQuestionButton() }
         <p>{clock}</p>

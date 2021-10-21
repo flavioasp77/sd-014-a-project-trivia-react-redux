@@ -1,16 +1,36 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import fetchApi from '../services/triviaApi';
+// import Buttons from './Buttons';
 
 class Questions extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      questions: [],
+    };
+    this.updateState = this.updateState.bind(this);
+  }
+
   componentDidMount() {
     const { callApi } = this.props;
     callApi();
+    this.updateState();
+  }
+
+  updateState() {
+    const { questionResults } = this.props;
+    this.setState({
+      questions: questionResults,
+    });
   }
 
   render() {
     const { questionResults } = this.props;
+    console.log(questionResults[0]);
     return (
       <div>
         <section>
@@ -22,7 +42,7 @@ class Questions extends Component {
           <p data-testid="question-text">Pergunta</p>
         </section>
         <section>
-          Map para os Botões
+          {/* <Buttons questions={ questionResults } /> */}
         </section>
       </div>
     );
@@ -34,7 +54,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  questionResults: state.questions.results,
+  questionResults: state.questions.questions.results,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

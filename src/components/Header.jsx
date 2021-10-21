@@ -16,7 +16,7 @@ class Header extends React.Component {
     this.getGravatarImage();
   }
 
-  async getGravatarImage() {
+  getGravatarImage() {
     const { gravatarEmail } = this.props;
     const person = md5(gravatarEmail).toString();
     const gravatarImage = `https://www.gravatar.com/avatar/${person}`;

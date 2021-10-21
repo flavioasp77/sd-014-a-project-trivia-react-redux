@@ -3,24 +3,24 @@ import { render, screen } from '@testing-library/react';
 import Feedback from '../pages/Feedback';
 import getGravatar from '../helpers/getGravatar';
 
-describe('Testa a página de Feedback', () => {
-  // Mockando localStorage
-  // https://javascript.plainenglish.io/testing-local-storage-with-testing-library-580f74e8805b
+// Mockando localStorage
+// https://javascript.plainenglish.io/testing-local-storage-with-testing-library-580f74e8805b
 
-  const mockData = {
-    player: {
-      name: 'Jonathan',
-      score: 0,
-      gravatarEmail: 'www.j0n4t@gmail.com',
-    },
-  };
+const mockData = {
+  player: {
+    name: 'Jonathan',
+    score: 0,
+    gravatarEmail: 'www.j0n4t@gmail.com',
+  },
+};
 
-  const gravatarURL = getGravatar(mockData.player.gravatarEmail);
+const gravatarURL = getGravatar(mockData.player.gravatarEmail);
 
-  Object.defineProperty(window, 'localStorage', {
-    value: { getItem: jest.fn(() => JSON.stringify(mockData)) },
-  });
+Object.defineProperty(window, 'localStorage', {
+  value: { getItem: jest.fn(() => JSON.stringify(mockData)) },
+});
 
+describe('Testa o Header da página de Feedback', () => {
   test('O header contém o nome do jogador', async () => {
     render(<Feedback />);
     const playerNameElement = screen.getByTestId('header-player-name');
@@ -36,5 +36,20 @@ describe('Testa a página de Feedback', () => {
     render(<Feedback />);
     const playerPictureElement = screen.getByTestId('header-profile-picture');
     expect(playerPictureElement).toHaveAttribute('src', gravatarURL);
+  });
+});
+
+describe('Testa o resultado "Podia ser melhor..." da tela de feedback', () => {
+  test('verifica pontuação no score', () => {
+    mockData.player.score = 2;
+    render(<Feedback />);
+    const score = screen.getByTestId('feedback-text');
+    expect(score).toHaveTextContent('Podia ser melhor...');
+  });
+  test('Testa o resultado "Mandou bem" da tela de feedback', () => {
+    mockData.player.score = 5;
+    render(<Feedback />);
+    const score2 = screen.getByTestId('feedback-text');
+    expect(score2).toHaveTextContent('Mandou bem!');
   });
 });

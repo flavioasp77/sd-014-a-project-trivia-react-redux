@@ -34,8 +34,13 @@ class Header extends React.Component {
     const { src } = this.state;
     return (
       <div>
-        <h2>{ `Olá, ${userName}` }</h2>
-        { src && <img src={ src } alt="userAvatar" /> }
+        <h2 data-testid="header-user-name">{ `Olá, ${userName}` }</h2>
+        { src && <img
+          data-testid="header-profile-picture"
+          src={ src }
+          alt="userAvatar"
+        /> }
+        <p data-testid="header-score">Seu placar: 0</p>
       </div>
     );
   }

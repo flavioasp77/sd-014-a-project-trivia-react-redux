@@ -5,6 +5,8 @@ import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
 import NextQuestionBtn from '../components/NextQuestionBtn';
+import Timer from '../components/Timer';
+import { timerAction } from '../actions';
 
 class Game extends Component {
   constructor() {
@@ -14,10 +16,13 @@ class Game extends Component {
       answered: false,
     };
     this.handleIndex = this.handleIndex.bind(this);
+    this.selectAnswer = this.selectAnswer.bind(this);
   }
 
   // correctAnswer
   handleIndex() {
+    const { decrementTime } = this.props;
+    decrementTime(localStorage.getItem('timer'));
     // const { index, score } = this.state;
     // const { questions } = this.props;
     // const points = 10;
@@ -25,8 +30,8 @@ class Game extends Component {
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
     correct.classList.add('correct');
-
     wrong.forEach((ans) => ans.classList.add('wrong'));
+    this.setState({ answered: true });
     // if (index < questions.length - 1) {
     //   this.setState({ index: index + 1 });
     // }
@@ -36,6 +41,13 @@ class Game extends Component {
     this.setState({
       answered: true,
     });
+  }
+
+  selectAnswer() {
+    const correct = document.querySelector('.correct-answer');
+    correct.disabled = true;
+    this.handleIndex();
+    clearInterval(localStorage.getItem('idInterval'));
   }
 
   render() {
@@ -49,19 +61,26 @@ class Game extends Component {
           handleIndex={ this.handleIndex }
         />
         {answered && <NextQuestionBtn />}
+        <Timer answered={ answered } callback={ this.selectAnswer } />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ questions }) => ({
+const mapStateToProps = ({ questions, timer }) => ({
   questions: questions.questions,
+  timer: timer.time,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  decrementTime: (time) => dispatch(timerAction(time)),
 });
 
 Game.propTypes = {
+  decrementTime: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
   })).isRequired,
 };
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

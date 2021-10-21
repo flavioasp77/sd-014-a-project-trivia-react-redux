@@ -35,6 +35,8 @@ class QuestionCard extends Component {
               type="button"
               onClick={ () => handleIndex(verify) }
               data-testid={ verify }
+              className={ /correct/.test(verify)
+                ? 'correct-answer' : 'wrong-answer' }
             >
               { item }
             </button>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 import Header from './Header';
 import { getQuestions } from '../services/triviaAPI';
+import '../styles/trivia.css';
 
 class Trivia extends Component {
   constructor(props) {
@@ -10,8 +11,10 @@ class Trivia extends Component {
       questions: [],
       index: 0,
       loading: true,
+      isClicked: false,
     };
     this.fetchAPI = this.fetchAPI.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -26,8 +29,15 @@ class Trivia extends Component {
     });
   }
 
+  handleClick() {
+    this.setState({
+      isClicked: true,
+    });
+    console.log('teste');
+  }
+
   answerMap() {
-    const { questions, index } = this.state;
+    const { questions, index, isClicked } = this.state;
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
@@ -36,11 +46,14 @@ class Trivia extends Component {
     const renderAnswers = answers.map((question, i) => {
       const answerLength = answers.length - 1;
       const test = (i === answerLength) ? 'correct-answer' : `wrong-answer-${i}`;
+      const test2 = isClicked ? test : '';
       return (
         <button
           type="button"
           data-testid={ test }
           key={ i }
+          className={ test2 }
+          onClick={ this.handleClick }
         >
           { question }
         </button>

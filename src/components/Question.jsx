@@ -44,7 +44,7 @@ class Question extends Component {
         data-testid={ `wrong-answer-${index}` }
         className="wrong"
         onClick={ this.handleClick }
-        disabled="false"
+        disabled={ false }
       >
         { answer }
       </button>));
@@ -54,7 +54,7 @@ class Question extends Component {
         data-testid="correct-answer"
         className="correct"
         onClick={ this.handleClick }
-        disabled="false"
+        disabled={ false }
       >
         {question.correct_answer}
       </button>);

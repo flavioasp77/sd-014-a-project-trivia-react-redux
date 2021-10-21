@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class FeedbackHeader extends React.Component {
+class Header extends React.Component {
   render() {
     const { pictureURL, name, score } = this.props;
     return (
@@ -18,10 +18,10 @@ class FeedbackHeader extends React.Component {
   }
 }
 
-FeedbackHeader.propTypes = {
+Header.propTypes = {
   pictureURL: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
 };
 
-export default FeedbackHeader;
+export default Header;

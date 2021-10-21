@@ -16,8 +16,8 @@ class MainPage extends React.Component {
     this.questRequest();
   }
 
-  questRequest() {
-    const token = localStorage.getItem('token');
+  async questRequest() {
+    const token = await localStorage.getItem('token');
     try {
       fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
         .then((request) => request.json())
@@ -37,25 +37,36 @@ class MainPage extends React.Component {
       <main>
         <Header />
         {questions.map((question, index) => (
-          <section key={ index }>
-            <p data-testid="question-category">{question.category}</p>
-            <p data-testid="question-text">{question.question}</p>
-            <button
-              data-testid="correct-answer"
-              type="button"
-            >
-              {question.correct_answer}
+          <div key={ index }>
+            <p>
+              Category:
+              <span data-testid="question-category">{question.category}</span>
+            </p>
+            <p>
+              Question:
+              <span data-testid="question-text">{question.question}</span>
+            </p>
+            <ul>
+              <li>
+                <button
+                  data-testid="correct-answer"
+                  type="button"
+                >
+                  { question.correct_answer }
+                </button>
+              </li>
+              {question.incorrect_answers.map((incorrect, ind) => (
+                <li key={ ind }>
 
-            </button>
-            {question.incorrect_answers.map((incorrect, ind) => (
-              <button
-                data-testid={ `wrong-answer-${ind}` }
-                type="button"
-                key={ ind }
-              >
-                {incorrect}
-              </button>))}
-          </section>))}
+                  <button
+                    data-testid={ `wrong-answer-${ind}` }
+                    type="button"
+                  >
+                    {incorrect}
+                  </button>
+                </li>))}
+            </ul>
+          </div>))}
       </main>
     );
   }

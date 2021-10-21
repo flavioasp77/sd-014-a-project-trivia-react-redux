@@ -4,10 +4,10 @@ const INITIAL_STATE = {
   token: '',
 };
 
-export default function tokenReducer(state = INITIAL_STATE, { type, token }) {
-  switch (type) {
+export default function tokenReducer(state = INITIAL_STATE, action) {
+  switch (action.type) {
   case GET_TOKEN:
-    return token;
+    return { ...state, token: action.payload.token };
   default:
     return state;
   }

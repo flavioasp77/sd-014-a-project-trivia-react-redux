@@ -1,13 +1,15 @@
 import { LOGIN } from '../actions';
 
 const INITIAL_STATE = {
-  user: '',
+  email: '',
+  name: '',
 };
 
-export default function login(state = INITIAL_STATE, { type, user }) {
-  switch (type) {
+export default function login(state = INITIAL_STATE, action) {
+  // const { type, user } = action;
+  switch (action.type) {
   case LOGIN:
-    return user;
+    return { ...state, email: action.payload.email, name: action.payload.name };
   default:
     return state;
   }

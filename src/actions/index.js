@@ -5,11 +5,11 @@ export const LOGIN = 'LOGIN';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 
-export const login = (user) => ({ type: LOGIN, user });
+export const login = (email, name) => ({ type: LOGIN, payload: { email, name } });
 
-export const username = (name) => ({ type: USER_NAME, name });
+// export const username = (name) => ({ type: USER_NAME, name });
 
-const getToken = (token) => ({ type: GET_TOKEN, token });
+const getToken = (token) => ({ type: GET_TOKEN, payload: { token } });
 
 const getQuestions = (questions) => ({ type: GET_QUESTIONS, questions });
 

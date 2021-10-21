@@ -17,6 +17,7 @@ export const getTokenActionThunk = () => async (dispatch) => {
   try {
     const token = await fetchToken();
     dispatch(addTokenAction(token));
+    dispatch(handleErrorAction(''));
   } catch (message) {
     dispatch(handleErrorAction(message));
   }

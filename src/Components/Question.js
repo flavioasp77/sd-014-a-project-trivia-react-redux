@@ -22,6 +22,9 @@ export default class Question extends Component {
             data-testid={
               answer === correct ? 'correct-answer' : `wrong-answer-${index}`
             }
+            className={
+              answer === correct ? 'correct' : 'wrong'
+            }
             onClick={ handleChoice }
           >
             {answer}

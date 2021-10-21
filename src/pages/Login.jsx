@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import fetchToken from '../services/fetchToken';
+import settingsIcon from '../assets/settings.svg';
 // import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -12,7 +14,7 @@ class Login extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -21,7 +23,7 @@ class Login extends Component {
     });
   }
 
-  handleClick() {
+  handleLogin() {
     // const { history } = this.props;
 
     fetchToken();
@@ -59,11 +61,14 @@ class Login extends Component {
         <button
           type="button"
           disabled={ !(name && email) }
-          onClick={ this.handleClick }
+          onClick={ this.handleLogin }
           data-testid="btn-play"
         >
           Jogar
         </button>
+        <Link to="/settings" role="button" data-testid="btn-settings">
+          <img src={ settingsIcon } alt="Settings" />
+        </Link>
       </main>
     );
   }

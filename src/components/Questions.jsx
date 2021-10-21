@@ -86,8 +86,23 @@ class Questions extends React.Component {
     );
   }
 
+  renderNextButton() {
+    return (
+      <div className="d-flex justify-content-center">
+        <button
+          type="button"
+          className="next-btn"
+          onClick={ this.nextQuestion }
+          data-testid="btn-next"
+        >
+          Pŕoxima Questão
+        </button>
+      </div>
+    );
+  }
+
   render() {
-    const { allQst, id } = this.state;
+    const { allQst, id, answered } = this.state;
     if (allQst.length === 0) return <p>Loading...</p>;
     const allAnswers = [...allQst[id].incorrect_answers, allQst[id].correct_answer];
     this.shuffleQuestions(allAnswers);
@@ -104,35 +119,36 @@ class Questions extends React.Component {
             { ' ' }
             <span data-testid="question-text">{ allQst[id].question }</span>
           </p>
-          <button
-            type="button"
-            data-testid="correct-answer"
-            onClick={ this.questionAnswered }
-            className={ this.questionAnsweredClassName('correct') }
-            disabled={ this.questionCompleted() }
-          >
-            { allQst[id].correct_answer }
-          </button>
-          { allQst[id].incorrect_answers.map((incorrect, i) => (
-            <div key={ i }>
-              <button
-                type="button"
-                data-testid={ `wrong-answer-${i}` }
-                onClick={ this.questionAnswered }
-                className={ this.questionAnsweredClassName('incorrect') }
-                disabled={ this.questionCompleted() }
+          <div className="answers-list">
+            <button
+              type="button"
+              data-testid="correct-answer"
+              onClick={ this.questionAnswered }
+              className={ this.questionAnsweredClassName('correct') }
+              disabled={ this.questionCompleted() }
+            >
+              { allQst[id].correct_answer }
+            </button>
+            { allQst[id].incorrect_answers.map((incorrect, i) => (
+              <div
+                key={ i }
+                className="answers-list"
               >
-                { incorrect }
-              </button>
-            </div>
-          ))}
+                <button
+                  type="button"
+                  data-testid={ `wrong-answer-${i}` }
+                  onClick={ this.questionAnswered }
+                  className={ this.questionAnsweredClassName('incorrect') }
+                  disabled={ this.questionCompleted() }
+                >
+                  { incorrect }
+                </button>
+              </div>
+            ))}
+          </div>
           { this.renderCountDown() }
         </div>
-        <div className="d-flex justify-content-center">
-          <button type="button" className="next-btn" onClick={ this.nextQuestion }>
-            Pŕoxima Questão
-          </button>
-        </div>
+        { answered && this.renderNextButton() }
       </div>
     );
   }

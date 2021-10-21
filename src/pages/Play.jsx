@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchData as fetchDataAction } from '../actions';
+import Header from '../components/Header';
 import Question from '../components/Question';
 
 class Play extends Component {
@@ -28,7 +29,7 @@ class Play extends Component {
 
     return (
       <div>
-        <h1>Play</h1>
+        <Header />
         <Question data={ results[0] } />
       </div>
     );

@@ -10,10 +10,12 @@ class Question extends Component {
 
     this.state = {
       time: 30,
+      next: false,
     };
 
     this.setTime = this.setTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.buttonNext = this.buttonNext.bind(this);
   }
 
   componentDidMount() {
@@ -36,14 +38,19 @@ class Question extends Component {
     const { time } = this.state;
     const { question: { difficulty } } = this.props;
     endQuestion();
+    this.buttonNext();
     if (name === 'correct-answer') {
       sumScore(difficulty, time);
     }
   }
 
+  buttonNext() {
+    this.setState({ next: true });
+  }
+
   render() {
     const { question, answers } = this.props;
-    const { time } = this.state;
+    const { time, next } = this.state;
     return (
       <section>
         <div>
@@ -64,6 +71,15 @@ class Question extends Component {
               <Answer key={ index } answer={ answer } onClick={ this.handleClick } />
             )) }
           </ul>
+        </div>
+        <div>
+          { next && (
+            <button
+              type="button"
+              data-testid="btn-next"
+            >
+              Próxima
+            </button>) }
         </div>
         <div>
           <p>

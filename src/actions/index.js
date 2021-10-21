@@ -2,6 +2,12 @@ import { fetchToken, saveTokenInLS } from '../services';
 
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
+export const GET_USER = 'GET_USER';
+
+export const getUserAction = (payload) => ({
+  type: GET_USER,
+  payload,
+});
 
 export const addTokenAction = (token) => ({
   type: ADD_TOKEN,

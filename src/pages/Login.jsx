@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../Components/Button';
-import Input from '../Components/Input';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 class Login extends React.Component {
   constructor() {
@@ -43,7 +43,8 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-    const validation = !(this.emailValidation()) || name.length < 1;
+    const MIN_CARACTER = 2;
+    const validation = (!(this.emailValidation()) || name.length < MIN_CARACTER);
     return (
       <main>
         <Input
@@ -66,6 +67,7 @@ class Login extends React.Component {
             onClick={ this.handleClick }
             name={ name }
             emailValidation={ validation }
+            dataTestid="btn-play"
           />
         </Link>
       </main>

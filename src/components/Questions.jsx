@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../redux/actions';
+import NextBtn from './NextBtn';
 import './questions.css';
 
 class Questions extends Component {
@@ -76,6 +77,8 @@ class Questions extends Component {
             </button>
           ))}
         </div>
+        <br />
+        { isClicked && <NextBtn />}
       </main>
     );
   }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { getToken } from '../actions';
-
 
 class Login extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Login extends Component {
     const response = await (await fetch('https://opentdb.com/api_token.php?command=request')).json();
     localStorage.setItem('token', response.token);
     const { token } = response;
-    actionToken(token);
+    await actionToken(token);
     history.push('/game');
   }
 
@@ -93,5 +93,10 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   actionToken: (token) => dispatch(getToken(token)),
 });
+
+Login.propTypes = {
+  actionToken: PropTypes.func.isRequired,
+  history: PropTypes.objectOf({}).isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -5,24 +5,46 @@ import { questionApiThunk } from '../redux/actions';
 import './questions.css';
 
 class Questions extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isClicked: false,
+      order: '',
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     const { token, getQuestion } = this.props;
     getQuestion(token);
+    this.shufflebuttons();
   }
 
   shufflebuttons() {
     const ANSWER_NUMBER = 4;
-    return (Math.floor(Math.random() * ANSWER_NUMBER)).toString();
+    const randomBtn = Math.floor(Math.random() * ANSWER_NUMBER).toString();
+    this.setState({
+      order: randomBtn,
+    });
+  }
+
+  handleClick() {
+    this.setState({
+      isClicked: true,
+    });
   }
 
   render() {
-    const { questions } = this.props;
     const CODE = 3;
-    if (questions.results === undefined) return <p>Carregando...</p>;
-    if (questions.response_code === CODE) {
+    const { questions } = this.props;
+    const { results, response_code: responseCode } = questions;
+    const { isClicked, order } = this.state;
+
+    if (results === undefined) return <p>Carregando...</p>;
+    if (responseCode === CODE) {
       return <p>O tempo expirou! Inicie o jogo novamente</p>;
     }
-    const { results } = questions;
+
     return (
       <main>
         <h2 data-testid="question-category">
@@ -35,8 +57,9 @@ class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            className="btn-answer"
-            style={ { order: this.shufflebuttons() } }
+            className={ isClicked ? 'correct' : null }
+            style={ { order } }
+            onClick={ this.handleClick }
           >
             { results[0].correct_answer }
           </button>
@@ -45,8 +68,9 @@ class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              className="btn-answer"
-              style={ { order: this.shufflebuttons() } }
+              className={ isClicked ? 'incorrect' : null }
+              style={ { order: index } }
+              onClick={ this.handleClick }
             >
               { answer }
             </button>
@@ -60,8 +84,8 @@ class Questions extends Component {
 Questions.propTypes = {
   getQuestion: PropTypes.func.isRequired,
   questions: PropTypes.shape({
-    response_code: PropTypes.number.isRequired,
-    results: PropTypes.arrayOf(PropTypes.object).isRequired,
+    response_code: PropTypes.number,
+    results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   token: PropTypes.string.isRequired,
 };

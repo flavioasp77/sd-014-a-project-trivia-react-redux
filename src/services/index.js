@@ -19,3 +19,7 @@ export const fetchToken = async () => {
 export const saveTokenInLS = (token) => {
   localStorage.setItem(TOKEN_KEY, token);
 };
+
+export const fetchTrivia = (token) => (
+  fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json()));

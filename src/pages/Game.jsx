@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import Questions from '../components/Questions';
 
 class Game extends Component {
   constructor() {
@@ -28,9 +29,6 @@ class Game extends Component {
     const hash = this.convertEmailtoHash(email);
 
     const source = await fetch(`https://www.gravatar.com/avatar/${hash}`);
-
-    console.log(source);
-
     this.setState({ source: source.url });
   }
 
@@ -48,7 +46,7 @@ class Game extends Component {
           />
           <div data-testid="header-score">0</div>
         </header>
-        <p>JOGO</p>
+        <Questions />
       </>
     );
   }

@@ -16,7 +16,7 @@ class Input extends Component {
 
     return (
       <label htmlFor={ id }>
-        { label }
+        <h5>{ label }</h5>
         <input
           type={ type }
           name={ name }

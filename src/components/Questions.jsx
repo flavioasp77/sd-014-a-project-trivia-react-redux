@@ -1,5 +1,9 @@
 import React from 'react';
-import Countdown from 'react-countdown';
+
+const MILISECONDS = 1000;
+const NUMBER_10 = 10;
+const NUMBER_3 = 3;
+const TOTAL_QUESTIONS = 4;
 
 class Questions extends React.Component {
   constructor() {
@@ -8,17 +12,27 @@ class Questions extends React.Component {
       allQst: [],
       answered: false,
       id: 0,
+      seconds: 30,
+      difficulty: '',
     };
+    this.timer = 0;
+    this.countDown = this.countDown.bind(this);
+    this.renderCountDown = this.renderCountDown.bind(this);
     this.getQuestions = this.getQuestions.bind(this);
-    this.questionAnswered = this.questionAnswered.bind(this);
     this.questionAnsweredClassName = this.questionAnsweredClassName.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
-    this.renderCountDown = this.renderCountDown.bind(this);
+    this.handleState = this.handleState.bind(this);
+    this.handleScore = this.handleScore.bind(this);
+    this.renderParagraphs = this.renderParagraphs.bind(this);
   }
 
   componentDidMount() {
     this.getQuestions();
+    const { seconds } = this.state;
+    if (this.timer === 0 && seconds > 0) {
+      this.timer = setInterval(this.countDown, MILISECONDS);
+    }
   }
 
   async getQuestions() {
@@ -27,6 +41,22 @@ class Questions extends React.Component {
     const json = await fetchQuestions.json();
     const { results } = json;
     this.setState({ allQst: results });
+  }
+
+  countDown() {
+    const { answered, seconds } = this.state;
+    if (!answered) {
+      if (seconds === 0) {
+        clearInterval(this.timer);
+        this.setState({ answered: true });
+      } else {
+        this.setState({ seconds: seconds - 1 });
+      }
+    }
+  }
+
+  handleState() {
+    this.setState({ answered: true });
   }
 
   shuffleQuestions(array) {
@@ -45,41 +75,58 @@ class Questions extends React.Component {
     return array;
   }
 
-  questionAnswered() {
-    this.setState({
-      answered: true,
-    });
-  }
-
   questionAnsweredClassName(className) {
     const { answered } = this.state;
     return answered ? className : 'secret';
   }
 
-  questionCompleted() {
-    const { answered } = this.state;
-    return answered;
+  nextQuestion() {
+    const { id, seconds } = this.state;
+    if (id === TOTAL_QUESTIONS) {
+      window.open('/feedback', '_self');
+    }
+    if (id !== TOTAL_QUESTIONS) {
+      this.setState({
+        id: id + 1,
+        answered: false,
+        seconds: 30,
+      });
+      this.countDown();
+      if (seconds === 0) {
+        this.timer = setInterval(this.countDown, MILISECONDS);
+      }
+    }
   }
 
-  nextQuestion() {
-    const { id } = this.state;
-    this.setState({
-      id: id + 1,
-      answered: false,
+  async handleScore() {
+    this.handleState();
+    const { allQst, id, seconds, difficulty } = this.state;
+    await this.setState({
+      difficulty: allQst[id].difficulty,
     });
+    const state = JSON.parse(localStorage.getItem('state'));
+    switch (difficulty) {
+    case 'easy':
+      state.score += NUMBER_10 + (seconds);
+      break;
+    case 'medium':
+      state.score += NUMBER_10 + (seconds * 2);
+      break;
+    case 'hard':
+      state.score += NUMBER_10 + (seconds * NUMBER_3);
+      break;
+    default: return;
+    }
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   renderCountDown() {
-    const waiting = 30000;
+    const { seconds } = this.state;
     return (
       <p className="my-4 trivia-countdown">
         Hurry up! You have
         { ' ' }
-        <Countdown
-          date={ Date.now() + waiting }
-          onComplete={ this.questionAnswered }
-          className="trivia-countdown-time"
-        />
+        { seconds }
         { ' ' }
         seconds left!
       </p>
@@ -101,6 +148,23 @@ class Questions extends React.Component {
     );
   }
 
+  renderParagraphs(category, question) {
+    return (
+      <>
+        <p className="question-cat">
+          Category:
+          { ' ' }
+          <span data-testid="question-category">{ category }</span>
+        </p>
+        <p className="question-qst">
+          Question:
+          { ' ' }
+          <span data-testid="question-text">{ question }</span>
+        </p>
+      </>
+    );
+  }
+
   render() {
     const { allQst, id, answered } = this.state;
     if (allQst.length === 0) return <p>Loading...</p>;
@@ -109,23 +173,14 @@ class Questions extends React.Component {
     return (
       <div className="trivia-main">
         <div>
-          <p className="question-cat">
-            Category:
-            { ' ' }
-            <span data-testid="question-category">{ allQst[id].category }</span>
-          </p>
-          <p className="question-qst">
-            Question:
-            { ' ' }
-            <span data-testid="question-text">{ allQst[id].question }</span>
-          </p>
+          { this.renderParagraphs(allQst[id].category, allQst[id].question)}
           <div className="answers-list">
             <button
               type="button"
               data-testid="correct-answer"
-              onClick={ this.questionAnswered }
+              onClick={ this.handleScore }
               className={ this.questionAnsweredClassName('correct') }
-              disabled={ this.questionCompleted() }
+              disabled={ answered }
             >
               { allQst[id].correct_answer }
             </button>
@@ -137,9 +192,9 @@ class Questions extends React.Component {
                 <button
                   type="button"
                   data-testid={ `wrong-answer-${i}` }
-                  onClick={ this.questionAnswered }
+                  onClick={ this.handleScore }
                   className={ this.questionAnsweredClassName('incorrect') }
-                  disabled={ this.questionCompleted() }
+                  disabled={ answered }
                 >
                   { incorrect }
                 </button>

@@ -6,11 +6,11 @@ class Trivia extends Component {
   render() {
     return (
       <div>
-        <div className="top-banner">Slumdog Milionaire by Group 10</div>        
+        <div className="top-banner">Slumdog Milionaire by Group 10</div>
         <div className="bg-questions">
           <Header />
-          <Questions />  
-        </div>       
+          <Questions />
+        </div>
       </div>
     );
   }

@@ -1,19 +1,12 @@
 /* eslint-disable react/prop-types */
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { questionsInfoThunk as getQuestionInfo } from '../actions/index';
+import fetchApi from '../services/triviaApi';
 
 class Questions extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-    };
-  }
-
   componentDidMount() {
-    const { questionsDispatchAction } = this.props;
-    questionsDispatchAction();
+    const { callApi } = this.props;
+    callApi();
   }
 
   render() {
@@ -32,9 +25,7 @@ class Questions extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  questionsDispatchAction: () => (
-    dispatch(getQuestionInfo())
-  ),
+  callApi: (data) => dispatch(fetchApi(data)),
 });
 
 export default connect(null, mapDispatchToProps)(Questions);

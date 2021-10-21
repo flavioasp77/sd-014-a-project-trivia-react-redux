@@ -9,15 +9,8 @@ export const userInfo = (user, email) => ({
   },
 });
 
-export const questionsInfo = (questions) => ({ type: 'GET_CURR', data: questions });
+export const questionsInfo = (questions) => ({ type: QUESTIONS_INFO, data: questions });
 
-export const fetchApi = async () => {
-  // Puxa o token do localStorage
-  const token = localStorage.getItem('token');
-  const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
-  const response = await request.json();
-  return response.results;
-};
 // export const questionsInfo = (response) => ({
 //   type: QUESTIONS_INFO,
 //   payload: {

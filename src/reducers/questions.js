@@ -9,7 +9,7 @@ function user(state = INITIAL_STATE, action) {
   case QUESTIONS_INFO:
     return {
       ...state,
-      game: action.payload.data,
+      questions: action.data,
     };
   default:
     return state;

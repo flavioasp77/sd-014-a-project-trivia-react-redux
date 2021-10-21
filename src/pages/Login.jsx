@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { getTokenThunk, login as loginAction } from '../actions';
 
 class Login extends Component {
@@ -10,7 +10,7 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      nome: '',
+      name: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,16 +27,19 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { userToken } = this.props;
+    const { email, name } = this.state;
+    const { sendToken, login } = this.props;
 
-    console.log(userToken);
+    login(email, name);
+
+    sendToken();
   }
 
   render() {
-    const { email, nome } = this.state;
-    const { sendToken, login } = this.props;
+    const { email, name } = this.state;
+    const { userToken } = this.props;
     return (
-      <form onSubmit={ () => sendToken() }>
+      <form onSubmit={ this.handleSubmit }>
         <label htmlFor="email">
           {'Email: '}
           <input
@@ -51,44 +54,38 @@ class Login extends Component {
           {'Nome: '}
           <input
             data-testid="input-player-name"
-            value={ nome }
-            name="nome"
+            value={ name }
+            name="name"
             type="text"
             onChange={ this.handleChange }
           />
         </label>
-        <Link
-          to="/jogo"
-          style={ !(email && nome) ? { pointerEvents: 'none' } : null }
+        <button
+          type="submit"
+          data-testid="btn-play"
+          disabled={ !(email && name) }
         >
-          <button
-            type="submit"
-            data-testid="btn-play"
-            disabled={ !(email && nome) }
-            onClick={ () => login() }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button type="button" data-testid="btn-settings">Configurações</button>
-        </Link>
+          Jogar
+        </button>
+        { userToken && <Redirect to="/jogo" /> }
       </form>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (email) => dispatch(loginAction(email)),
+  login: (email, name) => dispatch(loginAction(email, name)),
   sendToken: () => dispatch(getTokenThunk()),
 });
 
 const mapStateToProps = (state) => ({
-  userToken: state.tokenReducer.token,
+  userToken: state.token.token,
 });
 
 Login.propTypes = {
   userToken: PropTypes.string.isRequired,
+  sendToken: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -3,8 +3,8 @@ import login from './login';
 import tokenReducer from './token';
 
 const rootReducer = combineReducers({
-  login,
-  tokenReducer,
+  user: login,
+  token: tokenReducer,
 });
 
 export default rootReducer;

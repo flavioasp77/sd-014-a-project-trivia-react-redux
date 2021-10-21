@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class TimeOut extends Component {
+class TimeOut extends Component {
   constructor() {
     super();
 

@@ -8,4 +8,12 @@ export function fetchAPI() {
   }
 }
 
+const requestQuestion = async (token) => {
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+  const { results } = await response.json();
+  return results;
+};
+
 export default fetchAPI;
+
+export { requestQuestion };

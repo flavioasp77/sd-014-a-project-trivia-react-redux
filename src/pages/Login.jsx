@@ -43,12 +43,12 @@ class Login extends Component {
 
   showButtons() {
     return (
-      <>
+      <div className="d-flex justify-content-center">
         <button
           type="button"
           disabled={ this.checkInputs() }
           onClick={ this.handleClick }
-          className="btn btn-dark"
+          className="mx-2 btn btn-dark"
           data-testid="btn-play"
         >
           Jogar
@@ -56,19 +56,20 @@ class Login extends Component {
         <button
           type="button"
           data-testid="btn-settings"
-          className="btn btn-dark"
+          className="mx-2 btn btn-dark"
         >
           <Link to="/settings">&#128295;</Link>
         </button>
-      </>
+      </div>
     );
   }
 
   render() {
     const { name, email } = this.state;
     return (
-      <form>
-        <div className="mb-3">
+      <form className="main-login">
+        <div className="my-5 align-self-center main-title">Slumdog Milionaire</div>
+        <div className="mb-3 align-self-center">
           <label htmlFor="email">
             Type in your best e-mail
             <input
@@ -83,7 +84,7 @@ class Login extends Component {
             />
           </label>
         </div>
-        <div className="mb-3">
+        <div className="mb-3 align-self-center">
           <label htmlFor="name">
             Choose a nice Screen Name
             <input

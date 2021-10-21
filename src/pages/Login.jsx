@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { loginAction } from '../actions';
+import '../utils/localstorage';
 
 class Login extends React.Component {
   constructor() {
@@ -29,10 +30,8 @@ class Login extends React.Component {
   async requestQuestions() {
     const response1 = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response1.json();
-    //  console.log(json);
     const response2 = await fetch(`https://opentdb.com/api.php?amount=5&token=${json.token}`);
     const questions = await response2.json();
-    //  console.log(questions);
     if (questions.response_code === 0) {
       localStorage.setItem('token', json.token);
       return true;
@@ -48,6 +47,16 @@ class Login extends React.Component {
       email,
       name,
     };
+
+    const player = {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    };
+
+    localStorage.setObj('state', player);
+
     const response = await this.requestQuestions();
 
     if (response) {

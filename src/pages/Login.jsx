@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -13,7 +14,7 @@ class login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
-    /* this.handleClick = this.handleClick.bind(this); */
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -28,11 +29,25 @@ class login extends Component {
     return true;
   }
 
+  async handleClick() {
+    try {
+      const response = await fetch('https://opentdb.com/api_token.php?command=request');
+      const JSONObject = await response.json();
+      const token = await JSONObject.token;
+      localStorage.setItem('token', token);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   render() {
     const { username, email } = this.state;
     return (
       <div className="App">
         <div className="App-header">
+          <Link to="/settings" data-testid="btn-settings">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/settings-3.png" alt="configurações" />
+          </Link>
           <img className="App-logo" src={ logo } alt="logo" />
           <form>
             <label htmlFor="name">
@@ -57,14 +72,16 @@ class login extends Component {
                 onChange={ this.handleChange }
               />
             </label>
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handleClick }
-              disabled={ this.validateEmail() }
-            >
-              Jogar
-            </button>
+            <Link to="/game">
+              <button
+                type="button"
+                data-testid="btn-play"
+                onClick={ this.handleClick }
+                disabled={ this.validateEmail() }
+              >
+                Jogar
+              </button>
+            </Link>
           </form>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export default class ConfigPage extends Component {
+export default class Header extends Component {
   render() {
     return (
       <div>
-        CONFIGURATIONS
+        Header
       </div>
     );
   }

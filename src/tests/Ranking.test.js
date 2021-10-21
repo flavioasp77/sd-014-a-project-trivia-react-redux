@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-test('', () => {});
-=======
 import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithRouter from '../helpers/renderWithRouter';
@@ -53,4 +50,3 @@ describe('Testa a página de Ranking', () => {
     expect(goToHomeButton).toBeInTheDocument();
   });
 });
->>>>>>> origin/main-group-1-ranking

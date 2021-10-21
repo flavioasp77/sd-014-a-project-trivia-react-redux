@@ -1,7 +1,5 @@
 import React from 'react';
 import Header from '../components/Header';
-
-import Header from '../components/Header';
 import QuestionCard from '../components/QuestionCard';
 import opentdbAPI from '../services/opentdbAPI';
 import Loading from '../components/Loading';

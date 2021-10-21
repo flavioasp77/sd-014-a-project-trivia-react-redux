@@ -48,4 +48,4 @@ Feedback.propTypes = {
   totalQuestion: propTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(null, mapStateToProps)(Feedback);

@@ -36,11 +36,12 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { getToken, getUser } = this.props;
+    const { getToken, getUser, history } = this.props;
     const { name, email } = this.state;
 
     getToken();
     getUser({ name, email });
+    history.push('/game');
   }
 
   render() {
@@ -92,6 +93,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  history: PropTypes.func.isRequired,
   getUser: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   getToken: PropTypes.func.isRequired,

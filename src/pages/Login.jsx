@@ -1,47 +1,48 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addLoginUser, fetchGetToken } from '../actions';
+import {
+  loginUser as loginUserAction,
+  fetchGetToken as fetchGetTokenAction,
+} from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleConfigBtn = this.handleConfigBtn.bind(this);
-
     this.state = {
       email: '',
       name: '',
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.onLogin = this.onLogin.bind(this);
   }
 
-  handleChange({ target: { value, name } }) {
-    this.setState({ [name]: value });
+  componentDidMount() {
+    const { fetchGetToken } = this.props;
+    fetchGetToken();
+  }
+
+  onLogin() {
+    const { history, loginUser } = this.props;
+    loginUser(this.state);
+    history.push('/play');
   }
 
   handleDisabled(name, email) {
     return !(name && email);
   }
 
-  handleConfigBtn() {
-    const { history } = this.props;
-    history.push('/config');
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const { userLogin, fetchToken, history } = this.props;
-    fetchToken();
-    userLogin(this.state);
-    history.push('/play');
+  handleChange({ target: { value, name } }) {
+    this.setState({ [name]: value });
   }
 
   render() {
     const { name, email } = this.state;
     return (
       <div>
-        <form onSubmit={ this.handleSubmit }>
+        <h1>Login</h1>
+        <form>
           <label htmlFor="name">
             Nome
             <input
@@ -65,34 +66,36 @@ class Login extends React.Component {
             />
           </label>
           <button
-            type="submit"
+            type="button"
             data-testid="btn-play"
             disabled={ this.handleDisabled(name, email) }
+            onClick={ this.onLogin }
           >
             Jogar
           </button>
         </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.handleConfigBtn }
-        >
-          Configurações
-        </button>
+        <br />
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
 Login.propTypes = {
-  fetchToken: PropTypes.func.isRequired,
-  userLogin: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  fetchGetToken: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: (value) => dispatch(addLoginUser(value)),
-  fetchToken: () => dispatch(fetchGetToken()),
+  fetchGetToken: () => dispatch(fetchGetTokenAction()),
+  loginUser: (value) => dispatch(loginUserAction(value)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

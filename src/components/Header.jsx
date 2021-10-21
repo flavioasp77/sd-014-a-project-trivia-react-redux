@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { addLoginUser } from '../actions';
 
 class Header extends Component {
   render() {
     const { name, email } = this.props;
-    const hashGerada = md5(email.trim().toLowerCase()).toString();
-    const gravatarAvatar = `https://www.gravatar.com/avatar/${hashGerada}`;
+    const hash = md5(email.trim().toLowerCase()).toString();
+    const gravatar = `https://www.gravatar.com/avatar/${hash}`;
 
     return (
       <header>
         <img
           data-testid="header-profile-picture"
-          src={ gravatarAvatar }
-          alt="Player"
+          src={ gravatar }
+          alt="Player Gravatar"
         />
         <span data-testid="header-player-name">
           Jogador:
@@ -27,20 +26,14 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {
-  email: PropTypes.shape({
-    trim: PropTypes.func,
-  }),
-  name: PropTypes.string,
-}.isRequired;
-
 const mapStateToProps = (state) => ({
   name: state.user.name,
   email: state.user.email,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  userInfo: (payload) => dispatch(addLoginUser(payload)),
-});
+Header.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

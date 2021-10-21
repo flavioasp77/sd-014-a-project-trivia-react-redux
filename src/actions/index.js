@@ -1,4 +1,4 @@
-import fetchToken from '../services';
+import { fetchToken } from '../services';
 
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';

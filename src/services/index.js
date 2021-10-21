@@ -1,4 +1,6 @@
-export default fetchToken = async () => {
+const TOKEN_KEY = 'token';
+
+export const fetchToken = async () => {
   try {
     const tokenRaw = await fetch('https://opentdb.com/api_token.php?command=request');
     const { token, response_code: code } = tokenRaw;
@@ -7,4 +9,8 @@ export default fetchToken = async () => {
   } catch (error) {
     return Promise.reject(error.message);
   }
+};
+
+export const saveTokenInLS = (token) => {
+  localStorage.setItem(TOKEN_KEY, token);
 };

@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 import {
   handleUserAnswer as handleUserAnswerAction,
   nextQuestion as nextQuestionAction, setAnswers as setAnswersAction,
+  handleUserAnswer as handleUserAnswerAction, setAnswers as setAnswersAction,
+  setTimer,
 } from '../actions/indexActions';
 import generateRandomAnswers from '../helpers';
 
@@ -14,16 +17,21 @@ class Jogo extends Component {
     this.state = {
       score: JSON.parse(localStorage.getItem('state')).player.score,
       nextQuestion: false,
+      secondsTimer: 30,
+      score: JSON.parse(localStorage.getItem('state')).player.score,
     };
     this.handleQuestions = this.handleQuestions.bind(this);
     this.answerButtons = this.answerButtons.bind(this);
     this.handleResponse = this.handleResponse.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
+    this.decrementTimer = this.decrementTimer.bind(this);
+    this.timer = this.timer.bind(this);
   }
 
   componentDidMount() {
     const { state: { game: { questions, index } }, setAnswers } = this.props;
     setAnswers(generateRandomAnswers(questions, index));
+    this.timer();
   }
 
   answerButtons(questions, index) {
@@ -65,6 +73,8 @@ class Jogo extends Component {
     const {
       handleUserAnswer, state: { game: { answers } },
     } = this.props;
+    const { handleUserAnswer, state: { game: { answers } }, setTimerGlobal } = this.props;
+    const { secondsTimer } = this.state;
     const objFromLS = JSON.parse(localStorage.getItem('state'));
     const response = answers[value];
     const RIGHT_ANSWER = 10;
@@ -74,23 +84,31 @@ class Jogo extends Component {
     localStorage.setItem('state', JSON.stringify(objFromLS));
     this.setState({ score: objFromLS.player.score, nextQuestion: true });
     handleUserAnswer();
+    setTimerGlobal({ value: secondsTimer, stop: true });
   }
 
   handleQuestions(questions, index) {
+    const { state } = this.props;
+    const { secondsTimer } = this.state;
     return (
-      <section>
-        <h3 data-testid="question-category">
-          {questions[index].category}
-        </h3>
-        <p data-testid="question-text">
-          {questions[index].question}
-        </p>
-        <div id="answers">
-          <ul>
-            {this.answerButtons(questions, index)}
-          </ul>
-        </div>
-      </section>
+      <>
+        <Timer
+          secondsTimer={ state.game.timer.stop ? state.game.timer.value : secondsTimer }
+        />
+        <section>
+          <h3 data-testid="question-category">
+            {questions[index].category}
+          </h3>
+          <p data-testid="question-text">
+            {questions[index].question}
+          </p>
+          <div id="answers">
+            <ul>
+              {this.answerButtons(questions, index)}
+            </ul>
+          </div>
+        </section>
+      </>
     );
   }
 
@@ -101,6 +119,26 @@ class Jogo extends Component {
     return index + 1 !== questions.length
       ? setAnswers(generateRandomAnswers(questions, (index + 1)))
       : history.push('/feedback');
+  decrementTimer() {
+    this.setState((previous) => ({
+      secondsTimer: previous.secondsTimer - 1,
+    }));
+  }
+
+  timer() {
+    const { handleUserAnswer } = this.props;
+    const ONE_SECOND = 1000;
+    const timerInterval = setInterval(() => {
+      const { secondsTimer } = this.state; // garante o state atualizado
+      this.decrementTimer();
+      if (secondsTimer === 1) {
+        clearInterval(timerInterval);
+        handleUserAnswer();
+        // faz que a resposta seja incorreta
+      }
+    },
+    ONE_SECOND);
+    return timerInterval;
   }
 
   render() {
@@ -130,7 +168,7 @@ Jogo.propTypes = {
   handleUserAnswer: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   nextQuestion: PropTypes.func.isRequired,
-
+  setTimerGlobal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -141,6 +179,7 @@ const mapDispatchToProps = (dispatch) => ({
   setAnswers: (payload) => dispatch(setAnswersAction(payload)),
   handleUserAnswer: () => dispatch(handleUserAnswerAction()),
   nextQuestion: () => dispatch(nextQuestionAction()),
+  setTimerGlobal: (payload) => dispatch(setTimer(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

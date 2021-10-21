@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import getGravatar from '../helpers/getGravatar';
+import '../styles/Game.css';
 
 class Game extends React.Component {
   constructor() {

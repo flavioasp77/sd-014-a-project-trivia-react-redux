@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 class Jogo extends Component {
   constructor() {
@@ -64,8 +65,9 @@ class Jogo extends Component {
     const { state: { game: { questions, index, infoIsLoaded } } } = this.props;
     return (
       <main>
+      <Header />
         {infoIsLoaded && this.handleQuestions(questions, index)}
-      </main>
+        </main>
     );
   }
 }

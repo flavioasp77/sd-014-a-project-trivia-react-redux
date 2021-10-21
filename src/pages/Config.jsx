@@ -4,7 +4,7 @@ export default class Config extends React.Component {
   render() {
     return (
       <main id="config">
-        <h1>Config</h1>
+        <h1 data-testid="settings-title">Configurações</h1>
       </main>
     );
   }

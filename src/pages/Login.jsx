@@ -102,6 +102,11 @@ class Login extends React.Component {
                 disabled={ !name.length || !this.validateEmail(email) }
                 value="Jogar"
               />
+              <Button
+                testid="btn-settings"
+                value="Configuração"
+                onClick={ () => this.setState({ redirect: '/config' }) }
+              />
             </fieldset>
           </form>
         </main>

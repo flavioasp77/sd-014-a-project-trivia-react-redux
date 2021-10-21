@@ -15,7 +15,7 @@ class Questions extends Component {
       atualQuestion: 0,
       condicion: false,
     };
-    
+
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.isTimerIsZero = this.isTimerIsZero.bind(this);

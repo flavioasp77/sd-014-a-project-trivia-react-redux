@@ -20,7 +20,6 @@ class Header extends Component {
 
   getPlayer() {
     const player = getPlayerInfo();
-    console.log(getPlayerInfo());
     const { name, email, score } = player;
     const emailMd5 = md5(email).toString();
     this.setState({

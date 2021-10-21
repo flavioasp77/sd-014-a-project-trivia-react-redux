@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { saveUserInfo } from '../redux/actions/index';
 
-import getTriviaToken from '../services/triviaAPI';
+import { getTriviaToken } from '../services/triviaAPI';
 import { savePlayerLocal } from '../services/playerInfo';
 
 class Login extends Component {
@@ -32,11 +32,11 @@ class Login extends Component {
     return true;
   }
 
-  handleClick() {
+  async handleClick() {
     const { name, email } = this.state;
     const { saveUser, history } = this.props;
     saveUser({ name, email });
-    getTriviaToken();
+    await getTriviaToken();
     savePlayerLocal(name, 0, 0, email);
     history.push('/trivia');
   }

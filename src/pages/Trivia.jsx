@@ -14,6 +14,7 @@ class Trivia extends React.Component {
     this.sortArray = this.sortArray.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.computeAnswer = this.computeAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,14 @@ class Trivia extends React.Component {
     this.computeAnswer();
   }
 
+  nextQuestion() {
+    this.setState((atual) => ({
+      indice: atual.indice + 1,
+      respondido: false,
+      timer: 30,
+    }));
+  }
+
   render() {
     const { perguntas, indice, respondido, timer } = this.state;
     return (
@@ -91,6 +100,15 @@ class Trivia extends React.Component {
               </button>
             ))}
           </>)}
+        {respondido && (
+          <button
+            type="submit"
+            onClick={ this.nextQuestion }
+            data-testid="btn-next"
+          >
+            Próximo
+          </button>
+        )}
       </div>
     );
   }

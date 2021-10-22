@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
 
@@ -14,17 +15,23 @@ class Trivia extends React.Component {
     this.sortArray = this.sortArray.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.computeAnswer = this.computeAnswer.bind(this);
+    this.timer = this.timer.bind(this);
+    this.clickNext = this.clickNext.bind(this);
   }
 
   componentDidMount() {
     const { timer } = this.state;
-    const ONE_SECOND = 1000;
     const SECONDS_TO_MILLISECONDS = 1000;
     this.chamaApi();
+    this.timer();
+    setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
+  }
+
+  timer() {
+    const ONE_SECOND = 1000;
     this.timerInterval = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, ONE_SECOND);
-    setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
   }
 
   computeAnswer() { // Function called after an answer is clicked OR, a timeout happens
@@ -54,6 +61,15 @@ class Trivia extends React.Component {
     this.computeAnswer();
   }
 
+  clickNext() {
+    const LAST_QUESTION = 4;
+    const { indice } = this.state;
+    const { history } = this.props;
+    if (indice === LAST_QUESTION) history.push('/feedback');
+    this.setState({ indice: indice + 1, respondido: false, timer: 30 });
+    this.timer();
+  }
+
   render() {
     const { perguntas, indice, respondido, timer } = this.state;
     return (
@@ -78,11 +94,9 @@ class Trivia extends React.Component {
                 type="submit"
                 key={ i }
                 disabled={ respondido }
-                data-testid={
-                  atual === perguntas[indice].correct_answer
-                    ? 'correct-answer'
-                    : `wrong-answer-${i}`
-                }
+                data-testid={ atual === perguntas[indice].correct_answer
+                  ? 'correct-answer'
+                  : `wrong-answer-${i}` }
                 className={ respondido && (atual === perguntas[indice].correct_answer
                   ? 'correct'
                   : 'incorrect') }
@@ -90,10 +104,24 @@ class Trivia extends React.Component {
                 {decodeURIComponent(atual)}
               </button>
             ))}
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.clickNext }
+            >
+              Próximo
+
+            </button>
           </>)}
       </div>
     );
   }
 }
+
+Trivia.propTypes = {
+  history: PropTypes.objectOf({
+    push: PropTypes.any,
+  }).isRequired,
+};
 
 export default Trivia;

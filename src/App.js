@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 // import logo from './trivia.png';
 import './App.css';
+import Feedback from './pages/Feedback';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
 import Trivia from './pages/Trivia';
@@ -14,6 +15,7 @@ export default function App() {
           <Route exact path="/" component={ Login } />
           <Route path="/trivia" component={ Trivia } />
           <Route path="/settings" component={ Settings } />
+          <Route path="/feedback" component={ Feedback } />
         </Switch>
       </header>
     </div>

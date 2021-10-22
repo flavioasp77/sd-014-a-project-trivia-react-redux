@@ -27,7 +27,9 @@ class Feedback extends React.Component {
       <div>
         <Header />
         <h1 data-testid="feedback-text">
-          { player.score >= QUESTIONS_THRESHOLD ? 'Podia ser melhor...' : 'Mandou bem!' }
+          { player.assertions < QUESTIONS_THRESHOLD
+            ? 'Podia ser melhor...'
+            : 'Mandou bem!' }
         </h1>
         <br />
         <br />

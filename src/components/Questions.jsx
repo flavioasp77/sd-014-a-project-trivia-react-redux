@@ -10,9 +10,11 @@ class Questions extends Component {
     this.state = {
       order: 0,
       atualQuestion: 0,
+      click: false,
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
+    this.handleClickAnswer = this.handleClickAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -35,9 +37,13 @@ class Questions extends Component {
     });
   }
 
+  handleClickAnswer() {
+    this.setState({ click: true });
+  }
+
   render() {
     const { questionResults, isFetching } = this.props;
-    const { atualQuestion, order } = this.state;
+    const { atualQuestion, order, click } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
       <div>
@@ -58,6 +64,8 @@ class Questions extends Component {
             type="button"
             data-testid="correct-answer"
             style={ { order } }
+            className={ click && 'rightanswer' }
+            onClick={ this.handleClickAnswer }
           >
             { questionResults.response[atualQuestion].correct_answer }
           </button>
@@ -69,6 +77,8 @@ class Questions extends Component {
                   type="button"
                   style={ { order: index } }
                   data-testid={ `wrong-answer-${index}` }
+                  className={ click && 'wronganswer' }
+                  onClick={ this.handleClickAnswer }
                 >
                   {question}
                 </button>

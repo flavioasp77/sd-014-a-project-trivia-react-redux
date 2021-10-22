@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 import '../styles/QuestionCard.css';
 
+const NO_ANSWER = '';
 const CORRECT_ANSWER = 'correct-answer';
 const WRONG_ANSWER = 'wrong-answer';
 
@@ -11,52 +12,72 @@ export default class QuestionCard extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      answer: NO_ANSWER,
+    };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
   // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  shuffle(array) {
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
 
-  handleClick(correct) {
-    const { callback } = this.props;
+  handleClick(answer) {
     const rightButton = document.querySelector('[data-testid="correct-answer"]');
     const wrongButtons = document.querySelectorAll('[data-testid*="wrong-answer"]');
     rightButton.className = CORRECT_ANSWER;
     wrongButtons.forEach((button) => { button.className = WRONG_ANSWER; });
 
-    callback(correct);
+    this.setState({ answer });
+  }
+
+  handleClickNext(isCorrect) {
+    const buttons = document.querySelectorAll('[data-testid*="-answer"]');
+    buttons.forEach((button) => { button.className = 'standard-button'; });
+
+    const { callback } = this.props;
+    this.setState({ answer: NO_ANSWER });
+    callback(isCorrect);
+  }
+
+  showNext(show) {
+    const { answer } = this.state;
+    return show && (
+      <Button
+        onClick={ () => this.handleClickNext(answer === CORRECT_ANSWER) }
+        submit={ false }
+        testid="btn-next"
+        value="Próxima"
+      />
+    );
   }
 
   render() {
-    const { question, callback } = this.props;
-    const correctAnswer = question.correct_answer;
-    const incorrectAnswers = question.incorrect_answers;
-    const options = this.shuffle([correctAnswer, ...incorrectAnswers]);
+    const { answer } = this.state;
+    const { data: {
+      category, question, correctAnswer, incorrectAnswers, options,
+    } } = this.props;
+
     return (
       <div>
         <div>
           <p data-testid="question-category">
-            { question.category }
+            { category }
           </p>
           <p data-testid="question-text">
-            { question.question }
+            { question }
           </p>
         </div>
         <div>
           { options.map((option, index) => {
-            const correct = option === correctAnswer;
+            const isCorrect = option === correctAnswer;
             return (<Button
               key={ index }
-              onClick={ () => this.handleClick(correct) }
+              onClick={ () => this.handleClick(
+                isCorrect ? CORRECT_ANSWER : WRONG_ANSWER,
+              ) }
               submit={ false }
               testid={
-                correct
+                isCorrect
                   ? CORRECT_ANSWER
                   : `wrong-answer-${incorrectAnswers.indexOf(option)}`
               }
@@ -64,12 +85,15 @@ export default class QuestionCard extends React.Component {
             />);
           }) }
         </div>
+        <div>
+          { this.showNext(answer !== NO_ANSWER) }
+        </div>
       </div>
     );
   }
 }
 
 QuestionCard.propTypes = {
-  question: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
   callback: PropTypes.func.isRequired,
 };

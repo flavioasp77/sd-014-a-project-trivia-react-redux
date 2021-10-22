@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 export default class Button extends React.Component {
   render() {
-    const { disabled, onClick, testid, submit, value } = this.props;
+    const { className, disabled, onClick, testid, submit, value } = this.props;
     return (
       <button
         type={ submit ? 'submit' : 'button' }
+        className={ className }
         data-testid={ testid }
         disabled={ disabled }
         onClick={ onClick }
@@ -18,12 +19,14 @@ export default class Button extends React.Component {
 }
 
 Button.defaultProps = {
+  className: '',
   disabled: false,
   onClick: null,
   submit: true,
 };
 
 Button.propTypes = {
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   submit: PropTypes.bool,

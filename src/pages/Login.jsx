@@ -49,7 +49,6 @@ class Login extends React.Component {
   render() {
     const { name, email } = this.state;
     const MIN_CARACTER = 2;
-    const validation = (!(this.emailValidation()) || name.length < MIN_CARACTER);
     return (
       <main>
         <Input
@@ -70,14 +69,13 @@ class Login extends React.Component {
           <Button
             label="Jogar"
             onClick={ this.handleClick }
-            isDisabled={ validation }
+            isDisabled={ !(this.emailValidation()) || name.length < MIN_CARACTER }
             dataTestid="btn-play"
           />
         </Link>
         <Link to="/settings">
           <Button
             label="Configurações"
-            isDisabled={ false }
             dataTestid="btn-settings"
           />
         </Link>

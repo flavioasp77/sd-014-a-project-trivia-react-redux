@@ -11,6 +11,7 @@ class Login extends Component {
       name: '',
       email: '',
       settings: false,
+      score: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);

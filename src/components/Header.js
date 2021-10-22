@@ -31,6 +31,7 @@ const mapStateToProps = ({ player }) => ({
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 
 };
 

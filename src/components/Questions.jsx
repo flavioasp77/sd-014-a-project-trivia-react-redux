@@ -14,9 +14,7 @@ class Questions extends Component {
       atualQuestion: 0,
       second: 30,
       savedSecond: 0,
-      person: {
-        finalScore: 0,
-      },
+      score: 0,
     };
 
     this.handleNextBtn = this.handleNextBtn.bind(this);
@@ -26,10 +24,17 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { token, getQuestion } = this.props;
+    const { token, getQuestion, name, gravatarEmail } = this.props;
     getQuestion(token);
     this.shufflebuttons();
     this.timerCount();
+    const player = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail,
+    } };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   shufflebuttons() {
@@ -47,29 +52,28 @@ class Questions extends Component {
   }
 
   handleClick({ target }) {
-    const { person } = this.state;
-    const { updateValue } = this.props;
+    const CORRECT = 10;
     const { id, name } = target;
-    if (id === 'correct') {
-      const yesPoint = this.corretAwnser(name);
-
-      updateValue(Number(yesPoint));
-      this.setState((prev) => ({
-        person: { finalScore: prev.person.finalScore + yesPoint },
-      }));
-      localStorage.setItem('Player', JSON.stringify(person));
-    }
+    const { updateValue } = this.props;
     const { second } = this.state;
     this.setState({
       isClicked: true,
       savedSecond: second,
     });
+
+    if (id === 'correct') {
+      const yesPoint = CORRECT + (this.corretAwnser(name) * second);
+      updateValue(yesPoint);
+      this.setState((prev) => ({
+        score: prev.score + yesPoint,
+      }));
+    }
   }
 
   corretAwnser(isItHard) {
-    const THREE = 13;
-    const TWO = 12;
-    const ONE = 11;
+    const THREE = 3;
+    const TWO = 2;
+    const ONE = 1;
     switch (isItHard) {
     case 'hard':
       return THREE;
@@ -84,14 +88,14 @@ class Questions extends Component {
 
   handleNextBtn() {
     const { atualQuestion } = this.state;
-    const nextQuestion = atualQuestion + 1;
     this.setState({
-      atualQuestion: nextQuestion,
+      atualQuestion: atualQuestion + 1,
       isClicked: false,
       second: 30,
       savedSecond: 0,
     });
     this.timerCount();
+    this.shufflebuttons();
   }
 
   timerCount() {
@@ -110,9 +114,10 @@ class Questions extends Component {
     const CODE = 3;
     const { questions } = this.props;
     const { results, response_code: responseCode } = questions;
-    const { isClicked, order, atualQuestion, second, savedSecond } = this.state;
+    const { isClicked, order, atualQuestion, second } = this.state;
 
     if (results === undefined) return <p>Carregando...</p>;
+
     if (responseCode === CODE) {
       return <p>O tempo expirou! Inicie o jogo novamente</p>;
     }
@@ -126,7 +131,7 @@ class Questions extends Component {
           { results[atualQuestion].question }
         </p>
         <br />
-        <div>{ isClicked ? `${savedSecond} seg` : `${second} seg` }</div>
+        <div>{ `${second} seg` }</div>
         <Btn
           handleNextBtn={ this.handleNextBtn }
           handleClick={ this.handleClick }
@@ -142,16 +147,21 @@ class Questions extends Component {
 
 Questions.propTypes = {
   getQuestion: PropTypes.func.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   questions: PropTypes.shape({
-    response_code: PropTypes.number.isRequired,
+    response_code: PropTypes.number,
     results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   token: PropTypes.string.isRequired,
+  updateValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   token: state.token.success,
   questions: state.trivia.questions,
+  name: state.player.name,
+  gravatarEmail: state.player.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -57,9 +57,8 @@ Btn.propTypes = {
   handleNextBtn: PropTypes.func.isRequired,
   isClicked: PropTypes.bool.isRequired,
   atualQuestion: PropTypes.number.isRequired,
-  order: PropTypes.number.isRequired,
+  order: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
 export default Btn;

@@ -29,14 +29,18 @@ class Game extends Component {
   async fetchGravatar() {
     const { email } = this.props;
     const hash = this.convertEmailtoHash(email);
-
     const source = await fetch(`https://www.gravatar.com/avatar/${hash}`);
     this.setState({ source: source.url });
   }
 
   newScore(score) {
-    console.log(score);
     this.setState((prev) => ({ score: prev.score + score }));
+    const storeLocal = JSON.parse(localStorage.getItem('state'));
+    const { player } = storeLocal;
+    const attStore = { player:
+      { ...player, score: player.score + score },
+    };
+    localStorage.setItem('state', JSON.stringify(attStore));
   }
 
   render() {

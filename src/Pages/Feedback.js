@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Header from '../Components/Header';
 
@@ -23,6 +23,7 @@ class Feedback extends Component {
   }
 
   render() {
+    const { history } = this.props;
     const getAssertions = JSON.parse(localStorage.getItem('state'));
     const { player } = getAssertions;
     // console.log(player);
@@ -38,9 +39,27 @@ class Feedback extends Component {
           {' '}
           acertos
         </h3>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Jogar Novamente
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default connect(null, null)(Feedback);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   render() {
@@ -20,7 +21,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  usuario: state.user,
+  usuario: state,
 });
 
 Header.propTypes = {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import Questions from '../components/Questions';
+import { gravatarAction } from '../redux/actions';
 
 class Game extends Component {
   constructor() {
@@ -27,10 +28,11 @@ class Game extends Component {
   }
 
   async fetchGravatar() {
-    const { email } = this.props;
+    const { email, getGravatar } = this.props;
     const hash = this.convertEmailtoHash(email);
     const source = await fetch(`https://www.gravatar.com/avatar/${hash}`);
     this.setState({ source: source.url });
+    getGravatar(source);
   }
 
   newScore(score) {
@@ -69,10 +71,15 @@ const mapStateToProps = (state) => ({
   token: state.token.success,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  getGravatar: (source) => dispatch(gravatarAction(source)),
+});
+
 Game.propTypes = {
   nome: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
+  getGravatar: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

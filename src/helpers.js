@@ -19,4 +19,6 @@ const generateRandomAnswers = (questions, index) => {
   return arrayAnswers;
 };
 
+export const getArrayPlayers = () => JSON.parse(localStorage.getItem('ranking'));
+
 export default generateRandomAnswers;

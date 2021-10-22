@@ -105,6 +105,7 @@ Login.propTypes = {
   setUser: PropTypes.func.isRequired,
   setTokenAPI: PropTypes.func.isRequired,
   setCategoriesAPI: PropTypes.func.isRequired,
+  chosedSettings: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

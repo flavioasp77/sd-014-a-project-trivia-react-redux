@@ -10,8 +10,8 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Settings } />
+        <Route path="/Trivia" component={ Trivia } />
       </Switch>
-      <Trivia />
     </div>
   );
 }

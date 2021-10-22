@@ -10,7 +10,9 @@ class Game extends Component {
 
     this.state = {
       source: '',
+      score: 0,
     };
+    this.newScore = this.newScore.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +29,23 @@ class Game extends Component {
   async fetchGravatar() {
     const { email } = this.props;
     const hash = this.convertEmailtoHash(email);
-
     const source = await fetch(`https://www.gravatar.com/avatar/${hash}`);
     this.setState({ source: source.url });
   }
 
+  newScore(score) {
+    this.setState((prev) => ({ score: prev.score + score }));
+    const storeLocal = JSON.parse(localStorage.getItem('state'));
+    const { player } = storeLocal;
+    const attStore = { player:
+      { ...player, score: player.score + score },
+    };
+    localStorage.setItem('state', JSON.stringify(attStore));
+  }
+
   render() {
     const { nome } = this.props;
-    const { source } = this.state;
+    const { source, score } = this.state;
     return (
       <>
         <header>
@@ -44,9 +55,9 @@ class Game extends Component {
             src={ source }
             alt="gravatar"
           />
-          <div data-testid="header-score">0</div>
+          <div data-testid="header-score">{ score }</div>
         </header>
-        <Questions />
+        <Questions updateValue={ this.newScore } />
       </>
     );
   }

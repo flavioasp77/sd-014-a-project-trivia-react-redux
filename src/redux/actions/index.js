@@ -5,6 +5,8 @@ export const LOGIN = 'LOGIN';
 export const API_SUCCESS = 'API_SUCCESS';
 export const API_ERROR = 'API_ERROR';
 export const SET_QUESTION = 'SET_QUESTION';
+export const SET_SCORE = 'SET_SCORE';
+export const SET_GRAVATAR = 'SET_GRAVATAR';
 
 // Actions:
 export const loginAction = ({ name, email }) => ({
@@ -36,8 +38,21 @@ export const questionAction = (questions) => ({
   },
 });
 
-// Assicronas:
+export const scoreAction = (score) => ({
+  type: SET_SCORE,
+  payload: {
+    score,
+  },
+});
 
+export const gravatarAction = (source) => ({
+  type: SET_GRAVATAR,
+  payload: {
+    source,
+  },
+});
+
+// Assicronas:
 export const triviaApiThuk = () => async (dispatch) => {
   try {
     const { token } = await triviaApi();

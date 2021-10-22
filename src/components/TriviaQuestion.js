@@ -3,6 +3,57 @@ import PropTypes from 'prop-types';
 import '../styles/TriviaQuestion.style.css';
 
 export default class TriviaQuestion extends Component {
+  constructor() {
+    super();
+    this.state = {
+      // estados do timer
+      timer: 30,
+      timeDisableButton: false,
+      idInterval: null,
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
+    this.setIntervalFunction = this.setIntervalFunction.bind(this);
+    this.delayToResponse = this.delayToResponse.bind(this);
+  }
+
+  componentDidMount() {
+    this.delayToResponse();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { idInterval } = this.state;
+    const MIN_SECONDS = 1;
+
+    if (prevState.timer === MIN_SECONDS) {
+      this.resetTimer();
+      clearInterval(idInterval);
+    }
+  }
+
+  // função para gerar o tempo
+  setIntervalFunction() {
+    const TIME_INTERVAL = 1000;
+    const idSetInterval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1, idInterval: idSetInterval }));
+    }, TIME_INTERVAL);
+  }
+
+  delayToResponse() {
+    const TIMEOUT = 5000;
+    this.setState({ timeDisableButton: true });
+    setTimeout(() => {
+      this.setIntervalFunction();
+      this.setState({ timeDisableButton: false });
+    }, TIMEOUT);
+  }
+
+  // reset do timer
+  resetTimer() {
+    this.setState({ timer: 0, timeDisableButton: true });
+  }
+
   questionRender() {
     const { question } = this.props;
     return (
@@ -15,8 +66,14 @@ export default class TriviaQuestion extends Component {
       </div>);
   }
 
+  handleClick() {
+    const { idInterval } = this.state;
+    clearInterval(idInterval);
+  }
+
   mapAlternatives() {
     const { question, scrambledQuestions, className, handleClickQuestion } = this.props;
+    const { timeDisableButton } = this.state;
     let wrongIndex = 0;
     return scrambledQuestions.map((alternative, index) => {
       const correctOrWrong = alternative === question.correct_answer;
@@ -28,7 +85,11 @@ export default class TriviaQuestion extends Component {
           type="button"
           data-testid={ correctOrWrong ? correct : wrong }
           className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
-          onClick={ handleClickQuestion }
+          onClick={ () => {
+            this.handleClick();
+            handleClickQuestion();
+          } }
+          disabled={ timeDisableButton }
         >
           { alternative }
         </button>);
@@ -41,10 +102,12 @@ export default class TriviaQuestion extends Component {
 
   render() {
     const { question } = this.props;
-    console.log(question);
+    const { timer } = this.state;
+    // console.log(question);
     return (
       <div>
         {question !== undefined && this.questionRender()}
+        <h3>{`Timer: ${timer}`}</h3>
       </div>
     );
   }

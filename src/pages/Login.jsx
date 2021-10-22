@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
+import { getQuestions } from '../actions';
 import '../App.css';
 
 class login extends Component {
@@ -53,9 +56,11 @@ class login extends Component {
     }
   }
 
-  handleClick() {
-    this.playerSaver();
-    this.tokenFetcher();
+  async handleClick() {
+    const { getGame } = this.props;
+    await this.playerSaver();
+    await this.tokenFetcher();
+    getGame();
   }
 
   render() {
@@ -107,4 +112,14 @@ class login extends Component {
   }
 }
 
-export default login;
+login.propTypes = {
+  getGame: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getGame: () => {
+    dispatch(getQuestions());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(login);

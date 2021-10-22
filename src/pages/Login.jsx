@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { saveUserInfoAction } from '../redux/actions';
 import fetchToken from '../services/fetchToken';
 import settingsIcon from '../assets/settings.svg';
-// import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor() {
@@ -10,7 +12,9 @@ class Login extends Component {
 
     this.state = {
       name: '',
-      email: '',
+      // assertions: 0,
+      // score: 0,
+      gravatarEmail: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,16 +28,16 @@ class Login extends Component {
   }
 
   handleLogin() {
-    // const { history } = this.props;
+    const { history, saveUserInfoToState } = this.props;
 
     fetchToken();
-    console.log('click');
+    saveUserInfoToState(this.state);
 
-    // history.push('/game');
+    history.push('/game');
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
     return (
       <main>
         <label htmlFor="name">
@@ -51,16 +55,16 @@ class Login extends Component {
           <input
             id="email"
             type="text"
-            name="email"
+            name="gravatarEmail"
             placeholder="E-mail"
-            value={ email }
+            value={ gravatarEmail }
             onChange={ this.handleChange }
             data-testid="input-gravatar-email"
           />
         </label>
         <button
           type="button"
-          disabled={ !(name && email) }
+          disabled={ !(name && gravatarEmail) }
           onClick={ this.handleLogin }
           data-testid="btn-play"
         >
@@ -74,7 +78,13 @@ class Login extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => ({ });
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.object).isRequired,
+  saveUserInfoToState: PropTypes.func.isRequired,
+};
 
-// export default connect(null, mapDispatchToProps)(Login);
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveUserInfoToState: (userinfo) => dispatch(saveUserInfoAction(userinfo)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

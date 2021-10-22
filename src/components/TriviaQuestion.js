@@ -7,8 +7,41 @@ export default class TriviaQuestion extends Component {
     super();
     this.state = {
       className: false,
+      // estados do timer
+      timer: 30,
+      timeDisableButton: false,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
+    this.setIntervalFunction = this.setIntervalFunction.bind(this);
+  }
+
+  componentDidMount() {
+    const TIMEOUT = 5000;
+    setTimeout(() => {
+      this.setIntervalFunction();
+    }, TIMEOUT);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const MIN_SECONDS = 0;
+    if (prevState.timer === MIN_SECONDS) {
+      this.resetTimer();
+    }
+  }
+
+  // função para gerar o tempo
+  setIntervalFunction() {
+    const TIME_INTERVAL = 1000;
+
+    setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, TIME_INTERVAL);
+  }
+
+  // reset do timer
+  resetTimer() {
+    this.setState({ timer: 0, timeDisableButton: true });
   }
 
   questionRender() {
@@ -29,7 +62,7 @@ export default class TriviaQuestion extends Component {
 
   mapAlternatives() {
     const { question, scrambledQuestions } = this.props;
-    const { className } = this.state;
+    const { className, timeDisableButton } = this.state;
     let wrongIndex = 0;
     return scrambledQuestions.map((alternative, index) => {
       const correctOrWrong = alternative === question.correct_answer;
@@ -42,6 +75,7 @@ export default class TriviaQuestion extends Component {
           data-testid={ correctOrWrong ? correct : wrong }
           className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
           onClick={ this.handleClick }
+          disabled={ timeDisableButton }
         >
           { alternative }
         </button>);
@@ -54,10 +88,12 @@ export default class TriviaQuestion extends Component {
 
   render() {
     const { question } = this.props;
-    console.log(question);
+    const { timer } = this.state;
+    // console.log(question);
     return (
       <div>
         {question !== undefined && this.questionRender()}
+        <h3>{`Timer: ${timer}`}</h3>
       </div>
     );
   }

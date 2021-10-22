@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
-
 import Header from '../components/Header';
 import { getQuestions } from '../services/requests';
+import '../css/Game.css';
 
 class Game extends Component {
   constructor() {
@@ -20,13 +20,15 @@ class Game extends Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
     return (
-      <main>
+      <>
         <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
-        <div>
-          <h4 data-testid="question-category">categoria</h4>
-          <p data-testid="question-text">pergunta</p>
-        </div>
-      </main>
+        <main className="game__container">
+          <div>
+            <h4 data-testid="question-category">categoria</h4>
+            <p data-testid="question-text">pergunta</p>
+          </div>
+        </main>
+      </>
     );
   }
 }

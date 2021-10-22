@@ -14,10 +14,14 @@ class Game extends React.Component {
       questions: [],
       index: 0,
       clicked: false,
+      stopwatch: 30,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.sortArray = this.sortArray.bind(this);
+
+    this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
+    this.initTimer = this.initTimer.bind(this);
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
@@ -27,6 +31,7 @@ class Game extends React.Component {
   componentDidMount() {
     this.cloneLocalStorageToState();
     this.fetchApi();
+    this.initTimer();
   }
 
   async fetchApi() {
@@ -61,8 +66,17 @@ class Game extends React.Component {
     this.setState({ clicked: true });
   }
 
+  initTimer() {
+    const SECOND_TIME = 1000;
+    setInterval(() => {
+      this.setState((prevState) => ({
+        stopwatch: prevState.stopwatch - 1,
+      }));
+    }, SECOND_TIME);
+  }
+
   render() {
-    const { name, score, pictureURL, questions, index, clicked } = this.state;
+    const { name, score, pictureURL, questions, index, clicked, stopwatch } = this.state;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
@@ -72,6 +86,11 @@ class Game extends React.Component {
             <div>
               <p data-testid="question-category">{ questions[index].category }</p>
               <p data-testid="question-text">{questions[index].question}</p>
+              <div>
+                Tempo restante:
+                {' '}
+                { stopwatch <= 0 ? 'tempo esgotado' : stopwatch }
+              </div>
               {this.sortArray().map((atual, indice) => (
                 <button
                   type="button"

@@ -20,7 +20,7 @@ class Button extends React.Component {
 Button.defaultProps = {
   isDisabled: false,
   onClick: null,
-}
+};
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,

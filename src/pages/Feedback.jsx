@@ -8,6 +8,7 @@ class Feedback extends Component {
     const state = localStorage.getItem('state');
     const { player: { score, assertions } } = JSON.parse(state);
     const MIN_ANSWERS = 3;
+    console.log(assertions);
     return (
       <div>
         <h1>Feedback</h1>
@@ -19,7 +20,7 @@ class Feedback extends Component {
             alt="gravatar"
           />
           <p>
-            Pontuação final:
+            Pontos:
             <span data-testid="header-score">
               { score }
             </span>
@@ -30,6 +31,15 @@ class Feedback extends Component {
             {
               assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'
             }
+          </p>
+          <p data-testid="feedback-total-score">
+            { score }
+          </p>
+          <p>
+            Acertou:
+            <span data-testid="feedback-total-question">
+              { assertions }
+            </span>
           </p>
         </main>
       </div>

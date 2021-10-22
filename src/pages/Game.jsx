@@ -110,7 +110,7 @@ class Game extends React.Component {
           { clicked && index <= FINAL_INDEX && (
             <Button
               label={ index < FINAL_INDEX ? 'Próxima' : 'Ver Resultados' }
-              data-testid="btn-next"
+              dataTestid="btn-next"
               onClick={ this.nextQuestion }
             />)}
         </main>

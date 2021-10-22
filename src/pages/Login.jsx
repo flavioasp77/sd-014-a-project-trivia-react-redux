@@ -16,17 +16,23 @@ class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  // componentDidMount() {
+  //   const { questionInfo } = this.props;
+  //   questionInfo();
+  // }
+
   handleChange({ target: { value, name } }) {
     this.setState({
       [name]: value,
     });
   }
 
-  handleClick() {
+  async handleClick() {
     const { name, email } = this.state;
-    const { userInfo } = this.props;
-    fetchTokenApi();
-    userInfo(name, email);
+    const { userInfo, history } = this.props;
+    await fetchTokenApi();
+    await userInfo(name, email);
+    history.push('/game');
   }
 
   render() {
@@ -49,16 +55,14 @@ class Login extends Component {
             name="email"
             placeholder="E-mail"
           />
-          <Link to="/game">
-            <button
-              type="button"
-              onClick={ this.handleClick }
-              data-testid="btn-play"
-              disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
-            >
-              Jogar
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            data-testid="btn-play"
+            disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
+          >
+            Jogar
+          </button>
         </form>
         <Link to="/settings">
           <button
@@ -74,6 +78,9 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   userInfo: PropTypes.func.isRequired,
 };
 

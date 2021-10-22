@@ -12,20 +12,26 @@ class Questions extends Component {
       order: 0,
       atualQuestion: 0,
       click: false,
+      timer: 5,
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
-    this.timeOut = this.timeOut.bind(this);
   }
 
   componentDidMount() {
+    const ONE_SECOND = 1000;
     this.shuffleButtons();
+    this.timeOut = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, ONE_SECOND);
   }
 
-  timeOut() {
-    const THIRTY_SECONDS = 30000;
-    setTimeout(this.setState({ click: true }), THIRTY_SECONDS);
+  componentDidUpdate() {
+    const { timer } = this.state;
+    if (timer === 0) {
+      clearInterval(this.timeOut);
+    }
   }
 
   shuffleButtons() {
@@ -51,7 +57,7 @@ class Questions extends Component {
 
   render() {
     const { questionResults, isFetching } = this.props;
-    const { atualQuestion, order, click } = this.state;
+    const { atualQuestion, order, click, timer } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
       <div>
@@ -61,6 +67,7 @@ class Questions extends Component {
               questionResults.response[atualQuestion].category
             }
           </h3>
+          <p>{ timer }</p>
           <p data-testid="question-text">
             {
               questionResults.response[atualQuestion].question

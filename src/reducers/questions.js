@@ -9,7 +9,7 @@ const questions = (state = INITIAL_STATE, { type, payload }) => {
   case REQUEST_QUESTIONS:
     return {
       ...state,
-      questions: [...payload],
+      questions: { ...payload },
     };
   default:
     return state;

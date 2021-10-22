@@ -19,13 +19,27 @@ class Game extends Component {
       counterId: '',
       clickedAnswer: '',
       disabledBtn: false,
-
+      score: 0,
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleScore = this.handleScore.bind(this);
+  }
+
+  componentDidMount() {
+    const { score } = this.state;
+    const player = {
+      player: {
+        name: '',
+        assertions: 0,
+        score,
+        gravatarEmail: '',
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   componentDidUpdate(prevProps) {
@@ -77,6 +91,46 @@ class Game extends Component {
     this.setState({
       clickedAnswer: answer,
     });
+    this.handleScore(answer);
+  }
+
+  handleScore(answer) {
+    const { questions, counter } = this.state;
+    let difficulty;
+    const HARD_SCORE = 3;
+
+    switch (questions[0].difficulty) {
+    case 'easy':
+      difficulty = 1;
+      break;
+    case 'medium':
+      difficulty = 2;
+      break;
+    case 'hard':
+      difficulty = HARD_SCORE;
+      break;
+    default:
+      return 0;
+    }
+
+    if (answer === questions[0].correct_answer) {
+      const POINTS = 10;
+      let { score } = this.state;
+      score += (counter * difficulty) + POINTS;
+      const player = {
+        player: {
+          name: '',
+          assertions: 0,
+          score,
+          gravatarEmail: '',
+        },
+      };
+      this.setState({
+        score,
+      }, () => localStorage.setItem('state', JSON.stringify(player)));
+    } else {
+      console.log('errou!');
+    }
   }
 
   renderQuestion() {

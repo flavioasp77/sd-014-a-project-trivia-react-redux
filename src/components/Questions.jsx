@@ -3,14 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchQuestions } from '../redux/actions/index';
 
+import './questions.css';
+
 class Questions extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isClick: false,
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     const { fetchQuestionsAPI } = this.props;
     fetchQuestionsAPI();
   }
 
+  handleClick() {
+    this.setState({ isClick: true });
+  }
+
   render() {
     const { questions } = this.props;
+    const { isClick } = this.state;
 
     if (questions.length > 0) {
       return (
@@ -24,6 +40,8 @@ class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
+            className={ isClick ? 'correct-answer' : null }
+            onClick={ this.handleClick }
           >
             { questions[0].correct_answer }
           </button>
@@ -32,6 +50,8 @@ class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              className={ isClick ? 'incorrect-answers' : null }
+              onClick={ this.handleClick }
             >
               { question }
             </button>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import fetchTokenApi from '../services/triviaTokenApi';
-import { userInfo as userInfoAction, questionsInfoThunk } from '../actions';
+import { userInfo as userInfoAction } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -16,10 +16,10 @@ class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount() {
-    const { questionInfo } = this.props;
-    questionInfo();
-  }
+  // componentDidMount() {
+  //   const { questionInfo } = this.props;
+  //   questionInfo();
+  // }
 
   handleChange({ target: { value, name } }) {
     this.setState({
@@ -27,11 +27,12 @@ class Login extends Component {
     });
   }
 
-  handleClick() {
+  async handleClick() {
     const { name, email } = this.state;
-    const { userInfo } = this.props;
-    fetchTokenApi();
-    userInfo(name, email);
+    const { userInfo, history } = this.props;
+    await fetchTokenApi();
+    await userInfo(name, email);
+    history.push('/game');
   }
 
   render() {
@@ -54,16 +55,14 @@ class Login extends Component {
             name="email"
             placeholder="E-mail"
           />
-          <Link to="/game">
-            <button
-              type="button"
-              onClick={ this.handleClick }
-              data-testid="btn-play"
-              disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
-            >
-              Jogar
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            data-testid="btn-play"
+            disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
+          >
+            Jogar
+          </button>
         </form>
         <Link to="/settings">
           <button
@@ -79,14 +78,15 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   userInfo: PropTypes.func.isRequired,
-  questionInfo: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   userInfo: (name, email) => (
     dispatch(userInfoAction(name, email))),
-  questionInfo: () => dispatch(questionsInfoThunk()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

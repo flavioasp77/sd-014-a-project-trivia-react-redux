@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchQuestions } from '../redux/actions/index';
+import { fetchQuestions, setScore as scoreAction } from '../redux/actions/index';
 
 import './questions.css';
 import Timer from './Timer';
+
+const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
 
 class Questions extends Component {
   constructor() {
@@ -16,7 +18,8 @@ class Questions extends Component {
       disabled: false,
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleIncorrect = this.handleIncorrect.bind(this);
+    this.handleCorrect = this.handleCorrect.bind(this);
     this.clock = this.clock.bind(this);
     this.setClock = this.setClock.bind(this);
   }
@@ -43,10 +46,19 @@ class Questions extends Component {
       this.setState({ disabled: true });
     }
   }
-  //
 
-  handleClick() {
+  handleIncorrect() {
     this.setState({ isClick: true });
+  }
+
+  handleCorrect() {
+    const { setScore, questions } = this.props;
+    const { difficulty } = questions[0];
+    const { time } = this.state;
+    const BASE_SCORE = 10;
+    const score = BASE_SCORE + (time * scorePerLevel[difficulty]);
+
+    this.setState({ isClick: true }, () => setScore(score));
   }
 
   render() {
@@ -66,7 +78,7 @@ class Questions extends Component {
             type="button"
             data-testid="correct-answer"
             className={ isClick ? 'correct-answer' : null }
-            onClick={ this.handleClick }
+            onClick={ this.handleCorrect }
             disabled={ disabled }
           >
             { questions[0].correct_answer }
@@ -77,7 +89,7 @@ class Questions extends Component {
               type="button"
               data-testid={ `wrong-answer-${index}` }
               className={ isClick ? 'incorrect-answers' : null }
-              onClick={ this.handleClick }
+              onClick={ this.handleIncorrect }
               disabled={ disabled }
             >
               { question }
@@ -99,6 +111,7 @@ class Questions extends Component {
 Questions.propTypes = {
   fetchQuestionsAPI: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setScore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -107,6 +120,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestionsAPI: () => dispatch(fetchQuestions()),
+  setScore: (score) => dispatch(scoreAction(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

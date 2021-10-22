@@ -7,6 +7,8 @@ class Feedback extends React.Component {
     this.state = {
       player: {},
     };
+    this.handleClickRanking = this.handleClickRanking.bind(this);
+    this.handleClickPlayAgain = this.handleClickPlayAgain.bind(this);
   }
 
   componentDidMount() {
@@ -20,6 +22,16 @@ class Feedback extends React.Component {
     });
   }
 
+  handleClickRanking() {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
+  handleClickPlayAgain() {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
     const { player } = this.state;
     const QUESTIONS_THRESHOLD = 3;
@@ -27,9 +39,9 @@ class Feedback extends React.Component {
       <div>
         <Header />
         <h1 data-testid="feedback-text">
-          { player.assertions < QUESTIONS_THRESHOLD
+          {player.assertions < QUESTIONS_THRESHOLD
             ? 'Podia ser melhor...'
-            : 'Mandou bem!' }
+            : 'Mandou bem!'}
         </h1>
         <br />
         <br />
@@ -41,6 +53,8 @@ class Feedback extends React.Component {
           {`Com um total de ${player.score} pontos!`}
         </span>
         <br />
+        <button type="button" name="play-again" data-testid="btn-play-again" onClick={ this.handleClickPlayAgain }>Jogar novamente</button>
+        <button type="button" name="ranking" data-testid="btn-ranking" onClick={ this.handleClickRanking }>Ver Ranking</button>
       </div>
     );
   }

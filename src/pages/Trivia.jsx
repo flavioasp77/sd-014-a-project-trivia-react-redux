@@ -24,7 +24,11 @@ class Trivia extends React.Component {
     const SECONDS_TO_MILLISECONDS = 1000;
     this.chamaApi();
     this.timer();
-    setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
+    this.timeout = setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerInterval);
   }
 
   timer() {
@@ -63,15 +67,19 @@ class Trivia extends React.Component {
 
   nextQuestion() {
     const LAST_QUESTION = 4;
-    const { indice } = this.props;
+    const { indice } = this.state;
     const { history } = this.props;
-    if (indice === LAST_QUESTION) history.push('/feedback');
-    this.setState((atual) => ({
-      indice: atual.indice + 1,
-      respondido: false,
-      timer: 30,
-    }));
-    this.timer();
+    if (indice === LAST_QUESTION) {
+      history.push('/feedback');
+    } else {
+      this.setState((atual) => ({
+        indice: atual.indice + 1,
+        respondido: false,
+        timer: 30,
+      }));
+      this.timer();
+      clearInterval(this.timeout);
+    }
   }
 
   render() {
@@ -99,9 +107,9 @@ class Trivia extends React.Component {
                 data-testid={ atual === perguntas[indice].correct_answer
                   ? 'correct-answer'
                   : `wrong-answer-${i}` }
-                className={ respondido && (atual === perguntas[indice].correct_answer
+                className={ (respondido && (atual === perguntas[indice].correct_answer
                   ? 'correct'
-                  : 'incorrect') }
+                  : 'incorrect')).toString() }
               >
                 {decodeURIComponent(atual)}
               </button>
@@ -122,8 +130,7 @@ class Trivia extends React.Component {
 }
 
 Trivia.propTypes = {
-  history: PropTypes.objectOf().isRequired,
-  indice: PropTypes.number.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Trivia;

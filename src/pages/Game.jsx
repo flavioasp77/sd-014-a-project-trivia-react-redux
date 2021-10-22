@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import QuestionCard from '../components/QuestionCard';
 
-export default class Game extends Component {
+class Game extends Component {
   render() {
     return (
       <div>
-        <h1>Trivia</h1>
         <Header />
+        <QuestionCard />
       </div>
     );
   }
 }
+export default Game;

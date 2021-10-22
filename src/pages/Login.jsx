@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { userInfo } from '../redux/actions';
-import fetchAPI from '../services/api';
+import { fetchApiToken } from '../services';
 
 class Login extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Login extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const { setUserInfo, history } = this.props;
-    await fetchAPI();
+    await fetchApiToken();
     history.push('/game');
     setUserInfo(this.state);
   }

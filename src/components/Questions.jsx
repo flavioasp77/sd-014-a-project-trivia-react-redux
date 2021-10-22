@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import { saveScore } from '../redux/actions';
+
+import { getPlayerInfo } from '../services/playerInfo';
+import { getRanking, setRanking } from '../services/triviaAPI';
 
 const MILISECONDS = 1000;
 const NUMBER_10 = 10;
@@ -43,7 +47,6 @@ class Questions extends React.Component {
     const fetchQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${getToken}`);
     const json = await fetchQuestions.json();
     const { results } = json;
-    console.log(results);
     const quests = results.reduce((acc, ele, i) => {
       const allAnswers = [...ele.incorrect_answers, ele.correct_answer];
       this.shuffleQuestions(allAnswers);
@@ -87,19 +90,28 @@ class Questions extends React.Component {
   nextQuestion() {
     const { id, seconds } = this.state;
     if (id === TOTAL_QUESTIONS) {
-      window.open('/feedback', '_self');
+      this.goToFeedback();
     }
     if (id !== TOTAL_QUESTIONS) {
-      this.setState({
-        id: id + 1,
-        answered: false,
-        seconds: 30,
-      });
+      this.setState({ id: id + 1, answered: false, seconds: 30 });
       this.countDown();
       if (seconds === 0) {
         this.timer = setInterval(this.countDown, MILISECONDS);
       }
     }
+  }
+
+  goToFeedback() {
+    const { player: { name, score, gravatarEmail } } = getPlayerInfo();
+    const picture = `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}?s=200`;
+    const ranking = getRanking();
+    if (!ranking) {
+      setRanking([{ name, score, picture }]);
+    } else {
+      const newRankings = [...ranking, { name, score, picture }];
+      setRanking(newRankings);
+    }
+    window.open('/feedback', '_self');
   }
 
   handleScore({ target }) {
@@ -184,7 +196,6 @@ class Questions extends React.Component {
             { shuffledQuests[id].map((quest, i) => {
               const type = allQst[id].correct_answer === quest ? 'correct' : 'wrong';
               const test = type === 'correct' ? `${type}-answer` : `${type}-answer-${i}`;
-              console.log(type, test);
               return (
                 <button
                   key={ i }

@@ -11,4 +11,8 @@ export async function getQuestions() {
   return returnedQuestions;
 }
 
+export const getRanking = () => JSON.parse(localStorage.getItem('ranking'));
+
+export const setRanking = (rank) => { localStorage.ranking = JSON.stringify(rank); };
+
 export const getStorage = () => JSON.parse(localStorage.state);

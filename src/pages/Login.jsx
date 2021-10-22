@@ -80,6 +80,7 @@ class Login extends Component {
 
 Login.propTypes = {
   userInfo: PropTypes.func.isRequired,
+  questionInfo: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

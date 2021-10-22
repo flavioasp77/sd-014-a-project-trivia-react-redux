@@ -9,20 +9,21 @@ class Jogo extends Component {
     super();
     this.state = {
       isLoading: true,
+      currQuestion: 0,
+      clicked: false,
     };
     this.pegarPerguntas = this.pegarPerguntas.bind(this);
-    this.randomArray = this.randomArray.bind(this);
+    this.changeQuestion = this.changeQuestion.bind(this);
+    this.concatQuestions = this.concatQuestions.bind(this);
+    this.setClass = this.setClass.bind(this);
   }
 
   componentDidMount() {
     this.pegarPerguntas();
   }
 
-  randomArray(array, questaoCerta) {
-    const ar1 = [...array, questaoCerta];
-    const ar2 = ar1.sort();
-    console.log(ar1);
-    console.log(ar2);
+  setClass() {
+    this.setState({ clicked: true });
   }
 
   async pegarPerguntas() {
@@ -31,17 +32,52 @@ class Jogo extends Component {
     this.setState({ isLoading: false });
   }
 
+  changeQuestion() {
+    this.setState((prevState) => ({
+      currQuestion: prevState.currQuestion + 1,
+      clicked: false,
+    }
+    ));
+  }
+
+  concatQuestions(correct, incorrect) {
+    const arr1 = [...incorrect, correct];
+    return arr1.sort();
+  }
+
   perguntas() {
     const { questions } = this.props;
+    const { currQuestion, clicked } = this.state;
+    const options = this.concatQuestions(questions[currQuestion].correct_answer,
+      questions[currQuestion].incorrect_answers);
     return (
       <div>
-        <h4 data-testid="question-category">{questions[0].category}</h4>
-        <p data-testid="question-text">{questions[0].question}</p>
-        <p data-testid="correct-answer">{questions[0].correct_answer}</p>
-        {questions[0].incorrect_answers.map((questao, index) => (
-          <p data-testid={ `wrong-answer-${index}` } key={ index }>{questao}</p>
+        <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
+        <p data-testid="question-text">{questions[currQuestion].question}</p>
+        {options.map((questao, index) => (
+          questao === questions[currQuestion].correct_answer ? (
+            <button
+              className={ clicked ? 'green-border' : '' }
+              onClick={ this.setClass }
+              type="button"
+              key={ index }
+              data-testid="correct-answer"
+            >
+              {questao}
+            </button>
+          ) : (
+            <button
+              className={ clicked ? 'red-border' : '' }
+              onClick={ this.setClass }
+              type="button"
+              key={ index }
+              data-testid={ `wrong-answers-${index}` }
+            >
+              {questao}
+            </button>
+          )
         ))}
-        <p>{questions[0].correct_answer}</p>
+        <button type="button" onClick={ () => this.changeQuestion() }> Proxima </button>
       </div>
     );
   }

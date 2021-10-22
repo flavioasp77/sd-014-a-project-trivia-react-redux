@@ -10,3 +10,5 @@ export async function getQuestions() {
   const returnedQuestions = await apiQuestions.json();
   return returnedQuestions;
 }
+
+export const getStorage = () => JSON.parse(localStorage.state);

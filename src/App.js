@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Game from './pages/Game';
 import Login from './pages/Login';
 import Settings from './pages/Settings';

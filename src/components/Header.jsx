@@ -29,13 +29,16 @@ class Header extends React.Component {
     const state = localStorage.getItem('state');
     const { player: { score } } = JSON.parse(state);
     return (
-      <header>
-        <h1 data-testid="header-player-name">{ username }</h1>
-        <img
-          data-testid="header-profile-picture"
-          src={ gravatarImage }
-          alt="personImage"
-        />
+      <header className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
+          <img
+            data-testid="header-profile-picture"
+            src={ gravatarImage }
+            className="rounded-circle"
+            alt="personImage"
+          />
+          <h1 data-testid="header-player-name">{ username }</h1>
+        </div>
         <h2 data-testid="header-score">{ score }</h2>
       </header>
     );

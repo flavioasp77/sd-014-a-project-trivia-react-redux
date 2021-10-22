@@ -1,8 +1,10 @@
+/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveToken, createUserLocalStorage } from '../services/localStorage';
 import { setGravatarEmail, setUsername } from '../redux/actions';
+import trivia from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -49,45 +51,59 @@ class Login extends Component {
     const { history } = this.props;
     const buttonDisabled = !(username.length > 0 && email.length > 0);
     return (
-      <main>
-        <h1>Login</h1>
-        <form>
-          <label htmlFor="email">
-            Username:
+      <main
+        className="d-flex justify-content-center align-items-center vh-100"
+        style={ { backgroundColor: '#F9F9F9' } }
+      >
+        <section
+          className="d-flex flex-column justify-content-center align-items-center
+          border rounded bg-white"
+          style={ { width: '80vh', height: '60vh' } }
+        >
+          <img
+            src={ trivia }
+            alt="logo"
+            style={ { width: '300px', height: '300px' } }
+            className="mt-5 mb-3"
+          />
+          <form className="d-flex flex-column justify-content-center align-items-center">
             <input
               data-testid="input-player-name"
               type="text"
+              className="mb-1 form-control"
               name="username"
+              placeholder="Username"
               value={ username }
               onChange={ this.handleChange }
             />
-          </label>
-          <label htmlFor="password">
-            Email:
             <input
               data-testid="input-gravatar-email"
               type="text"
+              placeholder="Email"
+              className="mb-3 form-control"
               name="email"
               value={ email }
               onChange={ this.handleChange }
             />
-          </label>
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ buttonDisabled }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-        </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configurações
-        </button>
+            <button
+              data-testid="btn-play"
+              className="btn btn-primary w-100 mb-2"
+              type="button"
+              disabled={ buttonDisabled }
+              onClick={ this.handleClick }
+            >
+              Jogar
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary w-100 mb-5"
+              data-testid="btn-settings"
+              onClick={ () => history.push('/settings') }
+            >
+              Configurações
+            </button>
+          </form>
+        </section>
       </main>
     );
   }

@@ -21,7 +21,6 @@ export default class Trivia extends React.Component {
   async componentDidMount() {
     const response = await opentdbAPI.fetchQuestions(QUESTIONS_AMOUNT);
     this.loadQuestions(response.results);
-    console.log(response.results);
   }
 
   loadQuestions(questions) {
@@ -42,7 +41,6 @@ export default class Trivia extends React.Component {
     }
 
     const question = questions.shift();
-    console.log('question:', question);
     return (
       <>
         <Header />

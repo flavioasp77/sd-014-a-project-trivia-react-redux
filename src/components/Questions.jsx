@@ -107,6 +107,7 @@ class Questions extends React.Component {
     const { allQst, id, seconds } = this.state;
     const { saveScoreInfo } = this.props;
     const state = JSON.parse(localStorage.getItem('state'));
+    state.player.assertions += 1;
     if (target.id === 'correct') {
       switch (allQst[id].difficulty) {
       case 'easy':

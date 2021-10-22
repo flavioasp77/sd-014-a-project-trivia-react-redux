@@ -11,19 +11,44 @@ class Jogo extends Component {
       isLoading: true,
       currQuestion: 0,
       clicked: false,
+      timer: 30,
     };
     this.pegarPerguntas = this.pegarPerguntas.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
     this.concatQuestions = this.concatQuestions.bind(this);
+    this.iniciarCronometro = this.iniciarCronometro.bind(this);
     this.setClass = this.setClass.bind(this);
   }
 
   componentDidMount() {
     this.pegarPerguntas();
+    this.iniciarCronometro();
+
+    console.log('O intervalo está rodando');
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const MAX_SECONDS = 0;
+
+    if (prevState.timer === MAX_SECONDS) {
+      clearInterval(this.cronometerInterval);
+      this.endTimer();
+    }
   }
 
   setClass() {
     this.setState({ clicked: true });
+  }
+
+  iniciarCronometro() {
+    const ONE_SECOND = 1000; // Milisegundos
+    this.cronometerInterval = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, ONE_SECOND);
+  }
+
+  endTimer() {
+    this.setState({ timer: 'acabou o tempo', clicked: true });
   }
 
   async pegarPerguntas() {
@@ -38,6 +63,10 @@ class Jogo extends Component {
       clicked: false,
     }
     ));
+    this.setState({ timer: 30 }, () => {
+      clearInterval(this.cronometerInterval);
+      this.iniciarCronometro();
+    });
   }
 
   concatQuestions(correct, incorrect) {
@@ -59,11 +88,12 @@ class Jogo extends Component {
 
   perguntas() {
     const { questions } = this.props;
-    const { currQuestion, clicked } = this.state;
+    const { currQuestion, clicked, timer } = this.state;
     const options = this.concatQuestions(questions[currQuestion].correct_answer,
       questions[currQuestion].incorrect_answers);
     return (
       <div>
+        <p>{timer}</p>
         <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
         <p data-testid="question-text">{questions[currQuestion].question}</p>
         {options.map((questao, index) => (
@@ -74,6 +104,7 @@ class Jogo extends Component {
               type="button"
               key={ index }
               data-testid="correct-answer"
+              disabled={ clicked }
             >
               {questao}
             </button>
@@ -84,6 +115,7 @@ class Jogo extends Component {
               type="button"
               key={ index }
               data-testid={ `wrong-answers-${index}` }
+              disabled={ clicked }
             >
               {questao}
             </button>

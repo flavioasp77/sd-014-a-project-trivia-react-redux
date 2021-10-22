@@ -1,0 +1,11 @@
+.section-answers {
+  display: flex;
+}
+
+.rightanswer {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wronganswer {
+  border: 3px solid red;
+}

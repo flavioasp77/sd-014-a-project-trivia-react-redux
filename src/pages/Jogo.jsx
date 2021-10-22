@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import {
-  handleUserAnswer as handleUserAnswerAction,
   nextQuestion as nextQuestionAction, setAnswers as setAnswersAction,
-  handleUserAnswer as handleUserAnswerAction, setAnswers as setAnswersAction,
+  handleUserAnswer as handleUserAnswerAction,
   setTimer,
 } from '../actions/indexActions';
 import generateRandomAnswers from '../helpers';
@@ -18,7 +17,7 @@ class Jogo extends Component {
       score: JSON.parse(localStorage.getItem('state')).player.score,
       nextQuestion: false,
       secondsTimer: 30,
-      score: JSON.parse(localStorage.getItem('state')).player.score,
+      interval: null,
     };
     this.handleQuestions = this.handleQuestions.bind(this);
     this.answerButtons = this.answerButtons.bind(this);
@@ -70,21 +69,21 @@ class Jogo extends Component {
   }
 
   handleResponse({ target: { value } }) {
-    const {
-      handleUserAnswer, state: { game: { answers } },
-    } = this.props;
-    const { handleUserAnswer, state: { game: { answers } }, setTimerGlobal } = this.props;
+    const { handleUserAnswer,
+      state: { game: { answers, timer: { timerValue } } },
+      setTimerGlobal } = this.props;
     const { secondsTimer } = this.state;
     const objFromLS = JSON.parse(localStorage.getItem('state'));
     const response = answers[value];
     const RIGHT_ANSWER = 10;
-    const result = response.isCorrect ? (RIGHT_ANSWER + (1 * response.difficulty)) : 0;
+    const result = response.isCorrect
+      ? (RIGHT_ANSWER + (Number(timerValue) * response.difficulty)) : 0;
     objFromLS.player.score += result;
     objFromLS.player.assertions += result !== 0 ? 1 : 0;
     localStorage.setItem('state', JSON.stringify(objFromLS));
     this.setState({ score: objFromLS.player.score, nextQuestion: true });
     handleUserAnswer();
-    setTimerGlobal({ value: secondsTimer, stop: true });
+    setTimerGlobal({ timerValue: secondsTimer, stop: true });
   }
 
   handleQuestions(questions, index) {
@@ -93,7 +92,8 @@ class Jogo extends Component {
     return (
       <>
         <Timer
-          secondsTimer={ state.game.timer.stop ? state.game.timer.value : secondsTimer }
+          secondsTimer={ state.game.timer.stop
+            ? state.game.timer.timerValue : secondsTimer }
         />
         <section>
           <h3 data-testid="question-category">
@@ -112,17 +112,24 @@ class Jogo extends Component {
     );
   }
 
-  handleNextQuestion() {
-    const { state: { game: { questions, index } },
-      setAnswers, history, nextQuestion } = this.props;
-    nextQuestion();
-    return index + 1 !== questions.length
-      ? setAnswers(generateRandomAnswers(questions, (index + 1)))
-      : history.push('/feedback');
   decrementTimer() {
     this.setState((previous) => ({
       secondsTimer: previous.secondsTimer - 1,
     }));
+  }
+
+  handleNextQuestion() {
+    const { state: { game: { questions, index } },
+      setAnswers, history, nextQuestion, setTimerGlobal } = this.props;
+    const { interval } = this.state;
+    nextQuestion();
+    setTimerGlobal({ stop: false, timerValue: 0 });
+    this.setState({ secondsTimer: 30 });
+    clearInterval(interval);
+    this.timer();
+    return index + 1 !== questions.length
+      ? setAnswers(generateRandomAnswers(questions, (index + 1)))
+      : history.push('/feedback');
   }
 
   timer() {
@@ -134,11 +141,14 @@ class Jogo extends Component {
       if (secondsTimer === 1) {
         clearInterval(timerInterval);
         handleUserAnswer();
+        this.setState({ nextQuestion: true });
         // faz que a resposta seja incorreta
       }
     },
     ONE_SECOND);
-    return timerInterval;
+    return this.setState({
+      interval: timerInterval,
+    });
   }
 
   render() {

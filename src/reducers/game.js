@@ -1,10 +1,8 @@
-import {
-  HANDLE_ANSWER, NEXT_QUESTION, SET_ANSWERS, SET_QUESTIONS,
-} from '../actions/indexActions';
 import { HANDLE_ANSWER,
   SET_ANSWERS,
   SET_QUESTIONS,
-  SET_TIMER } from '../actions/indexActions';
+  SET_TIMER,
+  NEXT_QUESTION } from '../actions/indexActions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -12,7 +10,7 @@ const INITIAL_STATE = {
   infoIsLoaded: false,
   answers: [],
   timer: {
-    value: 0,
+    timerValue: 0,
     stop: false,
   },
 };
@@ -45,13 +43,12 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       index: (state.index + 1) < state.questions.length && state.index + 1,
     };
-  }
   case SET_TIMER:
     return {
       ...state,
       timer: {
-        value: action.payload.value,
-        stop: true,
+        timerValue: action.payload.timerValue,
+        stop: action.payload.stop,
       },
     };
   default:

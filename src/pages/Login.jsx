@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import '../styles/login.css';
 import {
   setUser as setUserAction, setTokenAPI as setTokenAPIAction,
+  setCategoriesAPI as setCategoriesAPIAction,
 } from '../actions/indexActions';
 import { setInitialStateLS } from '../helpers/index';
 
@@ -20,15 +20,20 @@ class Login extends Component {
     this.btnJogar = this.btnJogar.bind(this);
   }
 
+  componentDidMount() {
+    const { setCategoriesAPI } = this.props;
+    setCategoriesAPI();
+  }
+
   handleInput({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
 
   async handleClick() {
-    const { history, setUser, setTokenAPI } = this.props;
+    const { history, setUser, setTokenAPI, chosedSettings } = this.props;
     const { name, email } = this.state;
     setUser({ name, email });
-    await setTokenAPI();
+    await setTokenAPI(chosedSettings);
     const objLocal = { player: {
       name,
       assertions: 0,
@@ -48,6 +53,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
+    const { history } = this.props;
     return (
       <main className="containner-login-main">
         <form className="card-login">
@@ -80,15 +86,14 @@ class Login extends Component {
           >
             Jogar
           </button>
-          <Link to="/settings">
-            <button
-              className="btn-config"
-              data-testid="btn-settings"
-              type="button"
-            >
-              configuração do jogo
-            </button>
-          </Link>
+          <button
+            className="btn-config"
+            data-testid="btn-settings"
+            type="button"
+            onClick={ () => history.push('/settings') }
+          >
+            configuração do jogo
+          </button>
         </form>
       </main>
     );
@@ -99,11 +104,17 @@ Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   setUser: PropTypes.func.isRequired,
   setTokenAPI: PropTypes.func.isRequired,
+  setCategoriesAPI: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   setUser: (payload) => dispatch(setUserAction(payload)),
-  setTokenAPI: () => dispatch(setTokenAPIAction()),
+  setTokenAPI: (payload) => dispatch(setTokenAPIAction(payload)),
+  setCategoriesAPI: () => dispatch(setCategoriesAPIAction()),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = ({ settings: { chosedSettings } }) => ({
+  chosedSettings,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

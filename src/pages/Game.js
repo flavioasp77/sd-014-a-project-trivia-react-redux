@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import { getQuestions } from '../services/requests';
 import '../css/Game.css';
 
+const correctAnswer = 'correct-answer';
+
 class Game extends Component {
   constructor() {
     super();
@@ -13,6 +15,7 @@ class Game extends Component {
       questionsList: [],
     };
     this.setQuestionsInState = this.setQuestionsInState.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async setQuestionsInState() {
@@ -30,7 +33,8 @@ class Game extends Component {
 
   treatAnswersData(questionInfo) {
     const CORRECT_ANSWER = {
-      value: 'correct-answer', alternative: questionInfo.correct_answer };
+      value: correctAnswer, alternative: questionInfo.correct_answer,
+    };
     const WRONG_ANSWERS = questionInfo.incorrect_answers.map((alternative, index) => ({
       value: `wrong-answer-${index}`,
       alternative,
@@ -38,6 +42,10 @@ class Game extends Component {
     const ALL_ANSWERS = [{ ...CORRECT_ANSWER }, ...WRONG_ANSWERS];
     const SHUFFLED_ANSWERS = this.shuffle(ALL_ANSWERS);
     return SHUFFLED_ANSWERS;
+  }
+
+  handleClick({ target }) {
+    target.parentElement.className = 'answers-reveal';
   }
 
   render() {
@@ -64,6 +72,7 @@ class Game extends Component {
                   type="button"
                   key={ index }
                   data-testid={ value }
+                  onClick={ this.handleClick }
                 >
                   {alternative}
                 </button>

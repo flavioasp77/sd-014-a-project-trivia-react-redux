@@ -40,7 +40,7 @@ export default class TriviaQuestion extends Component {
           key={ index }
           type="button"
           data-testid={ correctOrWrong ? correct : wrong }
-          className={ className && `button-${correctOrWrong ? 'correct' : 'wrong'}` }
+          className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
           onClick={ this.handleClick }
         >
           { alternative }

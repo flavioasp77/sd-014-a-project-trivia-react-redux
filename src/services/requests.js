@@ -9,7 +9,7 @@ const getQuestions = async () => {
   const userToken = localStorage.getItem('token');
   const question = `https://opentdb.com/api.php?amount=5&token=${userToken}`;
   const response = await fetch(question);
-  const data = response.json();
+  const data = await response.json();
   return data;
 };
 

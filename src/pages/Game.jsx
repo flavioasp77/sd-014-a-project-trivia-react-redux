@@ -4,15 +4,24 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getTriviaActionThunk } from '../actions';
 
+const TIME_OUT = 30000;
+const ONE_SECOND = 1000;
+
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       questions: [],
+      counter: 30,
+      timer: false,
+      timerId: '',
+      counterId: '',
+
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
     this.renderMultiple = this.renderQuestion.bind(this);
+    this.startTimeOut = this.startTimeOut.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -21,6 +30,25 @@ class Game extends Component {
     if (prevProps.questions !== questions) {
       this.treatQuestions();
     }
+  }
+
+  startTimeOut() {
+    const counterId = setInterval(() => {
+      let { counter } = this.state;
+      counter -= 1;
+      this.setState({ counter });
+    }, ONE_SECOND);
+
+    const timerId = setTimeout(() => {
+      // FAÇA ALGUMA COISA QUANTO TERMINAR OS 30 SEGUNDOS
+      clearInterval(counterId);
+    }, TIME_OUT);
+
+    this.setState({
+      timer: true,
+      timerId,
+      counterId,
+    });
   }
 
   treatQuestions() {
@@ -33,7 +61,7 @@ class Game extends Component {
     }, []);
     this.setState({
       questions: options,
-    });
+    }, () => this.startTimeOut());
   }
 
   renderQuestion() {
@@ -57,13 +85,15 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.state;
+    const { counter, questions } = this.state;
     if (questions.length !== 0) {
       return (
         <div>
+
           <h3 data-testid="question-category">{questions[0].category}</h3>
           <p data-testid="question-text">{questions[0].question}</p>
           { this.renderQuestion() }
+          <h4>{`Tempo: ${counter}`}</h4>
         </div>
       );
     }

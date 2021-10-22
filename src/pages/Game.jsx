@@ -26,6 +26,7 @@ class Game extends Component {
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -79,6 +80,13 @@ class Game extends Component {
     });
   }
 
+  handleNext() {
+    const { indexNext, questions } = this.state;
+    if (indexNext < questions.length - 1) {
+      this.setState({ indexNext: indexNext + 1 });
+    }
+  }
+
   renderQuestion() {
     const { questions, clickedAnswer, disabledBtn, indexNext } = this.state;
     return (
@@ -114,7 +122,13 @@ class Game extends Component {
           <h3 data-testid="question-category">{questions[indexNext].category}</h3>
           <p data-testid="question-text">{questions[indexNext].question}</p>
           { this.renderQuestion() }
-          <button type="button">Próxima</button>
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleNext }
+          >
+            Próxima
+          </button>
           <h4>{`Tempo: ${counter}`}</h4>
         </div>
       );

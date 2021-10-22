@@ -10,33 +10,44 @@ export default class TriviaQuestion extends Component {
       // estados do timer
       timer: 30,
       timeDisableButton: false,
+      idInterval: null,
     };
     this.handleClick = this.handleClick.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.setIntervalFunction = this.setIntervalFunction.bind(this);
+    this.deleiPraREsponder = this.deleiPraREsponder.bind(this);
   }
 
   componentDidMount() {
-    const TIMEOUT = 5000;
-    setTimeout(() => {
-      this.setIntervalFunction();
-    }, TIMEOUT);
+    this.deleiPraREsponder();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const MIN_SECONDS = 0;
+    const { idInterval } = this.state;
+    const MIN_SECONDS = 1;
+
     if (prevState.timer === MIN_SECONDS) {
       this.resetTimer();
+      clearInterval(idInterval);
     }
   }
 
   // função para gerar o tempo
   setIntervalFunction() {
     const TIME_INTERVAL = 1000;
-
-    setInterval(() => {
-      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    const idSetInterval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1, idInterval: idSetInterval }));
     }, TIME_INTERVAL);
+  }
+
+  deleiPraREsponder() {
+    const TIMEOUT = 5000;
+    this.setState({ timeDisableButton: true });
+    setTimeout(() => {
+      this.setIntervalFunction();
+      this.setState({ timeDisableButton: false });
+    }, TIMEOUT);
   }
 
   // reset do timer
@@ -57,7 +68,9 @@ export default class TriviaQuestion extends Component {
   }
 
   handleClick() {
+    const { idInterval } = this.state;
     this.setState({ className: true });
+    clearInterval(idInterval);
   }
 
   mapAlternatives() {

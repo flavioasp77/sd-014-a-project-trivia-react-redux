@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React from 'react';
 
 class NextQstButton extends React.Component {
@@ -10,5 +11,9 @@ class NextQstButton extends React.Component {
     );
   }
 }
+
+NextQstButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
 
 export default NextQstButton;

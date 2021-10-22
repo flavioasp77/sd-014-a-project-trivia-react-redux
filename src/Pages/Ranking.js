@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 class Ranking extends Component {
   render() {
     return (
-      <div />
+      <h2 data-testid="ranking-title">
+        Ranking
+      </h2>
     );
   }
 }

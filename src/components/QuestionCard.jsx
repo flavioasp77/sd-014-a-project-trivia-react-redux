@@ -16,8 +16,8 @@ class QuestionCard extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.updateState = this.updateState.bind(this);
   }
-  
-    componentDidMount() {
+ 
+  componentDidMount() {
     const ONE_SECOND = 1000;
     this.counter = setInterval(() => {
       this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));

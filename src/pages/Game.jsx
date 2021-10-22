@@ -19,7 +19,7 @@ class Game extends Component {
       counterId: '',
       clickedAnswer: '',
       disabledBtn: false,
-
+      indexNext: 0,
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
@@ -80,21 +80,21 @@ class Game extends Component {
   }
 
   renderQuestion() {
-    const { questions, clickedAnswer, disabledBtn } = this.state;
+    const { questions, clickedAnswer, disabledBtn, indexNext } = this.state;
     return (
       <div>
-        { questions[0].arrayAnswer.sort().map((answer, index, array) => (
+        { questions[indexNext].arrayAnswer.sort().map((answer, index, array) => (
           <button
             disabled={ disabledBtn }
             className={
               (clickedAnswer || disabledBtn) && (
-                answer === questions[0].correct_answer
+                answer === questions[indexNext].correct_answer
                   ? 'correctAnswer' : 'wrongAnswer')
             }
             onClick={ () => this.handleClick(answer) }
             key={ index }
             type="button"
-            data-testid={ questions[0].correct_answer === answer
+            data-testid={ questions[indexNext].correct_answer === answer
               ? 'correct-answer'
               : `wrong-answer-${array.indexOf(answer)}` }
           >
@@ -106,14 +106,15 @@ class Game extends Component {
   }
 
   render() {
-    const { counter, questions } = this.state;
+    const { counter, questions, indexNext } = this.state;
     if (questions.length !== 0) {
       return (
         <div>
           <Header />
-          <h3 data-testid="question-category">{questions[0].category}</h3>
-          <p data-testid="question-text">{questions[0].question}</p>
+          <h3 data-testid="question-category">{questions[indexNext].category}</h3>
+          <p data-testid="question-text">{questions[indexNext].question}</p>
           { this.renderQuestion() }
+          <button type="button">Próxima</button>
           <h4>{`Tempo: ${counter}`}</h4>
         </div>
       );

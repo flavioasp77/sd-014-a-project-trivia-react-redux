@@ -18,7 +18,7 @@ class Game extends React.Component {
       questions: [],
       index: 0,
       clicked: false,
-      stopwatch: 30,
+      stopwatch: 5,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
@@ -26,6 +26,7 @@ class Game extends React.Component {
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.initTimer = this.initTimer.bind(this);
+    this.toCheck = this.toCheck.bind(this);
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
@@ -37,6 +38,13 @@ class Game extends React.Component {
     this.cloneLocalStorageToState();
     this.fetchApi();
     this.initTimer();
+  }
+
+  componentDidUpdate() {
+    const { stopwatch } = this.state;
+    if (stopwatch === 0) {
+      this.clickAnswer();
+    }
   }
 
   async fetchApi() {
@@ -82,15 +90,21 @@ class Game extends React.Component {
 
   clickAnswer() {
     this.setState({ clicked: true });
+    clearInterval(this.timer);
   }
 
   initTimer() {
     const SECOND_TIME = 1000;
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState((prevState) => ({
         stopwatch: prevState.stopwatch - 1,
       }));
     }, SECOND_TIME);
+  }
+
+  toCheck() {
+    console.log('botao desabilitar');
+    console.log('mostrar resposta correto');
   }
 
   render() {
@@ -104,11 +118,6 @@ class Game extends React.Component {
             <div>
               <p data-testid="question-category">{ questions[index].category }</p>
               <p data-testid="question-text">{questions[index].question}</p>
-              <div>
-                Tempo restante:
-                {' '}
-                { stopwatch <= 0 ? 'tempo esgotado' : stopwatch }
-              </div>
               {this.sortArray().map((atual, indice) => (
                 <button
                   type="button"
@@ -132,6 +141,11 @@ class Game extends React.Component {
               dataTestid="btn-next"
               onClick={ this.nextQuestion }
             />)}
+          <div>
+            Tempo restante:
+            {' '}
+            
+          </div>
         </main>
       </>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import getGravatar from '../helpers/getGravatar';
 
@@ -46,6 +47,7 @@ class Feedback extends React.Component {
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
+        <p data-testid="feedback-text">{ this.messageFeedback() }</p>
         <h1 data-testid="feedback-text">{ this.messageFeedback() }</h1>
         <br />
         <h2 data-testid="feedback-total-question">
@@ -54,6 +56,22 @@ class Feedback extends React.Component {
         <h2 data-testid="feedback-total-score">
           { `Um total de ${score} pontos.`}
         </h2>
+        <Link to="/">
+          <button
+            data-testid="btn-play-again"
+            type="button"
+          >
+            Jogar novamente
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            data-testid="btn-ranking"
+            type="button"
+          >
+            Ver Ranking
+          </button>
+        </Link>
       </>
     );
   }

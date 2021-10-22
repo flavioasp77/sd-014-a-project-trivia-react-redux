@@ -29,9 +29,15 @@ export default class Trivia extends React.Component {
 
   handleAnswer(answer) {
     const { score } = this.state;
-    if (answer) {
-      this.setState({ score: score + 1 });
+    this.setState({ score: score + (answer ? 1 : 0) });
+  }
+
+  shuffle(array) {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
   }
 
   render() {
@@ -40,11 +46,19 @@ export default class Trivia extends React.Component {
       return (<Loading />);
     }
 
-    const question = questions.shift();
+    const oneQuestion = questions.shift();
+    const { category, question } = oneQuestion;
+    const correctAnswer = oneQuestion.correct_answer;
+    const incorrectAnswers = oneQuestion.incorrect_answers;
+    const options = this.shuffle([correctAnswer, ...incorrectAnswers]);
+
     return (
       <>
         <Header />
-        <QuestionCard question={ question } callback={ this.handleAnswer } />
+        <QuestionCard
+          data={ { category, question, correctAnswer, incorrectAnswers, options } }
+          callback={ this.handleAnswer }
+        />
       </>
     );
   }

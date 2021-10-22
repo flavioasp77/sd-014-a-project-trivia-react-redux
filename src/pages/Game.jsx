@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import triviaLogo from '../trivia.png';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { questionsInfoThunk } from '../actions';
+import './game.css';
 
 class Game extends Component {
   componentDidMount() {
@@ -15,7 +17,7 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        <h1>TRIVIA</h1>
+        <img className="trivia-logo" src={ triviaLogo } alt="Logo do App Trivia" />
         <Questions />
       </div>
     );

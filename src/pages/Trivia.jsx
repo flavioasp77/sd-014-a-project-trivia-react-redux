@@ -50,7 +50,19 @@ class Trivia extends React.Component {
     });
   }
 
-  handleClick() {
+  handleClick({ target }) {
+    const { perguntas, timer } = this.state;
+    const BASE_SCORE = 10;
+    const difficultyLevel = ['MULTIPLIER_0', 'easy', 'medium', 'hard']; // Index 0 means multipler 0, so each subsequent value has it's index equal to the difficulty score multiplier we want. E.g: easy = 1.. Normal = 2
+    const isAnswerCorrect = perguntas.find((pergunta) => decodeURIComponent(pergunta
+      .correct_answer) === target.innerHTML);
+    if (isAnswerCorrect) {
+      const difficultyMultiplier = difficultyLevel.indexOf(difficultyLevel
+        .find((diff) => diff === isAnswerCorrect.difficulty));
+      const jogador = JSON.parse(localStorage.getItem('state'));
+      jogador.player.score += (BASE_SCORE + (timer * difficultyMultiplier));
+      localStorage.state = JSON.stringify(jogador);
+    }
     this.computeAnswer();
   }
 

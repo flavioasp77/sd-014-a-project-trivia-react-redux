@@ -22,10 +22,12 @@ class Login extends React.Component {
   async playBTNClick() {
     const { email, userName } = this.state;
     const player = {
-      name: userName,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
+      player: {
+        name: userName,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
     const { history } = this.props;
     const resultTriviaAPI = await getToken();

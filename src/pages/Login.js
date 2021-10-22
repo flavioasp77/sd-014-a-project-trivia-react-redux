@@ -1,37 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      disableButton: true,
       name: '',
       email: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.enableButton = this.enableButton.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleChange({ target }) {
-    this.setState({ [target.name]: target.value });
-    this.enableButton();
+  handleChange({ target: { name, value } }) {
+    this.setState({
+      [name]: value,
+    });
   }
 
-  enableButton() {
-    const { name, email } = this.state;
-    if (name.length > 0 && email.length > 0) {
-      this.setState({ disableButton: false });
-    } else {
-      this.setState({ disableButton: true });
-    }
+  handleClick(event) {
+    event.preventDefault();
+    const { loginSave } = this.props;
+    loginSave(this.state);
   }
 
   render() {
-    const { name, email, disableButton } = this.state;
+    const { name, email } = this.state;
     return (
-      <form>
+      <form onSubmit={ this.handleClick }>
         <label htmlFor="name">
           Nome:
           <input
@@ -57,7 +57,7 @@ class Login extends React.Component {
         <button
           type="button"
           data-testid="btn-play"
-          disabled={ disableButton }
+          disabled={ !name || !email }
         >
           Jogar
         </button>
@@ -66,4 +66,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginSave: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (payload) => dispatch(login(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

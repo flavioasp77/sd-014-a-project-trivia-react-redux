@@ -6,7 +6,7 @@ export default class Ranking extends Component {
   render() {
     return (
       <div>
-        <h2 data-testid="ranking-title">Xablau</h2>
+        <h2 data-testid="ranking-title">Xablauu</h2>
         {getRankings().map(({ name, score, picture }, i) => (
           <div key={ i }>
             <p data-testid={ `player-name-${i}` }>

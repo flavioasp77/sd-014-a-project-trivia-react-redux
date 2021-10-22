@@ -55,6 +55,8 @@ class Game extends Component {
     };
     const sum = time * scorePoints[difficulty];
     const state = JSON.parse(localStorage.getItem('state'));
+    const assert = state.player.assertions;
+    state.player.assertions = assert + 1;
     const total = state.player.score + sum;
     state.player.score = total;
     localStorage.setItem('state', JSON.stringify(state));

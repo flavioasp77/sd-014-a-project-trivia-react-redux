@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { setTimer } from '../actions';
 import './questions.css';
 import Buttons from './Buttons';
 
@@ -29,8 +30,10 @@ class Questions extends Component {
 
   componentDidUpdate() {
     const { timer } = this.state;
+    const { setTimerAction } = this.props;
     if (timer === 0) {
       clearInterval(this.timeOut);
+      setTimerAction(timer);
     }
   }
 
@@ -52,7 +55,11 @@ class Questions extends Component {
   }
 
   handleClickAnswer() {
+    const { setTimerAction } = this.props;
+    const { timer } = this.state;
     this.setState({ click: true });
+    clearInterval(this.timeOut);
+    setTimerAction(timer);
   }
 
   render() {
@@ -91,13 +98,17 @@ class Questions extends Component {
 Questions.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   questionResults: PropTypes.shape({
-    response: PropTypes.arrayOf.isRequired,
-  }).isRequired,
+    response: PropTypes.arrayOf().isRequired }).isRequired,
+  setTimerAction: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  setTimerAction: (timer) => (dispatch(setTimer(timer))),
+});
 
 const mapStateToProps = (state) => ({
   questionResults: state.questions.response,
   isFetching: state.questions.isFetching,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

@@ -50,7 +50,7 @@ export default class Trivia extends React.Component {
     const { category, question } = oneQuestion;
     const correctAnswer = oneQuestion.correct_answer;
     const incorrectAnswers = oneQuestion.incorrect_answers;
-    const options = this.shuffle([correctAnswer, ...incorrectAnswers])
+    const options = this.shuffle([correctAnswer, ...incorrectAnswers]);
 
     return (
       <>

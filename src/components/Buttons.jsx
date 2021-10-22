@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Buttons extends React.Component {
   render() {
     const { order, handleClickAnswer,
-      click, questionResults, atualQuestion, handleNextBtn } = this.props;
+      click, questionResults, atualQuestion, handleNextBtn, scoreUpdate } = this.props;
     return (
       <div>
         <section className="section-answers">
@@ -13,7 +13,7 @@ class Buttons extends React.Component {
             data-testid="correct-answer"
             style={ { order } }
             className={ click && 'rightanswer' }
-            onClick={ handleClickAnswer }
+            onClick={ scoreUpdate }
           >
             {questionResults.response[atualQuestion].correct_answer}
           </button>
@@ -53,6 +53,7 @@ Buttons.propTypes = {
   questionResults: PropTypes.arrayOf(PropTypes.any).isRequired,
   atualQuestion: PropTypes.number.isRequired,
   handleNextBtn: PropTypes.func.isRequired,
+  scoreUpdate: PropTypes.func.isRequired,
 };
 
 export default Buttons;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import './questions.css';
 import Buttons from './Buttons';
+import { scoreInfo } from '../actions';
 
 class Questions extends Component {
   constructor() {
@@ -12,10 +13,12 @@ class Questions extends Component {
       order: 0,
       atualQuestion: 0,
       click: false,
+      score: 0,
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
+    this.scoreUpdate = this.scoreUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +40,16 @@ class Questions extends Component {
       atualQuestion: atualQuestion + 1,
       click: false,
     });
+  }
+
+  scoreUpdate() {
+    const { score } = this.state;
+    const rightAnswerScore = 10;
+    const { scoreActionInfo } = this.props;
+
+    this.handleClickAnswer();
+    scoreActionInfo(score + rightAnswerScore);
+    this.setState({ score: score + rightAnswerScore });
   }
 
   handleClickAnswer() {
@@ -64,6 +77,7 @@ class Questions extends Component {
         <Buttons
           order={ order }
           handleClickAnswer={ this.handleClickAnswer }
+          scoreUpdate={ this.scoreUpdate }
           click={ click }
           atualQuestion={ atualQuestion }
           questionResults={ questionResults }
@@ -76,6 +90,7 @@ class Questions extends Component {
 
 Questions.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  scoreActionInfo: PropTypes.func.isRequired,
   questionResults: PropTypes.shape({
     response: PropTypes.arrayOf.isRequired,
   }).isRequired,
@@ -86,4 +101,8 @@ const mapStateToProps = (state) => ({
   isFetching: state.questions.isFetching,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  scoreActionInfo: (scoreNum) => dispatch(scoreInfo(scoreNum)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

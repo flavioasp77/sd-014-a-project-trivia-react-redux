@@ -3,14 +3,6 @@ import PropTypes from 'prop-types';
 import '../styles/TriviaQuestion.style.css';
 
 export default class TriviaQuestion extends Component {
-  constructor() {
-    super();
-    this.state = {
-      className: false,
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   questionRender() {
     const { question } = this.props;
     return (
@@ -23,13 +15,8 @@ export default class TriviaQuestion extends Component {
       </div>);
   }
 
-  handleClick() {
-    this.setState({ className: true });
-  }
-
   mapAlternatives() {
-    const { question, scrambledQuestions } = this.props;
-    const { className } = this.state;
+    const { question, scrambledQuestions, className, handleClickQuestion } = this.props;
     let wrongIndex = 0;
     return scrambledQuestions.map((alternative, index) => {
       const correctOrWrong = alternative === question.correct_answer;
@@ -41,7 +28,7 @@ export default class TriviaQuestion extends Component {
           type="button"
           data-testid={ correctOrWrong ? correct : wrong }
           className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
-          onClick={ this.handleClick }
+          onClick={ handleClickQuestion }
         >
           { alternative }
         </button>);
@@ -66,4 +53,6 @@ export default class TriviaQuestion extends Component {
 TriviaQuestion.propTypes = {
   question: PropTypes.arrayOf(PropTypes.any).isRequired,
   scrambledQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  className: PropTypes.bool.isRequired,
+  handleClickQuestion: PropTypes.func.isRequired,
 };

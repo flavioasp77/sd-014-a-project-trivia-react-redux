@@ -24,7 +24,9 @@ class Trivia extends React.Component {
     const SECONDS_TO_MILLISECONDS = 1000;
     this.chamaApi();
     this.timer();
-    this.timeout = setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
+    this.timeout = setTimeout(
+      () => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS,
+    );
   }
 
   componentWillUnmount() {

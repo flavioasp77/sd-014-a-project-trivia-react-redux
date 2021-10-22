@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
 
@@ -53,11 +54,33 @@ class Feedback extends React.Component {
           {`Com um total de ${player.score} pontos!`}
         </span>
         <br />
-        <button type="button" name="play-again" data-testid="btn-play-again" onClick={ this.handleClickPlayAgain }>Jogar novamente</button>
-        <button type="button" name="ranking" data-testid="btn-ranking" onClick={ this.handleClickRanking }>Ver Ranking</button>
+        <button
+          type="button"
+          name="play-again"
+          data-testid="btn-play-again"
+          onClick={ this.handleClickPlayAgain }
+        >
+          Jogar novamente
+
+        </button>
+        <button
+          type="button"
+          name="ranking"
+          data-testid="btn-ranking"
+          onClick={ this.handleClickRanking }
+        >
+          Ver Ranking
+
+        </button>
       </div>
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.objectOf({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default (Feedback);

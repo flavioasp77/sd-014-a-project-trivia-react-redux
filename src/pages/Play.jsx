@@ -7,8 +7,31 @@ import QuestionCard from '../components/QuestionCard';
 import '../styles/Play.css';
 
 class Play extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      answerIndex: 0,
+      showAnswer: false,
+    };
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.shouldShowAnswer = this.shouldShowAnswer.bind(this);
+  }
+
+  nextQuestion() {
+    this.setState((prevState) => ({
+      answerIndex: prevState.answerIndex + 1,
+      showAnswer: false,
+    }));
+  }
+
+  shouldShowAnswer() {
+    this.setState({ showAnswer: true });
+  }
+
   render() {
     const { data } = this.props;
+    const { answerIndex, showAnswer } = this.state;
+
     const { response_code: responseCode, results } = data;
 
     if (responseCode !== 0) {
@@ -25,7 +48,12 @@ class Play extends Component {
     return (
       <div>
         <Header />
-        <QuestionCard data={ results[0] } />
+        <QuestionCard
+          data={ results[answerIndex] }
+          nextQuestion={ this.nextQuestion }
+          showAnswer={ showAnswer }
+          shouldShowAnswer={ this.shouldShowAnswer }
+        />
       </div>
     );
   }

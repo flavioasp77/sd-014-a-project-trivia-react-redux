@@ -4,21 +4,8 @@ import Answers from './Answers';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAnswer: false,
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.setState({ showAnswer: true });
-  }
-
   render() {
-    const { data } = this.props;
-    const { showAnswer } = this.state;
+    const { data, nextQuestion, showAnswer, shouldShowAnswer } = this.props;
 
     const {
       category,
@@ -41,12 +28,17 @@ class QuestionCard extends Component {
           <Answers
             correctAnswer={ correct }
             incorrectAnswers={ incorrect }
-            onAnswerClick={ this.handleClick }
+            onAnswerClick={ shouldShowAnswer }
             showAnswer={ showAnswer }
           />
         </div>
         {showAnswer && (
-          <button className="btn-next" data-testid="btn-next" type="button">
+          <button
+            className="btn-next"
+            data-testid="btn-next"
+            onClick={ nextQuestion }
+            type="button"
+          >
             PRÓXIMA
           </button>
         )}
@@ -62,6 +54,9 @@ QuestionCard.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string).isRequired,
     question: PropTypes.string.isRequired,
   }).isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+  showAnswer: PropTypes.bool.isRequired,
+  shouldShowAnswer: PropTypes.func.isRequired,
 };
 
 export default QuestionCard;

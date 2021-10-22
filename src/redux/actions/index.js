@@ -37,7 +37,7 @@ export function fetchApiTrivia() {
 
 export const generateQuestions = (questions) => ({
   type: QUESTIONS,
-  payload: questions,
+  questions,
 });
 
 export const fetchQuestions = () => async (dispatch, getState) => {

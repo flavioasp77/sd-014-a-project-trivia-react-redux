@@ -24,7 +24,7 @@ class Play extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  generateQuestions: state.game.questions,
+  generateQuestions: state.questions,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -29,16 +29,18 @@ const INITIAL_STATE = {
   score: 0,
   gravatarEmail: '',
   thumbnail: '',
+  token: '',
 };
 
-function player(state = INITIAL_STATE, { type, payload, thumbnail }) {
+function player(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
   case SAVE_USERINFO:
     return {
       ...state,
       name: payload.name,
       gravatarEmail: payload.gravatarEmail,
-      thumbnail,
+      thumbnail: payload.thumbnail,
+      token: payload.token,
     };
   default:
     return state;

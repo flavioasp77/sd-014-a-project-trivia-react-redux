@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-class PlayAgain extends React.Component {
+class PlayAgainBtn extends React.Component {
   render() {
     return (
       <div>
@@ -13,4 +13,4 @@ class PlayAgain extends React.Component {
   }
 }
 
-export default PlayAgain;
+export default PlayAgainBtn;

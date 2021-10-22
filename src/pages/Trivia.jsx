@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../components/Header';
 
 export default class Trivia extends Component {
   constructor() {
@@ -41,6 +42,7 @@ export default class Trivia extends Component {
 
     return (
       <main>
+        <Header />
         <h1>Jogo</h1>
         {questions.length > 0 && (
           <div>

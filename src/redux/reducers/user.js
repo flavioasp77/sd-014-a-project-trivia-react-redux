@@ -1,16 +1,19 @@
+import { USER } from '../actions';
+
 const INITIAL_STATE = {
-  name: '',
+  username: '',
   assertions: '',
   score: '',
-  garvatarEmail: '',
+  email: '',
 };
 
 function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'USER_EMAIL':
+  case USER:
     return {
       ...state,
-      gravatarEmail: action.payload,
+      username: action.payload.user,
+      email: action.payload.email,
     };
   default:
     return state;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
-import { getToken } from '../redux/actions';
+import { getToken, user as userAction } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -34,10 +34,15 @@ class Login extends Component {
   }
 
   handleClick(event) {
-    const { token } = this.props;
     event.preventDefault();
+    const { token } = this.props;
+    const { history } = this.props;
+    const { username, email } = this.state;
+    const { user } = this.props;
+    user(username, email);
     this.tokenApi();
     token(this.state);
+    history.push('/Trivia');
   }
 
   async tokenApi() {
@@ -56,7 +61,7 @@ class Login extends Component {
           type="text"
           id="username"
           dataTestId="input-player-name"
-          value={ username }
+          name={ username }
           onChange={ this.handleChange }
         />
         <Input
@@ -90,6 +95,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  user: PropTypes.func.isRequired,
   token: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -98,6 +104,7 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   token: (token) => dispatch(getToken(token)),
+  user: (username, email) => dispatch(userAction(username, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

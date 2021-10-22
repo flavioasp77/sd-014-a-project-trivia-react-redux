@@ -4,15 +4,37 @@ import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Header from '../components/Header';
 
+let control = 1;
+
+const RANGE025 = 0.25;
+const RANGE05 = 0.5;
+const RANGE075 = 0.75;
 const magicNumber = '0.33';
+const timer = 30;
 
 class Game extends React.Component {
   constructor() {
     super();
-
     this.state = {
       index: 0,
+      remainingTime: timer,
+      disabled: false,
     };
+    this.countdownTimer = this.countdownTimer.bind(this);
+    this.updateRemaingTime = this.updateRemaingTime.bind(this);
+  }
+
+  updateRemaingTime(time) {
+    const { remainingTime } = this.state;
+
+    if (time === 0 && control === 1) {
+      this.setState({
+        remainingTime: 0,
+        disabled: true,
+      });
+      control = remainingTime;
+    }
+    console.log(remainingTime);
   }
 
   countdownTimer() {
@@ -20,20 +42,24 @@ class Game extends React.Component {
       <section>
         <CountdownCircleTimer
           isPlaying
-          duration={ 30 }
+          duration={ timer }
           colors={ [
             ['#004777', magicNumber],
             ['#F7B801', magicNumber],
             ['#A30000', magicNumber],
           ] }
         >
-          {({ remainingTime }) => remainingTime}
+          {({ remainingTime }) => {
+            if (remainingTime === 0) this.updateRemaingTime(0);
+            return remainingTime;
+          } }
         </CountdownCircleTimer>
       </section>
     );
   }
 
   mixBoolean(correctAnswer, incorretAnswers) {
+    const { disabled } = this.state;
     return (
       <>
         <button
@@ -42,14 +68,18 @@ class Game extends React.Component {
         >
           { incorretAnswers[0] }
         </button>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          disabled={ disabled }
+        >
+          { correctAnswer }
+        </button>
       </>
     );
   }
 
   verifyRange(RANGE, incorrectMaped, rightAnswer) {
-    const RANGE05 = 0.5;
-    const RANGE075 = 0.75;
     const arrangement = [];
 
     if (RANGE === RANGE05) {
@@ -69,12 +99,18 @@ class Game extends React.Component {
   }
 
   mixMultiple(correctAnswer, incorretAnswers, randomic) {
-    const RANGE05 = 0.5;
-    const RANGE075 = 0.75;
+    const { disabled } = this.state;
 
     const rightAnswer = (
       <>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          disabled={ disabled }
+        >
+          { correctAnswer }
+
+        </button>
         <br />
       </>
     );
@@ -85,6 +121,7 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${i}` }
           key={ i }
+          disabled={ disabled }
         >
           {incorrect}
         </button>
@@ -107,29 +144,33 @@ class Game extends React.Component {
     const { type, correct_answer: correctAnswer } = objectQuestion;
     const { incorrect_answers: incorretAnswers } = objectQuestion;
     const randomic = Math.random();
-    //  console.log(randomic);
+    const { disabled } = this.state;
     if (type === 'boolean') {
-      const RANGE = 0.5;
-      if (randomic > RANGE) {
+      if (randomic > RANGE05) {
         return this.mixBoolean(correctAnswer, incorretAnswers);
       }
       return (
         <>
-          <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+          <button
+            type="button"
+            data-testid="correct-answer"
+            disabled={ disabled }
+          >
+            { correctAnswer }
+          </button>
           <button
             type="button"
             data-testid="wrong-answer-0"
+            disabled={ disabled }
           >
             { incorretAnswers[0] }
           </button>
         </>
       );
     }
-    const RANGE025 = 0.25;
     if (randomic > RANGE025) {
       return this.mixMultiple(correctAnswer, incorretAnswers, randomic);
     }
-    //  console.log("Primeiro");
     return (
       <>
         <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
@@ -140,6 +181,7 @@ class Game extends React.Component {
               type="button"
               data-testid={ `wrong-answer-${i}` }
               key={ i }
+              disabled={ disabled }
             >
               {incorrect}
             </button>

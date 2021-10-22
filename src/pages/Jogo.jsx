@@ -45,6 +45,18 @@ class Jogo extends Component {
     return arr1.sort();
   }
 
+  button() {
+    return (
+      <button
+        type="button"
+        onClick={ this.changeQuestion }
+        data-testid="btn-next"
+      >
+        Proxima
+      </button>
+    );
+  }
+
   perguntas() {
     const { questions } = this.props;
     const { currQuestion, clicked } = this.state;
@@ -77,7 +89,7 @@ class Jogo extends Component {
             </button>
           )
         ))}
-        <button type="button" onClick={ () => this.changeQuestion() }> Proxima </button>
+        {clicked && this.button()}
       </div>
     );
   }

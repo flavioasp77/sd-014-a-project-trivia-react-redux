@@ -1,9 +1,10 @@
-import { getToken } from '../../utils/gameAPI';
-import { localSaveItem } from '../../utils/localStorageAPI';
+import { getToken, getQuestions } from '../../utils/gameAPI';
+import { localSaveItem, localGetItem } from '../../utils/localStorageAPI';
 
 export const SET_PLAYER = 'LOGIN_PLAYER';
 export const IS_FETCHING = 'IS_FETCHING';
 export const SET_TOKEN = 'GET_TOKEN';
+export const SET_QUESTIONS = 'GET_QUESTIONS';
 
 const setToken = (token) => ({
   type: SET_TOKEN,
@@ -12,6 +13,11 @@ const setToken = (token) => ({
 
 const setPlayer = (payload) => ({
   type: SET_PLAYER,
+  payload,
+});
+
+const setQuestions = (payload) => ({
+  type: SET_QUESTIONS,
   payload,
 });
 
@@ -31,5 +37,13 @@ export const loginPlayer = (player) => (
   (dispatch) => {
     dispatch(setPlayer(player));
     dispatch(fetchToken());
+  }
+);
+
+export const fetchQuestions = () => (
+  async (dispatch) => {
+    const token = localGetItem('token');
+    const questions = await getQuestions(token);
+    dispatch(setQuestions(questions));
   }
 );

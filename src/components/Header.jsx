@@ -28,7 +28,7 @@ class Header extends Component {
   render() {
     const { name } = this.props;
     const { gravatarImg } = this.state;
-    console.log(name);
+
     return (
       <div>
         <img

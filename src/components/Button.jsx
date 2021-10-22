@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class Button extends Component {
   render() {
     const {
-      id,
       value,
       className,
       onClick,
@@ -15,7 +14,6 @@ class Button extends Component {
       <button
         type="button"
         className={ className }
-        id={ id }
         onClick={ onClick }
         disabled={ disabled }
         data-testid={ dataTestId }
@@ -27,12 +25,15 @@ class Button extends Component {
 }
 
 Button.propTypes = {
-  id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   dataTestId: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+};
+
+Button.defaultProps = {
+  disabled: false,
 };
 
 export default Button;

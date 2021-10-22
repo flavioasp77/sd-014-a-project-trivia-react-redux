@@ -3,6 +3,7 @@ import md5 from 'crypto-js/md5';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import { getQuestions } from '../services/requests';
+import '../css/Game.css';
 
 class Game extends Component {
   constructor() {
@@ -42,7 +43,7 @@ class Game extends Component {
   render() {
     const { currentQuestion, questionsList } = this.state;
     const { player } = JSON.parse(localStorage.getItem('state'));
-    const playerHash = md5(player.gravatarEmail).toString();
+    const userHash = md5(player.gravatarEmail).toString();
 
     if (questionsList.length < 1) {
       this.setQuestionsInState();
@@ -51,24 +52,26 @@ class Game extends Component {
     const questionInfo = questionsList[currentQuestion];
     const answers = this.treatAnswersData(questionInfo);
     return (
-      <main>
-        <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${playerHash}` } />
-        <div>
-          <h4 data-testid="question-category">{questionInfo.category}</h4>
-          <p data-testid="question-text">{questionInfo.question}</p>
-          {
-            answers.map(({ value, alternative }, index) => (
-              <button
-                type="button"
-                key={ index }
-                data-testid={ value }
-              >
-                {alternative}
-              </button>
-            ))
-          }
-        </div>
-      </main>
+      <>
+        <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
+        <main className="game__container">
+          <div>
+            <h4 data-testid="question-category">{questionInfo.category}</h4>
+            <p data-testid="question-text">{questionInfo.question}</p>
+            {
+              answers.map(({ value, alternative }, index) => (
+                <button
+                  type="button"
+                  key={ index }
+                  data-testid={ value }
+                >
+                  {alternative}
+                </button>
+              ))
+            }
+          </div>
+        </main>
+      </>
     );
   }
 }

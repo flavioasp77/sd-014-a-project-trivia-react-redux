@@ -5,6 +5,8 @@ import { PropTypes } from 'prop-types';
 class Header extends Component {
   render() {
     const { gravatarEmail, name } = this.props;
+    const { score } = JSON.parse(localStorage.state).player;
+    console.log(JSON.parse(localStorage.state).player.score);
     return (
       <div>
         <img
@@ -16,7 +18,7 @@ class Header extends Component {
           { `${name}` }
           {' '}
         </p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{ score }</p>
       </div>
 
     );
@@ -31,7 +33,6 @@ const mapStateToProps = ({ player }) => ({
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
-
 };
 
 export default connect(mapStateToProps)(Header);

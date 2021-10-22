@@ -18,7 +18,7 @@ class Game extends React.Component {
       questions: [],
       index: 0,
       clicked: false,
-      stopwatch: 5,
+      stopwatch: 30,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
@@ -37,12 +37,11 @@ class Game extends React.Component {
   componentDidMount() {
     this.cloneLocalStorageToState();
     this.fetchApi();
-    this.initTimer();
   }
 
   componentDidUpdate() {
-    const { stopwatch } = this.state;
-    if (stopwatch === 0) {
+    const { stopwatch, clicked } = this.state;
+    if (stopwatch === 0 && clicked === false) {
       this.clickAnswer();
     }
   }
@@ -54,6 +53,8 @@ class Game extends React.Component {
     const { results: questions } = await response.json();
     this.setState({
       questions,
+    }, () => {
+      this.initTimer();
     });
   }
 
@@ -67,7 +68,8 @@ class Game extends React.Component {
     this.setState((prevState) => ({
       clicked: false,
       index: prevState.index + 1,
-    }));
+      stopwatch: 30,
+    }), () => { this.initTimer(); });
   }
 
   sortArray() {
@@ -144,7 +146,7 @@ class Game extends React.Component {
           <div>
             Tempo restante:
             {' '}
-            
+            { stopwatch }
           </div>
         </main>
       </>

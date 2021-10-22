@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   loginUser as loginUserAction,
   fetchGetToken as fetchGetTokenAction,
 } from '../actions';
+import settings from '../images/settings.svg';
+import '../styles/Login.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,58 +31,57 @@ class Login extends React.Component {
     history.push('/play');
   }
 
-  handleDisabled(name, email) {
-    return !(name && email);
-  }
-
   handleChange({ target: { value, name } }) {
     this.setState({ [name]: value });
+  }
+
+  handleDisabled(name, email) {
+    return !(name && email);
   }
 
   render() {
     const { name, email } = this.state;
     return (
-      <div>
-        <h1>Login</h1>
-        <form>
-          <label htmlFor="name">
-            Nome
+      <>
+        <header className="login-header">
+          <Link data-testid="btn-settings" to="/settings">
+            <img alt="settings" className="btn-settings" src={ settings } />
+          </Link>
+        </header>
+        <form className="login-form">
+          <label className="login-label" htmlFor="email">
+            Email do Gravatar:
             <input
-              type="text"
-              id="name"
-              value={ name }
-              name="name"
-              onChange={ this.handleChange }
-              data-testid="input-player-name"
-            />
-          </label>
-          <label htmlFor="email">
-            Email
-            <input
-              type="email"
+              data-testid="input-gravatar-email"
               id="email"
-              value={ email }
               name="email"
               onChange={ this.handleChange }
-              data-testid="input-gravatar-email"
+              type="email"
+              value={ email }
+            />
+          </label>
+          <label className="login-label" htmlFor="name">
+            Nome do Jogador:
+            <input
+              data-testid="input-player-name"
+              id="name"
+              name="name"
+              onChange={ this.handleChange }
+              type="text"
+              value={ name }
             />
           </label>
           <button
-            type="button"
+            className="btn-login"
             data-testid="btn-play"
             disabled={ this.handleDisabled(name, email) }
             onClick={ this.onLogin }
+            type="button"
           >
-            Jogar
+            JOGAR!
           </button>
         </form>
-        <br />
-        <Link to="/settings">
-          <button type="button" data-testid="btn-settings">
-            Configurações
-          </button>
-        </Link>
-      </div>
+      </>
     );
   }
 }

@@ -1,0 +1,61 @@
+.btn-settings {
+  cursor: pointer;
+  height: 100px;
+  transition: all 0.3s ease-in-out;
+  width: 100px;
+}
+
+.btn-settings:hover {
+  opacity: 0.8;
+}
+
+.login-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 40px 0 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 50%;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 4em;
+  justify-content: center;
+  margin: 10px auto;
+  width: 100%;
+}
+
+.login-label input {
+  border: 2px solid black;
+  font-size: 1em;
+  margin: 20px 0;
+  padding: 20px 10px;
+}
+
+.btn-login {
+  background-color: #89d662;
+  border: none;
+  cursor: pointer;
+  font-size: 4em;
+  margin: 10px auto;
+  padding: 25px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+.btn-login:disabled {
+  background-color: silver;
+  cursor: not-allowed;
+}
+
+.btn-login:hover:enabled {
+  opacity: 0.8;
+}

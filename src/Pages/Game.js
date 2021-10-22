@@ -64,8 +64,9 @@ class Game extends React.Component {
       const { clock, answered } = this.state;
 
       if (clock === 0 || answered) {
-        this.highlightAnswers();
         clearInterval(timer);
+        console.log(answered);
+        // this.highlightAnswers();
         return;
       }
 
@@ -75,7 +76,13 @@ class Game extends React.Component {
 
   disableButton = () => {
     const { clock, answered } = this.state;
-    return (clock === 0 || answered);
+    if (clock === 0 || answered) {
+      this.highlightAnswers();
+      this.hiddenCheckButton();
+      return true;
+    }
+    return false;
+    // return (clock === 0 || answered);
   }
 
   highlightAnswers = () => {
@@ -91,8 +98,8 @@ class Game extends React.Component {
   }
 
   handleChoice = (result, difficulty) => {
-    this.highlightAnswers();
     this.setState({ answered: true }, () => {
+      this.highlightAnswers();
       this.hiddenCheckButton();
     });
     const { clock } = this.state;
@@ -111,6 +118,7 @@ class Game extends React.Component {
   handleNextButton = () => {
     const { history, score, name, img } = this.props;
     const { questions, index } = this.state;
+
     if (!questions[index + INCREASER]) {
       updateRanking(score, name, img);
       history.push('/feedback');
@@ -152,6 +160,9 @@ class Game extends React.Component {
 Game.propTypes = {
   scoreToState: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  score: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  img: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

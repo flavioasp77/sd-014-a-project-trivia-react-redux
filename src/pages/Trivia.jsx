@@ -61,19 +61,17 @@ class Trivia extends React.Component {
     this.computeAnswer();
   }
 
-  clickNext() {
+  nextQuestion() {
     const LAST_QUESTION = 4;
-    const { indice } = this.state;
+    const { indice } = this.props;
     const { history } = this.props;
     if (indice === LAST_QUESTION) history.push('/feedback');
-    this.setState({ indice: indice + 1, respondido: false, timer: 30 });
-    this.timer();
-  nextQuestion() {
     this.setState((atual) => ({
       indice: atual.indice + 1,
       respondido: false,
       timer: 30,
     }));
+    this.timer();
   }
 
   render() {
@@ -81,9 +79,7 @@ class Trivia extends React.Component {
     return (
       <div>
         <Header />
-        <p>
-          Time Left!!:
-        </p>
+        <p>Time Left!!:</p>
         <span>{ timer }</span>
         {perguntas.length > 0
         && (
@@ -110,14 +106,6 @@ class Trivia extends React.Component {
                 {decodeURIComponent(atual)}
               </button>
             ))}
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.clickNext }
-            >
-              Próximo
-
-            </button>
           </>)}
         {respondido && (
           <button
@@ -134,9 +122,8 @@ class Trivia extends React.Component {
 }
 
 Trivia.propTypes = {
-  history: PropTypes.objectOf({
-    push: PropTypes.any,
-  }).isRequired,
+  history: PropTypes.objectOf().isRequired,
+  indice: PropTypes.number.isRequired,
 };
 
 export default Trivia;

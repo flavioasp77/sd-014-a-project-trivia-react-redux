@@ -18,7 +18,7 @@ class Header extends React.Component {
     const player = JSON.parse(localStorage.getItem('state'));
     const hashInfo = md5(player.gravatarEmail).toString();
     this.setState({
-      player,
+      player: player.player,
       hashInfo,
     });
   }

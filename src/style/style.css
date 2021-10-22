@@ -1,0 +1,7 @@
+.button-wrong {
+  border: 3px solid red;
+}
+
+.button-correct {
+  border: 3px solid rgb(6, 240, 15);
+}

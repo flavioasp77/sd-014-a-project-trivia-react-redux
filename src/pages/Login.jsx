@@ -15,6 +15,12 @@ class Login extends Component {
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
   }
 
+  componentDidMount() {
+    if (!JSON.parse(localStorage.getItem('ranking'))) {
+      localStorage.setItem('ranking', JSON.stringify([]));
+    }
+  }
+
   handleSettingsClick() {
     const { history } = this.props;
     history.push('/settings');

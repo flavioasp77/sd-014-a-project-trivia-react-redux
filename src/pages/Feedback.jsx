@@ -7,6 +7,7 @@ class Feedback extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.createRankingPlayer = this.createRankingPlayer.bind(this);
   }
 
   handleClick({ target }) {
@@ -14,6 +15,21 @@ class Feedback extends Component {
     const { innerText } = target;
     if (innerText === 'Jogar Novamente') history.push('/');
     if (innerText === 'Ver Ranking') history.push('/ranking');
+    this.createRankingPlayer();
+  }
+
+  createRankingPlayer() {
+    const { source } = this.props;
+    const state = localStorage.getItem('state');
+    const { player: { name, score } } = JSON.parse(state);
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const player = {
+      name,
+      score,
+      picture: source,
+    };
+    localStorage.setItem('ranking', JSON.stringify([...ranking, player]));
+    console.log([...ranking, player]);
   }
 
   render() {

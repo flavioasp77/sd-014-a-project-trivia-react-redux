@@ -116,6 +116,7 @@ class Questions extends Component {
       }
       this.setState((prevState) => ({ second: prevState.second - 1 }));
     }, SECOND);
+    return action;
   }
 
   render() {

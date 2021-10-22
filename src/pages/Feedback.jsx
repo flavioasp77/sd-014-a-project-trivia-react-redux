@@ -1,64 +1,82 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick({ target }) {
+    const { history } = this.props;
+    const { innerText } = target;
+    if (innerText === 'Jogar Novamente') history.push('/');
+    if (innerText === 'Ver Ranking') history.push('/ranking');
+  }
+
   render() {
     const { name, source } = this.props;
     const state = localStorage.getItem('state');
     const { player: { score, assertions } } = JSON.parse(state);
     const MIN_ANSWERS = 3;
-    console.log(assertions);
     return (
       <div>
         <h1>Feedback</h1>
-        <header>
-          <h3 data-testid="header-player-name">{ name }</h3>
-          <img
-            data-testid="header-profile-picture"
-            src={ source }
-            alt="gravatar"
-          />
-          <p>
-            Pontos:
-            <span data-testid="header-score">
-              { score }
-            </span>
-          </p>
-        </header>
+        <Header name={ name } score={ score } source={ source } />
         <main>
           <p data-testid="feedback-text">
-            {
-              assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'
-            }
+            {assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'}
           </p>
-          <p data-testid="feedback-total-score">
-            { score }
-          </p>
-          <p>
-            Acertou:
-            <span data-testid="feedback-total-question">
-              { assertions }
-            </span>
-          </p>
+          <p data-testid="feedback-total-score">{ score }</p>
+          {
+            assertions === 0 ? (
+              <p>
+                Não acertou nenhuma pergunta
+                <span hidden data-testid="feedback-total-question">{assertions}</span>
+              </p>
+            ) : (
+              <p>
+                Acertou
+                {' '}
+                <span data-testid="feedback-total-question">{assertions}</span>
+                {' '}
+                Pergunta(s)
+              </p>
+            )
+          }
         </main>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          data-testid="btn-play-again"
+        >
+          Jogar Novamente
+        </button>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          data-testid="btn-ranking"
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }
 }
 
 Feedback.propTypes = {
-  name: PropTypes.string.isRequired,
-  // score: PropTypes.number.isRequired,
-  source: PropTypes.shape({
-    url: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
+  name: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   name: state.player.name,
   email: state.player.email,
-  // score: state.player.score,
   source: state.player.source.url,
 });
 

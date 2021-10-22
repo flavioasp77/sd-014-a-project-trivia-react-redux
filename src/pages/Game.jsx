@@ -1,7 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getGravatar from '../helpers/getGravatar';
+import Button from '../components/Button';
 import '../styles/Game.css';
+
+const FINAL_INDEX = 4;
 
 class Game extends React.Component {
   constructor() {
@@ -21,6 +25,7 @@ class Game extends React.Component {
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
     document.title = 'Trivia-Game';
   }
 
@@ -37,6 +42,19 @@ class Game extends React.Component {
     this.setState({
       questions,
     });
+  }
+
+  nextQuestion() {
+    const { index } = this.state;
+    const { history } = this.props;
+    if (index === FINAL_INDEX) {
+      history.push('/feedback');
+    }
+
+    this.setState((prevState) => ({
+      clicked: false,
+      index: prevState.index + 1,
+    }));
   }
 
   sortArray() {
@@ -89,10 +107,22 @@ class Game extends React.Component {
                 </button>
               ))}
             </div>)}
+          { clicked && index <= FINAL_INDEX && (
+            <Button
+              label={ index < FINAL_INDEX ? 'Próxima' : 'Ver Resultados' }
+              dataTestid="btn-next"
+              onClick={ this.nextQuestion }
+            />)}
         </main>
       </>
     );
   }
 }
+
+Game.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Game;

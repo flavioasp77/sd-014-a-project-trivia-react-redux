@@ -14,19 +14,29 @@ export default class QuestionCard extends React.Component {
 
     this.state = {
       answer: NO_ANSWER,
+      score: 0,
+      click: false,
+      assertions: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  // componentDidMount() {
+  //   this.setClickedFalse();
+  // }
+
+  setClickedFalse() {
+    this.setState({ click: false });
+  }
 
   handleClick(answer) {
     const rightButton = document.querySelector('[data-testid="correct-answer"]');
     const wrongButtons = document.querySelectorAll('[data-testid*="wrong-answer"]');
     rightButton.className = CORRECT_ANSWER;
     wrongButtons.forEach((button) => { button.className = WRONG_ANSWER; });
-
+    this.calculateScore(answer);
     this.setState({ answer });
   }
 
@@ -35,7 +45,7 @@ export default class QuestionCard extends React.Component {
     buttons.forEach((button) => { button.className = 'standard-button'; });
 
     const { callback } = this.props;
-    this.setState({ answer: NO_ANSWER });
+    this.setState({ answer: NO_ANSWER, click: false });
     callback(isCorrect);
   }
 
@@ -51,12 +61,30 @@ export default class QuestionCard extends React.Component {
     );
   }
 
+  calculateScore(answer) {
+    const timer = 1;
+    const scoreCorrect = 10;
+    const { data: { difficulty } } = this.props;
+
+    if (answer === CORRECT_ANSWER) {
+      const WEIGHTS = ['easy', 'medium', 'hard'];
+      const weight = WEIGHTS.indexOf(difficulty) + 1;
+      const sumPoints = scoreCorrect + (timer * weight);
+      this.setState((prevState) => ({
+        score: prevState.score + sumPoints,
+        assertions: prevState.assertions + 1,
+      }));
+    }
+    this.setState({ click: true });
+  }
+
   render() {
-    const { answer } = this.state;
+    const { answer, click } = this.state;
+
     const { data: {
       category, question, correctAnswer, incorrectAnswers, options,
     } } = this.props;
-
+    console.log(correctAnswer);
     return (
       <div>
         <div>
@@ -82,6 +110,7 @@ export default class QuestionCard extends React.Component {
                   : `wrong-answer-${incorrectAnswers.indexOf(option)}`
               }
               value={ option }
+              disabled={ click }
             />);
           }) }
         </div>

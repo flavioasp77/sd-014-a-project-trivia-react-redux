@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import QuestionCard from '../components/QuestionCard';
 import opentdbAPI from '../services/opentdbAPI';
 import Loading from '../components/Loading';
+import storage from '../services/storage';
 
 const QUESTIONS_AMOUNT = 5;
 
@@ -29,7 +30,15 @@ export default class Trivia extends React.Component {
 
   handleAnswer(answer) {
     const { score } = this.state;
-    this.setState({ score: score + (answer ? 1 : 0) });
+    this.setState({ score: score + (answer ? 1 : 0) }, () => {
+      const state = {
+        player: {
+          score,
+          assertions,
+        },
+      };
+      storage.write('state', state);
+    });
   }
 
   shuffle(array) {
@@ -46,17 +55,22 @@ export default class Trivia extends React.Component {
       return (<Loading />);
     }
 
-    const oneQuestion = questions.shift();
-    const { category, question } = oneQuestion;
-    const correctAnswer = oneQuestion.correct_answer;
-    const incorrectAnswers = oneQuestion.incorrect_answers;
+    const {
+      category,
+      question,
+      difficulty,
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+    } = questions.shift();
     const options = this.shuffle([correctAnswer, ...incorrectAnswers]);
 
     return (
       <>
         <Header />
         <QuestionCard
-          data={ { category, question, correctAnswer, incorrectAnswers, options } }
+          data={
+            { category, question, correctAnswer, incorrectAnswers, options, difficulty }
+          }
           callback={ this.handleAnswer }
         />
       </>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
@@ -18,6 +19,7 @@ class Game extends Component {
       score,
       assertions: 0,
       timeReset: false,
+      feedback: false,
     };
     this.handleIndex = this.handleIndex.bind(this);
     this.selectAnswer = this.selectAnswer.bind(this);
@@ -82,6 +84,10 @@ class Game extends Component {
       correct.classList.remove('correct');
       correct.disabled = false;
       wrong.forEach((ans) => ans.classList.remove('wrong'));
+    } else {
+      await this.setState({
+        feedback: true,
+      });
     }
     this.setState({ timeReset: false });
   }
@@ -93,7 +99,8 @@ class Game extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index, answered, timeReset, score } = this.state;
+    const { index, answered, timeReset, score, feedback } = this.state;
+    if (feedback) return <Redirect to="/feedback" />;
     return (
       <div>
         <Header score={ score } />

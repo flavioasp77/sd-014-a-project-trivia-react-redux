@@ -5,10 +5,26 @@ import '../styles/QuestionCard.css';
 class QuestionCard extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       showAnswer: false,
+      seconds: 30,
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const ONE_SECOND = 1000;
+    this.counter = setInterval(() => {
+      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+    }, ONE_SECOND);
+  }
+
+  componentDidUpdate() {
+    const { seconds } = this.state;
+    if (seconds === 0) {
+      clearInterval(this.counter);
+    }
   }
 
   handleClick() {
@@ -17,7 +33,7 @@ class QuestionCard extends Component {
 
   render() {
     const { data } = this.props;
-    const { showAnswer } = this.state;
+    const { showAnswer, seconds } = this.state;
 
     const {
       category,
@@ -35,28 +51,32 @@ class QuestionCard extends Component {
           <p className="question-text" data-testid="question-text">
             {question}
           </p>
+          <p className="timer">{`Tempo: ${seconds}`}</p>
         </div>
         <div className="answers-container">
           <button
-            className={ showAnswer ? 'answer correct' : 'answer' }
+            className={ seconds === 0 || showAnswer ? 'answer correct' : 'answer' }
             data-testid="correct-answer"
             onClick={ this.handleClick }
             type="button"
+            disabled={ seconds === 0 }
           >
             {correct}
           </button>
           {incorrect.map((answer, index) => (
             <button
-              className={ showAnswer ? 'answer wrong' : 'answer' }
+              className={ seconds === 0 || showAnswer ? 'answer wrong' : 'answer' }
               data-testid={ `wrong-answer-${index}` }
               key={ `${answer}-${index}` }
               onClick={ this.handleClick }
               type="button"
+              disabled={ seconds === 0 }
             >
               {answer}
             </button>
           ))}
         </div>
+
       </div>
     );
   }

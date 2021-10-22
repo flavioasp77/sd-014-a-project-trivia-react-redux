@@ -1,0 +1,10 @@
+.game__container {
+  align-items: center;
+  background: linear-gradient(to top, rgb(20, 61, 195), rgb(140, 119, 235));
+  color: white;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  overflow: hidden;
+  width: 100vw;
+}

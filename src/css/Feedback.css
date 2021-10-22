@@ -1,0 +1,41 @@
+.feedback__container {
+  align-items: center;
+  background: linear-gradient(to bottom, rgb(175, 255, 215), rgb(33, 23, 167));
+  color: white;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.feedback__container section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+
+}
+
+.feedback__container div {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.btn-play-again {
+  background-color: transparent;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+  outline: 3px solid rgb(0, 255, 200);
+  margin-top: -30px;
+}
+
+.btn-play-again:hover {
+  color: rgb(0, 255, 200);
+}
+

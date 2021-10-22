@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
   render() {
@@ -13,15 +14,26 @@ class QuestionCard extends Component {
     } = data;
 
     return (
-      <div>
-        <div data-testid="question-category">{category}</div>
-        <div data-testid="question-text">{question}</div>
-        <div>
-          <button data-testid="correct-answer" type="button">
+      <div className="question-card">
+        <div className="question-container">
+          <p className="question-category" data-testid="question-category">
+            {category}
+          </p>
+          <p className="question-text" data-testid="question-text">
+            {question}
+          </p>
+        </div>
+        <div className="answers-container">
+          <button
+            className="answer correct"
+            data-testid="correct-answer"
+            type="button"
+          >
             {correct}
           </button>
           {incorrect.map((answer, index) => (
             <button
+              className="answer wrong"
               data-testid={ `wrong-answer-${index}` }
               key={ `${answer}-${index}` }
               type="button"

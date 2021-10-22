@@ -8,7 +8,7 @@ export class Ranking extends Component {
     const { history } = this.props;
     return (
       <main>
-        <h2 data-testid="ranking-title">Raking</h2>
+        <h2 data-testid="ranking-title">Ranking</h2>
         {arrayPlayers.map((item, index) => (
           <div key={ index }>
             <img src={ item.picture } alt="raking" />

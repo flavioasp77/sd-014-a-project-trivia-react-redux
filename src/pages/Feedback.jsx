@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { getStatePlayer } from '../helpers/index';
 
 export class Feedback extends Component {
   render() {
-    const { assertions, score } = JSON.parse(localStorage.getItem('state')).player;
+    const { assertions, score } = getStatePlayer().player;
     const numFeedback = 3;
     const feedback = assertions >= numFeedback ? 'Mandou bem!' : 'Podia ser melhor...';
     const { history } = this.props;

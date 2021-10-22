@@ -1,7 +1,7 @@
-[ data-testid = 'correct-answer' ] {
+[ data-testid = 'correct-answer' ].clicked {
   border: 3px solid rgb(6, 240, 15);
 }
 
-[ data-testid |= 'wrong-answer' ] {
+[ data-testid |= 'wrong-answer' ].clicked {
   border: 3px solid red;
 }

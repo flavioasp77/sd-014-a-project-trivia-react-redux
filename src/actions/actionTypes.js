@@ -1,2 +1,2 @@
-const LOGIN = 'LOGIN';
-export default LOGIN;
+export const LOGIN = 'LOGIN';
+export const QUESTIONS = 'QUESTIONS';

@@ -1,9 +1,11 @@
-import { LOGIN, TOKEN_API } from '../actions/actionTypes';
+import { LOGIN, TOKEN_API, QUESTIONS } from '../actions/actionTypes';
 
 const USER_INITIALSTATE = {
   user: {
     name: '',
     email: '',
+    token: '',
+    questions: [],
   },
 };
 
@@ -16,11 +18,7 @@ export const user = (state = USER_INITIALSTATE, action) => {
   }
 };
 
-const TOKEN_INITIALSTATE = {
-  token: '',
-};
-
-export function requisitarToken(state = TOKEN_INITIALSTATE, action) {
+export function requisitarToken(state = USER_INITIALSTATE, action) {
   switch (action.type) {
   case TOKEN_API:
     return { ...state, token: action.payload };
@@ -28,3 +26,15 @@ export function requisitarToken(state = TOKEN_INITIALSTATE, action) {
     return state;
   }
 }
+
+export const playReducer = (state = USER_INITIALSTATE, action) => {
+  switch (action.type) {
+  case QUESTIONS:
+    return {
+      ...state,
+      questions: action.payload,
+    };
+  default:
+    return state;
+  }
+};

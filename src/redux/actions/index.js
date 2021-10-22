@@ -1,4 +1,4 @@
-import { LOGIN, TOKEN_API, FALHA_TOKEN } from './actionTypes';
+import { LOGIN, TOKEN_API, FALHA_TOKEN, QUESTIONS } from './actionTypes';
 
 const URL = 'https://opentdb.com/api_token.php?command=request';
 
@@ -34,3 +34,17 @@ export function fetchApiTrivia() {
     }
   };
 }
+
+export const generateQuestions = (questions) => ({
+  type: QUESTIONS,
+  questions,
+});
+
+export const fetchQuestions = () => async (dispatch, getState) => {
+  const { player: { token } } = getState();
+
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+  const { results } = await response.json();
+
+  dispatch(generateQuestions(results));
+};

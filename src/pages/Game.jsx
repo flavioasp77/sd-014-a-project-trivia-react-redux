@@ -10,7 +10,9 @@ class Game extends Component {
 
     this.state = {
       source: '',
+      score: 0,
     };
+    this.newScore = this.newScore.bind(this);
   }
 
   componentDidMount() {
@@ -32,9 +34,14 @@ class Game extends Component {
     this.setState({ source: source.url });
   }
 
+  newScore(score) {
+    console.log(score);
+    this.setState((prev) => ({ score: prev.score + score }));
+  }
+
   render() {
     const { nome } = this.props;
-    const { source } = this.state;
+    const { source, score } = this.state;
     return (
       <>
         <header>
@@ -44,9 +51,9 @@ class Game extends Component {
             src={ source }
             alt="gravatar"
           />
-          <div data-testid="header-score">0</div>
+          <div data-testid="header-score">{ score }</div>
         </header>
-        <Questions />
+        <Questions updateValue={ this.newScore } />
       </>
     );
   }

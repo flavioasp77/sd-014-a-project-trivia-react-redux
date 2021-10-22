@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 
+// consertar esta parte do código que quebrou
 export default class Trivia extends Component {
   constructor() {
     super();

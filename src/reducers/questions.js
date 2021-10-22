@@ -1,4 +1,4 @@
-import { QUESTIONS_INFO } from '../actions';
+import { QUESTIONS_INFO, SET_TIMER } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -13,6 +13,12 @@ function user(state = INITIAL_STATE, action) {
       ...action.payload,
       isFetching: false,
     };
+  case SET_TIMER: {
+    return {
+      ...state,
+      timer: action.payload.timer,
+    };
+  }
   default:
     return state;
   }

@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../redux/actions';
 import Btn from './Btn';
 import './questions.css';
+
+const ANSWER_NUMBER = 4;
 
 class Questions extends Component {
   constructor() {
@@ -38,7 +41,6 @@ class Questions extends Component {
   }
 
   shufflebuttons() {
-    const ANSWER_NUMBER = 4;
     const randomBtn = Math.floor(Math.random() * ANSWER_NUMBER).toString();
     this.setState({
       order: randomBtn,
@@ -88,6 +90,12 @@ class Questions extends Component {
 
   handleNextBtn() {
     const { atualQuestion } = this.state;
+
+    if (atualQuestion === ANSWER_NUMBER) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+
     this.setState({
       atualQuestion: atualQuestion + 1,
       isClicked: false,
@@ -155,6 +163,9 @@ Questions.propTypes = {
   }).isRequired,
   token: PropTypes.string.isRequired,
   updateValue: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -168,4 +179,4 @@ const mapDispatchToProps = (dispatch) => ({
   getQuestion: (token) => dispatch(questionApiThunk(token)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

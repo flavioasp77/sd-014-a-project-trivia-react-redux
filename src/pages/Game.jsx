@@ -14,10 +14,11 @@ class Game extends Component {
     this.state = {
       questions: [],
       counter: 30,
-      timer: false,
+      // timer: false,
       timerId: '',
       counterId: '',
       clickedAnswer: '',
+      disabledBtn: false,
 
     };
 
@@ -25,7 +26,6 @@ class Game extends Component {
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
   }
 
   componentDidUpdate(prevProps) {
@@ -44,12 +44,14 @@ class Game extends Component {
     }, ONE_SECOND);
 
     const timerId = setTimeout(() => {
-      // FAÇA ALGUMA COISA QUANTO TERMINAR OS 30 SEGUNDOS
       clearInterval(counterId);
+      this.setState({
+        disabledBtn: true,
+      });
     }, TIME_OUT);
 
     this.setState({
-      timer: true,
+      // timer: true,
       timerId,
       counterId,
     });
@@ -69,20 +71,23 @@ class Game extends Component {
   }
 
   handleClick(answer) {
+    const { counterId, timerId } = this.state;
+    clearInterval(counterId);
+    clearInterval(timerId);
     this.setState({
       clickedAnswer: answer,
     });
   }
 
   renderQuestion() {
-    const { questions, clickedAnswer } = this.state;
+    const { questions, clickedAnswer, disabledBtn } = this.state;
     return (
       <div>
-        <Header />
         { questions[0].arrayAnswer.sort().map((answer, index, array) => (
           <button
+            disabled={ disabledBtn }
             className={
-              clickedAnswer && (
+              (clickedAnswer || disabledBtn) && (
                 answer === questions[0].correct_answer
                   ? 'correctAnswer' : 'wrongAnswer')
             }
@@ -105,7 +110,7 @@ class Game extends Component {
     if (questions.length !== 0) {
       return (
         <div>
-
+          <Header />
           <h3 data-testid="question-category">{questions[0].category}</h3>
           <p data-testid="question-text">{questions[0].question}</p>
           { this.renderQuestion() }
@@ -115,7 +120,7 @@ class Game extends Component {
     }
     return (
       <div>
-        Deu ruim!
+        Carregando...
       </div>
     );
   }

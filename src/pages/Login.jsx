@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import '../styles/login.css';
 import { MD5 } from 'crypto-js';
 import {
   setUser as setUserAction, setTokenAPI as setTokenAPIAction,
@@ -17,6 +18,7 @@ class Login extends Component {
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.btnJogar = this.btnJogar.bind(this);
     this.setArrayPlayersLS = this.setArrayPlayersLS.bind(this);
   }
 
@@ -58,42 +60,56 @@ class Login extends Component {
     setTimeout(() => history.push('/jogo'), TIME);
   }
 
+  btnJogar() {
+    const { name, email } = this.state;
+    const stateBtn = email.length >= 1 && name.length >= 1;
+    return stateBtn;
+  }
+
   render() {
     const { name, email } = this.state;
     return (
-      <main>
-        <h3>Nome Do Jogador:</h3>
-        <input
-          value={ name }
-          onChange={ this.handleInput }
-          type="text"
-          name="name"
-          data-testid="input-player-name"
-        />
-        <h3>Email Do Gravatar:</h3>
-        <input
-          value={ email }
-          onChange={ this.handleInput }
-          type="text"
-          name="email"
-          data-testid="input-gravatar-email"
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ email.length <= 1 || name.length <= 1 }
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
-        <Link to="/settings">
+      <main className="containner-login-main">
+        <form className="card-login">
+          <h3>Nome Do Jogador:</h3>
+          <input
+            className="input-login input-name"
+            placeholder="Name:"
+            value={ name }
+            onChange={ this.handleInput }
+            type="text"
+            name="name"
+            data-testid="input-player-name"
+          />
+          <h3>Email Do Gravatar:</h3>
+          <input
+            placeholder="Email:"
+            className="input-login"
+            value={ email }
+            onChange={ this.handleInput }
+            type="text"
+            name="email"
+            data-testid="input-gravatar-email"
+          />
           <button
-            data-testid="btn-settings"
+            className={ !this.btnJogar() ? 'btn-jogar-desab' : 'btn-jogar' }
             type="button"
+            data-testid="btn-play"
+            disabled={ !this.btnJogar() }
+            onClick={ this.handleClick }
           >
-            configuração do jogo
+            Jogar
           </button>
-        </Link>
+          <Link to="/settings">
+            <button
+              className="btn-config"
+              data-testid="btn-settings"
+              type="button"
+            >
+              configuração do jogo
+            </button>
+          </Link>
+        </form>
       </main>
     );
   }

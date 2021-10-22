@@ -1,0 +1,75 @@
+.containner-login-main {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.678);
+  display: flex;
+  justify-content: center;
+}
+
+.card-login {
+  align-items: center;
+  background-color: rgb(161, 167, 180);
+  border: solid 1px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  font-family: monospace;
+  font-size: 15px;
+  margin-bottom: 200px;
+  margin-top: 220px;
+  padding: 80px 30px;
+}
+
+.input-login {
+  border-radius: 5px;
+  height: 40px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  width: 300px;
+}
+
+.input-login:focus {
+  background-color: rgb(183, 183, 207);
+  border-color: rgb(9, 60, 200);
+  outline: none;
+}
+
+.btn-jogar {
+  border-radius: 5px;
+  cursor: pointer;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding-left: 20px;
+  width: 327px;
+}
+
+.btn-jogar:hover {
+  background-color: rgba(160, 156, 165, 0.192);
+}
+
+.btn-config {
+  border-radius: 5px;
+  cursor: pointer;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding-left: 20px;
+  width: 327px;
+}
+
+.btn-config:hover {
+  background-color: rgba(160, 156, 165, 0.192);
+}
+
+.input-name {
+  margin-bottom: -1px;
+}
+
+.btn-jogar-desab {
+  border-radius: 5px;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding-left: 20px;
+  width: 327px;
+}

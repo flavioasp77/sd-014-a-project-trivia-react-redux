@@ -10,6 +10,7 @@ class Feedback extends React.Component {
       name: '',
       score: 0,
       pictureURL: '',
+      assertions: 0,
     };
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
@@ -24,11 +25,12 @@ class Feedback extends React.Component {
 
   cloneLocalStorageToState() {
     const playerInfo = JSON.parse(localStorage.getItem('state'));
-    const { player: { name, score, gravatarEmail } } = playerInfo;
+    const { player: { name, score, gravatarEmail, assertions } } = playerInfo;
     this.setState({
       name,
       score,
       pictureURL: getGravatar(gravatarEmail),
+      assertions,
     });
   }
 
@@ -39,11 +41,19 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { name, score, pictureURL } = this.state;
+    const { name, score, pictureURL, assertions } = this.state;
+    const questao = assertions === 1 ? 'questão' : 'questões';
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
-        <p data-testid="feedback-text">{ this.messageFeedback() }</p>
+        <h1 data-testid="feedback-text">{ this.messageFeedback() }</h1>
+        <br />
+        <h2 data-testid="feedback-total-question">
+          { `Você acertou ${assertions} ${questao}!` }
+        </h2>
+        <h2 data-testid="feedback-total-score">
+          { `Um total de ${score} pontos.`}
+        </h2>
       </>
     );
   }

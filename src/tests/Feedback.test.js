@@ -11,6 +11,7 @@ const mockData = {
     name: 'Jonathan',
     score: 0,
     gravatarEmail: 'www.j0n4t@gmail.com',
+    assertions: 0,
   },
 };
 
@@ -51,5 +52,20 @@ describe('Testa o resultado "Podia ser melhor..." da tela de feedback', () => {
     render(<Feedback />);
     const score2 = screen.getByTestId('feedback-text');
     expect(score2).toHaveTextContent('Mandou bem!');
+  });
+});
+
+describe('Testa os elementos de acertos e total de pontos', () => {
+  test('verifica o texto do elemento de pontuação total', () => {
+    mockData.player.score = 150;
+    render(<Feedback />);
+    const totalPointsText = screen.getByTestId('feedback-total-score');
+    expect(totalPointsText).toHaveTextContent('Um total de 150 pontos.');
+  });
+  test('verifica a existência do elemento de pontuação total', () => {
+    mockData.player.assertions = 5;
+    render(<Feedback />);
+    const assertionsText = screen.getByTestId('feedback-total-question');
+    expect(assertionsText).toHaveTextContent('Você acertou 5 questões!');
   });
 });

@@ -16,7 +16,7 @@ class Trivia extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.computeAnswer = this.computeAnswer.bind(this);
     this.timer = this.timer.bind(this);
-    this.clickNext = this.clickNext.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +68,12 @@ class Trivia extends React.Component {
     if (indice === LAST_QUESTION) history.push('/feedback');
     this.setState({ indice: indice + 1, respondido: false, timer: 30 });
     this.timer();
+  nextQuestion() {
+    this.setState((atual) => ({
+      indice: atual.indice + 1,
+      respondido: false,
+      timer: 30,
+    }));
   }
 
   render() {
@@ -113,6 +119,15 @@ class Trivia extends React.Component {
 
             </button>
           </>)}
+        {respondido && (
+          <button
+            type="submit"
+            onClick={ this.nextQuestion }
+            data-testid="btn-next"
+          >
+            Próximo
+          </button>
+        )}
       </div>
     );
   }

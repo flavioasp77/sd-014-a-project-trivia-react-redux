@@ -76,18 +76,18 @@ export function calculateScore(clock, difficulty) {
   return score;
 }
 
-export function updateRanking(score, name, img) {
+export function updateRanking(score, name, picture) {
   const ranking = JSON.parse(localStorage.getItem('ranking'));
 
   if (ranking) {
     localStorage.setItem('ranking', JSON.stringify([
       ...ranking,
-      { name, score, img },
+      { name, score, picture },
     ].sort((a, b) => b.score - a.score)));
     return;
-  }
+  } // [a, b, c, d]
 
   localStorage.setItem('ranking', JSON.stringify([
-    { name, score, img },
+    { name, score, picture },
   ].sort((a, b) => b.score - a.score)));
 }

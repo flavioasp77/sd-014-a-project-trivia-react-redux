@@ -2,12 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { resetScore } from '../Redux/actions';
+
 import Header from '../Components/Header';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.assertionsPoints = this.assertionsPoints.bind(this);
+  }
+
+  redirect = (history) => {
+    const { resetStateScore } = this.props;
+    resetStateScore();
+    history.push('/');
   }
 
   assertionsPoints() {
@@ -42,7 +50,7 @@ class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ () => history.push('/') }
+          onClick={ () => this.redirect(history) }
         >
           Jogar Novamente
         </button>
@@ -60,6 +68,11 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  resetStateScore: PropTypes.func.isRequired,
 };
 
-export default connect(null, null)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  resetStateScore: () => { dispatch(resetScore()); },
+});
+
+export default connect(null, mapDispatchToProps)(Feedback);

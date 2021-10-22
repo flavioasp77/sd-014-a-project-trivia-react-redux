@@ -12,9 +12,17 @@ class Question extends React.Component {
           <p data-testid="question-text">{ question }</p>
         </div>
         <div>
-          <button type="button">{ questionCurrent.correct_answer }</button>
+          <button data-testid="correct-answer" type="button">
+            { questionCurrent.correct_answer }
+          </button>
           {questionCurrent.incorrect_answers.map((wrong, index) => (
-            <button key={ index } type="button">{ wrong }</button>
+            <button
+              data-testid={ `wrong-answer-${index}` }
+              key={ index }
+              type="button"
+            >
+              { wrong }
+            </button>
           ))}
         </div>
       </section>

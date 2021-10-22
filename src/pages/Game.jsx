@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import getGravatar from '../helpers/getGravatar';
+import '../styles/Game.css';
 
 class Game extends React.Component {
   constructor() {
@@ -12,13 +13,14 @@ class Game extends React.Component {
       pictureURL: '',
       questions: [],
       index: 0,
+      clicked: false,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.sortArray = this.sortArray.bind(this);
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
-
+    this.clickAnswer = this.clickAnswer.bind(this);
     document.title = 'Trivia-Game';
   }
 
@@ -55,8 +57,12 @@ class Game extends React.Component {
     });
   }
 
+  clickAnswer() {
+    this.setState({ clicked: true });
+  }
+
   render() {
-    const { name, score, pictureURL, questions, index } = this.state;
+    const { name, score, pictureURL, questions, index, clicked } = this.state;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
@@ -75,6 +81,9 @@ class Game extends React.Component {
                       ? 'correct-answer'
                       : `wrong-answer-${indice}`
                   }
+                  onClick={ this.clickAnswer }
+                  disabled={ clicked }
+                  className={ clicked && 'clicked' }
                 >
                   { atual }
                 </button>

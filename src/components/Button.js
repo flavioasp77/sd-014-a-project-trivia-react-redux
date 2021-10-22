@@ -17,11 +17,16 @@ class Button extends React.Component {
   }
 }
 
+Button.defaultProps = {
+  isDisabled: false,
+  onClick: null,
+};
+
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
   dataTestid: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
 };
 
 export default Button;

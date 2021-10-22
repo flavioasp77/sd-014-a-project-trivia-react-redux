@@ -5,6 +5,7 @@ import { fetchQuestions, setScore as scoreAction } from '../redux/actions/index'
 
 import './questions.css';
 import Timer from './Timer';
+import ButtonNext from './ButtonNext';
 
 const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
 
@@ -16,12 +17,14 @@ class Questions extends Component {
       time: 30,
       timerId: null,
       disabled: false,
+      questionActual: 0,
     };
 
     this.handleIncorrect = this.handleIncorrect.bind(this);
     this.handleCorrect = this.handleCorrect.bind(this);
     this.clock = this.clock.bind(this);
     this.setClock = this.setClock.bind(this);
+    this.handleButtonNext = this.handleButtonNext.bind(this);
   }
 
   componentDidMount() {
@@ -61,18 +64,27 @@ class Questions extends Component {
     this.setState({ isClick: true }, () => setScore(score));
   }
 
+  handleButtonNext() {
+    const { questionActual } = this.state;
+    const questionNext = questionActual + 1;
+    this.setState({
+      questionActual: questionNext,
+      isClick: false,
+    });
+  }
+
   render() {
     const { questions } = this.props;
-    const { isClick, time, disabled } = this.state;
+    const { isClick, time, disabled, questionActual } = this.state;
 
     if (questions.length > 0) {
       return (
         <div>
           <h2 data-testid="question-category">
-            { questions[0].category }
+            { questions[questionActual].category }
           </h2>
           <p data-testid="question-text">
-            { questions[0].question }
+            { questions[questionActual].question }
           </p>
           <button
             type="button"
@@ -81,9 +93,9 @@ class Questions extends Component {
             onClick={ this.handleCorrect }
             disabled={ disabled }
           >
-            { questions[0].correct_answer }
+            { questions[questionActual].correct_answer }
           </button>
-          { questions[0].incorrect_answers.map((question, index) => (
+          { questions[questionActual].incorrect_answers.map((question, index) => (
             <button
               key={ index }
               type="button"
@@ -96,6 +108,7 @@ class Questions extends Component {
             </button>
           ))}
           <Timer time={ time } setTimer={ this.setClock } />
+          { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
         </div>
       );
     }

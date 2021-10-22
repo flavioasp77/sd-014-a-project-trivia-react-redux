@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import PlayAgainBtn from '../components/PlayAgainBtn';
 
 class Feedback extends Component {
   constructor() {
@@ -32,6 +33,7 @@ class Feedback extends Component {
           {assertions}
         </h3>
         <h3 data-testid="feedback-total-score">{score}</h3>
+        <PlayAgainBtn />
       </div>
     );
   }

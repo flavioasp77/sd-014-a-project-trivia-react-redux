@@ -82,9 +82,7 @@ class Feedback extends React.Component {
 }
 
 Feedback.propTypes = {
-  history: PropTypes.objectOf({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default (Feedback);

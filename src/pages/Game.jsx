@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import '../style/Game.css';
 
 class Game extends React.Component {
   constructor() {
@@ -9,19 +10,40 @@ class Game extends React.Component {
 
     this.state = {
       index: 0,
+      colorRight: '',
+      colorWrong: '',
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({
+      colorRight: 'answer-correct',
+      colorWrong: 'answer-incorrect',
+    });
   }
 
   mixBoolean(correctAnswer, incorretAnswers) {
+    const { colorRight, colorWrong } = this.state;
     return (
       <>
         <button
           type="button"
           data-testid="wrong-answer-0"
+          onClick={ this.handleClick }
+          className={ colorWrong }
         >
           { incorretAnswers[0] }
         </button>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+        >
+          { correctAnswer }
+        </button>
       </>
     );
   }
@@ -48,12 +70,20 @@ class Game extends React.Component {
   }
 
   mixMultiple(correctAnswer, incorretAnswers, randomic) {
+    const { colorRight, colorWrong } = this.state;
     const RANGE05 = 0.5;
     const RANGE075 = 0.75;
 
     const rightAnswer = (
       <>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+        >
+          { correctAnswer }
+        </button>
         <br />
       </>
     );
@@ -64,6 +94,8 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${i}` }
           key={ i }
+          onClick={ this.handleClick }
+          className={ colorWrong }
         >
           {incorrect}
         </button>
@@ -82,27 +114,41 @@ class Game extends React.Component {
     return arrangement;
   }
 
+  renderBooleanNotMixed(correctAnswer, incorretAnswers) {
+    const { colorRight, colorWrong } = this.state;
+    return (
+      <>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+        >
+          { correctAnswer }
+        </button>
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+          onClick={ this.handleClick }
+          className={ colorWrong }
+        >
+          { incorretAnswers[0] }
+        </button>
+      </>
+    );
+  }
+
   renderQuestions(objectQuestion) {
+    const { colorRight, colorWrong } = this.state;
     const { type, correct_answer: correctAnswer } = objectQuestion;
     const { incorrect_answers: incorretAnswers } = objectQuestion;
     const randomic = Math.random();
-    //  console.log(randomic);
     if (type === 'boolean') {
       const RANGE = 0.5;
       if (randomic > RANGE) {
         return this.mixBoolean(correctAnswer, incorretAnswers);
       }
-      return (
-        <>
-          <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
-          <button
-            type="button"
-            data-testid="wrong-answer-0"
-          >
-            { incorretAnswers[0] }
-          </button>
-        </>
-      );
+      this.renderBooleanNotMixed(correctAnswer, incorretAnswers);
     }
     const RANGE025 = 0.25;
     if (randomic > RANGE025) {
@@ -111,7 +157,14 @@ class Game extends React.Component {
     //  console.log("Primeiro");
     return (
       <>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+        >
+          { correctAnswer }
+        </button>
         { incorretAnswers.map((incorrect, i) => (
           <section key={ i }>
             <br />
@@ -119,6 +172,8 @@ class Game extends React.Component {
               type="button"
               data-testid={ `wrong-answer-${i}` }
               key={ i }
+              onClick={ this.handleClick }
+              className={ colorWrong }
             >
               {incorrect}
             </button>

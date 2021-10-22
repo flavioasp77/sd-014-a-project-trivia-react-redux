@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { fetchQuestions } from '../services';
 
-import './QuestionCard.css';
-
 export default class QuestionCard extends Component {
   constructor() {
     super();

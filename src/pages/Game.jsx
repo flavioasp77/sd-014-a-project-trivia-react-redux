@@ -1,20 +1,66 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import verifyRange from '../utils/mix';
 import Header from '../components/Header';
 import '../style/Game.css';
+
+let control = 1;
+
+const RANGE025 = 0.25;
+const RANGE05 = 0.5;
+const RANGE075 = 0.75;
+const magicNumber = '0.33';
+const timer = 30;
 
 class Game extends React.Component {
   constructor() {
     super();
-
     this.state = {
       index: 0,
+      //  remainingTime: timer,
+      disabled: false,
       colorRight: '',
       colorWrong: '',
     };
-
+    this.countdownTimer = this.countdownTimer.bind(this);
+    this.updateRemaingTime = this.updateRemaingTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  updateRemaingTime(time) {
+    const { remainingTime } = this.state;
+
+    if (time === 0 && control === 1) {
+      this.setState({
+        remainingTime: 0,
+        disabled: true,
+      });
+      control = remainingTime;
+    }
+    console.log(remainingTime);
+  }
+
+  countdownTimer() {
+    return (
+      <section>
+        <CountdownCircleTimer
+          isPlaying
+          duration={ timer }
+          colors={ [
+            ['#004777', magicNumber],
+            ['#F7B801', magicNumber],
+            ['#A30000', magicNumber],
+          ] }
+        >
+          {({ remainingTime }) => {
+            if (remainingTime === 0) this.updateRemaingTime(0);
+            return remainingTime;
+          } }
+        </CountdownCircleTimer>
+      </section>
+    );
   }
 
   handleClick() {
@@ -25,7 +71,7 @@ class Game extends React.Component {
   }
 
   mixBoolean(correctAnswer, incorretAnswers) {
-    const { colorRight, colorWrong } = this.state;
+    const { disabled, colorRight, colorWrong } = this.state;
     return (
       <>
         <button
@@ -39,6 +85,7 @@ class Game extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
+          disabled={ disabled }
           onClick={ this.handleClick }
           className={ colorRight }
         >
@@ -48,39 +95,17 @@ class Game extends React.Component {
     );
   }
 
-  verifyRange(RANGE, incorrectMaped, rightAnswer) {
-    const RANGE05 = 0.5;
-    const RANGE075 = 0.75;
-    const arrangement = [];
-
-    if (RANGE === RANGE05) {
-      arrangement.push(incorrectMaped[0]);
-      arrangement.push(rightAnswer);
-      arrangement.push(incorrectMaped[1]);
-      arrangement.push(incorrectMaped[2]);
-      return arrangement;
-    }
-    if (RANGE === RANGE075) {
-      arrangement.push(incorrectMaped[0]);
-      arrangement.push(incorrectMaped[1]);
-      arrangement.push(rightAnswer);
-      arrangement.push(incorrectMaped[2]);
-      return arrangement;
-    }
-  }
-
   mixMultiple(correctAnswer, incorretAnswers, randomic) {
-    const { colorRight, colorWrong } = this.state;
-    const RANGE05 = 0.5;
-    const RANGE075 = 0.75;
+    const { disabled, colorRight, colorWrong } = this.state;
 
     const rightAnswer = (
       <>
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ this.handleClick }
+          disabled={ disabled }
           className={ colorRight }
+          onClick={ this.handleClick }
         >
           { correctAnswer }
         </button>
@@ -94,20 +119,21 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${i}` }
           key={ i }
+          disabled={ disabled }
           onClick={ this.handleClick }
           className={ colorWrong }
         >
-          {incorrect}
+          { incorrect }
         </button>
         <br />
       </section>
     ));
     if (randomic <= RANGE05) {
-      const arrangement = this.verifyRange(RANGE05, incorrectMaped, rightAnswer);
+      const arrangement = verifyRange(RANGE05, incorrectMaped, rightAnswer);
       return arrangement;
     }
     if (randomic <= RANGE075) {
-      const arrangement = this.verifyRange(RANGE075, incorrectMaped, rightAnswer);
+      const arrangement = verifyRange(RANGE075, incorrectMaped, rightAnswer);
       return arrangement;
     }
     const arrangement = [...incorrectMaped, rightAnswer];
@@ -143,18 +169,16 @@ class Game extends React.Component {
     const { type, correct_answer: correctAnswer } = objectQuestion;
     const { incorrect_answers: incorretAnswers } = objectQuestion;
     const randomic = Math.random();
+    const { disabled } = this.state;
     if (type === 'boolean') {
-      const RANGE = 0.5;
-      if (randomic > RANGE) {
+      if (randomic > RANGE05) {
         return this.mixBoolean(correctAnswer, incorretAnswers);
       }
       this.renderBooleanNotMixed(correctAnswer, incorretAnswers);
     }
-    const RANGE025 = 0.25;
     if (randomic > RANGE025) {
       return this.mixMultiple(correctAnswer, incorretAnswers, randomic);
     }
-    //  console.log("Primeiro");
     return (
       <>
         <button
@@ -162,6 +186,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           onClick={ this.handleClick }
           className={ colorRight }
+          disabled={ disabled }
         >
           { correctAnswer }
         </button>
@@ -172,6 +197,7 @@ class Game extends React.Component {
               type="button"
               data-testid={ `wrong-answer-${i}` }
               key={ i }
+              disabled={ disabled }
               onClick={ this.handleClick }
               className={ colorWrong }
             >
@@ -186,11 +212,10 @@ class Game extends React.Component {
   render() {
     const { arrayQuestions } = this.props;
     const { index } = this.state;
-    //  console.log(arrayQuestions);
+
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     const objectQuestion = arrayQuestions[index];
     const { category, question } = objectQuestion;
-    //  console.log(arrayQuestions);
     return (
       <>
         <Header />
@@ -200,6 +225,7 @@ class Game extends React.Component {
           <section data-testid="question-text">{ question }</section>
           <br />
           { this.renderQuestions(objectQuestion) }
+          { this.countdownTimer() }
         </section>
       </>
     );

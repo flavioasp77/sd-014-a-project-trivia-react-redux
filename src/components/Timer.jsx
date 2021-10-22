@@ -22,14 +22,14 @@ class Timer extends Component {
       this.setState({ seconds: seconds - 1 });
       localStorage.setItem('timer', seconds - 1);
     }, SECOND);
-    localStorage.setItem('idInterval', idInterval);
+    sessionStorage.setItem('idInterval', idInterval);
   }
 
   render() {
     const { answered, callback } = this.props;
     const { seconds } = this.state;
     if (seconds < 1 || answered) {
-      clearInterval(localStorage.getItem('idInterval'));
+      clearInterval(sessionStorage.getItem('idInterval'));
       const { decrementTime } = this.props;
       decrementTime(seconds);
       callback();

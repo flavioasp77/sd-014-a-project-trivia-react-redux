@@ -11,6 +11,7 @@ class Login extends Component {
       name: '',
       email: '',
       settings: false,
+      score: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -39,6 +40,8 @@ class Login extends Component {
     localStorage.setItem('token', response.token);
     const { token } = response;
     await actionToken(token);
+    const player = { player: this.state };
+    localStorage.setItem('state', JSON.stringify(player));
     history.push('/game');
   }
 

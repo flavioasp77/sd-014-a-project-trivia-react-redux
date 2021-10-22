@@ -5,79 +5,117 @@ import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
-import { timerAction } from '../actions';
 import NextQstButton from '../components/NextQstButton';
 
 class Game extends Component {
   constructor() {
     super();
+
+    const { score } = JSON.parse(localStorage.getItem('state')).player;
     this.state = {
       index: 0,
       answered: false,
+      score,
+      assertions: 0,
+      timeReset: false,
     };
     this.handleIndex = this.handleIndex.bind(this);
     this.selectAnswer = this.selectAnswer.bind(this);
+    this.handleNextQuest = this.handleNextQuest.bind(this);
+    this.handleBtnColor = this.handleBtnColor.bind(this);
+  }
+
+  componentDidMount() {
+    const halfMinute = 30;
+    localStorage.setItem('timer', halfMinute);
   }
 
   // correctAnswer
-  handleIndex() {
-    const { decrementTime } = this.props;
-    decrementTime(localStorage.getItem('timer'));
-    // const { index, score } = this.state;
-    // const { questions } = this.props;
-    // const points = 10;
-    // const regex = /correct/i;
+  handleIndex(correctAnswer, difficulty) {
+    const regex = /correct/i;
+    if (regex.test(correctAnswer)) {
+      const { assertions } = this.state;
+      const time = Number(localStorage.getItem('timer'));
+      const newScore = this.mathPoints(time, difficulty);
+      this.setState({
+        score: newScore,
+        assertions: assertions + 1,
+      });
+    }
+    this.handleBtnColor();
+  }
+
+  mathPoints(time, difficulty) {
+    const scorePoints = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const sum = time * scorePoints[difficulty];
+    const state = JSON.parse(localStorage.getItem('state'));
+    const total = state.player.score + sum;
+    state.player.score = total;
+    localStorage.setItem('state', JSON.stringify(state));
+    return total;
+  }
+
+  handleBtnColor() {
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
     correct.classList.add('correct');
     wrong.forEach((ans) => ans.classList.add('wrong'));
     this.setState({ answered: true });
-    // if (index < questions.length - 1) {
-    //   this.setState({ index: index + 1 });
-    // }
-    // if (regex.test(correctAnswer)) {
-    //   this.setState({ score: score + points });
-    // }
+    correct.disabled = true;
+  }
+
+  async handleNextQuest() {
+    const { index } = this.state;
+    const { questions } = this.props;
+    const correct = document.querySelector('.correct-answer');
+    const wrong = document.querySelectorAll('.wrong-answer');
+    if (index < questions.length - 1) {
+      await this.setState({
+        index: index + 1,
+        answered: false,
+        timeReset: true,
+      });
+      correct.classList.remove('correct');
+      correct.disabled = false;
+      wrong.forEach((ans) => ans.classList.remove('wrong'));
+    }
+    this.setState({ timeReset: false });
   }
 
   selectAnswer() {
-    const correct = document.querySelector('.correct-answer');
-    correct.disabled = true;
     this.handleIndex();
-    clearInterval(localStorage.getItem('idInterval'));
+    clearInterval(sessionStorage.getItem('idInterval'));
   }
 
   render() {
     const { questions } = this.props;
-    const { index, answered } = this.state;
+    const { index, answered, timeReset, score } = this.state;
     return (
       <div>
-        <Header />
+        <Header score={ score } />
         <QuestionCard
           questionInfo={ questions[index] }
           handleIndex={ this.handleIndex }
         />
-        <Timer answered={ answered } callback={ this.selectAnswer } />
-        {answered && <NextQstButton />}
+        {!timeReset && <Timer answered={ answered } callback={ this.selectAnswer } />}
+        {answered && <NextQstButton onClick={ this.handleNextQuest } />}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ questions, timer }) => ({
+const mapStateToProps = ({ questions }) => ({
   questions: questions.questions,
-  timer: timer.time,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  decrementTime: (time) => dispatch(timerAction(time)),
 });
 
 Game.propTypes = {
-  decrementTime: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
   })).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, null)(Game);

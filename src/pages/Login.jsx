@@ -30,14 +30,14 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     const { dispatchPayload } = this.props;
     const { name, email } = this.state;
 
     event.preventDefault();
     dispatchPayload({ name, email });
 
-    opentdbAPI.fetchToken();
+    await opentdbAPI.fetchToken();
 
     this.setState({ redirect: '/trivia' });
   }

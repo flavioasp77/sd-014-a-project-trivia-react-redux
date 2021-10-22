@@ -1,4 +1,4 @@
-import { SET_PLAYER } from '../actions';
+import { SET_PLAYER, SET_SCORE } from '../actions';
 import { localSaveItem } from '../../utils/localStorageAPI';
 
 const INITIAL_STATE = {
@@ -11,8 +11,11 @@ const INITIAL_STATE = {
 export default function player(state = INITIAL_STATE, action) {
   switch (action.type) {
   case SET_PLAYER:
-    localSaveItem('state', { ...state, ...action.payload });
+    localSaveItem('state', { player: { ...state, ...action.payload } });
     return { ...state, ...action.payload };
+  case SET_SCORE:
+    localSaveItem('state', { player: { ...state, score: action.payload } });
+    return { ...state, score: action.payload };
   default:
     return state;
   }

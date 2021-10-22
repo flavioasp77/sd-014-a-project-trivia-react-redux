@@ -5,6 +5,7 @@ export const SET_PLAYER = 'LOGIN_PLAYER';
 export const IS_FETCHING = 'IS_FETCHING';
 export const SET_TOKEN = 'GET_TOKEN';
 export const SET_QUESTIONS = 'GET_QUESTIONS';
+export const SET_SCORE = 'SET_SCORE';
 
 const setToken = (token) => ({
   type: SET_TOKEN,
@@ -18,6 +19,11 @@ const setPlayer = (payload) => ({
 
 const setQuestions = (payload) => ({
   type: SET_QUESTIONS,
+  payload,
+});
+
+export const setScore = (payload) => ({
+  type: SET_SCORE,
   payload,
 });
 

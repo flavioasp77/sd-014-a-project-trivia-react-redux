@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Jogo from './pages/Jogo';
 import Settings from './pages/Settings';
 import { Feedback } from './pages/Feedback';
-import { Ranking } from './pages/Raking';
+import { Ranking } from './pages/Ranking';
 
 export default function App() {
   return (

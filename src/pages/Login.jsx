@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import '../styles/login.css';
-import { MD5 } from 'crypto-js';
 import {
   setUser as setUserAction, setTokenAPI as setTokenAPIAction,
 } from '../actions/indexActions';
-import { getArrayPlayers } from '../helpers';
+import { setInitialStateLS } from '../helpers/index';
 
 class Login extends Component {
   constructor(props) {
@@ -19,45 +18,26 @@ class Login extends Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.btnJogar = this.btnJogar.bind(this);
-    this.setArrayPlayersLS = this.setArrayPlayersLS.bind(this);
-  }
-
-  setArrayPlayersLS(obj) {
-    const arrayPlayers = getArrayPlayers();
-    const OBJ = {
-      name: obj.player.name,
-      picture: `https://www.gravatar.com/avatar/${MD5(obj.gravatarEmail).toString()}`,
-      score: obj.player.score,
-    };
-    if (arrayPlayers) {
-      const newArray = [...arrayPlayers, OBJ];
-      localStorage.setItem('ranking', JSON.stringify(newArray));
-    } else {
-      const newArray = [];
-      newArray.push(OBJ);
-      localStorage.setItem('ranking', JSON.stringify(newArray));
-    }
   }
 
   handleInput({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
 
-  handleClick() {
+  async handleClick() {
     const { history, setUser, setTokenAPI } = this.props;
     const { name, email } = this.state;
-    const TIME = 2000;
     setUser({ name, email });
-    setTokenAPI();
+    await setTokenAPI();
     const objLocal = { player: {
       name,
       assertions: 0,
       score: 0,
       gravatarEmail: email,
     } };
-    this.setArrayPlayersLS(objLocal);
+    setInitialStateLS(objLocal);
     localStorage.setItem('state', JSON.stringify(objLocal));
-    setTimeout(() => history.push('/jogo'), TIME);
+    history.push('/jogo');
   }
 
   btnJogar() {

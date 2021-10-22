@@ -22,9 +22,9 @@ class Login extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    const { email } = this.state;
+    const { email, name } = this.state;
     const { history, loginDispatch, tokenDispatch } = this.props;
-    loginDispatch(email);
+    loginDispatch(email, name);
     tokenDispatch();
     history.push('/play');
   }

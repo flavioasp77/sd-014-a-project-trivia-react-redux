@@ -27,7 +27,7 @@ class Login extends React.Component {
     history.push('/play');
   }
 
-  render() {    
+  render() {
     const { name, email } = this.state;
     const EMAIL_REGEX = /.+@.+\..+/;
     return (

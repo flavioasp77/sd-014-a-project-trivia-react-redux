@@ -8,7 +8,7 @@ import {
   handleUserAnswer as handleUserAnswerAction,
   setTimer,
 } from '../actions/indexActions';
-import generateRandomAnswers from '../helpers';
+import generateRandomAnswers, { getArrayPlayers } from '../helpers';
 
 class Jogo extends Component {
   constructor() {
@@ -25,12 +25,23 @@ class Jogo extends Component {
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.decrementTimer = this.decrementTimer.bind(this);
     this.timer = this.timer.bind(this);
+    this.setArrayFromLS = this.setArrayFromLS.bind(this);
   }
 
   componentDidMount() {
-    const { state: { game: { questions, index } }, setAnswers } = this.props;
+    const { state: { game: { questions, index } }, setAnswers, history } = this.props;
+    if (questions.length === 0) return history.push('/');
     setAnswers(generateRandomAnswers(questions, index));
     this.timer();
+  }
+
+  setArrayFromLS({ player: { score, name } }) {
+    const ArrayPlayers = getArrayPlayers();
+    const objPlayer = ArrayPlayers[ArrayPlayers.length - 1];
+    objPlayer.score = score;
+    const newArray = ArrayPlayers.map((item) => (
+      name === item.name ? objPlayer : item));
+    localStorage.setItem('ranking', JSON.stringify(newArray));
   }
 
   answerButtons(questions, index) {
@@ -81,6 +92,7 @@ class Jogo extends Component {
     objFromLS.player.score += result;
     objFromLS.player.assertions += result !== 0 ? 1 : 0;
     localStorage.setItem('state', JSON.stringify(objFromLS));
+    this.setArrayFromLS(objFromLS);
     this.setState({ score: objFromLS.player.score, nextQuestion: true });
     handleUserAnswer();
     setTimerGlobal({ timerValue: secondsTimer, stop: true });

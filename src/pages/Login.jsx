@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { saveUserInfoAction } from '../redux/actions';
-import fetchToken from '../services/fetchToken';
 import settingsIcon from '../assets/settings.svg';
 
 class Login extends Component {
@@ -30,7 +29,6 @@ class Login extends Component {
   handleLogin() {
     const { history, saveUserInfoToState } = this.props;
 
-    fetchToken();
     saveUserInfoToState(this.state);
 
     history.push('/game');

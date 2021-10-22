@@ -7,6 +7,7 @@ const fetchToken = async () => {
     const { token } = json;
 
     localStorage.setItem('token', token);
+
     return token;
   } catch (error) {
     console.log(error);

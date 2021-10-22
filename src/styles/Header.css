@@ -1,0 +1,21 @@
+.header {
+  align-items: center;
+  background-color: #c4c4c4;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1rem 1rem 0.2rem;
+}
+
+.header-container {
+  align-items: center;
+  display: flex;
+}
+
+.header-profile-picture {
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.header-player-name, .header-score{
+  font-size: 2.8rem;
+}

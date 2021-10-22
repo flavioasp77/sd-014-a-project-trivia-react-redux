@@ -13,7 +13,6 @@ class Play extends Component {
 
     return (
       <div>
-        <h1>Play</h1>
         <Header />
         <QuestionCard data={ results[0] } />
       </div>

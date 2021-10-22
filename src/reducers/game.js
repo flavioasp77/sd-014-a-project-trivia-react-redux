@@ -41,7 +41,7 @@ const game = (state = INITIAL_STATE, action) => {
   case NEXT_QUESTION:
     return {
       ...state,
-      index: (state.index + 1) < state.questions.length && state.index + 1,
+      index: state.index === (state.questions.length - 1) ? 0 : (state.index + 1),
     };
   case SET_TIMER:
     return {

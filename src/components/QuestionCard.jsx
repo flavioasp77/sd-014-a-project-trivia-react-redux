@@ -45,13 +45,13 @@ class QuestionCard extends Component {
     return (
       <div className="question-card">
         <div className="question-container">
-          <p>{seconds}</p>
           <p className="question-category" data-testid="question-category">
             {category}
           </p>
           <p className="question-text" data-testid="question-text">
             {question}
           </p>
+          <p className="timer">{`Tempo: ${seconds}`}</p>
         </div>
         <div className="answers-container">
           <button
@@ -76,6 +76,7 @@ class QuestionCard extends Component {
             </button>
           ))}
         </div>
+
       </div>
     );
   }

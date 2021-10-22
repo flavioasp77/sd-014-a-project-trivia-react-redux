@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Buttons extends React.Component {
   render() {
-    const { order, handleClickAnswer,
+    const { order, timer, handleClickAnswer,
       click, questionResults, atualQuestion, handleNextBtn } = this.props;
     return (
       <div>
@@ -12,8 +12,9 @@ class Buttons extends React.Component {
             type="button"
             data-testid="correct-answer"
             style={ { order } }
-            className={ click && 'rightanswer' }
+            className={ (timer === 0 || click) && 'rightanswer' }
             onClick={ handleClickAnswer }
+            disabled={ timer === 0 || click }
           >
             {questionResults.response[atualQuestion].correct_answer}
           </button>
@@ -25,8 +26,9 @@ class Buttons extends React.Component {
                   type="button"
                   style={ { order: index } }
                   data-testid={ `wrong-answer-${index}` }
-                  className={ click && 'wronganswer' }
+                  className={ (timer === 0 || click) && 'wronganswer' }
                   onClick={ handleClickAnswer }
+                  disabled={ timer === 0 || click }
                 >
                   {question}
                 </button>
@@ -50,6 +52,7 @@ Buttons.propTypes = {
   order: PropTypes.number.isRequired,
   handleClickAnswer: PropTypes.func.isRequired,
   click: PropTypes.bool.isRequired,
+  timer: PropTypes.number.isRequired,
   questionResults: PropTypes.arrayOf(PropTypes.any).isRequired,
   atualQuestion: PropTypes.number.isRequired,
   handleNextBtn: PropTypes.func.isRequired,

@@ -12,7 +12,7 @@ class Questions extends Component {
       order: 0,
       atualQuestion: 0,
       click: false,
-      timer: 5,
+      timer: 30,
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
@@ -81,6 +81,7 @@ class Questions extends Component {
           atualQuestion={ atualQuestion }
           questionResults={ questionResults }
           handleNextBtn={ this.handleNextBtn }
+          timer={ timer }
         />
       </div>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login, fetchApiTrivia } from '../actions';
+import { login, fetchApiTrivia } from '../redux/actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {

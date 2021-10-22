@@ -27,6 +27,7 @@ export function fetchApiTrivia() {
     try {
       const resposta = await fetch(URL);
       const respostaApi = await resposta.json();
+      localStorage.setItem('token', respostaApi.token);
       dispatch(requisitarToken(respostaApi.token));
     } catch (error) {
       return dispatch(falhaToken);

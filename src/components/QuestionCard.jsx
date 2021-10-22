@@ -10,6 +10,8 @@ export default class QuestionCard extends Component {
       loading: true,
     };
     this.setQuestions = this.setQuestions.bind(this);
+    this.switchColors = this.switchColors.bind(this);
+    this.handdleClick = this.handdleClick.bind(this);
   }
 
   componentDidMount() {
@@ -32,19 +34,45 @@ export default class QuestionCard extends Component {
     }
   }
 
+  handdleClick() {
+    this.switchColors();
+  }
+
+  switchColors() {
+    const correctButton = document.querySelector('.correctButton');
+    const incorrectButtons = document.querySelectorAll('.incorrectButtons');
+
+    correctButton.style.border = '3px solid rgb(6, 240, 15)';
+    incorrectButtons.forEach((element) => {
+      element.style.border = '3px solid rgb(255, 0, 0)';
+    });
+  }
+
   renderButtons() {
     const { questions, questionNumber } = this.state;
     const { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = questions[questionNumber];
     const correctButton = (
-      <button type="button" data-testid="correct-answer" key={ questionNumber }>
+      <button
+        className="correctButton"
+        type="button"
+        data-testid="correct-answer"
+        key={ questionNumber }
+        onClick={ this.switchColors }
+      >
         { correctAnswer }
       </button>
     );
     const incorrectButtons = (
       incorrectAnswers.map((answers, index) => (
-        <button type="button" data-testid={ `wrong-answer-${index}` } key={ index }>
+        <button
+          className="incorrectButtons"
+          type="button"
+          data-testid={ `wrong-answer-${index}` }
+          key={ index }
+          onClick={ this.switchColors }
+        >
           { answers }
         </button>
       ))

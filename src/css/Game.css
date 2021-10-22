@@ -8,3 +8,11 @@
   overflow: hidden;
   width: 100vw;
 }
+
+.answers-reveal [ data-testid = 'correct-answer' ] {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.answers-reveal [ data-testid ^= 'wrong-answer-' ] {
+  border: 3px solid red;
+}

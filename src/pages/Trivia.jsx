@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from './Header';
 import { getQuestions } from '../services/triviaAPI';
 import '../styles/trivia.css';
 import Timer from '../components/Timer';
+import { setScore as setScoreAction } from '../actions';
 
 class Trivia extends Component {
   constructor(props) {
@@ -14,16 +16,23 @@ class Trivia extends Component {
       loading: true,
       isClicked: false,
       answerArray: [],
+      verifyAnswer: false,
     };
     this.fetchAPI = this.fetchAPI.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.randomArray = this.randomArray.bind(this);
     this.createBtn = this.createBtn.bind(this);
     this.updateBtn = this.updateBtn.bind(this);
+    this.countScore = this.countScore.bind(this);
   }
 
   componentDidMount() {
     this.fetchAPI();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { timer } = this.props;
+    if (prevProps.timer !== timer) { this.countScore(); }
   }
 
   async fetchAPI() {
@@ -34,10 +43,48 @@ class Trivia extends Component {
     });
   }
 
-  handleClick() {
+  handleClick({ target }) {
+    const verifyAnswer = target.id.includes('correct');
     this.setState({
       isClicked: true,
+      verifyAnswer,
     });
+  }
+
+  countScore() {
+    const { questions, index, verifyAnswer } = this.state;
+    const { difficulty } = questions[index];
+    const { timer, setScore } = this.props;
+    let palyerScore = 0;
+
+    if (verifyAnswer) {
+      const HARD = 3;
+      const MEDIUM = 2;
+      const EASY = 1;
+      const TEN = 10;
+
+      switch (difficulty) {
+      case 'hard':
+        palyerScore = (TEN + (timer * HARD));
+        break;
+      case 'medium':
+        palyerScore = (TEN + (timer * MEDIUM));
+        break;
+      default:
+        palyerScore = (TEN + (timer * EASY));
+      }
+
+      setScore(palyerScore);
+    }
+    const playerObj = {
+      player: {
+        name: '',
+        assertions: 0,
+        score: palyerScore,
+        gravatarEmail: '',
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(playerObj));
   }
 
   answerMap() {
@@ -146,13 +193,17 @@ class Trivia extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
+const mapStateToProps = ({ playerReducer }) => ({
+  timer: playerReducer.timer,
+});
 
-// })
+const mapDispatchToProps = (dispatch) => ({
+  setScore: (score) => dispatch(setScoreAction(score)),
+});
 
-// const mapDispatchToProps = {
+Trivia.propTypes = {
+  timer: PropTypes.number.isRequired,
+  setScore: PropTypes.func.isRequired,
+};
 
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Trivia)
-export default Trivia;
+export default connect(mapStateToProps, mapDispatchToProps)(Trivia);

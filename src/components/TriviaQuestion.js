@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/TriviaQuestion.style.css';
 
 export default class TriviaQuestion extends Component {
+  constructor() {
+    super();
+    this.state = {
+      className: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   questionRender() {
     const { question } = this.props;
     return (
@@ -14,17 +23,25 @@ export default class TriviaQuestion extends Component {
       </div>);
   }
 
+  handleClick() {
+    this.setState({ className: true });
+  }
+
   mapAlternatives() {
     const { question, scrambledQuestions } = this.props;
+    const { className } = this.state;
     let wrongIndex = 0;
     return scrambledQuestions.map((alternative, index) => {
+      const correctOrWrong = alternative === question.correct_answer;
       const correct = 'correct-answer';
       const wrong = `wrong-answer-${wrongIndex}`;
       const button = (
         <button
           key={ index }
           type="button"
-          data-testid={ alternative === question.correct_answer ? correct : wrong }
+          data-testid={ correctOrWrong ? correct : wrong }
+          className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
+          onClick={ this.handleClick }
         >
           { alternative }
         </button>);

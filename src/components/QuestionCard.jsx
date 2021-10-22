@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Answers from './Answers';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
@@ -13,14 +14,6 @@ class QuestionCard extends Component {
 
   handleClick() {
     this.setState({ showAnswer: true });
-  }
-
-  renderNextButton() {
-    return (
-      <button className="btn-next" data-testid="btn-next" type="button">
-        PRÓXIMA
-      </button>
-    );
   }
 
   render() {
@@ -45,29 +38,18 @@ class QuestionCard extends Component {
               {question}
             </p>
           </div>
-          <div className="answers-container">
-            <button
-              className={ showAnswer ? 'answer correct' : 'answer' }
-              data-testid="correct-answer"
-              onClick={ this.handleClick }
-              type="button"
-            >
-              {correct}
-            </button>
-            {incorrect.map((answer, index) => (
-              <button
-                className={ showAnswer ? 'answer wrong' : 'answer' }
-                data-testid={ `wrong-answer-${index}` }
-                key={ `${answer}-${index}` }
-                onClick={ this.handleClick }
-                type="button"
-              >
-                {answer}
-              </button>
-            ))}
-          </div>
+          <Answers
+            correctAnswer={ correct }
+            incorrectAnswers={ incorrect }
+            onAnswerClick={ this.handleClick }
+            showAnswer={ showAnswer }
+          />
         </div>
-        {showAnswer && this.renderNextButton()}
+        {showAnswer && (
+          <button className="btn-next" data-testid="btn-next" type="button">
+            PRÓXIMA
+          </button>
+        )}
       </>
     );
   }

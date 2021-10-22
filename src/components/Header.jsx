@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { name, email } = this.props;
+    const { email, name } = this.props;
     const hash = md5(email.trim().toLowerCase()).toString();
     const gravatar = `https://www.gravatar.com/avatar/${hash}`;
 
     return (
       <header>
         <img
+          alt="Player Gravatar"
           data-testid="header-profile-picture"
           src={ gravatar }
-          alt="Player Gravatar"
         />
         <span data-testid="header-player-name">
           Jogador:
@@ -27,13 +27,13 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  name: state.user.name,
   email: state.user.email,
+  name: state.user.name,
 });
 
 Header.propTypes = {
-  name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

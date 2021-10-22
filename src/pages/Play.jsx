@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import Question from '../components/Question';
+import QuestionCard from '../components/QuestionCard';
 
 class Play extends Component {
   render() {
     const { data } = this.props;
-    const { response_code: code, results } = data;
+    const { response_code: responseCode, results } = data;
 
-    if (code !== 0) return <div>Token expirado!</div>;
+    if (responseCode !== 0) return <div>Token expirado!</div>;
 
     return (
       <div>
         <h1>Play</h1>
         <Header />
-        <Question data={ results[0] } />
+        <QuestionCard data={ results[0] } />
       </div>
     );
   }

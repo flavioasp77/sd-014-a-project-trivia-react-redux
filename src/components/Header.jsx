@@ -25,7 +25,6 @@ class Header extends React.Component {
 
   render() {
     const { player, hashInfo } = this.state;
-    console.log(player);
     return (
       <header>
         <img

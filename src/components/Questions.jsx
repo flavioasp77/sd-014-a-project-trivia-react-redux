@@ -16,10 +16,16 @@ class Questions extends Component {
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
+    this.timeOut = this.timeOut.bind(this);
   }
 
   componentDidMount() {
     this.shuffleButtons();
+  }
+
+  timeOut() {
+    const THIRTY_SECONDS = 30000;
+    setTimeout(this.setState({ click: true }), THIRTY_SECONDS);
   }
 
   shuffleButtons() {

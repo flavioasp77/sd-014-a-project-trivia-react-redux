@@ -18,10 +18,11 @@ export default class QuestionCard extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleTimer = this.handleTimer.bind(this);
   }
 
   componentDidMount() {
-    handleTimer();
+    this.handleTimer();
   }
 
   // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
@@ -39,7 +40,7 @@ export default class QuestionCard extends React.Component {
     buttons.forEach((button) => { button.className = 'standard-button'; });
 
     const { callback } = this.props;
-    this.setState({ answer: NO_ANSWER });
+    this.setState({ answer: NO_ANSWER, timer: 30 });
     callback(isCorrect);
   }
 
@@ -58,7 +59,7 @@ export default class QuestionCard extends React.Component {
   handleTimer() {
     const SECOND = 1000;
     const { timer } = this.state;
-    if (timer === 0) return;
+    if (timer === 0) this.handleClickNext(false);
     setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, SECOND);

@@ -19,7 +19,7 @@ export default class QuestionCard extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
 
   handleClick(answer) {
     const rightButton = document.querySelector('[data-testid="correct-answer"]');

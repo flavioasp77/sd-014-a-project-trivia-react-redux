@@ -12,6 +12,7 @@ class Login extends Component {
       email: '',
       settings: false,
       score: 0,
+      assertions: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);

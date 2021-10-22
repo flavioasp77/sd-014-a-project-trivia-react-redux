@@ -19,7 +19,7 @@ class Game extends React.Component {
     super();
     this.state = {
       index: 0,
-      remainingTime: timer,
+      //  remainingTime: timer,
       disabled: false,
       colorRight: '',
       colorWrong: '',
@@ -105,6 +105,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           disabled={ disabled }
           className={ colorRight }
+          onClick={ this.handleClick }
         >
           { correctAnswer }
         </button>

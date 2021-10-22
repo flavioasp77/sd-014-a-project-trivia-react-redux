@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import verifyRange from '../utils/mix';
 import Header from '../components/Header';
+import '../style/Game.css';
 
 let control = 1;
 
@@ -19,9 +21,12 @@ class Game extends React.Component {
       index: 0,
       remainingTime: timer,
       disabled: false,
+      colorRight: '',
+      colorWrong: '',
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   updateRemaingTime(time) {
@@ -58,13 +63,22 @@ class Game extends React.Component {
     );
   }
 
+  handleClick() {
+    this.setState({
+      colorRight: 'answer-correct',
+      colorWrong: 'answer-incorrect',
+    });
+  }
+
   mixBoolean(correctAnswer, incorretAnswers) {
-    const { disabled } = this.state;
+    const { disabled, colorRight, colorWrong } = this.state;
     return (
       <>
         <button
           type="button"
           data-testid="wrong-answer-0"
+          onClick={ this.handleClick }
+          className={ colorWrong }
         >
           { incorretAnswers[0] }
         </button>
@@ -72,6 +86,8 @@ class Game extends React.Component {
           type="button"
           data-testid="correct-answer"
           disabled={ disabled }
+          onClick={ this.handleClick }
+          className={ colorRight }
         >
           { correctAnswer }
         </button>
@@ -79,27 +95,8 @@ class Game extends React.Component {
     );
   }
 
-  verifyRange(RANGE, incorrectMaped, rightAnswer) {
-    const arrangement = [];
-
-    if (RANGE === RANGE05) {
-      arrangement.push(incorrectMaped[0]);
-      arrangement.push(rightAnswer);
-      arrangement.push(incorrectMaped[1]);
-      arrangement.push(incorrectMaped[2]);
-      return arrangement;
-    }
-    if (RANGE === RANGE075) {
-      arrangement.push(incorrectMaped[0]);
-      arrangement.push(incorrectMaped[1]);
-      arrangement.push(rightAnswer);
-      arrangement.push(incorrectMaped[2]);
-      return arrangement;
-    }
-  }
-
   mixMultiple(correctAnswer, incorretAnswers, randomic) {
-    const { disabled } = this.state;
+    const { disabled, colorRight, colorWrong } = this.state;
 
     const rightAnswer = (
       <>
@@ -107,9 +104,9 @@ class Game extends React.Component {
           type="button"
           data-testid="correct-answer"
           disabled={ disabled }
+          className={ colorRight }
         >
           { correctAnswer }
-
         </button>
         <br />
       </>
@@ -122,25 +119,52 @@ class Game extends React.Component {
           data-testid={ `wrong-answer-${i}` }
           key={ i }
           disabled={ disabled }
+          onClick={ this.handleClick }
+          className={ colorWrong }
         >
-          {incorrect}
+          { incorrect }
         </button>
         <br />
       </section>
     ));
     if (randomic <= RANGE05) {
-      const arrangement = this.verifyRange(RANGE05, incorrectMaped, rightAnswer);
+      const arrangement = verifyRange(RANGE05, incorrectMaped, rightAnswer);
       return arrangement;
     }
     if (randomic <= RANGE075) {
-      const arrangement = this.verifyRange(RANGE075, incorrectMaped, rightAnswer);
+      const arrangement = verifyRange(RANGE075, incorrectMaped, rightAnswer);
       return arrangement;
     }
     const arrangement = [...incorrectMaped, rightAnswer];
     return arrangement;
   }
 
+  renderBooleanNotMixed(correctAnswer, incorretAnswers) {
+    const { colorRight, colorWrong } = this.state;
+    return (
+      <>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+        >
+          { correctAnswer }
+        </button>
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+          onClick={ this.handleClick }
+          className={ colorWrong }
+        >
+          { incorretAnswers[0] }
+        </button>
+      </>
+    );
+  }
+
   renderQuestions(objectQuestion) {
+    const { colorRight, colorWrong } = this.state;
     const { type, correct_answer: correctAnswer } = objectQuestion;
     const { incorrect_answers: incorretAnswers } = objectQuestion;
     const randomic = Math.random();
@@ -149,31 +173,22 @@ class Game extends React.Component {
       if (randomic > RANGE05) {
         return this.mixBoolean(correctAnswer, incorretAnswers);
       }
-      return (
-        <>
-          <button
-            type="button"
-            data-testid="correct-answer"
-            disabled={ disabled }
-          >
-            { correctAnswer }
-          </button>
-          <button
-            type="button"
-            data-testid="wrong-answer-0"
-            disabled={ disabled }
-          >
-            { incorretAnswers[0] }
-          </button>
-        </>
-      );
+      this.renderBooleanNotMixed(correctAnswer, incorretAnswers);
     }
     if (randomic > RANGE025) {
       return this.mixMultiple(correctAnswer, incorretAnswers, randomic);
     }
     return (
       <>
-        <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.handleClick }
+          className={ colorRight }
+          disabled={ disabled }
+        >
+          { correctAnswer }
+        </button>
         { incorretAnswers.map((incorrect, i) => (
           <section key={ i }>
             <br />
@@ -182,6 +197,8 @@ class Game extends React.Component {
               data-testid={ `wrong-answer-${i}` }
               key={ i }
               disabled={ disabled }
+              onClick={ this.handleClick }
+              className={ colorWrong }
             >
               {incorrect}
             </button>

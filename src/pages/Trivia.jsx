@@ -55,7 +55,7 @@ class Trivia extends Component {
     const { questions, index, verifyAnswer } = this.state;
     const { difficulty } = questions[index];
     const { timer, setScore } = this.props;
-    let palyerScore = 0;
+    let playerScore = 0;
 
     if (verifyAnswer) {
       const HARD = 3;
@@ -65,26 +65,28 @@ class Trivia extends Component {
 
       switch (difficulty) {
       case 'hard':
-        palyerScore = (TEN + (timer * HARD));
+        playerScore = (TEN + (timer * HARD));
         break;
       case 'medium':
-        palyerScore = (TEN + (timer * MEDIUM));
+        playerScore = (TEN + (timer * MEDIUM));
         break;
       default:
-        palyerScore = (TEN + (timer * EASY));
+        playerScore = (TEN + (timer * EASY));
       }
 
-      setScore(palyerScore);
+      setScore(playerScore);
     }
-    const playerObj = {
+    // const currentLocarStore = JSON.parse(localStorage.getItem('state'));
+    const stateObj = {
+      // ...currentLocarStore,
       player: {
         name: '',
         assertions: 0,
-        score: palyerScore,
+        score: playerScore,
         gravatarEmail: '',
       },
     };
-    localStorage.setItem('state', JSON.stringify(playerObj));
+    localStorage.setItem('state', JSON.stringify(stateObj));
   }
 
   answerMap() {

@@ -41,8 +41,16 @@ class Login extends React.Component {
     const { history, setPlayer } = this.props;
     const { email, name } = this.state;
     const token = await getToken();
-    const stringf = JSON.stringify(token);
-    localStorage.setItem('token', stringf);
+    const stateObj = {
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(stateObj));
+    localStorage.setItem('token', JSON.stringify(token));
     const emailHash = md5(email).toString();
     const img = await fetchGravatarAPI(emailHash);
     setPlayer(name, img);

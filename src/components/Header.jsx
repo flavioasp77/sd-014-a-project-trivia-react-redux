@@ -7,13 +7,15 @@ class Header extends Component {
     const { username } = this.props;
     return (
       <>
-        <img src="" alt="user" data-testid="header-profile-picture" />
-        <h2 data-testid="header-player-name">
-          { username }
-          <h2 data-testid="header-score">
+        <img src="" alt="imagem" data-testid="header-profile-picture" />
+        <div>
+          <p data-testid="header-player-name">
+            { username }
+          </p>
+          <p data-testid="header-score">
             0
-          </h2>
-        </h2>
+          </p>
+        </div>
       </>
     );
   }

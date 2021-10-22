@@ -12,7 +12,7 @@ function user(state = INITIAL_STATE, action) {
   case USER:
     return {
       ...state,
-      username: action.payload.user,
+      username: action.payload.username,
       email: action.payload.email,
     };
   default:

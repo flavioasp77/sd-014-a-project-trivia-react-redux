@@ -21,13 +21,13 @@ class Login extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    const { email } = this.state;
+    const { email, name } = this.state;
     const { history, loginDispatch } = this.props;
-    loginDispatch(email);
+    loginDispatch(email, name);
     history.push('/play');
   }
 
-  render() {
+  render() {    
     const { name, email } = this.state;
     const EMAIL_REGEX = /.+@.+\..+/;
     return (

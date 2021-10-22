@@ -10,20 +10,26 @@ class Timer extends Component {
   }
 
   componentDidMount() {
-    const { seconds } = this.state;
-    const ONE_SECOND = 1000;
-    while (seconds >= 0) {
-      this.cronometerInterval = setInterval(() => {
-        this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
-      }, ONE_SECOND);
-    }
+    const ONE_SECOND = 1000; // Milisegundos
+    this.cronometerInterval = setInterval(() => {
+      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+    }, ONE_SECOND);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const MAX_SECONDS = 30;
-    if (prevState.seconds === MAX_SECONDS) {
+    const MIN_SECONDS = 0;
+    if (prevState.seconds === MIN_SECONDS) {
       this.resetSeconds();
     }
+  }
+
+  componentWillUnmount() {
+    console.log('Unmount !');
+    clearInterval(this.cronometerInterval);
+  }
+
+  resetSeconds = () => {
+    this.setState({ seconds: 0 });
   }
 
   render() {

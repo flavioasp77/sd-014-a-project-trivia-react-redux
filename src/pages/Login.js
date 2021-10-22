@@ -31,10 +31,11 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { loginSave } = this.props;
+    const { loginSave, getQuestions } = this.props;
     const token = await fetchAPI();
     localStorage.setItem('token', token);
     loginSave(this.state);
+    getQuestions();
   }
 
   enableButton() {

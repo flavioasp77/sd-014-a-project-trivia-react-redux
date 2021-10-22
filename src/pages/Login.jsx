@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { saveUserInfo } from '../redux/actions/index';
 
 import { getTriviaToken } from '../services/triviaAPI';
@@ -42,6 +41,7 @@ class Login extends Component {
   }
 
   showButtons() {
+    const { history } = this.props;
     return (
       <div className="d-flex justify-content-center">
         <button
@@ -57,8 +57,9 @@ class Login extends Component {
           type="button"
           data-testid="btn-settings"
           className="mx-2 btn btn-dark"
+          onClick={ () => history.push('/settings') }
         >
-          <Link to="/settings">&#128295;</Link>
+          <span role="img" aria-label="config">&#128295;</span>
         </button>
       </div>
     );

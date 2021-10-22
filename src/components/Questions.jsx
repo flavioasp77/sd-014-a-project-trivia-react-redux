@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
@@ -42,6 +42,13 @@ class Questions extends Component {
     );
   }
 }
+
+Questions.propTypes = {
+  isFetching: PropTypes.bool.isRequired,
+  questionResults: PropTypes.shape({
+    response: PropTypes.arrayOf.isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   questionResults: state.questions.response,

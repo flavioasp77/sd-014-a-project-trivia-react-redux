@@ -7,12 +7,40 @@ class QuestionCard extends Component {
     super(props);
     this.state = {
       showAnswer: false,
+      score: 0,
+      qstnLevel: '',
     };
+    this.setScore = this.setScore.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.updateState = this.updateState.bind(this);
   }
 
-  handleClick() {
+  setScore(difficulty) {
+    if (difficulty === 'easy') {
+      this.updateState({ qstnLevel: 1 });
+    } if (difficulty === 'medium') {
+      this.updateState({ qstnLevel: 2 });
+    } if (difficulty === 'hard') {
+      this.updateState({ qstnLevel: 3 });
+    }
+
+    const { score, qstnLevel } = this.state;
+    const basePoints = { easy: 1, medium: 2, hard: 3, base: 10 };
+
+    const anwserPoints = basePoints.base + (qstnLevel);
+    this.updateState({
+      score: score + anwserPoints,
+    });
+    console.log(anwserPoints);
+  }
+
+  updateState(state) {
+    this.setState(state);
+  }
+
+  handleClick(difficulty) {
     this.setState({ showAnswer: true });
+    this.setScore(difficulty);
   }
 
   render() {
@@ -24,6 +52,7 @@ class QuestionCard extends Component {
       correct_answer: correct,
       incorrect_answers: incorrect,
       question,
+      difficulty,
     } = data;
 
     return (
@@ -40,7 +69,7 @@ class QuestionCard extends Component {
           <button
             className={ showAnswer ? 'answer correct' : 'answer' }
             data-testid="correct-answer"
-            onClick={ this.handleClick }
+            onClick={ () => this.handleClick(difficulty) }
             type="button"
           >
             {correct}
@@ -68,6 +97,7 @@ QuestionCard.propTypes = {
     correct_answer: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string).isRequired,
     question: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
   }).isRequired,
 };
 

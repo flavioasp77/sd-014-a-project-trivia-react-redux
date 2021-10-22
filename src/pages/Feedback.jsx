@@ -35,21 +35,21 @@ class Feedback extends React.Component {
   }
 
   messageFeedback() {
-    const { score } = this.state;
+    const { assertions } = this.state;
     const NUMBER_OF_HITS = 3;
-    return (score < NUMBER_OF_HITS) ? 'Podia ser melhor...' : 'Mandou bem!';
+    return (assertions < NUMBER_OF_HITS) ? 'Podia ser melhor...' : 'Mandou bem!';
   }
 
   render() {
     const { name, score, pictureURL, assertions } = this.state;
-    const questao = assertions === 1 ? 'questão' : 'questões';
+    const plural = assertions === 1 ? 'questão' : 'questões';
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
         <h1 data-testid="feedback-text">{ this.messageFeedback() }</h1>
         <br />
         <h2 data-testid="feedback-total-question">
-          { `Você acertou ${assertions} ${questao}!` }
+          { `Você acertou ${assertions} ${plural}!` }
         </h2>
         <h2 data-testid="feedback-total-score">
           { `Um total de ${score} pontos.`}

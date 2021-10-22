@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Header from '../components/Header';
+
+const magicNumber = '0.33';
 
 class Game extends React.Component {
   constructor() {
@@ -10,6 +13,24 @@ class Game extends React.Component {
     this.state = {
       index: 0,
     };
+  }
+
+  countdownTimer() {
+    return (
+      <section>
+        <CountdownCircleTimer
+          isPlaying
+          duration={ 30 }
+          colors={ [
+            ['#004777', magicNumber],
+            ['#F7B801', magicNumber],
+            ['#A30000', magicNumber],
+          ] }
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
+      </section>
+    );
   }
 
   mixBoolean(correctAnswer, incorretAnswers) {
@@ -131,11 +152,10 @@ class Game extends React.Component {
   render() {
     const { arrayQuestions } = this.props;
     const { index } = this.state;
-    //  console.log(arrayQuestions);
+
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     const objectQuestion = arrayQuestions[index];
     const { category, question } = objectQuestion;
-    //  console.log(arrayQuestions);
     return (
       <>
         <Header />
@@ -145,6 +165,7 @@ class Game extends React.Component {
           <section data-testid="question-text">{ question }</section>
           <br />
           { this.renderQuestions(objectQuestion) }
+          { this.countdownTimer() }
         </section>
       </>
     );

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import './questions.css';
+import Buttons from './Buttons';
 
 class Questions extends Component {
   constructor() {
@@ -34,6 +35,7 @@ class Questions extends Component {
 
     this.setState({
       atualQuestion: atualQuestion + 1,
+      click: false,
     });
   }
 
@@ -59,33 +61,14 @@ class Questions extends Component {
             }
           </p>
         </section>
-        <section className="section-answers">
-          <button
-            type="button"
-            data-testid="correct-answer"
-            style={ { order } }
-            className={ click && 'rightanswer' }
-            onClick={ this.handleClickAnswer }
-          >
-            { questionResults.response[atualQuestion].correct_answer }
-          </button>
-          {
-            questionResults
-              .response[atualQuestion].incorrect_answers.map((question, index) => (
-                <button
-                  key={ index }
-                  type="button"
-                  style={ { order: index } }
-                  data-testid={ `wrong-answer-${index}` }
-                  className={ click && 'wronganswer' }
-                  onClick={ this.handleClickAnswer }
-                >
-                  {question}
-                </button>
-              ))
-          }
-        </section>
-        <button type="button" onClick={ this.handleNextBtn }>Continue</button>
+        <Buttons
+          order={ order }
+          handleClickAnswer={ this.handleClickAnswer }
+          click={ click }
+          atualQuestion={ atualQuestion }
+          questionResults={ questionResults }
+          handleNextBtn={ this.handleNextBtn }
+        />
       </div>
     );
   }

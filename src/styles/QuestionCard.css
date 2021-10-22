@@ -12,6 +12,11 @@
   width: 50%;
 }
 
+.timer {
+  color: red;
+  font-size: 1.5em;
+}
+
 .question-category {
   background-color: #ddd;
   font-size: 2.8rem;

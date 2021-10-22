@@ -19,7 +19,7 @@ class Feedback extends React.Component {
   playerInfoStart() {
     const player = JSON.parse(localStorage.getItem('state'));
     this.setState({
-      player,
+      player: player.player,
     });
   }
 
@@ -46,13 +46,17 @@ class Feedback extends React.Component {
         </h1>
         <br />
         <br />
+        <span>Você acertou </span>
         <span data-testid="feedback-total-question">
-          {`Você acertou ${player.assertions} questões!`}
+          {player.assertions}
         </span>
+        <span>questões!</span>
         <br />
+        <span>Com um total de </span>
         <span data-testid="feedback-total-score">
-          {`Com um total de ${player.score} pontos!`}
+          {player.score}
         </span>
+        <span>Pontos!</span>
         <br />
         <button
           type="button"

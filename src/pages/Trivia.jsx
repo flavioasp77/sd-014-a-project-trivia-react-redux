@@ -74,6 +74,7 @@ class Trivia extends React.Component {
         .find((diff) => diff === isAnswerCorrect.difficulty));
       const jogador = JSON.parse(localStorage.getItem('state'));
       jogador.player.score += (BASE_SCORE + (timer * difficultyMultiplier));
+      jogador.player.assertions += 1;
       localStorage.state = JSON.stringify(jogador);
     }
     this.computeAnswer();

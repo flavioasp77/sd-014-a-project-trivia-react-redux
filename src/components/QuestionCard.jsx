@@ -14,13 +14,17 @@ export default class QuestionCard extends React.Component {
 
     this.state = {
       answer: NO_ANSWER,
+      timer: 30,
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
+  componentDidMount() {
+    handleTimer();
+  }
 
+  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
   handleClick(answer) {
     const rightButton = document.querySelector('[data-testid="correct-answer"]');
     const wrongButtons = document.querySelectorAll('[data-testid*="wrong-answer"]');
@@ -51,8 +55,17 @@ export default class QuestionCard extends React.Component {
     );
   }
 
+  handleTimer() {
+    const SECOND = 1000;
+    const { timer } = this.state;
+    if (timer === 0) return;
+    setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, SECOND);
+  }
+
   render() {
-    const { answer } = this.state;
+    const { answer, timer } = this.state;
     const { data: {
       category, question, correctAnswer, incorrectAnswers, options,
     } } = this.props;
@@ -63,6 +76,7 @@ export default class QuestionCard extends React.Component {
           <p data-testid="question-category">
             { category }
           </p>
+          <p>{ timer }</p>
           <p data-testid="question-text">
             { question }
           </p>

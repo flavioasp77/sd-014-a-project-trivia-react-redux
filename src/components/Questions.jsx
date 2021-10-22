@@ -8,9 +8,23 @@ class Questions extends Component {
     super();
 
     this.state = {
+      order: 0,
       atualQuestion: 0,
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
+    this.shuffleButtons = this.shuffleButtons.bind(this);
+  }
+
+  componentDidMount() {
+    this.shuffleButtons();
+  }
+
+  shuffleButtons() {
+    const ANSWERS_NUMBER = 4;
+    const randomButton = Math.floor(Math.random() * ANSWERS_NUMBER);
+    this.setState({
+      order: randomButton,
+    });
   }
 
   handleNextBtn() {
@@ -23,7 +37,7 @@ class Questions extends Component {
 
   render() {
     const { questionResults, isFetching } = this.props;
-    const { atualQuestion } = this.state;
+    const { atualQuestion, order } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
       <div>
@@ -39,8 +53,12 @@ class Questions extends Component {
             }
           </p>
         </section>
-        <section>
-          <button type="button" data-testid="correct-answer">
+        <section className="section-answers">
+          <button
+            type="button"
+            data-testid="correct-answer"
+            style={ { order } }
+          >
             { questionResults.response[atualQuestion].correct_answer }
           </button>
           {
@@ -49,6 +67,7 @@ class Questions extends Component {
                 <button
                   key={ index }
                   type="button"
+                  style={ { order: index } }
                   data-testid={ `wrong-answer-${index}` }
                 >
                   {question}

@@ -3,6 +3,8 @@ import md5 from 'crypto-js/md5';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import { getQuestions } from '../services/requests';
+import Timer from '../components/Timer';
+
 import '../css/Game.css';
 
 const correctAnswer = 'correct-answer';
@@ -78,6 +80,7 @@ class Game extends Component {
                 </button>
               ))
             }
+            <Timer />
           </div>
         </main>
       </>

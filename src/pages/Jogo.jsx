@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { getQuestionsThunk } from '../actions';
+import Timer from '../components/Timer';
 
 class Jogo extends Component {
   constructor() {
@@ -64,6 +65,7 @@ class Jogo extends Component {
       questions[currQuestion].incorrect_answers);
     return (
       <div>
+        <Timer />
         <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
         <p data-testid="question-text">{questions[currQuestion].question}</p>
         {options.map((questao, index) => (

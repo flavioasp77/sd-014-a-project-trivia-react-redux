@@ -3,8 +3,21 @@ import PropTypes from 'prop-types';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAnswer: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({ showAnswer: true });
+  }
+
   render() {
     const { data } = this.props;
+    const { showAnswer } = this.state;
 
     const {
       category,
@@ -25,17 +38,19 @@ class QuestionCard extends Component {
         </div>
         <div className="answers-container">
           <button
-            className="answer correct"
+            className={ showAnswer ? 'answer correct' : 'answer' }
             data-testid="correct-answer"
+            onClick={ this.handleClick }
             type="button"
           >
             {correct}
           </button>
           {incorrect.map((answer, index) => (
             <button
-              className="answer wrong"
+              className={ showAnswer ? 'answer wrong' : 'answer' }
               data-testid={ `wrong-answer-${index}` }
               key={ `${answer}-${index}` }
+              onClick={ this.handleClick }
               type="button"
             >
               {answer}

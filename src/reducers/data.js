@@ -1,6 +1,6 @@
 import { GET_DATA } from '../actions';
 
-const INITIAL_STATE = [];
+const INITIAL_STATE = {};
 
 const data = (state = INITIAL_STATE, action) => {
   switch (action.type) {

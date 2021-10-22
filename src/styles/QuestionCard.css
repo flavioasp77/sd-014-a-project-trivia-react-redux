@@ -39,17 +39,22 @@
   cursor: pointer;
   font-size: 2.4rem;
   padding: 0.2rem;
-  transition: all 0.3s ease-in-out;
 }
 
 .answer:hover {
-  opacity: 0.8;
+  opacity: 0.6;
+  transition: 0.5s;
 }
 
 .correct {
-  border: 5px solid green;
+  border: 3px solid rgb(6, 240, 15);
 }
 
 .wrong {
-  border: 5px solid red;
+  border: 3px solid red;
+}
+
+.correct:hover, .wrong:hover {
+  cursor: default;
+  opacity: 1;
 }

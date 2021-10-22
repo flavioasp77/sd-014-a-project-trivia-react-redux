@@ -31,8 +31,8 @@
 .btn-play-again {
   background-color: transparent;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
-  outline: 3px solid rgb(0, 255, 200);
   margin-top: -30px;
+  outline: 3px solid rgb(0, 255, 200);
 }
 
 .btn-play-again:hover {

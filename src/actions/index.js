@@ -14,8 +14,6 @@ export const requestQuestions = (payload) => ({
   payload,
 });
 
-export const getQuestions = () => async (dispatch) => {
-  const results = await fetchAPI;
-  console.log(results);
-  dispatch(requestQuestions(results));
+export const getQuestions = () => (dispatch) => {
+  fetchAPI().then((results) => dispatch(requestQuestions(results)));
 };

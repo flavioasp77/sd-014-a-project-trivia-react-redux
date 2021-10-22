@@ -13,6 +13,7 @@ class Questions extends React.Component {
     super();
     this.state = {
       allQst: [],
+      shuffledQuests: [],
       answered: false,
       id: 0,
       seconds: 30,
@@ -42,7 +43,15 @@ class Questions extends React.Component {
     const fetchQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${getToken}`);
     const json = await fetchQuestions.json();
     const { results } = json;
-    this.setState({ allQst: results });
+    console.log(results);
+    const quests = results.reduce((acc, ele, i) => {
+      const allAnswers = [...ele.incorrect_answers, ele.correct_answer];
+      this.shuffleQuestions(allAnswers);
+      acc[i] = allAnswers;
+      return acc;
+    }, {});
+    this.shuffleQuestions(quests);
+    this.setState({ allQst: results, shuffledQuests: quests });
   }
 
   countDown() {
@@ -62,19 +71,12 @@ class Questions extends React.Component {
   }
 
   shuffleQuestions(array) {
-    // From https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-    let currentIndex = array.length;
-    let randomIndex = 0;
-    // While there remain elements to shuffle...
-    while (currentIndex !== 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * i);
+      const k = array[i];
+      array[i] = array[j];
+      array[j] = k;
     }
-    return array;
   }
 
   questionAnsweredClassName(className) {
@@ -171,41 +173,31 @@ class Questions extends React.Component {
   }
 
   render() {
-    const { allQst, id, answered } = this.state;
+    const { allQst, id, answered, shuffledQuests } = this.state;
     if (allQst.length === 0) return <p>Loading...</p>;
-    const allAnswers = [...allQst[id].incorrect_answers, allQst[id].correct_answer];
-    this.shuffleQuestions(allAnswers);
     return (
       <div className="trivia-main">
         <div>
           { this.renderParagraphs(allQst[id].category, allQst[id].question)}
           <div className="answers-list">
-            <button
-              type="button"
-              data-testid="correct-answer"
-              id="correct"
-              onClick={ this.handleScore }
-              className={ this.questionAnsweredClassName('correct') }
-              disabled={ answered }
-            >
-              { allQst[id].correct_answer }
-            </button>
-            { allQst[id].incorrect_answers.map((incorrect, i) => (
-              <div
-                key={ i }
-                className="answers-list"
-              >
+            { shuffledQuests[id].map((quest, i) => {
+              const type = allQst[id].correct_answer === quest ? 'correct' : 'wrong';
+              const test = type === 'correct' ? `${type}-answer` : `${type}-answer-${i}`;
+              console.log(type, test);
+              return (
                 <button
+                  key={ i }
                   type="button"
-                  data-testid={ `wrong-answer-${i}` }
+                  data-testid={ test }
+                  id={ type }
                   onClick={ this.handleScore }
-                  className={ this.questionAnsweredClassName('incorrect') }
+                  className={ answered ? type : 'secret' }
                   disabled={ answered }
                 >
-                  { incorrect }
+                  { quest }
                 </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
           { this.renderCountDown() }
         </div>

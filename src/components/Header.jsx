@@ -35,7 +35,7 @@ class Header extends Component {
 
 Header.propTypes = {
   player: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
+  score: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
 };
 

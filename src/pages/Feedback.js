@@ -54,7 +54,11 @@ class Feedback extends Component {
             </Link>
 
             <Link to="/">
-              <Button value="Jogar Novamente" className="btn-play-again" dataTestId="btn-play-again" />
+              <Button
+                value="Jogar Novamente"
+                className="btn-play-again"
+                dataTestId="btn-play-again"
+              />
             </Link>
           </section>
         </main>

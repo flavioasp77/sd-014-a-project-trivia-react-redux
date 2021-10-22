@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { } from 'react-redux';
 
 import { Home, SettingsPage, GamePage, FeedbackPage, RankingPage } from './pages';
 import './App.css';

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import { getQuestions } from '../services/triviaAPI';
 import '../styles/trivia.css';
+import Timer from '../components/Timer';
 
 class Trivia extends Component {
   constructor(props) {
@@ -12,9 +13,13 @@ class Trivia extends Component {
       index: 0,
       loading: true,
       isClicked: false,
+      answerArray: [],
     };
     this.fetchAPI = this.fetchAPI.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.randomArray = this.randomArray.bind(this);
+    this.createBtn = this.createBtn.bind(this);
+    this.updateBtn = this.updateBtn.bind(this);
   }
 
   componentDidMount() {
@@ -33,39 +38,82 @@ class Trivia extends Component {
     this.setState({
       isClicked: true,
     });
-    console.log('teste');
   }
 
   answerMap() {
-    const { questions, index, isClicked } = this.state;
+    const { answerArray, isClicked } = this.state;
+    const verify = answerArray.length === 0;
+    if (verify) {
+      return this.createBtn();
+    }
+    if (!verify && isClicked) {
+      return this.updateBtn();
+    }
+    return answerArray;
+  }
+
+  createBtn() {
+    const { questions, index } = this.state;
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = questions[index];
     const answers = [...incorrectAnswers, correctAnswer];
-    const renderAnswers = answers.map((question, i) => {
+    const renderAnswers = answers.map((answer, i) => {
       const answerLength = answers.length - 1;
       const test = (i === answerLength) ? 'correct-answer' : `wrong-answer-${i}`;
-      const test2 = isClicked ? test : '';
       return (
         <button
+          id={ test }
           type="button"
           data-testid={ test }
           key={ i }
-          className={ test2 }
           onClick={ this.handleClick }
         >
-          { question }
+          { answer }
         </button>
       );
     });
+    return this.randomArray(renderAnswers);
+  }
+
+  updateBtn() {
+    const { answerArray } = this.state;
+    const newAnswerArray = answerArray.map(({ props, key }) => {
+      const verifyBtn = props.id.includes('correct');
+      const btnClass = verifyBtn ? 'correct-answer' : `wrong-answer-${key}`;
+      return (
+        <button
+          id={ btnClass }
+          type="button"
+          data-testid={ btnClass }
+          key={ key }
+          onClick={ this.handleClick }
+          className={ btnClass }
+          disabled
+        >
+          { props.children }
+        </button>
+      );
+    });
+    this.setState({
+      answerArray: newAnswerArray,
+      isClicked: false,
+    });
+    return newAnswerArray;
+  }
+
+  randomArray(array) {
     const ofive = 0.5;
-    renderAnswers.sort(() => Math.random() - ofive);
-    return renderAnswers;
+    const newArrayAnswers = array.sort(() => Math.random() - ofive);
+    this.setState({
+      answerArray: newArrayAnswers,
+    });
+    return newArrayAnswers;
   }
 
   renderFunction() {
-    const { questions, index } = this.state;
+    const { questions, index, isClicked, isDisable } = this.state;
     const { category, question } = questions[index];
     return (
       <>
@@ -78,6 +126,11 @@ class Trivia extends Component {
           </p>
         </section>
         { this.answerMap().map((button) => button) }
+        <Timer
+          isClicked={ isClicked }
+          updateBtn={ this.updateBtn }
+          isDisable={ isDisable }
+        />
       </>
     );
   }
@@ -87,7 +140,6 @@ class Trivia extends Component {
     return (
       <div>
         <Header />
-        Trivia
         { !loading && this.renderFunction() }
       </div>
     );

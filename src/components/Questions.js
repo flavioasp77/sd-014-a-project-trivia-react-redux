@@ -2,14 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../actions';
+import './questions.css';
 
 class Questions extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      css: false,
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     const { token, getQuestion } = this.props;
     getQuestion(token);
   }
 
+  handleClick() {
+    this.setState({
+      css: true,
+    });
+  }
+
   render() {
+    const { css } = this.state;
     const { questions } = this.props;
     const CODE = 3;
     if (questions.results === undefined) return <p>Loading...</p>;
@@ -29,7 +47,8 @@ class Questions extends React.Component {
           <button
             type="button"
             data-testid="correct-answer"
-            className="btn-answer"
+            className={ css ? 'correct' : null }
+            onClick={ this.handleClick }
           >
             { results[0].correct_answer }
           </button>
@@ -38,7 +57,8 @@ class Questions extends React.Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              className="btn-answer"
+              className={ css ? 'incorrect ' : null }
+              onClick={ this.handleClick }
             >
               { answer }
             </button>

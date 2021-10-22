@@ -29,13 +29,16 @@ class Feedback extends React.Component {
         <h1 data-testid="feedback-text">
           { player.score >= QUESTIONS_THRESHOLD ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h1>
-        <span data-testid="feedback-total-score">{`Seu Placar: ${player.score}`}</span>
         <br />
-        <span
-          data-testid="feedback-total-question"
-        >
-          {`Questões Acertadas: ${player.assertions}`}
+        <br />
+        <span data-testid="feedback-total-question">
+          {`Você acertou ${player.assertions} questões!`}
         </span>
+        <br />
+        <span data-testid="feedback-total-score">
+          {`Com um total de ${player.score} pontos!`}
+        </span>
+        <br />
       </div>
     );
   }

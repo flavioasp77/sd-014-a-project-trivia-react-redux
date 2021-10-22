@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 class Header extends Component {
   render() {
     const { name, score, source } = this.props;
+    console.log(source);
     return (
       <header>
         <h3 data-testid="header-player-name">{ name }</h3>

@@ -9,9 +9,11 @@ class Feedback extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick({ target }) {
     const { history } = this.props;
-    history.push('/');
+    const { innerText } = target;
+    if (innerText === 'Jogar Novamente') history.push('/');
+    if (innerText === 'Ver Ranking') history.push('/ranking');
   }
 
   render() {
@@ -25,13 +27,9 @@ class Feedback extends Component {
         <Header name={ name } score={ score } source={ source } />
         <main>
           <p data-testid="feedback-text">
-            {
-              assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'
-            }
+            {assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'}
           </p>
-          <p data-testid="feedback-total-score">
-            { score }
-          </p>
+          <p data-testid="feedback-total-score">{ score }</p>
           {
             assertions === 0 ? (
               <p>
@@ -56,6 +54,13 @@ class Feedback extends Component {
         >
           Jogar Novamente
         </button>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          data-testid="btn-ranking"
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }
@@ -66,9 +71,7 @@ Feedback.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   name: PropTypes.string.isRequired,
-  source: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
+  source: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

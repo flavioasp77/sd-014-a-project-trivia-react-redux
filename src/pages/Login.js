@@ -19,10 +19,11 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { setApiToken, setApiTrivia } = this.props;
+    const { setApiToken } = this.props;
     await setApiToken();
     const { token, history } = this.props;
     localStorage.setItem('token', token);
+    const { setApiTrivia } = this.props;
     await setApiTrivia();
     history.push('/jogo');
   }

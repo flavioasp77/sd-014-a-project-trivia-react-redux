@@ -9,6 +9,7 @@ class Game extends React.Component {
     const { questions } = this.props;
     return (
       <main>
+        { console.log(this.props) }
         { questions.map((question, index) => (
           <Question key={ index } questionCurrent={ question } />)) }
       </main>
@@ -22,6 +23,7 @@ Game.propTypes = {
 
 const mapStateToProps = (state) => ({
   questions: state.trivia.questions,
+  state,
 });
 
 export default connect(mapStateToProps)(Game);

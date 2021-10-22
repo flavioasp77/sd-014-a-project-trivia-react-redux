@@ -6,10 +6,11 @@ class Feedback extends Component {
   render() {
     const { name, source } = this.props;
     const state = localStorage.getItem('state');
-    const { player: { score } } = JSON.parse(state);
+    const { player: { score, assertions } } = JSON.parse(state);
+    const MIN_ANSWERS = 3;
     return (
       <div>
-        <h1 data-testid="feedback-text">Feedback</h1>
+        <h1>Feedback</h1>
         <header>
           <h3 data-testid="header-player-name">{ name }</h3>
           <img
@@ -24,6 +25,13 @@ class Feedback extends Component {
             </span>
           </p>
         </header>
+        <main>
+          <p data-testid="feedback-text">
+            {
+              assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'
+            }
+          </p>
+        </main>
       </div>
     );
   }

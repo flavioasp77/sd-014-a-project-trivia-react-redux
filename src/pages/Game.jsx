@@ -40,7 +40,11 @@ class Game extends Component {
     const storeLocal = JSON.parse(localStorage.getItem('state'));
     const { player } = storeLocal;
     const attStore = { player:
-      { ...player, score: player.score + score },
+      {
+        ...player,
+        score: player.score + score,
+        assertions: player.assertions + 1,
+      },
     };
     localStorage.setItem('state', JSON.stringify(attStore));
   }

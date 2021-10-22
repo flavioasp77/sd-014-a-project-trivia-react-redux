@@ -32,7 +32,7 @@ class Game extends Component {
     localStorage.setItem('timer', halfMinute);
   }
 
-  // correctAnswer
+  // correctAnswe r
   handleIndex(correctAnswer, difficulty) {
     const regex = /correct/i;
     if (regex.test(correctAnswer)) {

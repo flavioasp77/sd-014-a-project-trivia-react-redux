@@ -1,0 +1,27 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.text-center {
+  font-size: 4rem;
+}
+
+.btn-return {
+  background-color: #89d662;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 2.8rem;
+  padding: 2rem 8rem;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-return:hover {
+  opacity: 0.8;
+}

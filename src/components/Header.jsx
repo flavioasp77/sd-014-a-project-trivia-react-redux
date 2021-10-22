@@ -16,7 +16,7 @@ class Header extends Component {
   }
 
   render() {
-    const { getEmail, getName, score } = this.props;
+    const { getEmail, getName } = this.props;
     return (
       <header>
         <img
@@ -25,7 +25,11 @@ class Header extends Component {
           alt="Gravatar do player"
         />
         <p data-testid="header-player-name">{getName}</p>
-        <p data-testid="header-score">{score}</p>
+        <p
+          data-testid="header-score"
+        >
+          {JSON.parse(localStorage.getItem('state')).player.score || 0}
+        </p>
       </header>
     );
   }
@@ -34,7 +38,6 @@ class Header extends Component {
 Header.propTypes = {
   getEmail: PropTypes.string.isRequired,
   getName: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

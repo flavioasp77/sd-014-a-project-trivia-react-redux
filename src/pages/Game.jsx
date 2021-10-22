@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getTriviaActionThunk } from '../actions';
+import './Game.css';
 
 const TIME_OUT = 30000;
 const ONE_SECOND = 1000;
@@ -16,12 +17,15 @@ class Game extends Component {
       timer: false,
       timerId: '',
       counterId: '',
+      clickedAnswer: '',
 
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+
   }
 
   componentDidUpdate(prevProps) {
@@ -64,13 +68,25 @@ class Game extends Component {
     }, () => this.startTimeOut());
   }
 
+  handleClick(answer) {
+    this.setState({
+      clickedAnswer: answer,
+    });
+  }
+
   renderQuestion() {
-    const { questions } = this.state;
+    const { questions, clickedAnswer } = this.state;
     return (
       <div>
         <Header />
         { questions[0].arrayAnswer.sort().map((answer, index, array) => (
           <button
+            className={
+              clickedAnswer && (
+                answer === questions[0].correct_answer
+                  ? 'correctAnswer' : 'wrongAnswer')
+            }
+            onClick={ () => this.handleClick(answer) }
             key={ index }
             type="button"
             data-testid={ questions[0].correct_answer === answer

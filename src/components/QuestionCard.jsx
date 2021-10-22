@@ -15,6 +15,14 @@ class QuestionCard extends Component {
     this.setState({ showAnswer: true });
   }
 
+  renderNextButton() {
+    return (
+      <button className="btn-next" data-testid="btn-next" type="button">
+        PRÓXIMA
+      </button>
+    );
+  }
+
   render() {
     const { data } = this.props;
     const { showAnswer } = this.state;
@@ -27,37 +35,40 @@ class QuestionCard extends Component {
     } = data;
 
     return (
-      <div className="question-card">
-        <div className="question-container">
-          <p className="question-category" data-testid="question-category">
-            {category}
-          </p>
-          <p className="question-text" data-testid="question-text">
-            {question}
-          </p>
-        </div>
-        <div className="answers-container">
-          <button
-            className={ showAnswer ? 'answer correct' : 'answer' }
-            data-testid="correct-answer"
-            onClick={ this.handleClick }
-            type="button"
-          >
-            {correct}
-          </button>
-          {incorrect.map((answer, index) => (
+      <>
+        <div className="question-card">
+          <div className="question-container">
+            <p className="question-category" data-testid="question-category">
+              {category}
+            </p>
+            <p className="question-text" data-testid="question-text">
+              {question}
+            </p>
+          </div>
+          <div className="answers-container">
             <button
-              className={ showAnswer ? 'answer wrong' : 'answer' }
-              data-testid={ `wrong-answer-${index}` }
-              key={ `${answer}-${index}` }
+              className={ showAnswer ? 'answer correct' : 'answer' }
+              data-testid="correct-answer"
               onClick={ this.handleClick }
               type="button"
             >
-              {answer}
+              {correct}
             </button>
-          ))}
+            {incorrect.map((answer, index) => (
+              <button
+                className={ showAnswer ? 'answer wrong' : 'answer' }
+                data-testid={ `wrong-answer-${index}` }
+                key={ `${answer}-${index}` }
+                onClick={ this.handleClick }
+                type="button"
+              >
+                {answer}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+        {showAnswer && this.renderNextButton()}
+      </>
     );
   }
 }

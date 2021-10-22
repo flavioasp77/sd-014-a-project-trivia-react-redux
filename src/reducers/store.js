@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import user from '../reducers';
+import user from './user';
 
 const store = createStore(
   user,
   composeWithDevTools(
-   applyMiddleware(thunk),
-   ),
+    applyMiddleware(thunk),
+  ),
 );
 
 if (window.Cypress) {

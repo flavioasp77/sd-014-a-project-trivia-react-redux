@@ -2,6 +2,7 @@ import { REQUEST_QUESTIONS } from '../actions';
 
 export const INITIAL_STATE = {
   questions: [],
+  loading: true,
 };
 
 const questions = (state = INITIAL_STATE, { type, payload }) => {

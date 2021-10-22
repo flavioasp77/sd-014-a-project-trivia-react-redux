@@ -1,41 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import getGame from '../services/apiGame';
 
 class Game extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      question: '',
-      category: '',
-      correctAnswer: '',
-      incorrectAnswer: [],
       loading: true,
     };
-
-    this.handleGetGame = this.handleGetGame.bind(this);
-  }
-
-  componentDidMount() {
-    this.handleGetGame();
-  }
-
-  handleGetGame() {
-    const token = localStorage.getItem('token');
-    getGame(token)
-      .then((results) => this.setState({
-        question: results[0].question,
-        category: results[0].category,
-        correctAnswer: results[0].correct_answer,
-        incorrectAnswer: results[0].incorrect_answers,
-        loading: false,
-      }));
   }
 
   render() {
-    const { loading, question, category, correctAnswer, incorrectAnswer } = this.state;
+    const { questions } = this.props;
+    const { question, category, correctAnswer, incorrectAnswer } = questions;
+    const { loading } = this.state;
     return (
       <div>
         <Header />
@@ -47,7 +26,7 @@ class Game extends React.Component {
               <h2 data-testid="question-text">{ question }</h2>
               <h3>Category:</h3>
               <h4 data-testid="question-category">{ category }</h4>
-              <form onSubmit={ this.handleSubmit }>
+              <form>
                 <p>Alternatives:</p>
                 <label htmlFor="correct-answer">
                   <li data-testid="correct-answer">{ correctAnswer }</li>
@@ -60,7 +39,7 @@ class Game extends React.Component {
                   </label>
                 ))}
                 <input
-                  type="submit"
+                  type="button"
                   value="Enviar"
                 />
               </form>
@@ -70,4 +49,17 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+Game.propTypes = {
+  questions: PropTypes.shape({
+    question: PropTypes.string,
+    category: PropTypes.string,
+    correctAnswer: PropTypes.string,
+    incorrectAnswer: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  questions: state.questions.questions,
+});
+
+export default connect(mapStateToProps)(Game);

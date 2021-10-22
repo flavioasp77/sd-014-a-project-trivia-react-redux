@@ -25,11 +25,36 @@ class Game extends React.Component {
       index: 0,
       clock: CLOCK_TIME,
       answered: false,
+      clear: false,
     };
   }
 
   componentDidMount() {
     this.setGame();
+  }
+
+  setGame = async () => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const questions = await fetchTriviaQuestions(token);
+    this.setState({ questions, question: questions[0] }, () => {
+      this.setQuestionTimer();
+      this.hiddenCheckButton();
+    });
+  }
+
+  setQuestionTimer = () => {
+    const timer = setInterval(() => {
+      const { clock, answered } = this.state;
+
+      if (clock === 0 || answered) {
+        console.log(answered);
+        this.setState({ clear: true });
+        clearInterval(timer);
+        return;
+      }
+
+      this.setState((prev) => ({ clock: prev.clock - DECREASER }));
+    }, ONE_SECOND);
   }
 
   nextQuestion = () => {
@@ -50,30 +75,6 @@ class Game extends React.Component {
     });
   }
 
-  setGame = async () => {
-    const token = JSON.parse(localStorage.getItem('token'));
-    const questions = await fetchTriviaQuestions(token);
-    this.setState({ questions, question: questions[0] }, () => {
-      this.setQuestionTimer();
-      this.hiddenCheckButton();
-    });
-  }
-
-  setQuestionTimer = () => {
-    const timer = setInterval(() => {
-      const { clock, answered } = this.state;
-
-      if (clock === 0 || answered) {
-        clearInterval(timer);
-        console.log(answered);
-        // this.highlightAnswers();
-        return;
-      }
-
-      this.setState((prev) => ({ clock: prev.clock - DECREASER }));
-    }, ONE_SECOND);
-  }
-
   disableButton = () => {
     const { clock, answered } = this.state;
     if (clock === 0 || answered) {
@@ -82,7 +83,6 @@ class Game extends React.Component {
       return true;
     }
     return false;
-    // return (clock === 0 || answered);
   }
 
   highlightAnswers = () => {
@@ -99,20 +99,20 @@ class Game extends React.Component {
 
   handleChoice = (result, difficulty) => {
     this.setState({ answered: true }, () => {
+      const { clock } = this.state;
+      const { scoreToState } = this.props;
       this.highlightAnswers();
       this.hiddenCheckButton();
+      if (result) {
+        scoreToState(calculateScore(clock, difficulty));
+      }
     });
-    const { clock } = this.state;
-    const { scoreToState } = this.props;
-    if (result) {
-      scoreToState(calculateScore(clock, difficulty));
-    }
   }
 
   hiddenCheckButton = () => {
-    const { answered, clock } = this.state;
+    const { clock, clear } = this.state;
     const button = document.querySelector('.btn-next');
-    button.style.display = (answered || clock === 0 ? 'block' : 'none');
+    button.style.display = (clear || clock === 0 ? 'block' : 'none');
   }
 
   handleNextButton = () => {
@@ -124,8 +124,9 @@ class Game extends React.Component {
       history.push('/feedback');
       return;
     }
-
-    this.nextQuestion();
+    this.setState({ answered: true, clear: false }, () => {
+      this.nextQuestion();
+    });
   }
 
   nextQuestionButton = () => (

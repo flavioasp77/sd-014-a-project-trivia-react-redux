@@ -13,3 +13,9 @@ export function addScore(score) {
     score,
   };
 }
+
+export function resetScore() {
+  return {
+    type: 'RESET_SCORE',
+  };
+}

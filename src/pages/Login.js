@@ -1,109 +1,99 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { login, questAPI } from '../actions';
-import { fetchAPI } from '../services/tokenAPI';
+import { login, fetchAPIThunk } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      disableButton: true,
       name: '',
       email: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.enableButton = this.enableButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSettings = this.handleSettings.bind(this);
   }
 
-  componentDidMount() {
-    const { getQuestions } = this.props;
-    getQuestions();
+  handleChange({ target: { name, value } }) {
+    this.setState({
+      [name]: value,
+    });
   }
 
-  handleChange({ target }) {
-    this.setState({ [target.name]: target.value });
-    this.enableButton();
+  async handleClick(event) {
+    event.preventDefault();
+    const { loginSave, tokenGame, history } = this.props;
+    await loginSave(this.state);
+    await tokenGame();
+    history.push('/game');
   }
 
-  async handleClick() {
-    const { loginSave, getQuestions } = this.props;
-    const token = await fetchAPI();
-    localStorage.setItem('token', token);
-    loginSave(this.state);
-    getQuestions();
-  }
-
-  enableButton() {
-    const { name, email } = this.state;
-    if (name.length > 0 && email.length > 0) {
-      this.setState({ disableButton: false });
-    } else {
-      this.setState({ disableButton: true });
-    }
+  handleSettings() {
+    const { history } = this.props;
+    history.push('/settings');
   }
 
   render() {
-    const { name, email, disableButton } = this.state;
+    const { name, email } = this.state;
     return (
-      <form>
-        <label htmlFor="name">
-          Nome:
-          <input
-            type="text"
-            id="name"
-            name="name"
-            data-testid="input-player-name"
-            value={ name }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="email"
-            id="email"
-            name="email"
-            data-testid="input-gravatar-email"
-            value={ email }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <Link to="/game">
+      <>
+        <form onSubmit={ this.handleClick }>
+          <label htmlFor="name">
+            Nome:
+            <input
+              type="text"
+              id="name"
+              name="name"
+              data-testid="input-player-name"
+              value={ name }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="email">
+            Email:
+            <input
+              type="email"
+              id="email"
+              name="email"
+              data-testid="input-gravatar-email"
+              value={ email }
+              onChange={ this.handleChange }
+            />
+          </label>
           <button
-            type="button"
+            type="submit"
             data-testid="btn-play"
-            disabled={ disableButton }
-            onClick={ this.handleClick }
+            disabled={ !name || !email }
           >
             Jogar
           </button>
-        </Link>
-        <Link to="/settings">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
-      </form>
+        </form>
+        <button
+          data-testid="btn-settings"
+          type="button"
+          onClick={ this.handleSettings }
+        >
+          Configurações
+        </button>
+      </>
     );
   }
 }
 
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  loginSave: PropTypes.func.isRequired,
+  tokenGame: PropTypes.func.isRequired,
+};
+
 const mapDispatchToProps = (dispatch) => ({
   loginSave: (payload) => dispatch(login(payload)),
-  getQuestions: () => dispatch(questAPI()),
+  tokenGame: () => dispatch(fetchAPIThunk()),
 });
-
-Login.propTypes = {
-  loginSave: PropTypes.func.isRequired,
-  getQuestions: PropTypes.func.isRequired,
-};
 
 export default connect(null, mapDispatchToProps)(Login);

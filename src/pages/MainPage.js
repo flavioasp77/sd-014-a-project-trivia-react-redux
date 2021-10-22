@@ -1,57 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
+import md5 from 'crypto-js/md5';
+import Questions from '../components/Questions';
 
 class MainPage extends React.Component {
-  render() {
-    const { questions } = this.props;
-    console.log(questions);
-    return (
-      <main>
-        <Header />
-        {questions.map((question, index) => (
-          <div key={ index }>
-            <p>
-              Category:
-              <span data-testid="question-category">{question.category}</span>
-            </p>
-            <p>
-              Question:
-              <span data-testid="question-text">{question.question}</span>
-            </p>
-            <ul>
-              <li>
-                <button
-                  data-testid="correct-answer"
-                  type="button"
-                >
-                  { question.correct_answer }
-                </button>
-              </li>
-              {question.incorrect_answers.map((incorrect, ind) => (
-                <li key={ ind }>
+  constructor() {
+    super();
 
-                  <button
-                    data-testid={ `wrong-answer-${ind}` }
-                    type="button"
-                  >
-                    {incorrect}
-                  </button>
-                </li>))}
-            </ul>
-          </div>))}
-      </main>
+    this.state = {
+      infoUser: '',
+    };
+  }
+
+  componentDidMount() {
+    this.fetchAPIGravatar();
+    const { token } = this.props;
+    localStorage.setItem('token', JSON.stringify(token));
+  }
+
+  emailGravatar(email) {
+    const hash = md5(email).toString();
+    return hash;
+  }
+
+  async fetchAPIGravatar() {
+    const { email } = this.props;
+    const hash = this.emailGravatar(email);
+    const infoUser = await fetch(`https://www.gravatar.com/avatar/${hash}`);
+    this.setState({
+      infoUser: infoUser.url,
+    });
+  }
+
+  render() {
+    const { userName } = this.props;
+    const { infoUser } = this.state;
+    return (
+      <>
+        <header>
+          <div data-testid="header-player-name">{ userName }</div>
+          <img
+            data-testid="header-profile-picture"
+            src={ infoUser }
+            alt="gravatar"
+          />
+          <div data-testid="header-score">0</div>
+        </header>
+        <Questions />
+      </>
     );
   }
 }
 
-MainPage.propTypes = {
-  questions: PropTypes.arrayOf(PropTypes.any).isRequired,
-};
-
 const mapStateToProps = (state) => ({
-  questions: state.questions.questions,
+  userName: state.user.name,
+  email: state.user.email,
+  token: state.token.success,
 });
 
-export default connect(mapStateToProps, null)(MainPage);
+MainPage.propTypes = {
+  userName: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps)(MainPage);

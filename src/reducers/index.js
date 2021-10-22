@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
-import user from './user';
-import questions from './questions';
+import userReducer from './userReducer';
+import gamerReducer from './gamerReducer';
+import questReducer from './questReducer';
 
-const rootReducer = combineReducers({ user, questions });
+const rootReducer = combineReducers({
+  user: userReducer,
+  token: gamerReducer,
+  game: questReducer,
+});
 
 export default rootReducer;

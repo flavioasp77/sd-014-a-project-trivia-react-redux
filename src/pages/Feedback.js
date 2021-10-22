@@ -2,7 +2,6 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
 
 class Feedback extends React.Component {
   handleMenssage() {
@@ -17,7 +16,6 @@ class Feedback extends React.Component {
     const { totalScore, totalQuestion } = this.props;
     return (
       <div>
-        <Header />
         <span data-testid="feedback-text">
           { this.handleMenssage() }
         </span>

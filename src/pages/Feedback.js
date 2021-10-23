@@ -48,6 +48,7 @@ const mapStateToProps = (state) => ({
 Feedback.propTypes = {
   userName: propTypes.string.isRequired,
   infoUser: propTypes.string.isRequired,
+  totalScore: propTypes.string.isRequired,
 };
 
 export default connect(null, mapStateToProps)(Feedback);

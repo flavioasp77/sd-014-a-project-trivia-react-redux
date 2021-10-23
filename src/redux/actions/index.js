@@ -7,6 +7,7 @@ export const API_ERROR = 'API_ERROR';
 export const SET_QUESTION = 'SET_QUESTION';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_GRAVATAR = 'SET_GRAVATAR';
+export const SET_RANKING = 'SET_RANKING';
 
 // Actions:
 export const loginAction = ({ name, email }) => ({
@@ -49,6 +50,13 @@ export const gravatarAction = (source) => ({
   type: SET_GRAVATAR,
   payload: {
     source,
+  },
+});
+
+export const rankingAction = (ranking) => ({
+  type: SET_RANKING,
+  payload: {
+    ranking,
   },
 });
 

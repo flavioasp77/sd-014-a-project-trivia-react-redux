@@ -8,7 +8,7 @@ class Btn extends Component {
       order, results,
       atualQuestion, handleNextBtn } = this.props;
     return (
-      <div>
+      <>
         <div className="div-answers">
           <button
             id="correct"
@@ -25,8 +25,8 @@ class Btn extends Component {
           { results[atualQuestion].incorrect_answers.map((answer, index) => (
             <button
               key={ index }
-              name={ results[atualQuestion].difficulty }
               id="incorrect"
+              name={ results[atualQuestion].difficulty }
               type="button"
               data-testid={ `wrong-answer-${index}` }
               className={ isClicked ? 'incorrect' : null }
@@ -47,7 +47,7 @@ class Btn extends Component {
         >
           Próxima
         </button>
-      </div>
+      </>
     );
   }
 }

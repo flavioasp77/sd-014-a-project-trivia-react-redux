@@ -14,12 +14,12 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { userName, source } = this.props;
+    const { userName, infoUser } = this.props;
     const state = localStorage.getItem('state');
     const { user: { score, assertions } } = JSON.parse(state);
     return (
       <div>
-        <Header name={ userName } score={ score } source={ source } />
+        <Header name={ userName } score={ score } source={ infoUser } />
         <span data-testid="feedback-text">
           { this.handleMenssage() }
         </span>
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => ({
 
 Feedback.propTypes = {
   userName: propTypes.string.isRequired,
-  source: propTypes.string.isRequired,
+  infoUser: propTypes.string.isRequired,
 };
 
 export default connect(null, mapStateToProps)(Feedback);

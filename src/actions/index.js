@@ -44,10 +44,10 @@ export const scoreAction = (score) => ({
   },
 });
 
-export const gravatarAction = (source) => ({
+export const gravatarAction = (infoUser) => ({
   type: GET_GRAVATAR,
   payload: {
-    source,
+    infoUser,
   },
 });
 

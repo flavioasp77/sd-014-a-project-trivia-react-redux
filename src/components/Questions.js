@@ -27,9 +27,16 @@ class Questions extends React.Component {
   }
 
   componentDidMount() {
-    const { token, getQuestion } = this.props;
+    const { token, getQuestion, name, gravatarEmail } = this.props;
     getQuestion(token);
     this.timerCount();
+    const user = { user: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail,
+    } };
+    localStorage.setItem('state', JSON.stringify(user));
   }
 
   finishedQuestion() {
@@ -151,6 +158,8 @@ class Questions extends React.Component {
 
 Questions.propTypes = {
   getQuestion: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
   questions: PropTypes.shape({
     response_code: PropTypes.number.isRequired,
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -165,6 +174,9 @@ Questions.propTypes = {
 const mapStateToProps = (state) => ({
   token: state.token.success,
   questions: state.game.questions,
+  name: state.user.name,
+  gravatarEmail: state.user.email,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   score: 0,
-  source: '',
+  infoUser: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -23,7 +23,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
   case GET_GRAVATAR:
     return {
       ...state,
-      source: action.payload.source,
+      infoUser: action.payload.infoUser,
     };
   default:
     return state;

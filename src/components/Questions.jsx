@@ -14,18 +14,29 @@ class Questions extends Component {
       question: '',
       answers: [],
       correct: '',
+      seconds: 30,
+      timer: true,
       highlight: false,
     };
 
-    this.handleQuestions = this.handleQuestions.bind(this);
-    this.handleAnswer = this.handleAnswer.bind(this);
+    this.fetchQuestions = this.fetchQuestions.bind(this);
+    this.onSelectAnswer = this.onSelectAnswer.bind(this);
+    this.handleTimer = this.handleTimer.bind(this);
   }
 
   componentDidMount() {
-    this.handleQuestions();
+    this.fetchQuestions();
   }
 
-  async handleQuestions() {
+  onSelectAnswer() {
+    clearInterval(this.timer);
+    this.setState({
+      timer: false,
+      highlight: true,
+    });
+  }
+
+  async fetchQuestions() {
     const { fetchQuestionsToState } = this.props;
     const questions = await fetchQuestionsToState();
 
@@ -41,19 +52,35 @@ class Questions extends Component {
       question,
       answers: shuffleArray([correct, ...incorrect]),
       correct,
-
     });
+
+    this.handleTimer();
   }
 
-  handleAnswer() {
-    console.log('click');
-    this.setState({
-      highlight: true,
-    });
+  handleTimer() {
+    const ONE_SECOND = 1000;
+
+    this.timer = setInterval(() => {
+      const { seconds } = this.state;
+      const TIME_OVER = 1;
+
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }), () => {
+        if (seconds === TIME_OVER) {
+          this.setState({
+            timer: false,
+            highlight: true,
+          });
+          clearInterval(this.timer);
+        }
+      });
+    }, ONE_SECOND);
   }
 
   render() {
-    const { category, question, answers, correct, highlight } = this.state;
+    const { category, question, answers, correct } = this.state;
+    const { highlight, seconds, timer } = this.state;
     const { loadingState } = this.props;
 
     if (loadingState) {
@@ -75,8 +102,9 @@ class Questions extends Component {
                 <button
                   className={ highlight ? 'correct-answer' : 'default-answer' }
                   type="button"
+                  disabled={ !timer }
                   key={ i }
-                  onClick={ this.handleAnswer }
+                  onClick={ this.onSelectAnswer }
                   data-testid="correct-answer"
                 >
                   { answer }
@@ -87,7 +115,7 @@ class Questions extends Component {
                 className={ highlight ? 'wrong-answer' : 'default-answer' }
                 type="button"
                 key={ i }
-                onClick={ this.handleAnswer }
+                onClick={ this.onSelectAnswer }
                 data-testid={ `wrong-answer-${i}` }
               >
                 { answer }
@@ -95,6 +123,7 @@ class Questions extends Component {
             );
           })
         }
+        <span>{ seconds }</span>
       </section>
     );
   }

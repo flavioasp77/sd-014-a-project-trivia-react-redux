@@ -22,6 +22,7 @@ class Questions extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.timerCount = this.timerCount.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
     this.finishedQuestion = this.finishedQuestion.bind(this);
   }
 

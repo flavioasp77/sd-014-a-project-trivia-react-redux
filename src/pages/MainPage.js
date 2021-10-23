@@ -33,19 +33,33 @@ class MainPage extends React.Component {
     });
   }
 
+  currentScore(score) {
+    this.setState((previus) => ({ score: previus.score + score }));
+    const localStor = JSON.parse(localStorage.getItem('state'));
+    const { user } = localStor;
+    const atualStore = {
+      user: {
+        ...user,
+        score: user.score + score,
+        assertions: user.assertions + 1,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(atualStore));
+  }
+
   render() {
     const { userName } = this.props;
-    const { infoUser } = this.state;
+    const { infoUser, score } = this.state;
     return (
       <>
         <header>
-          <div data-testid="header-player-name">{ userName }</div>
+          <div data-testid="header-player-name">{userName}</div>
           <img
             data-testid="header-profile-picture"
             src={ infoUser }
             alt="gravatar"
           />
-          <div data-testid="header-score">0</div>
+          <div data-testid="header-score">{score}</div>
         </header>
         <Questions />
       </>

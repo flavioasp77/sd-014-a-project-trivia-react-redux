@@ -2,43 +2,64 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { rankingAction, scoreAction } from '../redux/actions';
 
 class Feedback extends Component {
   constructor() {
     super();
+
     this.handleClick = this.handleClick.bind(this);
     this.createRankingPlayer = this.createRankingPlayer.bind(this);
   }
 
-  handleClick({ target }) {
-    const { history } = this.props;
-    const { innerText } = target;
-    if (innerText === 'Jogar Novamente') history.push('/');
-    if (innerText === 'Ver Ranking') history.push('/ranking');
-    this.createRankingPlayer();
-  }
-
   createRankingPlayer() {
-    const { source } = this.props;
-    const state = localStorage.getItem('state');
-    const { player: { name, score } } = JSON.parse(state);
+    const { source, attRankingState } = this.props;
+
     const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const state = JSON.parse(localStorage.getItem('state'));
+
+    if (ranking === null || state === null) {
+      return <p>Error G-07</p>;
+    }
+
+    const { player: { name, score } } = state;
     const player = {
       name,
       score,
       picture: source,
     };
+
+    attRankingState([...ranking, player]);
     localStorage.setItem('ranking', JSON.stringify([...ranking, player]));
-    console.log([...ranking, player]);
+  }
+
+  handleClick({ target }) {
+    const { history, resetScoreGlobal } = this.props;
+    const { innerText } = target;
+    if (innerText === 'Jogar Novamente' || innerText === 'Volte ao Início') {
+      history.push('/');
+    } else if (innerText === 'Ver Ranking') history.push('/ranking');
+
+    this.createRankingPlayer();
+    resetScoreGlobal(0);
   }
 
   render() {
     const { name, source } = this.props;
-    const state = localStorage.getItem('state');
-    const { player: { score, assertions } } = JSON.parse(state);
+    const state = JSON.parse(localStorage.getItem('state'));
+
+    if (state === null) {
+      return (
+        <button type="button" onClick={ this.handleClick }>
+          Volte ao Início
+        </button>
+      );
+    }
+
+    const { player: { score, assertions } } = state;
     const MIN_ANSWERS = 3;
     return (
-      <div>
+      <>
         <h1>Feedback</h1>
         <Header name={ name } score={ score } source={ source } />
         <main>
@@ -63,26 +84,20 @@ class Feedback extends Component {
             )
           }
         </main>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          data-testid="btn-play-again"
-        >
+        <button type="button" onClick={ this.handleClick } data-testid="btn-play-again">
           Jogar Novamente
         </button>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          data-testid="btn-ranking"
-        >
+        <button type="button" onClick={ this.handleClick } data-testid="btn-ranking">
           Ver Ranking
         </button>
-      </div>
+      </>
     );
   }
 }
 
 Feedback.propTypes = {
+  attRankingState: PropTypes.func.isRequired,
+  resetScoreGlobal: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -96,4 +111,9 @@ const mapStateToProps = (state) => ({
   source: state.player.source.url,
 });
 
-export default connect(mapStateToProps, null)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  resetScoreGlobal: (score) => dispatch(scoreAction(score)),
+  attRankingState: (ranking) => dispatch(rankingAction(ranking)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

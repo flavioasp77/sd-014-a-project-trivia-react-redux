@@ -11,15 +11,13 @@ import Ranking from './pages/Ranking';
 class App extends Component {
   render() {
     return (
-      <div>
-        <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/jogo" component={ Game } />
-          <Route exact path="/settings" component={ Settings } />
-          <Route exact path="/feedback" component={ Feedback } />
-          <Route exact path="/ranking" component={ Ranking } />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/jogo" component={ Game } />
+        <Route exact path="/settings" component={ Settings } />
+        <Route exact path="/feedback" component={ Feedback } />
+        <Route exact path="/ranking" component={ Ranking } />
+      </Switch>
     );
   }
 }

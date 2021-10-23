@@ -15,12 +15,6 @@ class Login extends Component {
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
   }
 
-  componentDidMount() {
-    if (!JSON.parse(localStorage.getItem('ranking'))) {
-      localStorage.setItem('ranking', JSON.stringify([]));
-    }
-  }
-
   handleSettingsClick() {
     const { history } = this.props;
     history.push('/settings');
@@ -43,36 +37,32 @@ class Login extends Component {
   render() {
     const { email, name } = this.state;
     return (
-      <>
-        <form onSubmit={ this.handleClick }>
-          <fieldset>
-            <input
-              data-testid="input-player-name"
-              type="text"
-              name="name"
-              id="name"
-              value={ name }
-              onChange={ this.handleChange }
-              placeholder="digite seu nome:"
-            />
-            <input
-              data-testid="input-gravatar-email"
-              type="email"
-              name="email"
-              id="email"
-              value={ email }
-              onChange={ this.handleChange }
-              placeholder="digite seu email:"
-            />
-            <button
-              disabled={ !name || !email }
-              data-testid="btn-play"
-              type="submit"
-            >
-              Jogar
-            </button>
-          </fieldset>
-        </form>
+      <form onSubmit={ this.handleClick }>
+        <fieldset>
+          <input
+            data-testid="input-player-name"
+            type="text"
+            name="name"
+            value={ name }
+            onChange={ this.handleChange }
+            placeholder="digite seu nome:"
+          />
+          <input
+            data-testid="input-gravatar-email"
+            type="email"
+            name="email"
+            value={ email }
+            onChange={ this.handleChange }
+            placeholder="digite seu email:"
+          />
+          <button
+            disabled={ !name || !email }
+            data-testid="btn-play"
+            type="submit"
+          >
+            Jogar
+          </button>
+        </fieldset>
         <button
           data-testid="btn-settings"
           type="button"
@@ -80,7 +70,7 @@ class Login extends Component {
         >
           Configurações
         </button>
-      </>
+      </form>
     );
   }
 }

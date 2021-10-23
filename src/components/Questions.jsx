@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { questionApiThunk } from '../redux/actions';
+import { questionApiThunk, scoreAction } from '../redux/actions';
 import Btn from './Btn';
 import './questions.css';
 
@@ -13,7 +13,7 @@ class Questions extends Component {
     super();
     this.state = {
       isClicked: false,
-      order: 0,
+      order: '',
       atualQuestion: 0,
       second: 30,
       savedSecond: 0,
@@ -37,6 +37,7 @@ class Questions extends Component {
       score: 0,
       gravatarEmail,
     } };
+
     localStorage.setItem('state', JSON.stringify(player));
   }
 
@@ -53,25 +54,6 @@ class Questions extends Component {
     });
   }
 
-  handleClick({ target }) {
-    const CORRECT = 10;
-    const { id, name } = target;
-    const { updateValue } = this.props;
-    const { second } = this.state;
-    this.setState({
-      isClicked: true,
-      savedSecond: second,
-    });
-
-    if (id === 'correct') {
-      const yesPoint = CORRECT + (this.corretAwnser(name) * second);
-      updateValue(yesPoint);
-      this.setState((prev) => ({
-        score: prev.score + yesPoint,
-      }));
-    }
-  }
-
   corretAwnser(isItHard) {
     const THREE = 3;
     const TWO = 2;
@@ -85,6 +67,42 @@ class Questions extends Component {
       return ONE;
     default:
       return 0;
+    }
+  }
+
+  timerCount() {
+    const SECOND = 1000;
+    const action = setInterval(() => {
+      const { second, savedSecond } = this.state;
+      if (second === 0 || savedSecond !== 0) {
+        this.finishQuest();
+        return clearInterval(action);
+      }
+      this.setState((prevState) => ({ second: prevState.second - 1 }));
+    }, SECOND);
+    return action;
+  }
+
+  handleClick({ target }) {
+    const CORRECT = 10;
+    const { id, name } = target;
+    const { second } = this.state;
+    this.setState({
+      isClicked: true,
+      savedSecond: second,
+    });
+
+    if (id === 'correct') {
+      const { attScoreGlobal, updateValue } = this.props;
+      const yesPoint = CORRECT + (this.corretAwnser(name) * second);
+      updateValue(yesPoint);
+
+      this.setState((prev) => ({
+        score: prev.score + yesPoint,
+      }), () => {
+        const { score } = this.state;
+        attScoreGlobal(score);
+      });
     }
   }
 
@@ -106,29 +124,23 @@ class Questions extends Component {
     this.shufflebuttons();
   }
 
-  timerCount() {
-    const SECOND = 1000;
-    const action = setInterval(() => {
-      const { second, savedSecond } = this.state;
-      if (second === 0 || savedSecond !== 0) {
-        this.finishQuest();
-        return clearInterval(action);
-      }
-      this.setState((prevState) => ({ second: prevState.second - 1 }));
-    }, SECOND);
-    return action;
-  }
-
   render() {
     const CODE = 3;
-    const { questions } = this.props;
-    const { results, response_code: responseCode } = questions;
     const { isClicked, order, atualQuestion, second } = this.state;
+    const { questions, history } = this.props;
+    const { results, response_code: responseCode } = questions;
 
     if (results === undefined) return <p>Carregando...</p>;
 
     if (responseCode === CODE) {
-      return <p>O tempo expirou! Inicie o jogo novamente</p>;
+      return (
+        <>
+          <p>O tempo expirou! Inicie o jogo novamente</p>
+          <button type="button" onClick={ () => history.push('/') }>
+            Voltar para o inicio
+          </button>
+        </>
+      );
     }
 
     return (
@@ -155,8 +167,12 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
+  attScoreGlobal: PropTypes.func.isRequired,
   getQuestion: PropTypes.func.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   name: PropTypes.string.isRequired,
   questions: PropTypes.shape({
     response_code: PropTypes.number,
@@ -164,9 +180,6 @@ Questions.propTypes = {
   }).isRequired,
   token: PropTypes.string.isRequired,
   updateValue: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -178,6 +191,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestion: (token) => dispatch(questionApiThunk(token)),
+  attScoreGlobal: (score) => dispatch(scoreAction(score)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

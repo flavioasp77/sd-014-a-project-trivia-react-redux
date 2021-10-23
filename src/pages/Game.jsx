@@ -14,12 +14,12 @@ class Game extends Component {
     this.state = {
       questions: [],
       counter: 30,
-      // timer: false,
       timerId: '',
       counterId: '',
       clickedAnswer: '',
       disabledBtn: false,
       indexNext: 0,
+      answered: false,
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
@@ -48,11 +48,14 @@ class Game extends Component {
       clearInterval(counterId);
       this.setState({
         disabledBtn: true,
+        answered: true,
+        clickedAnswer: '',
       });
     }, TIME_OUT);
 
+    console.log(timerId, counterId);
+
     this.setState({
-      // timer: true,
       timerId,
       counterId,
     });
@@ -77,13 +80,22 @@ class Game extends Component {
     clearInterval(timerId);
     this.setState({
       clickedAnswer: answer,
+      answered: true,
     });
+    console.log(timerId, counterId);
   }
 
   handleNext() {
     const { indexNext, questions } = this.state;
     if (indexNext < questions.length - 1) {
-      this.setState({ indexNext: indexNext + 1 });
+      this.setState({
+        indexNext: indexNext + 1,
+        counter: 30,
+        clickedAnswer: '',
+        answered: false,
+        disabledBtn: false,
+      });
+      this.startTimeOut();
     }
   }
 
@@ -114,7 +126,7 @@ class Game extends Component {
   }
 
   render() {
-    const { counter, questions, indexNext } = this.state;
+    const { counter, questions, indexNext, answered } = this.state;
     if (questions.length !== 0) {
       return (
         <div>
@@ -122,13 +134,19 @@ class Game extends Component {
           <h3 data-testid="question-category">{questions[indexNext].category}</h3>
           <p data-testid="question-text">{questions[indexNext].question}</p>
           { this.renderQuestion() }
-          <button
-            type="button"
-            data-testid="btn-next"
-            onClick={ this.handleNext }
-          >
-            Próxima
-          </button>
+          {
+            (answered)
+            && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.handleNext }
+              >
+                Próxima
+              </button>
+            )
+          }
+
           <h4>{`Tempo: ${counter}`}</h4>
         </div>
       );

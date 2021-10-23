@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shuffleArray from '../services/shuffleArray';
 import { fetchQuestionsAction } from '../redux/actions';
+import '../styles/questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -13,10 +14,11 @@ class Questions extends Component {
       question: '',
       answers: [],
       correct: '',
-      loading: true,
+      highlight: false,
     };
 
     this.handleQuestions = this.handleQuestions.bind(this);
+    this.handleAnswer = this.handleAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +28,7 @@ class Questions extends Component {
   async handleQuestions() {
     const { fetchQuestionsToState } = this.props;
     const questions = await fetchQuestionsToState();
+
     const {
       category,
       question,
@@ -38,13 +41,22 @@ class Questions extends Component {
       question,
       answers: shuffleArray([correct, ...incorrect]),
       correct,
-    }, () => this.setState({ loading: false }));
+
+    });
+  }
+
+  handleAnswer() {
+    console.log('click');
+    this.setState({
+      highlight: true,
+    });
   }
 
   render() {
-    const { category, question, answers, correct, loading } = this.state;
+    const { category, question, answers, correct, highlight } = this.state;
+    const { loadingState } = this.props;
 
-    if (loading) {
+    if (loadingState) {
       return (
         <span>Loading...</span>
       );
@@ -61,20 +73,22 @@ class Questions extends Component {
             if (answer === correct) {
               return (
                 <button
-                  className="correct-answer"
+                  className={ highlight ? 'correct-answer' : 'default-answer' }
                   type="button"
-                  data-testid="correct-answer"
                   key={ i }
+                  onClick={ this.handleAnswer }
+                  data-testid="correct-answer"
                 >
                   { answer }
                 </button>);
             }
             return (
               <button
-                className="wrong-answer"
+                className={ highlight ? 'wrong-answer' : 'default-answer' }
                 type="button"
-                data-testid={ `wrong-answer-${i}` }
                 key={ i }
+                onClick={ this.handleAnswer }
+                data-testid={ `wrong-answer-${i}` }
               >
                 { answer }
               </button>
@@ -88,10 +102,12 @@ class Questions extends Component {
 
 Questions.propTypes = {
   fetchQuestionsToState: PropTypes.func.isRequired,
+  loadingState: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stateQuestions: state.player.questions,
+  loadingState: state.player.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

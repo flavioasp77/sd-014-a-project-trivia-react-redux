@@ -46,6 +46,7 @@ function player(state = INITIAL_STATE, { type, payload }) {
     };
   case LOADING:
     return {
+      ...state,
       loading: true,
     };
   case FETCH_QUESTIONS:

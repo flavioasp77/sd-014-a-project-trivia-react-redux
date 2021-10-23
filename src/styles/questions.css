@@ -1,0 +1,17 @@
+.default-answer {
+  border: 1px solid black;
+  margin: 0 12px;
+  padding: 4px 14px;
+}
+
+.correct-answer {
+  border: 3px solid rgb(6, 240, 15);
+  margin: 0 12px;
+  padding: 4px 14px;
+}
+
+.wrong-answer {
+  border: 3px solid rgb(255, 0, 0);
+  margin: 0 12px;
+  padding: 4px 14px;
+}

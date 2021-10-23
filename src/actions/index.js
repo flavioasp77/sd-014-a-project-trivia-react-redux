@@ -3,6 +3,7 @@ import fetchApi from '../services/triviaApi';
 export const USER_INFO = 'USER_INFO';
 export const QUESTIONS_INFO = 'QUESTIONS_INFO';
 export const SET_TIMER = 'SET_TIMER';
+export const SCORE_INFO = 'SCORE_INFO';
 
 export const userInfo = (user, email) => ({
   type: USER_INFO,
@@ -17,6 +18,11 @@ export const questionsInfo = (response) => ({
   payload: {
     response,
   },
+});
+
+export const scoreInfo = (score) => ({
+  type: SCORE_INFO,
+  scoreNum: score,
 });
 
 export const questionsInfoThunk = () => async (dispatch) => {

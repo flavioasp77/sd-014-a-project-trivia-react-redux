@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { setTimer } from '../actions';
 import './questions.css';
 import Buttons from './Buttons';
+import { scoreInfo, setTimer } from '../actions';
 
 class Questions extends Component {
   constructor() {
@@ -14,10 +14,14 @@ class Questions extends Component {
       atualQuestion: 0,
       click: false,
       timer: 30,
+      score: 0,
+      difficulty: '',
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
+    this.scoreUpdate = this.scoreUpdate.bind(this);
+    this.setDifficulty = this.setDifficulty.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +39,23 @@ class Questions extends Component {
       clearInterval(this.timeOut);
       setTimerAction(timer);
     }
+  }
+
+  setDifficulty() {
+    // Verifica dificuldade
+    let questionDifficulty = 0;
+    const THREE_DIFF = 3;
+    const { questionResults } = this.props;
+    const { atualQuestion } = this.state;
+    const dif = questionResults.response[atualQuestion].difficulty;
+    if (dif === 'easy') {
+      questionDifficulty = 1;
+    } else if (dif === 'medium') {
+      questionDifficulty = 2;
+    } else if (dif === 'hard') {
+      questionDifficulty = THREE_DIFF;
+    }
+    return questionDifficulty;
   }
 
   shuffleButtons() {
@@ -58,6 +79,18 @@ class Questions extends Component {
     this.timeOut = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, ONE_SECOND);
+  }
+
+  async scoreUpdate() {
+    const { score, timer } = this.state;
+    const rightAnswerScore = 10;
+    const { scoreActionInfo } = this.props;
+
+    this.handleClickAnswer();
+    const difficulty = this.setDifficulty();
+    const multiplication = difficulty * timer;
+    scoreActionInfo(score + rightAnswerScore + multiplication);
+    this.setState({ score: score + rightAnswerScore + multiplication });
   }
 
   handleClickAnswer() {
@@ -90,6 +123,7 @@ class Questions extends Component {
         <Buttons
           order={ order }
           handleClickAnswer={ this.handleClickAnswer }
+          scoreUpdate={ this.scoreUpdate }
           click={ click }
           atualQuestion={ atualQuestion }
           questionResults={ questionResults }
@@ -103,6 +137,7 @@ class Questions extends Component {
 
 Questions.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  scoreActionInfo: PropTypes.func.isRequired,
   questionResults: PropTypes.shape({
     response: PropTypes.arrayOf().isRequired }).isRequired,
   setTimerAction: PropTypes.func.isRequired,
@@ -110,6 +145,7 @@ Questions.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   setTimerAction: (timer) => (dispatch(setTimer(timer))),
+  scoreActionInfo: (scoreNum) => dispatch(scoreInfo(scoreNum)),
 });
 
 const mapStateToProps = (state) => ({

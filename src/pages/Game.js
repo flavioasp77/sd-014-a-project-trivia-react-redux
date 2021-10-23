@@ -28,7 +28,6 @@ class Game extends React.Component {
     return (
       <main>
         <Header />
-        { console.log(this.props) }
         { questions && <Question key={ index } questionCurrent={ questions[index] } /> }
         <button type="button" onClick={ this.handleClick }>Próxima pergunta</button>
       </main>

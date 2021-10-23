@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../actions';
+
 import './questions.css';
 
 class Questions extends React.Component {
@@ -10,9 +11,12 @@ class Questions extends React.Component {
 
     this.state = {
       css: false,
+      seconds: 30,
+      savedSeconds: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.timerCount = this.timerCount.bind(this);
   }
 
   componentDidMount() {
@@ -26,8 +30,21 @@ class Questions extends React.Component {
     });
   }
 
+  timerCount() {
+    const SECOND = 1000;
+    const actionSecond = setInterval(() => {
+      const { seconds, savedSeconds } = this.state;
+      if (seconds === 0 || savedSeconds !== 0) {
+        this.finishedQuestion();
+        return clearInterval(actionSecond);
+      }
+      this.setState((previusState) => ({ seconds: previusState.seconds - 1 }));
+    }, SECOND);
+    return actionSecond;
+  }
+
   render() {
-    const { css } = this.state;
+    const { css, seconds } = this.state;
     const { questions } = this.props;
     const CODE = 3;
     if (questions.results === undefined) return <p>Loading...</p>;
@@ -63,6 +80,9 @@ class Questions extends React.Component {
               { answer }
             </button>
           ))}
+        </div>
+        <div>
+          { `${seconds} segundos` }
         </div>
       </main>
     );

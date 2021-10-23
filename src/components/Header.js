@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   render() {
-    const { userName, score, infoUser } = this.props;
+    const { userName, infoUser, score } = this.props;
     console.log(infoUser);
     return (
       <header>
@@ -15,7 +15,7 @@ class Header extends React.Component {
         />
         <p>
           Pontos:
-          <span data-testid="header-score">{ score }</span>
+          <span data-testid="header-score">{score}</span>
         </p>
       </header>
     );

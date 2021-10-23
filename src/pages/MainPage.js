@@ -10,7 +10,10 @@ class MainPage extends React.Component {
 
     this.state = {
       infoUser: '',
+      score: 0,
     };
+
+    this.currentScore = this.currentScore.bind(this);
   }
 
   componentDidMount() {
@@ -61,7 +64,7 @@ class MainPage extends React.Component {
           />
           <div data-testid="header-score">{score}</div>
         </header>
-        <Questions updateValue={ this.currentScore } />
+        <Questions updatePoints={ this.currentScore } />
       </>
     );
   }

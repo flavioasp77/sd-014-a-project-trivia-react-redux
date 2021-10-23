@@ -112,7 +112,7 @@ class Questions extends React.Component {
     const actionSecond = setInterval(() => {
       const { seconds, savedSeconds } = this.state;
       if (seconds === 0 || savedSeconds !== 0) {
-        this.handleClick();
+        this.finishedQuestion();
         return clearInterval(actionSecond);
       }
       this.setState((previusState) => ({ seconds: previusState.seconds - 1 }));

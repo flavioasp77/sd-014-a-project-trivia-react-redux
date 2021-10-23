@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/TriviaQuestion.style.css';
+import { getStateFromStorage, savePlayerScore } from '../services/localStorage';
 
 export default class TriviaQuestion extends Component {
   constructor() {
@@ -15,6 +16,7 @@ export default class TriviaQuestion extends Component {
     this.resetTimer = this.resetTimer.bind(this);
     this.setIntervalFunction = this.setIntervalFunction.bind(this);
     this.delayToResponse = this.delayToResponse.bind(this);
+    this.sumScore = this.sumScore.bind(this);
   }
 
   componentDidMount() {
@@ -66,9 +68,43 @@ export default class TriviaQuestion extends Component {
       </div>);
   }
 
-  handleClick() {
+  handleClick({ target: { id } }) {
     const { idInterval } = this.state;
     clearInterval(idInterval);
+    console.log(id);
+    const stateActual = getStateFromStorage();
+    // const { player: { gravatarEmail, name, score } } = stateActual;
+    stateActual.player.score = this.sumScore(id);
+    console.log(stateActual);
+    // localStorage.removeItem('state');
+    // console.log(stateActual);
+    // const testNumber = 10;
+    // savePlayerEmail('oioi', 'oioi', testNumber);
+    savePlayerScore(stateActual.player);
+  }
+
+  sumScore(id) {
+    const { question: { difficulty } } = this.props;
+    const { timer } = this.state;
+    const ten = 10;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    const incorrect = 0;
+    const correct = 'correct-answer';
+    if (id === correct) {
+      switch (difficulty) {
+      case 'easy':
+        return ten + (timer * easy);
+      case 'medium':
+        return ten + (timer * medium);
+      case 'hard':
+        return ten + (timer * hard);
+      default:
+        break;
+      }
+    }
+    return incorrect;
   }
 
   mapAlternatives() {
@@ -85,11 +121,12 @@ export default class TriviaQuestion extends Component {
           type="button"
           data-testid={ correctOrWrong ? correct : wrong }
           className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
-          onClick={ () => {
-            this.handleClick();
+          onClick={ (event) => {
+            this.handleClick(event);
             handleClickQuestion();
           } }
           disabled={ timeDisableButton }
+          id={ correctOrWrong ? correct : wrong }
         >
           { alternative }
         </button>);

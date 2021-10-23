@@ -15,9 +15,9 @@ class Header extends React.Component {
 
   async componentDidMount() {
     const { src } = this.state;
-    const { userEmail } = this.props;
+    const { player: { gravatarEmail } } = this.props;
     if (!src) {
-      const userHash = gravatarAPI.convertEmail(userEmail);
+      const userHash = gravatarAPI.convertEmail(gravatarEmail);
       await this.setUserImage(userHash);
     }
   }
@@ -30,30 +30,36 @@ class Header extends React.Component {
   }
 
   render() {
-    const { userName } = this.props;
+    const { player: { name, score } } = this.props;
     const { src } = this.state;
     return (
       <div>
-        <h2 data-testid="header-player-name">{ `Olá, ${userName}` }</h2>
+        <h2 data-testid="header-player-name">{ `Olá, ${name}` }</h2>
         { src && <img
           data-testid="header-profile-picture"
           src={ src }
           alt="userAvatar"
         /> }
-        <p data-testid="header-score">Seu placar: 0</p>
+        <p data-testid="header-score">
+          Seu placar:&nbsp;
+          { score }
+        </p>
       </div>
     );
   }
 }
 
 Header.propTypes = {
-  userEmail: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    assertions: PropTypes.number.isRequired,
+    score: PropTypes.number.isRequired,
+    gravatarEmail: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  userEmail: state.user.email,
-  userName: state.user.name,
+  player: state.player,
 });
 
 export default connect(mapStateToProps)(Header);

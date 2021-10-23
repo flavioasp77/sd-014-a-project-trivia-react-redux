@@ -55,3 +55,61 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+body {
+  background-color: lightgreen;
+  font-family: sans-serif;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  margin-right: 5px;
+  padding: 10px;
+  color: black;
+}
+
+fieldset {
+  background-color: rgb(180 , 250 , 180);
+  border: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer {
+  background-color: rgb(180 , 250 , 180);
+  padding: 10px;
+  border-left: 5px solid green;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  margin-left: 5px;
+  padding: 10px;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+label {
+  margin: 10px;
+}
+
+strong {
+  color: green;
+}

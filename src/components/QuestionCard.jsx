@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Button from './Button';
+import { setPlayerData } from '../redux/actions';
 import '../styles/QuestionCard.css';
 
 const NO_ANSWER = '';
 const CORRECT_ANSWER = 'correct-answer';
 const WRONG_ANSWER = 'wrong-answer';
 
-export default class QuestionCard extends React.Component {
+class QuestionCard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,59 +18,54 @@ export default class QuestionCard extends React.Component {
       answer: NO_ANSWER,
       timer: 30,
       click: false,
+      assertions: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.handleTimer = this.handleTimer.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
-    this.selectedClickFalse = this.selectedClickFalse(this);
-    this.stopTimer = this.stopTimer.bind(this);
-    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
     this.handleTimer();
   }
 
-  resetTimer() {
-    this.setState({ timer: 30 });
-  }
-
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
-
-  stopTimer() {
-    const { timer } = this.state;
-    const ZERO = 0;
-    if (timer === ZERO) {
-      clearInterval(this.interval);
-      this.setState({ click: true });
-      this.showNext();
-    }
-  }
-
   selectedClickFalse() {
     this.setState({ click: false });
   }
 
-  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
+  handleTimer() {
+    const ONE_SECOND = 1000;
+    this.interval = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+
+      // stop timer
+      const { timer } = this.state;
+      const ZERO = 0;
+      if (timer === ZERO) {
+        clearInterval(this.interval);
+        this.setState({ click: true });
+        this.showNext();
+      }
+    }, ONE_SECOND);
+  }
+
   handleClick(answer) {
-    this.pauseTimer();
     const rightButton = document.querySelector('[data-testid="correct-answer"]');
     const wrongButtons = document.querySelectorAll('[data-testid*="wrong-answer"]');
     rightButton.className = CORRECT_ANSWER;
     wrongButtons.forEach((button) => { button.className = WRONG_ANSWER; });
 
+    clearInterval(this.interval); // pause timer
+    this.calculateScore(answer);
     this.setState({ answer });
   }
 
   handleClickNext(isCorrect) {
+    const { callback } = this.props;
     const buttons = document.querySelectorAll('[data-testid*="-answer"]');
     buttons.forEach((button) => { button.className = 'standard-button'; });
 
-    const { callback } = this.props;
-    this.resetTimer();
+    this.setState({ timer: 30 }); // reset timer
     this.handleTimer();
     this.setState({ answer: NO_ANSWER, click: false });
     callback(isCorrect);
@@ -86,19 +83,38 @@ export default class QuestionCard extends React.Component {
     );
   }
 
-  handleTimer() {
-    const SECOND = 1000;
-    this.interval = setInterval(() => {
-      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
-      this.stopTimer();
-    }, SECOND);
+  calculateScore(answer) {
+    const timer = 1;
+    const scoreCorrect = 10;
+    const { data: { difficulty } } = this.props;
+
+    if (answer === CORRECT_ANSWER) {
+      const WEIGHTS = ['easy', 'medium', 'hard'];
+      const weight = WEIGHTS.indexOf(difficulty) + 1;
+      const sumPoints = scoreCorrect + (timer * weight);
+
+      const { player, dispatchPayload } = this.props;
+      player.assertions += 1;
+      player.score += sumPoints;
+      dispatchPayload(player);
+      this.setState((prevState) => ({
+        score: prevState.score + sumPoints,
+        assertions: prevState.assertions + 1,
+      }));
+    }
+    this.setState({ click: true });
+  }
+
+  htmlDecode(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.documentElement.textContent;
   }
 
   render() {
     const { answer, timer, click } = this.state;
-    const { data: {
-      category, question, correctAnswer, incorrectAnswers, options,
-    } } = this.props;
+    const {
+      data: { category, question, correctAnswer, incorrectAnswers, options },
+    } = this.props;
 
     return (
       <div>
@@ -108,7 +124,7 @@ export default class QuestionCard extends React.Component {
           </p>
           <p>{ timer }</p>
           <p data-testid="question-text">
-            { question }
+            { this.htmlDecode(question) }
           </p>
         </div>
         <div>
@@ -116,6 +132,7 @@ export default class QuestionCard extends React.Component {
             const isCorrect = option === correctAnswer;
             return (<Button
               key={ index }
+              className="standard-button"
               onClick={ () => this.handleClick(
                 isCorrect ? CORRECT_ANSWER : WRONG_ANSWER,
               ) }
@@ -125,7 +142,7 @@ export default class QuestionCard extends React.Component {
                   ? CORRECT_ANSWER
                   : `wrong-answer-${incorrectAnswers.indexOf(option)}`
               }
-              value={ option }
+              value={ this.htmlDecode(option) }
               disabled={ click }
             />);
           }) }
@@ -139,6 +156,30 @@ export default class QuestionCard extends React.Component {
 }
 
 QuestionCard.propTypes = {
-  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    correctAnswer: PropTypes.string.isRequired,
+    incorrectAnswers: PropTypes.arrayOf(PropTypes.string).isRequired,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
   callback: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    assertions: PropTypes.number.isRequired,
+    score: PropTypes.number.isRequired,
+    gravatarEmail: PropTypes.string.isRequired,
+  }).isRequired,
+  dispatchPayload: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  player: state.player,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchPayload: (payload) => dispatch(setPlayerData(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

@@ -15,27 +15,46 @@ export default class QuestionCard extends React.Component {
     this.state = {
       answer: NO_ANSWER,
       timer: 30,
+      click: false,
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
+    this.selectedClickFalse = this.selectedClickFalse(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
     this.handleTimer();
   }
 
-  componentDidUpdate() {
+  resetTimer() {
+    this.setState({ timer: 30 });
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+  stopTimer() {
     const { timer } = this.state;
-    if (timer < 0) {
-      const { data: { incorrectAnswers } } = this.props;
-      this.handleClick(incorrectAnswers[0]);
+    const ZERO = 0;
+    if (timer === ZERO) {
+      clearInterval(this.interval);
+      this.setState({ click: true });
+      this.showNext();
     }
+  }
+
+  selectedClickFalse() {
+    this.setState({ click: false });
   }
 
   // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
   handleClick(answer) {
+    this.pauseTimer();
     const rightButton = document.querySelector('[data-testid="correct-answer"]');
     const wrongButtons = document.querySelectorAll('[data-testid*="wrong-answer"]');
     rightButton.className = CORRECT_ANSWER;
@@ -49,7 +68,9 @@ export default class QuestionCard extends React.Component {
     buttons.forEach((button) => { button.className = 'standard-button'; });
 
     const { callback } = this.props;
-    this.setState({ answer: NO_ANSWER, timer: 30 });
+    this.resetTimer();
+    this.handleTimer();
+    this.setState({ answer: NO_ANSWER, click: false });
     callback(isCorrect);
   }
 
@@ -67,13 +88,14 @@ export default class QuestionCard extends React.Component {
 
   handleTimer() {
     const SECOND = 1000;
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+      this.stopTimer();
     }, SECOND);
   }
 
   render() {
-    const { answer, timer } = this.state;
+    const { answer, timer, click } = this.state;
     const { data: {
       category, question, correctAnswer, incorrectAnswers, options,
     } } = this.props;
@@ -104,11 +126,12 @@ export default class QuestionCard extends React.Component {
                   : `wrong-answer-${incorrectAnswers.indexOf(option)}`
               }
               value={ option }
+              disabled={ click }
             />);
           }) }
         </div>
         <div>
-          { this.showNext(answer !== NO_ANSWER) }
+          { this.showNext(answer !== NO_ANSWER || timer === 0) }
         </div>
       </div>
     );

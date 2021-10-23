@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getGravatarEmailUrl } from '../services/APIrequests';
 import { getStateFromStorage } from '../services/localStorage';
 
-export class Header extends Component {
+export default class Header extends Component {
   constructor() {
     super();
     this.state = {
@@ -38,5 +38,3 @@ export class Header extends Component {
     );
   }
 }
-
-export default Header;

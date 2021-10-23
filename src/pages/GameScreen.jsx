@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Header } from '../components/Header';
+import Header from '../components/Header';
 import TriviaQuestion from '../components/TriviaQuestion';
 import { useToken } from '../services/APIrequests';
 import shuffleArray from '../services/functions';
@@ -76,7 +76,7 @@ class GameScreen extends Component {
     const {
       questions,
       alternativesShuffled, indexOfQuestion, visibleButton, className } = this.state;
-      const { redirect } = this.state
+    const { redirect } = this.state;
     return (
       <div>
         <Header />
@@ -97,7 +97,7 @@ class GameScreen extends Component {
 
           </button>
         )}
-        { redirect && <Redirect path="/feedback" /> }
+        { redirect && <Redirect to="/feedback" /> }
       </div>
     );
   }

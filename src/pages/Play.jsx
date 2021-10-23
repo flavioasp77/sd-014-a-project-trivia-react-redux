@@ -18,10 +18,20 @@ class Play extends Component {
   }
 
   nextQuestion() {
-    this.setState((prevState) => ({
-      answerIndex: prevState.answerIndex + 1,
-      showAnswer: false,
-    }));
+    this.setState(({ answerIndex }) => {
+      const { data, history } = this.props;
+      const { results } = data;
+      const newIndex = answerIndex === results.length - 1 ? 0 : answerIndex + 1;
+
+      if (newIndex === 0) {
+        history.push('/feedback');
+      }
+
+      return {
+        answerIndex: newIndex,
+        showAnswer: false,
+      };
+    });
   }
 
   shouldShowAnswer() {
@@ -65,6 +75,9 @@ const mapStateToProps = (state) => ({
 
 Play.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(Play);

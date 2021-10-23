@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getTriviaActionThunk } from '../actions';
-import './Game.css';
+import '../styles/Game.css';
 
 const TIME_OUT = 30000;
 const ONE_SECOND = 1000;
@@ -42,7 +42,6 @@ class Game extends Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(player));
-
   }
 
   componentDidUpdate(prevProps) {
@@ -68,8 +67,6 @@ class Game extends Component {
         clickedAnswer: '',
       });
     }, TIME_OUT);
-
-    console.log(timerId, counterId);
 
     this.setState({
       timerId,
@@ -97,8 +94,7 @@ class Game extends Component {
     this.setState({
       clickedAnswer: answer,
       answered: true,
-    });
-    console.log(timerId, counterId);
+    }, () => this.handleScore(answer));
   }
 
   handleNext() {
@@ -112,11 +108,11 @@ class Game extends Component {
         disabledBtn: false,
       });
       this.startTimeOut();
-      this.handleScore(answer);
+    }
   }
 
   handleScore(answer) {
-    const { questions, counter } = this.state;
+    const { questions, counter, indexNext } = this.state;
     let difficulty;
     const HARD_SCORE = 3;
 
@@ -134,7 +130,7 @@ class Game extends Component {
       return 0;
     }
 
-    if (answer === questions[0].correct_answer) {
+    if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
       let { score } = this.state;
       score += (counter * difficulty) + POINTS;
@@ -206,9 +202,7 @@ class Game extends Component {
       );
     }
     return (
-      <div>
-        Carregando...
-      </div>
+      <p>Carregando ...</p>
     );
   }
 }

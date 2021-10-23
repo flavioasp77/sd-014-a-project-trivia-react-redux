@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../actions';
+import Button from './Button';
 
 import './questions.css';
 
@@ -14,6 +15,7 @@ class Questions extends React.Component {
 
     this.state = {
       css: false,
+      order: 0,
       seconds: 30,
       savedSeconds: 0,
       questionAtual: 0,
@@ -37,6 +39,13 @@ class Questions extends React.Component {
       gravatarEmail,
     } };
     localStorage.setItem('state', JSON.stringify(user));
+  }
+
+  randomButtons() {
+    const randomBtn = Math.floor(Math.random() * ANSWER).toString();
+    this.setState({
+      order: randomBtn,
+    });
   }
 
   finishedQuestion() {
@@ -95,6 +104,7 @@ class Questions extends React.Component {
       savedSeconds: 0,
     });
     this.timerCount();
+    this.randomButtons();
   }
 
   timerCount() {
@@ -111,46 +121,34 @@ class Questions extends React.Component {
   }
 
   render() {
-    const { css, seconds } = this.state;
-    const { questions } = this.props;
     const CODE = 3;
-    if (questions.results === undefined) return <p>Loading...</p>;
-    if (questions.response_code === CODE) {
+    const { questions } = this.props;
+    const { results, response_code: responseCode } = questions;
+    const { css, seconds, order, questionAtual } = this.state;
+    if (results === undefined) return <p>Loading...</p>;
+    if (responseCode === CODE) {
       return <p>Section expired</p>;
     }
-    const { results } = questions;
+
     return (
       <main>
         <h2 data-testid="question-category">
-          { results[0].category }
+          { results[questionAtual].category }
         </h2>
         <p data-testid="question-text">
-          { results[0].question }
+          { results[questionAtual].question }
         </p>
-        <div className="answers">
-          <button
-            type="button"
-            data-testid="correct-answer"
-            className={ css ? 'correct' : null }
-            onClick={ this.handleClick }
-          >
-            { results[0].correct_answer }
-          </button>
-          { results[0].incorrect_answers.map((answer, index) => (
-            <button
-              key={ index }
-              type="button"
-              data-testid={ `wrong-answer-${index}` }
-              className={ css ? 'incorrect ' : null }
-              onClick={ this.handleClick }
-            >
-              { answer }
-            </button>
-          ))}
-        </div>
         <div>
           { `${seconds} segundos` }
         </div>
+        <Button
+          handleNextButton={ this.handleNextButton }
+          handleClick={ this.handleClick }
+          order={ order }
+          questionAtual={ questionAtual }
+          results={ results }
+          css={ css }
+        />
       </main>
     );
   }

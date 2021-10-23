@@ -61,7 +61,7 @@ class MainPage extends React.Component {
           />
           <div data-testid="header-score">{score}</div>
         </header>
-        <Questions />
+        <Questions updateValue={ this.currentScore } />
       </>
     );
   }

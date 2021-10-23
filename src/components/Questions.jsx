@@ -15,7 +15,6 @@ class Questions extends Component {
       click: false,
       timer: 30,
       score: 0,
-      difficulty: '',
     };
     this.handleNextBtn = this.handleNextBtn.bind(this);
     this.shuffleButtons = this.shuffleButtons.bind(this);
@@ -91,6 +90,16 @@ class Questions extends Component {
     const multiplication = difficulty * timer;
     scoreActionInfo(score + rightAnswerScore + multiplication);
     this.setState({ score: score + rightAnswerScore + multiplication });
+    const state = [{
+      player: {
+        name: '',
+        assertions: '',
+        score: score + rightAnswerScore + multiplication,
+        gravatarEmail: '',
+      },
+    }];
+
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   handleClickAnswer() {

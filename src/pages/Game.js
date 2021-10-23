@@ -13,15 +13,39 @@ class Game extends Component {
     this.state = {
       currentQuestion: 0,
       questionsList: [],
+      seconds: 30,
+      disabled: false,
     };
     this.setQuestionsInState = this.setQuestionsInState.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.resetSeconds = this.resetSeconds.bind(this);
+  }
+
+  componentDidMount() {
+    const ONE_SECOND = 1000;
+    this.cronometerInterval = setInterval(() => {
+      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+    }, ONE_SECOND);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const MIN_SECONDS = 0;
+    if (prevState.seconds === MIN_SECONDS) {
+      this.resetSeconds();
+    }
   }
 
   async setQuestionsInState() {
     const { results } = await getQuestions();
     this.setState({
       questionsList: results,
+    });
+  }
+
+  resetSeconds() {
+    this.setState({
+      seconds: 0,
+      disabled: true,
     });
   }
 
@@ -49,7 +73,7 @@ class Game extends Component {
   }
 
   render() {
-    const { currentQuestion, questionsList } = this.state;
+    const { currentQuestion, questionsList, disabled, seconds } = this.state;
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
 
@@ -73,11 +97,16 @@ class Game extends Component {
                   key={ index }
                   data-testid={ value }
                   onClick={ this.handleClick }
+                  disabled={ disabled }
                 >
                   {alternative}
                 </button>
               ))
             }
+            <p>
+              Tempo restante:
+              { seconds }
+            </p>
           </div>
         </main>
       </>

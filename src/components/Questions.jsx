@@ -51,7 +51,13 @@ class Questions extends Component {
     this.setState({
       atualQuestion: atualQuestion + 1,
       click: false,
+      timer: 30,
     });
+    // Ativa o timer nas outras perguntas
+    const ONE_SECOND = 1000;
+    this.timeOut = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, ONE_SECOND);
   }
 
   handleClickAnswer() {

@@ -11,6 +11,7 @@ const questions = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       questions: payload,
+      loading: false,
     };
   default:
     return state;

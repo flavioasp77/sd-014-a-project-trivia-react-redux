@@ -21,7 +21,7 @@
 // ]
 // A chave token deve conter o valor do token recebido na API do Trivia.
 
-import { SAVE_USERINFO } from '../actions';
+import { SAVE_USERINFO, FETCH_QUESTIONS, LOADING } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -30,6 +30,8 @@ const INITIAL_STATE = {
   gravatarEmail: '',
   thumbnail: '',
   token: '',
+  questions: [],
+  loading: false,
 };
 
 function player(state = INITIAL_STATE, { type, payload }) {
@@ -41,6 +43,16 @@ function player(state = INITIAL_STATE, { type, payload }) {
       gravatarEmail: payload.gravatarEmail,
       thumbnail: payload.thumbnail,
       token: payload.token,
+    };
+  case LOADING:
+    return {
+      loading: true,
+    };
+  case FETCH_QUESTIONS:
+    return {
+      ...state,
+      questions: payload,
+      loading: false,
     };
   default:
     return state;

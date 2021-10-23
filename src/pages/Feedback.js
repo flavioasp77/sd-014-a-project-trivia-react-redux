@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 class Feedback extends React.Component {
   handleMenssage() {
@@ -13,17 +14,20 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { totalScore, totalQuestion } = this.props;
+    const { userName, source } = this.props;
+    const state = localStorage.getItem('state');
+    const { user: { score, assertions } } = JSON.parse(state);
     return (
       <div>
+        <Header name={ userName } score={ score } source={ source } />
         <span data-testid="feedback-text">
           { this.handleMenssage() }
         </span>
         <span data-testid="feedback-total-score">
-          { totalQuestion }
+          { score }
         </span>
         <span data-testid="feedback-total-question">
-          { totalScore }
+          { assertions }
         </span>
         <Link to="/" type="button" data-testid="btn-play-again">
           Jogar novamente
@@ -42,8 +46,8 @@ const mapStateToProps = (state) => ({
 });
 
 Feedback.propTypes = {
-  totalScore: propTypes.number.isRequired,
-  totalQuestion: propTypes.number.isRequired,
+  userName: propTypes.string.isRequired,
+  source: propTypes.string.isRequired,
 };
 
 export default connect(null, mapStateToProps)(Feedback);

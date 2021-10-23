@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { Header } from '../components/Header';
 import TriviaQuestion from '../components/TriviaQuestion';
 import { useToken } from '../services/APIrequests';
@@ -14,6 +15,7 @@ class GameScreen extends Component {
       indexOfQuestion: 0,
       visibleButton: false,
       className: false,
+      redirect: false,
     };
     this.saveQuestions = this.saveQuestions.bind(this);
     this.scrambleAlternatives = this.scrambleAlternatives.bind(this);
@@ -25,19 +27,6 @@ class GameScreen extends Component {
   componentDidMount() {
     this.saveQuestions();
   }
-
-  // {
-  //   "category": "Geography",
-  //   "type": "multiple",
-  //   "difficulty": "medium",
-  //   "question": "What is the largest non-continental island in the world?",
-  //   "correct_answer": "Greenland",
-  //   "incorrect_answers": [
-  //   "New Guinea",
-  //   "Borneo",
-  //   "Madagascar"
-  //   ]
-  //   },
 
   async saveQuestions() {
     const token = getLocalToken();
@@ -67,6 +56,8 @@ class GameScreen extends Component {
         className: false,
       });
       await this.scrambleAlternatives();
+    } else {
+      this.setState({ redirect: true });
     }
   }
 
@@ -85,6 +76,7 @@ class GameScreen extends Component {
     const {
       questions,
       alternativesShuffled, indexOfQuestion, visibleButton, className } = this.state;
+      const { redirect } = this.state
     return (
       <div>
         <Header />
@@ -105,7 +97,7 @@ class GameScreen extends Component {
 
           </button>
         )}
-
+        { redirect && <Redirect path="/feedback" /> }
       </div>
     );
   }

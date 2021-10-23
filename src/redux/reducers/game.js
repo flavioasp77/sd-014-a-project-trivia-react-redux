@@ -1,4 +1,4 @@
-import { IS_FETCHING, SET_TOKEN, SET_QUESTIONS } from '../actions';
+import { IS_FETCHING, SET_TOKEN, SET_QUESTIONS, RESET_GAME } from '../actions';
 
 const INITIAL_STATE = {
   token: '',
@@ -14,6 +14,8 @@ export default function game(state = INITIAL_STATE, action) {
     return { ...state, token: action.token };
   case SET_QUESTIONS:
     return { ...state, questions: action.payload };
+  case RESET_GAME:
+    return INITIAL_STATE;
   default:
     return state;
   }

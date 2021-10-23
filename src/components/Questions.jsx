@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchQuestions, setScore as scoreAction } from '../redux/actions/index';
+import { fetchQuestions, setScore as scoreAction,
+  setRanking as rankingAction } from '../redux/actions/index';
 
 import './questions.css';
 import Timer from './Timer';
@@ -74,8 +76,13 @@ class Questions extends Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { questions, setRanking } = this.props;
     const { isClick, time, disabled, questionActual } = this.state;
+
+    if (questionActual > 4) {
+      setRanking();
+      return <Redirect to="/feedback" />;
+    }
 
     if (questions.length > 0) {
       return (
@@ -125,6 +132,7 @@ Questions.propTypes = {
   fetchQuestionsAPI: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   setScore: PropTypes.func.isRequired,
+  setRanking: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -134,6 +142,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestionsAPI: () => dispatch(fetchQuestions()),
   setScore: (score) => dispatch(scoreAction(score)),
+  setRanking: () => dispatch(rankingAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

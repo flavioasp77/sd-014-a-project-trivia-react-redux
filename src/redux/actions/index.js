@@ -7,6 +7,20 @@ export const SET_TOKEN = 'GET_TOKEN';
 export const SET_QUESTIONS = 'GET_QUESTIONS';
 export const SET_SCORE = 'SET_SCORE';
 
+export const RESET_PLAYER = 'RESET_PLAYER';
+export const RESET_GAME = 'RESET_GAME';
+export const SET_RANKING = 'SET_RANKING';
+
+export const setRanking = () => ({ type: SET_RANKING });
+
+const resetGame = () => ({ type: RESET_GAME });
+const resetPlayer = () => ({ type: RESET_PLAYER });
+
+export const resetAll = () => (dispatch) => {
+  dispatch(resetGame());
+  dispatch(resetPlayer());
+};
+
 const setToken = (token) => ({
   type: SET_TOKEN,
   token,

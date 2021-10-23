@@ -90,16 +90,12 @@ class Questions extends Component {
     const multiplication = difficulty * timer;
     scoreActionInfo(score + rightAnswerScore + multiplication);
     this.setState({ score: score + rightAnswerScore + multiplication });
-    const state = [{
-      player: {
-        name: '',
-        assertions: '',
-        score: score + rightAnswerScore + multiplication,
-        gravatarEmail: '',
-      },
-    }];
-
-    localStorage.setItem('state', JSON.stringify(state));
+    const playerStorage = JSON.parse(localStorage.getItem('state'));
+    // Referência ao código do grupo 26 - espalhar valores na localStorage
+    // https://github.com/tryber/sd-014-a-project-trivia-react-redux/blob/group-26-requisito-11/src/pages/Trivia.jsx
+    playerStorage.player.score = score + rightAnswerScore + multiplication;
+    playerStorage.player.assertions += 1;
+    localStorage.state = JSON.stringify(playerStorage);
   }
 
   handleClickAnswer() {

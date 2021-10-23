@@ -33,6 +33,15 @@ class Login extends Component {
     await fetchTokenApi();
     await userInfo(name, email);
     history.push('/game');
+    const player = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.state = JSON.stringify(player);
   }
 
   render() {

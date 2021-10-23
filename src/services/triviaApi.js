@@ -6,7 +6,6 @@ const getApiTrivia = async () => {
   const token = await fetch(TOKEN_BASE_API);
   const responseToken = await token.json();
   localStorage.setItem('token', responseToken.token);
-  console.log(responseToken, 'Xablau');
   const response = await fetch(TRIVIA_BASE_API(responseToken.token));
   return (
     response.ok ? Promise.resolve(response.json()) : Promise.reject(response.json()));

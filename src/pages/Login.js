@@ -21,12 +21,10 @@ class Login extends React.Component {
 
   handleClick() {
     const { setUserInfo } = this.props;
-    // setApiToken();
     const { history } = this.props;
     setUserInfo(this.state);
     const { setApiTrivia } = this.props;
     setApiTrivia();
-    // localStorage.setItem('token', token);
     history.push('/jogo');
   }
 

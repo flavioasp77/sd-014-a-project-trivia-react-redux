@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { questionApiThunk } from '../actions';
 
 import './questions.css';
+
+const ANSWER = 4;
 
 class Questions extends React.Component {
   constructor(props) {
@@ -13,21 +16,77 @@ class Questions extends React.Component {
       css: false,
       seconds: 30,
       savedSeconds: 0,
+      questionAtual: 0,
+      score: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.timerCount = this.timerCount.bind(this);
+    this.finishedQuestion = this.finishedQuestion.bind(this);
   }
 
   componentDidMount() {
     const { token, getQuestion } = this.props;
     getQuestion(token);
+    this.timerCount();
   }
 
-  handleClick() {
+  finishedQuestion() {
     this.setState({
       css: true,
     });
+  }
+
+  handleClick({ target }) {
+    const CORRECT = 10;
+    const { id, name } = target;
+    const { updatePoints } = this.props;
+    const { seconds } = this.state;
+    this.setState({
+      css: true,
+      savedSeconds: seconds,
+    });
+
+    if (id === 'correct') {
+      const makePoints = CORRECT + (this.correctAwnser(name) * seconds);
+      updatePoints(makePoints);
+      this.setState((previus) => ({
+        score: previus.score + makePoints,
+      }));
+    }
+  }
+
+  correctAwnser(dificult) {
+    const ONE = 1;
+    const TWO = 2;
+    const THREE = 3;
+    switch (dificult) {
+    case 'easy':
+      return ONE;
+    case 'medium':
+      return TWO;
+    case 'hard':
+      return THREE;
+    default:
+      return 0;
+    }
+  }
+
+  handleNextButton() {
+    const { questionAtual } = this.state;
+
+    if (questionAtual === ANSWER) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+
+    this.setState({
+      questionAtual: questionAtual + 1,
+      css: false,
+      seconds: 30,
+      savedSeconds: 0,
+    });
+    this.timerCount();
   }
 
   timerCount() {
@@ -35,7 +94,7 @@ class Questions extends React.Component {
     const actionSecond = setInterval(() => {
       const { seconds, savedSeconds } = this.state;
       if (seconds === 0 || savedSeconds !== 0) {
-        this.finishedQuestion();
+        this.handleClick();
         return clearInterval(actionSecond);
       }
       this.setState((previusState) => ({ seconds: previusState.seconds - 1 }));
@@ -95,7 +154,11 @@ Questions.propTypes = {
     response_code: PropTypes.number.isRequired,
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
+  updatePoints: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -107,4 +170,4 @@ const mapDispatchToProps = (dispatch) => ({
   getQuestion: (token) => dispatch(questionApiThunk(token)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

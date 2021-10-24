@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -47,6 +48,10 @@ export default class Trivia extends React.Component {
     const { questions, loading } = this.state;
     if (loading) {
       return (<Loading />);
+    }
+
+    if (questions.length === 0) {
+      return (<Redirect to="/feedback" />);
     }
 
     const {

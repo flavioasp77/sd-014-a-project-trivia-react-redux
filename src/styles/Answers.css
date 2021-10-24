@@ -1,11 +1,3 @@
-.answers-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-left: 2rem;
-  width: 50%;
-}
-
 .answer {
   background-color: #c4c4c4;
   border: none;
@@ -16,7 +8,14 @@
 
 .answer:hover {
   opacity: 0.6;
-  transition: 0.5s;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 2rem;
+  width: 50%;
 }
 
 .correct {

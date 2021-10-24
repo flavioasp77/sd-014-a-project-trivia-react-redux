@@ -11,23 +11,10 @@ class Play extends Component {
     super(props);
     this.state = {
       answerIndex: 0,
-      seconds: 5,
       shouldShowAnswer: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
-  }
-
-  componentDidMount() {
-    const ONE_SECOND = 1000;
-    this.counter = setInterval(() => {
-      this.setState(({ seconds }) => ({ seconds: seconds - 1 }));
-    }, ONE_SECOND);
-  }
-
-  componentDidUpdate() {
-    const { seconds } = this.state;
-    if (seconds === 0) clearInterval(this.counter);
   }
 
   nextQuestion() {
@@ -53,13 +40,13 @@ class Play extends Component {
 
   render() {
     const { data } = this.props;
-    const { answerIndex, seconds, shouldShowAnswer } = this.state;
+    const { answerIndex, shouldShowAnswer } = this.state;
 
     const { response_code: responseCode, results } = data;
 
     if (responseCode !== 0) {
       return (
-        <div className="container">
+        <div className="container-expired">
           <p className="text-center">Token expirado!</p>
           <Link className="btn-return" to="/">
             VOLTAR
@@ -69,18 +56,16 @@ class Play extends Component {
     }
 
     return (
-      <div>
+      <>
         <Header />
         <QuestionCard
           data={ results[answerIndex] }
           nextQuestion={ this.nextQuestion }
-          // shouldShowAnswer={ shouldShowAnswer }
-          shouldShowAnswer={ (seconds === 0) ? true : shouldShowAnswer }
+          shouldShowAnswer={ shouldShowAnswer }
           // Solution to the problem of showing the answer after the timer
           showAnswer={ this.showAnswer }
         />
-        <p className="timer">{`Tempo: ${seconds}`}</p>
-      </div>
+      </>
     );
   }
 }

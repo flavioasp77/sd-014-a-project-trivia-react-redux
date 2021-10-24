@@ -13,6 +13,7 @@ export default function Answers({
       <button
         className={ showAnswer ? 'answer correct' : 'answer' }
         data-testid="correct-answer"
+        disabled={ showAnswer }
         onClick={ onAnswerClick }
         type="button"
       >
@@ -22,6 +23,7 @@ export default function Answers({
         <button
           className={ showAnswer ? 'answer wrong' : 'answer' }
           data-testid={ `wrong-answer-${index}` }
+          disabled={ showAnswer }
           key={ `${answer}-${index}` }
           onClick={ onAnswerClick }
           type="button"

@@ -11,13 +11,24 @@ const HIGH_SCORE_THRESHOLD = 3;
 
 class Feedback extends React.Component {
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     return (
       <main>
         <Header />
         <h1 data-testid="feedback-text">
           { assertions >= HIGH_SCORE_THRESHOLD ? HIGH_SCORE_MESSAGE : LOW_SCORE_MESSAGE }
         </h1>
+        <h2>
+          Você acertou&nbsp;
+          <span data-testid="feedback-total-question">{ assertions }</span>
+          &nbsp;quest
+          { assertions >= 2 ? 'ões' : 'ão' }
+          !
+          <br />
+          Um total de&nbsp;
+          <span data-testid="feedback-total-score">{ score }</span>
+          &nbsp;pontos.
+        </h2>
         <Footer />
       </main>
     );
@@ -26,10 +37,12 @@ class Feedback extends React.Component {
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);

@@ -50,8 +50,8 @@ class Game extends React.Component {
           key={ index }
           questionCurrent={ questions[index] }
           timer={ timer }
+          buttonNext={ this.handleClick }
         /> }
-        <button type="button" onClick={ this.handleClick }>Próxima pergunta</button>
       </main>
     );
   }

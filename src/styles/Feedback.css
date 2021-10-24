@@ -1,0 +1,24 @@
+.feedback {
+  text-align: center;
+}
+
+#btn-play-again {
+  background-color: forestgreen;
+  margin-top: 10px;
+}
+
+#btn-ranking {
+  background-color: lightgray;
+  margin-top: 50px;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  display:block;
+  font-size: 2em;
+  margin:auto;
+  min-width: 15em;
+}

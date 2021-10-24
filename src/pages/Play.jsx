@@ -10,9 +10,9 @@ class Play extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      answerIndex: 0,
+      questionIndex: 0,
       shouldShowAnswer: false,
-      timer: 30,
+      timer: 5,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
@@ -39,22 +39,10 @@ class Play extends Component {
   }
 
   nextQuestion() {
-    const { data, history } = this.props;
-    const { results } = data;
-
-    this.setState({ timer: 30 });
+    this.setState({ timer: 5 });
     // Reset the timer when the user clicks on the next question
 
-    this.setState(({ answerIndex }) => {
-      const newIndex = answerIndex === results.length - 1 ? 0 : answerIndex + 1;
-
-      if (newIndex === 0) history.push('/feedback');
-
-      return {
-        answerIndex: newIndex,
-        shouldShowAnswer: false,
-      };
-    });
+    this.updateQuestionIndex();
 
     this.setTimer();
   }
@@ -63,9 +51,25 @@ class Play extends Component {
     this.setState({ shouldShowAnswer: true, timer: 0 });
   }
 
+  updateQuestionIndex() {
+    const { data, history } = this.props;
+    const { results } = data;
+
+    this.setState(({ questionIndex }) => {
+      const newIndex = questionIndex === results.length - 1 ? 0 : questionIndex + 1;
+
+      if (newIndex === 0) history.push('/feedback');
+
+      return {
+        questionIndex: newIndex,
+        shouldShowAnswer: false,
+      };
+    });
+  }
+
   render() {
     const { data } = this.props;
-    const { answerIndex, shouldShowAnswer, timer } = this.state;
+    const { questionIndex, shouldShowAnswer, timer } = this.state;
 
     const { response_code: responseCode, results } = data;
 
@@ -84,7 +88,7 @@ class Play extends Component {
       <>
         <Header />
         <QuestionCard
-          data={ results[answerIndex] }
+          data={ results[questionIndex] }
           nextQuestion={ this.nextQuestion }
           shouldShowAnswer={ shouldShowAnswer }
           // Solution to the problem of showing the answer after the timer

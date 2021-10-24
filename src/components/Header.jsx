@@ -10,6 +10,11 @@ class Header extends Component {
     const hash = md5(email.trim().toLowerCase()).toString();
     const gravatar = `https://www.gravatar.com/avatar/${hash}`;
     const initialScore = 0;
+    const player = { name,
+      assertions: null,
+      score: initialScore,
+      gravatarEmail: email };
+    localStorage.setItem('player', JSON.stringify(player));
 
     return (
       <header className="header">

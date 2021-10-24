@@ -9,12 +9,12 @@ class QuestionCard extends Component {
     this.state = {
       showAnswer: false,
       score: 0,
-      qstnLevel: '',
       seconds: 30,
     };
     this.setScore = this.setScore.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.calculateScore = this.calculateScore.bind(this);
   }
 
   componentDidMount() {
@@ -25,29 +25,36 @@ class QuestionCard extends Component {
   }
 
   componentDidUpdate() {
-    const { seconds } = this.state;
+    const { seconds, score } = this.state;
     if (seconds === 0) {
       clearInterval(this.counter);
+    }
+    if (score !== 0) {
+      const player = JSON.parse(localStorage.getItem('player'));
+      player.score = score;
+      localStorage.setItem('player', JSON.stringify(player));
     }
   }
 
   setScore(difficulty) {
     if (difficulty === 'easy') {
-      this.updateState({ qstnLevel: 1 });
+      this.calculateScore({ qstnLevel: 1 });
     } if (difficulty === 'medium') {
-      this.updateState({ qstnLevel: 2 });
+      this.calculateScore({ qstnLevel: 2 });
     } if (difficulty === 'hard') {
-      this.updateState({ qstnLevel: 3 });
+      this.calculateScore({ qstnLevel: 3 });
     }
+  }
 
-    const { score, qstnLevel } = this.state;
-    const basePoints = { easy: 1, medium: 2, hard: 3, base: 10 };
-
-    const anwserPoints = basePoints.base + (qstnLevel);
+  calculateScore(qstnLevelPoints) {
+    const { score, seconds } = this.state;
+    const basePoints = { base: 10 };
+    console.log(qstnLevelPoints.qstnLevel);
+    const anwserPoints = Number(basePoints.base) + (qstnLevelPoints.qstnLevel);
+    console.log(anwserPoints, seconds);
     this.updateState({
-      score: score + anwserPoints,
+      score: score + (anwserPoints * seconds),
     });
-    console.log(anwserPoints);
   }
 
   updateState(state) {
@@ -56,7 +63,11 @@ class QuestionCard extends Component {
 
   handleClick(difficulty) {
     this.setState({ showAnswer: true });
-    this.setScore(difficulty);
+    if (difficulty !== null) {
+      this.setScore(difficulty);
+    }
+    const { score } = this.state;
+    console.log(score);
   }
 
   render() {
@@ -97,7 +108,7 @@ class QuestionCard extends Component {
               className={ seconds === 0 || showAnswer ? 'answer wrong' : 'answer' }
               data-testid={ `wrong-answer-${index}` }
               key={ `${answer}-${index}` }
-              onClick={ this.handleClick }
+              onClick={ () => this.handleClick(null) }
               type="button"
               disabled={ seconds === 0 }
             >

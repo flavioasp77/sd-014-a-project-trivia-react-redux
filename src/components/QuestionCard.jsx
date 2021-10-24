@@ -64,7 +64,7 @@ class QuestionCard extends Component {
   //   const { data } = this.props;
   //   const { showAnswer, seconds } = this.state;
   render() {
-    const { data, nextQuestion, showAnswer, shouldShowAnswer } = this.props;
+    const { data, nextQuestion, shouldShowAnswer, showAnswer } = this.props;
 
     const {
       category,
@@ -88,16 +88,16 @@ class QuestionCard extends Component {
           <Answers
             correctAnswer={ correct }
             incorrectAnswers={ incorrect }
-            onAnswerClick={ shouldShowAnswer }
-            showAnswer={ showAnswer }
+            onAnswerClick={ showAnswer }
+            showAnswer={ shouldShowAnswer }
           />
           {/* <p className="timer">{`Tempo: ${seconds}`}</p> */}
           {/* Correct answer button attributes
-        className={ seconds === 0 || showAnswer ? 'answer correct' : 'answer' }
+        className={ seconds === 0 || shouldShowAnswer ? 'answer correct' : 'answer' }
         data-testid="correct-answer"
         onClick={ () => this.handleClick(difficulty) } */}
         </div>
-        {showAnswer && (
+        {shouldShowAnswer && (
           <button
             className="btn-next"
             data-testid="btn-next"
@@ -114,7 +114,7 @@ class QuestionCard extends Component {
 }
 // {incorrect.map((answer, index) => (
 //   <button
-//     className={ seconds === 0 || showAnswer ? 'answer wrong' : 'answer' }
+//     className={ seconds === 0 || shouldShowAnswer ? 'answer wrong' : 'answer' }
 //     data-testid={ `wrong-answer-${index}` }
 //     key={ `${answer}-${index}` }
 //     onClick={ this.handleClick }
@@ -134,8 +134,8 @@ QuestionCard.propTypes = {
     difficulty: PropTypes.string.isRequired,
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
-  showAnswer: PropTypes.bool.isRequired,
-  shouldShowAnswer: PropTypes.func.isRequired,
+  shouldShowAnswer: PropTypes.bool.isRequired,
+  showAnswer: PropTypes.func.isRequired,
 };
 
 export default QuestionCard;

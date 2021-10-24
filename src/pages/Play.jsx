@@ -11,10 +11,23 @@ class Play extends Component {
     super(props);
     this.state = {
       answerIndex: 0,
-      showAnswer: false,
+      seconds: 5,
+      shouldShowAnswer: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.shouldShowAnswer = this.shouldShowAnswer.bind(this);
+    this.showAnswer = this.showAnswer.bind(this);
+  }
+
+  componentDidMount() {
+    const ONE_SECOND = 1000;
+    this.counter = setInterval(() => {
+      this.setState(({ seconds }) => ({ seconds: seconds - 1 }));
+    }, ONE_SECOND);
+  }
+
+  componentDidUpdate() {
+    const { seconds } = this.state;
+    if (seconds === 0) clearInterval(this.counter);
   }
 
   nextQuestion() {
@@ -29,18 +42,18 @@ class Play extends Component {
 
       return {
         answerIndex: newIndex,
-        showAnswer: false,
+        shouldShowAnswer: false,
       };
     });
   }
 
-  shouldShowAnswer() {
-    this.setState({ showAnswer: true });
+  showAnswer() {
+    this.setState({ shouldShowAnswer: true });
   }
 
   render() {
     const { data } = this.props;
-    const { answerIndex, showAnswer } = this.state;
+    const { answerIndex, seconds, shouldShowAnswer } = this.state;
 
     const { response_code: responseCode, results } = data;
 
@@ -61,9 +74,12 @@ class Play extends Component {
         <QuestionCard
           data={ results[answerIndex] }
           nextQuestion={ this.nextQuestion }
-          showAnswer={ showAnswer }
-          shouldShowAnswer={ this.shouldShowAnswer }
+          // shouldShowAnswer={ shouldShowAnswer }
+          shouldShowAnswer={ (seconds === 0) ? true : shouldShowAnswer }
+          // Solution to the problem of showing the answer after the timer
+          showAnswer={ this.showAnswer }
         />
+        <p className="timer">{`Tempo: ${seconds}`}</p>
       </div>
     );
   }

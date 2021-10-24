@@ -4,28 +4,8 @@ import Answers from './Answers';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seconds: 5,
-    };
-  }
-
-  componentDidMount() {
-    const ONE_SECOND = 1000;
-    this.counter = setInterval(() => {
-      this.setState(({ seconds }) => ({ seconds: seconds - 1 }));
-    }, ONE_SECOND);
-  }
-
-  componentDidUpdate() {
-    const { seconds } = this.state;
-    if (seconds === 0) clearInterval(this.counter);
-  }
-
   render() {
-    const { data, nextQuestion, shouldShowAnswer, showAnswer } = this.props;
-    const { seconds } = this.state;
+    const { data, nextQuestion, seconds, shouldShowAnswer, showAnswer } = this.props;
 
     const {
       category,
@@ -79,6 +59,7 @@ QuestionCard.propTypes = {
     difficulty: PropTypes.string.isRequired,
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  seconds: PropTypes.number.isRequired,
   shouldShowAnswer: PropTypes.bool.isRequired,
   showAnswer: PropTypes.func.isRequired,
 };

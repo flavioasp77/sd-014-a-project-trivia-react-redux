@@ -2,15 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import verifyRange from '../utils/mix';
 import Header from '../components/Header';
 import '../style/Game.css';
 
 let control = 1;
 
-const RANGE025 = 0.25;
-const RANGE05 = 0.5;
-const RANGE075 = 0.75;
 const magicNumber = '0.33';
 const timer = 30;
 
@@ -19,10 +15,9 @@ class Game extends React.Component {
     super();
     this.state = {
       index: 0,
-      //  remainingTime: timer,
       disabled: false,
-      colorRight: '',
-      colorWrong: '',
+      correct: '',
+      wrong: '',
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
@@ -65,146 +60,57 @@ class Game extends React.Component {
 
   handleClick() {
     this.setState({
-      colorRight: 'answer-correct',
-      colorWrong: 'answer-incorrect',
+      correct: 'answer-correct',
+      wrong: 'answer-incorrect',
+      disabled: true,
     });
   }
 
-  mixBoolean(correctAnswer, incorretAnswers) {
-    const { disabled, colorRight, colorWrong } = this.state;
-    return (
-      <>
-        <button
-          type="button"
-          data-testid="wrong-answer-0"
-          onClick={ this.handleClick }
-          className={ colorWrong }
-        >
-          { incorretAnswers[0] }
-        </button>
-        <button
-          type="button"
-          data-testid="correct-answer"
-          disabled={ disabled }
-          onClick={ this.handleClick }
-          className={ colorRight }
-        >
-          { correctAnswer }
-        </button>
-      </>
-    );
+  shuffleQuestions(array) {
+    const shufflingArray = array.map((question, i) => {
+      const answerObject = {
+        value: i === 0 ? 'correct' : 'wrong',
+        answer: question,
+        index: i === 0 ? 0 : i - 1,
+      };
+      question = answerObject;
+      return question;
+    });
+
+    for (let i = shufflingArray.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * i);
+      const k = shufflingArray[i];
+      shufflingArray[i] = shufflingArray[j];
+      shufflingArray[j] = k;
+    }
+    return shufflingArray;
   }
 
-  mixMultiple(correctAnswer, incorretAnswers, randomic) {
-    const { disabled, colorRight, colorWrong } = this.state;
+  renderQuestions(answerArray) {
+    const { correct, wrong, disabled } = this.state;
+    const shuffledAnswers = this.shuffleQuestions(answerArray);
 
-    const rightAnswer = (
-      <>
-        <button
-          type="button"
-          data-testid="correct-answer"
-          disabled={ disabled }
-          className={ colorRight }
-          onClick={ this.handleClick }
-        >
-          { correctAnswer }
-        </button>
-        <br />
-      </>
-    );
-
-    const incorrectMaped = incorretAnswers.map((incorrect, i) => (
-      <section key={ i }>
-        <button
-          type="button"
-          data-testid={ `wrong-answer-${i}` }
-          key={ i }
-          disabled={ disabled }
-          onClick={ this.handleClick }
-          className={ colorWrong }
-        >
-          { incorrect }
-        </button>
-        <br />
-      </section>
-    ));
-    if (randomic <= RANGE05) {
-      const arrangement = verifyRange(RANGE05, incorrectMaped, rightAnswer);
-      return arrangement;
-    }
-    if (randomic <= RANGE075) {
-      const arrangement = verifyRange(RANGE075, incorrectMaped, rightAnswer);
-      return arrangement;
-    }
-    const arrangement = [...incorrectMaped, rightAnswer];
-    return arrangement;
-  }
-
-  renderBooleanNotMixed(correctAnswer, incorretAnswers) {
-    const { colorRight, colorWrong } = this.state;
     return (
       <>
-        <button
-          type="button"
-          data-testid="correct-answer"
-          onClick={ this.handleClick }
-          className={ colorRight }
-        >
-          { correctAnswer }
-        </button>
-        <button
-          type="button"
-          data-testid="wrong-answer-0"
-          onClick={ this.handleClick }
-          className={ colorWrong }
-        >
-          { incorretAnswers[0] }
-        </button>
-      </>
-    );
-  }
-
-  renderQuestions(objectQuestion) {
-    const { colorRight, colorWrong } = this.state;
-    const { type, correct_answer: correctAnswer } = objectQuestion;
-    const { incorrect_answers: incorretAnswers } = objectQuestion;
-    const randomic = Math.random();
-    const { disabled } = this.state;
-    if (type === 'boolean') {
-      if (randomic > RANGE05) {
-        return this.mixBoolean(correctAnswer, incorretAnswers);
-      }
-      this.renderBooleanNotMixed(correctAnswer, incorretAnswers);
-    }
-    if (randomic > RANGE025) {
-      return this.mixMultiple(correctAnswer, incorretAnswers, randomic);
-    }
-    return (
-      <>
-        <button
-          type="button"
-          data-testid="correct-answer"
-          onClick={ this.handleClick }
-          className={ colorRight }
-          disabled={ disabled }
-        >
-          { correctAnswer }
-        </button>
-        { incorretAnswers.map((incorrect, i) => (
+        { shuffledAnswers.map((answer, i) => (
           <section key={ i }>
             <br />
             <button
               type="button"
-              data-testid={ `wrong-answer-${i}` }
+              data-testid={
+                answer.value === 'correct' ? 'correct-answer'
+                  : `wrong-answer-${answer.index}`
+              }
               key={ i }
               disabled={ disabled }
               onClick={ this.handleClick }
-              className={ colorWrong }
+              className={ answer.value === 'correct' ? correct : wrong }
             >
-              {incorrect}
+              { answer.answer }
             </button>
           </section>
         )) }
+        { this.countdownTimer() }
       </>
     );
   }
@@ -215,7 +121,12 @@ class Game extends React.Component {
 
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     const objectQuestion = arrayQuestions[index];
-    const { category, question } = objectQuestion;
+    const {
+      category,
+      question,
+      incorrect_answers: incorrectAnswers,
+      correct_answer: correctAnswer } = objectQuestion;
+    const answers = [correctAnswer, ...incorrectAnswers];
     return (
       <>
         <Header />
@@ -224,8 +135,7 @@ class Game extends React.Component {
           <br />
           <section data-testid="question-text">{ question }</section>
           <br />
-          { this.renderQuestions(objectQuestion) }
-          { this.countdownTimer() }
+          { this.renderQuestions(answers) }
         </section>
       </>
     );

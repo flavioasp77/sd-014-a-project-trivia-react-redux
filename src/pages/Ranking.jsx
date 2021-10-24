@@ -4,7 +4,7 @@ export default class Ranking extends React.Component {
   render() {
     return (
       <main id="ranking">
-        <h1>Ranking</h1>
+        <h1 data-testid="ranking-title">Ranking</h1>
       </main>
     );
   }

@@ -21,7 +21,7 @@ class Question extends React.Component {
 
   render() {
     const { green, red } = this.state;
-    const { questionCurrent: { question, category }, questionCurrent,
+    const { questionCurrent: { question, category }, questionCurrent, timer,
     } = this.props;
     return (
       <section>
@@ -37,6 +37,7 @@ class Question extends React.Component {
             type="button"
             value={ questionCurrent.correct_answer }
             style={ { border: green } }
+            disabled={ timer === 0 }
           >
             { questionCurrent.correct_answer }
           </button>
@@ -48,6 +49,7 @@ class Question extends React.Component {
               type="button"
               onClick={ () => this.correctAnswer(wrong, questionCurrent.correct_answer) }
               style={ { border: red } }
+              disabled={ timer === 0 }
             >
               { wrong }
             </button>

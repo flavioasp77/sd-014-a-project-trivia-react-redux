@@ -15,7 +15,11 @@
   flex-direction: column;
   justify-content: space-evenly;
   margin-left: 2rem;
-  width: 50%;
+  width: 80%;
+}
+
+.answers-container * {
+  margin: 0.5rem;
 }
 
 .correct {

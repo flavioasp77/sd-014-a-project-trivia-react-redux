@@ -7,7 +7,7 @@ class QuestionCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seconds: 30,
+      seconds: 5,
     };
   }
 
@@ -35,8 +35,8 @@ class QuestionCard extends Component {
     } = data;
 
     return (
-      <>
-        <div className="question-card">
+      <div className="question-card">
+        <div className="container-question-card">
           <div className="question-container">
             <p className="question-category" data-testid="question-category">
               {category}
@@ -45,15 +45,15 @@ class QuestionCard extends Component {
               {question}
             </p>
           </div>
+          <span className="timer">{`Tempo: ${seconds}`}</span>
+        </div>
+        <div className="container-question-card">
           <Answers
             correctAnswer={ correct }
             incorrectAnswers={ incorrect }
             onAnswerClick={ showAnswer }
             showAnswer={ shouldShowAnswer || seconds === 0 }
           />
-        </div>
-        <div className="container-timer">
-          <p className="timer">{`Tempo: ${seconds}`}</p>
           {(shouldShowAnswer || seconds === 0) && (
             <button
               className="btn-next"
@@ -65,7 +65,7 @@ class QuestionCard extends Component {
             </button>
           )}
         </div>
-      </>
+      </div>
     );
   }
 }

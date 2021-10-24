@@ -1,8 +1,11 @@
 import React from 'react';
+import { Redirect } from 'react-router';
+
+import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import QuestionCard from '../components/QuestionCard';
 import opentdbAPI from '../services/opentdbAPI';
-import Loading from '../components/Loading';
 
 const QUESTIONS_AMOUNT = 5;
 
@@ -32,6 +35,7 @@ export default class Trivia extends React.Component {
     this.setState({ score: score + (answer ? 1 : 0) });
   }
 
+  // ver https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array ***
   shuffle(array) {
     for (let i = array.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -46,19 +50,29 @@ export default class Trivia extends React.Component {
       return (<Loading />);
     }
 
-    const oneQuestion = questions.shift();
-    const { category, question } = oneQuestion;
-    const correctAnswer = oneQuestion.correct_answer;
-    const incorrectAnswers = oneQuestion.incorrect_answers;
+    if (questions.length === 0) {
+      return (<Redirect to="/feedback" />);
+    }
+
+    const {
+      category,
+      question,
+      difficulty,
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+    } = questions.shift();
     const options = this.shuffle([correctAnswer, ...incorrectAnswers]);
 
     return (
       <>
         <Header />
         <QuestionCard
-          data={ { category, question, correctAnswer, incorrectAnswers, options } }
+          data={
+            { category, difficulty, question, correctAnswer, incorrectAnswers, options }
+          }
           callback={ this.handleAnswer }
         />
+        <Footer />
       </>
     );
   }

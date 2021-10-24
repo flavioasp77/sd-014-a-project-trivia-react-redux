@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { setUserData } from '../redux/actions';
+import Footer from '../components/Footer';
+import { setPlayerData } from '../redux/actions';
 import opentdbAPI from '../services/opentdbAPI';
 
 import logo from '../trivia.png';
@@ -17,7 +18,7 @@ class Login extends React.Component {
 
     this.state = {
       name: '',
-      email: '',
+      gravatarEmail: '',
       redirect: '',
     };
 
@@ -32,10 +33,10 @@ class Login extends React.Component {
 
   async handleSubmit(event) {
     const { dispatchPayload } = this.props;
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
 
     event.preventDefault();
-    dispatchPayload({ name, email });
+    dispatchPayload({ name, assertions: 0, score: 0, gravatarEmail });
 
     await opentdbAPI.fetchToken();
 
@@ -55,20 +56,8 @@ class Login extends React.Component {
     );
   }
 
-  footer() {
-    return (
-      <footer>
-        <p>
-          Projeto Trivia React Redux, Grupo 5, Turma 14-A
-          <br />
-          Augusto Raminelli, Daniel Custódio, Gustavo Dias, Marcello Alves, Victor Varges
-        </p>
-      </footer>
-    );
-  }
-
   render() {
-    const { name, email, redirect } = this.state;
+    const { name, gravatarEmail, redirect } = this.state;
 
     if (redirect) {
       return <Redirect to={ redirect } />;
@@ -80,7 +69,7 @@ class Login extends React.Component {
         <main>
           <form onSubmit={ this.handleSubmit }>
             <fieldset>
-              <h1>THIS IS LOGIN</h1>
+              <h1>Login</h1>
               <Input
                 htmlFor="name"
                 label="Nome"
@@ -90,16 +79,16 @@ class Login extends React.Component {
                 value={ name }
               />
               <Input
-                htmlFor="email"
+                htmlFor="gravatarEmail"
                 label="E-mail"
                 testid="input-gravatar-email"
                 onChange={ this.handleChange }
                 type="text"
-                value={ email }
+                value={ gravatarEmail }
               />
               <Button
                 testid="btn-play"
-                disabled={ !name.length || !this.validateEmail(email) }
+                disabled={ !name.length || !this.validateEmail(gravatarEmail) }
                 value="Jogar"
               />
               <Button
@@ -110,7 +99,7 @@ class Login extends React.Component {
             </fieldset>
           </form>
         </main>
-        { this.footer() }
+        <Footer />
       </>
     );
   }
@@ -121,7 +110,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchPayload: (payload) => dispatch(setUserData(payload)),
+  dispatchPayload: (payload) => dispatch(setPlayerData(payload)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

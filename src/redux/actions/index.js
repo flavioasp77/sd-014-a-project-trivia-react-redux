@@ -1,6 +1,6 @@
-export const SET_USER_DATA = 'LOGIN';
+export const SET_PLAYER_DATA = 'SET_PLAYER_DATA';
 
-export const setUserData = (payload) => ({
-  type: SET_USER_DATA,
+export const setPlayerData = (payload) => ({
+  type: SET_PLAYER_DATA,
   payload,
 });

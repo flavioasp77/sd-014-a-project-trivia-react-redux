@@ -17,14 +17,14 @@ class Game extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.timerPass = this.timerPass.bind(this);
+    this.timerRunning = this.timerRunning.bind(this);
   }
 
   componentDidMount() {
-    setInterval(() => this.timerPass(), ONE_SECOND);
+    setInterval(() => this.timerRunning(), ONE_SECOND);
   }
 
-  timerPass() {
+  timerRunning() {
     this.setState((prevState) => (
       { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }));
   }

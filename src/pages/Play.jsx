@@ -11,8 +11,8 @@ class Play extends Component {
     super(props);
     this.state = {
       answerIndex: 0,
-      seconds: 30,
       shouldShowAnswer: false,
+      timer: 30,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
@@ -23,8 +23,8 @@ class Play extends Component {
   }
 
   componentDidUpdate() {
-    const { seconds } = this.state;
-    if (seconds === 0) clearInterval(this.counter);
+    const { timer } = this.state;
+    if (timer === 0) clearInterval(this.counter);
   }
 
   componentWillUnmount() {
@@ -34,7 +34,7 @@ class Play extends Component {
   setTimer() {
     const ONE_SECOND = 1000;
     this.counter = setInterval(() => {
-      this.setState(({ seconds }) => ({ seconds: seconds - 1 }));
+      this.setState(({ timer }) => ({ timer: timer - 1 }));
     }, ONE_SECOND);
   }
 
@@ -42,7 +42,7 @@ class Play extends Component {
     const { data, history } = this.props;
     const { results } = data;
 
-    this.setState({ seconds: 30 });
+    this.setState({ timer: 30 });
     // Reset the timer when the user clicks on the next question
 
     this.setState(({ answerIndex }) => {
@@ -60,12 +60,12 @@ class Play extends Component {
   }
 
   showAnswer() {
-    this.setState({ seconds: 0, shouldShowAnswer: true });
+    this.setState({ shouldShowAnswer: true, timer: 0 });
   }
 
   render() {
     const { data } = this.props;
-    const { answerIndex, seconds, shouldShowAnswer } = this.state;
+    const { answerIndex, shouldShowAnswer, timer } = this.state;
 
     const { response_code: responseCode, results } = data;
 
@@ -86,10 +86,10 @@ class Play extends Component {
         <QuestionCard
           data={ results[answerIndex] }
           nextQuestion={ this.nextQuestion }
-          seconds={ seconds }
           shouldShowAnswer={ shouldShowAnswer }
           // Solution to the problem of showing the answer after the timer
           showAnswer={ this.showAnswer }
+          timer={ timer }
         />
       </>
     );

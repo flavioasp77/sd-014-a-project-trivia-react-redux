@@ -5,7 +5,7 @@ import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
   render() {
-    const { data, nextQuestion, seconds, shouldShowAnswer, showAnswer } = this.props;
+    const { data, nextQuestion, shouldShowAnswer, showAnswer, timer } = this.props;
 
     const {
       category,
@@ -25,16 +25,16 @@ class QuestionCard extends Component {
               {question}
             </p>
           </div>
-          <span className="timer">{`Tempo: ${seconds}`}</span>
+          <span className="timer">{`Tempo: ${timer}`}</span>
         </div>
         <div className="container-question-card">
           <Answers
             correctAnswer={ correct }
             incorrectAnswers={ incorrect }
             onAnswerClick={ showAnswer }
-            showAnswer={ shouldShowAnswer || seconds === 0 }
+            showAnswer={ shouldShowAnswer || timer === 0 }
           />
-          {(shouldShowAnswer || seconds === 0) && (
+          {(shouldShowAnswer || timer === 0) && (
             <button
               className="btn-next"
               data-testid="btn-next"
@@ -59,9 +59,9 @@ QuestionCard.propTypes = {
     difficulty: PropTypes.string.isRequired,
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
-  seconds: PropTypes.number.isRequired,
   shouldShowAnswer: PropTypes.bool.isRequired,
   showAnswer: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
 export default QuestionCard;

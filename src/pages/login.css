@@ -1,0 +1,82 @@
+body {
+  background-color: #2ec18b;
+}
+
+.trivia-logo {
+  max-width: 150px;
+}
+
+.trivia-logo:hover {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.input-login {
+	margin-top: 10px;
+  border: 2px solid #2ec18b;
+	border-radius: 4px;
+	display: flex;
+	font-family: inherit;
+	font-size: 14px;
+	padding: 10px;
+  margin-left: 10px;
+	width: 450px;
+}
+
+.btn-login {
+  background-color: #036b52;
+	border-radius: 4px;
+  border-style: none;
+	color: #fff;
+	display: flexbox;
+	font-family: inherit;
+	font-size: 16px;
+	padding: 10px;
+	margin-top: 15px;
+	margin-right: 15px;
+  width: 200px;
+  cursor: pointer;
+
+-webkit-transition: background 0.5s 0s ease;
+-moz-transition: background 0.5s 0s ease;
+-o-transition: background 0.5s 0s ease;
+transition: background 0.5s 0s ease;
+}
+
+.btn-login:hover {
+  background-color: #1d1d1d;
+}
+
+.form-login {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid #f8f8f8;
+  border-radius: 0.2rem;
+  width: 500px;
+  padding: 10px;
+  justify-content: center;
+  text-align: center;
+  background-color: whitesmoke;
+}

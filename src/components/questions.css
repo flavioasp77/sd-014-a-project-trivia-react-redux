@@ -1,3 +1,39 @@
+.header {
+  background-color: #036b52;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userInfo {
+  margin-top: 10px;
+  margin-right: 50px;
+}
+
+.userInfo, img, span {
+  margin-right: 10px;
+  color: #f8f8f8;
+}
+
+.trivia-logo-header {
+  max-width: 150px;
+  margin-top: 10px;
+  margin-left: 50px;
+}
+
+.questions {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid #f8f8f8;
+  border-radius: 0.2rem;
+  width: 500px;
+  padding: 10px;
+  justify-content: center;
+  text-align: center;
+  background-color: whitesmoke;
+}
+
 .section-answers {
   display: flex;
 }

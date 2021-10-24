@@ -67,6 +67,7 @@ class Questions extends Component {
 
   handleNextBtn() {
     const { atualQuestion } = this.state;
+    this.shuffleButtons();
 
     this.setState({
       atualQuestion: atualQuestion + 1,
@@ -111,7 +112,7 @@ class Questions extends Component {
     const { atualQuestion, order, click, timer } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
-      <div>
+      <div className="questions">
         <section>
           <h3 data-testid="question-category">
             {

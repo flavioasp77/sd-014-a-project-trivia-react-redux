@@ -40,9 +40,11 @@ class Header extends React.Component {
           src={ src }
           alt="userAvatar"
         /> }
-        <p data-testid="header-score">
+        <p>
           Seu placar:&nbsp;
-          { score }
+          <span data-testid="header-score">
+            { score }
+          </span>
         </p>
       </div>
     );

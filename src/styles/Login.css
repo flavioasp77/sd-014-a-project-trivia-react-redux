@@ -64,29 +64,29 @@ body {
 button {
   border: none;
   border-radius: 5px;
+  color: black;
   margin-right: 5px;
   padding: 10px;
-  color: black;
 }
 
 fieldset {
-  background-color: rgb(180 , 250 , 180);
+  background-color: rgb(180, 250, 180);
   border: none;
 }
 
 form {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 footer {
-  background-color: rgb(180 , 250 , 180);
-  padding: 10px;
+  background-color: rgb(180, 250, 180);
   border-left: 5px solid green;
-  position: fixed;
   bottom: 0;
   left: 0;
+  padding: 10px;
+  position: fixed;
   width: 100%;
 }
 

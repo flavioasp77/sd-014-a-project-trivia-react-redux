@@ -1,4 +1,4 @@
-import { SET_USER } from '../actions/indexActions';
+import { SET_USER } from '../actions/userActions';
 
 const INITIAL_STATE = {
   email: '',

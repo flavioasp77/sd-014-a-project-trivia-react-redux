@@ -69,16 +69,16 @@ button {
 }
 
 button:disabled {
-  background: rgb(255, 255, 255);
-  opacity: 0.6;
+  background: white;
   color: black;
-}
-
-button:disabled:hover {
-  transform: none;
+  opacity: 0.6;
 }
 
 button:hover {
   opacity: 0.9;
   transform: translateY(-2px);
+}
+
+button:disabled:hover {
+  transform: none;
 }

@@ -57,22 +57,22 @@
 
 .game__alternatives button {
   background-color: rgb(38, 0, 99);
-  border: 3px solid rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
+  border: 3px solid white;
+  color: white;
   font-weight: 800;
 }
 
 .game__alternatives button:disabled {
   background: rgb(160, 160, 160);
-  opacity: 0.6;
   color: rgb(75, 75, 75);
+  opacity: 0.6;
 }
 
 .game__options {
   align-items: center;
   display: flex;
-  gap: 10px;
   flex-direction: column;
+  gap: 10px;
   height: 10rem;
   justify-content: center;
 }

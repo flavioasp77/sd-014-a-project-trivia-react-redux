@@ -16,26 +16,28 @@ class Question extends React.Component {
   }
 
   newScores(scoreCurrent) {
-    const playerOld = JSON.parse(localStorage.getItem('player'));
-    document.getElementById('score').innerHTML = (!playerOld ? 0
-      : JSON.stringify(...Object.values(
-        { score: playerOld.score + scoreCurrent },
-      )));
+    const stateOld = JSON.parse(localStorage.getItem('state'));
+    this.setState({});
+    document.getElementById('score').innerHTML = (!stateOld ? 0
+      : JSON.stringify(stateOld.player.score + scoreCurrent));
   }
 
   resultCorrect(scoreCurrent) {
-    const player = {
-      name: '',
-      assertions: '',
-      score: scoreCurrent,
-      gravatarEmail: '',
+    const state = {
+      player: {
+        name: '',
+        assertions: '',
+        score: scoreCurrent,
+        gravatarEmail: '',
+      },
     };
-    const playerStorage = JSON.parse(localStorage.getItem('player'));
+    const stateStorage = JSON.parse(localStorage.getItem('state'));
 
-    return ((!playerStorage ? localStorage.setItem('player', JSON.stringify(player))
-      : (localStorage.setItem('player', JSON.stringify({
-        ...playerStorage,
-        ...{ score: playerStorage.score + scoreCurrent } }))),
+    return ((!stateStorage ? localStorage.setItem('state', JSON.stringify(state))
+      : (localStorage.setItem('state', JSON.stringify({
+        ...stateStorage,
+        player: { ...stateStorage.player,
+          score: stateStorage.player.score + scoreCurrent } }))),
     this.newScores(scoreCurrent)));
   }
 

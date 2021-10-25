@@ -9,7 +9,7 @@ class Question extends Component {
   }
 
   answerButtons(question) {
-    const { answers, handleResponse } = this.props;
+    const { game: { answers }, handleResponse } = this.props;
     return answers.map((answer, i) => {
       if (answer.item === question.correct_answer) {
         return (
@@ -45,7 +45,9 @@ class Question extends Component {
   }
 
   render() {
-    const { question, nextQuestion, handleNextQuestion } = this.props;
+    const { game: { questions, index, nextQuestionBtn },
+      handleNextQuestion } = this.props;
+    const question = questions[index];
     return (
       <section>
         <h3 data-testid="question-category">
@@ -59,7 +61,7 @@ class Question extends Component {
             {this.answerButtons(question)}
           </ul>
         </div>
-        {nextQuestion
+        {nextQuestionBtn
         && (
           <button
             onClick={ handleNextQuestion }
@@ -74,15 +76,13 @@ class Question extends Component {
 }
 
 Question.propTypes = {
-  question: PropTypes.objectOf(PropTypes.any).isRequired,
-  answers: PropTypes.arrayOf(PropTypes.any).isRequired,
-  nextQuestion: PropTypes.bool.isRequired,
+  game: PropTypes.objectOf(PropTypes.any).isRequired,
   handleNextQuestion: PropTypes.func.isRequired,
   handleResponse: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ game: { answers } }) => ({
-  answers,
+const mapStateToProps = ({ game }) => ({
+  game,
 });
 
 export default connect(mapStateToProps, null)(Question);

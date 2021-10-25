@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Select from '../components/Select';
-import { setNewSettings as setNewSettingsAction } from '../actions/indexActions';
+import { setNewSettings as setNewSettingsAction } from '../actions/settingsActions';
 
 class Settings extends Component {
   constructor() {

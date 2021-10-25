@@ -5,6 +5,8 @@ export const LOGIN = 'LOGIN';
 export const TOKEN_SUCCESS = 'TOKEN_SUCCESS';
 export const TOKEN_ERROR = 'TOKEN_ERROR';
 export const GET_QUESTION = 'GET_QUESTION';
+export const GET_SCORE = 'GET_SCORE';
+export const GET_GRAVATAR = 'GET_GRAVATAR';
 
 export const login = ({ name, email }) => ({
   type: LOGIN,
@@ -32,6 +34,20 @@ export const questionAction = (questions) => ({
   type: GET_QUESTION,
   payload: {
     questions,
+  },
+});
+
+export const scoreAction = (score) => ({
+  type: GET_SCORE,
+  payload: {
+    score,
+  },
+});
+
+export const gravatarAction = (infoUser) => ({
+  type: GET_GRAVATAR,
+  payload: {
+    infoUser,
   },
 });
 

@@ -10,6 +10,7 @@ import Timer from './Timer';
 import ButtonNext from './ButtonNext';
 
 const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
+const LIMIT = 4;
 
 class Questions extends Component {
   constructor() {
@@ -80,12 +81,10 @@ class Questions extends Component {
   render() {
     const { questions, setRanking } = this.props;
     const { isClick, time, disabled, questionActual } = this.state;
-
-    if (questionActual > 4) {
+    if (questionActual > LIMIT) {
       setRanking();
       return <Redirect to="/feedback" />;
     }
-
     if (questions.length > 0) {
       return (
         <div>

@@ -36,9 +36,9 @@ const setQuestions = (payload) => ({
   payload,
 });
 
-export const setScore = (payload) => ({
+export const setScore = (score) => ({
   type: SET_SCORE,
-  payload,
+  score,
 });
 
 const isFetching = () => ({ type: IS_FETCHING });

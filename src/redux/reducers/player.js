@@ -15,9 +15,11 @@ export default function player(state = INITIAL_STATE, action) {
     return { ...state, ...action.payload };
   case SET_SCORE:
     localSaveItem('state', { player: { ...state,
-      score: action.payload,
+      score: state.score + action.score,
       assertions: state.assertions + 1 } });
-    return { ...state, score: action.payload, assertions: state.assertions + 1 };
+    return { ...state,
+      score: state.score + action.score,
+      assertions: state.assertions + 1 };
   case SET_RANKING:
     updateRanking(state);
     return state;

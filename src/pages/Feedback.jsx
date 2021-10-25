@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -38,11 +39,22 @@ class Feedback extends Component {
         <Header />
         { this.feedbackMessage() }
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
         </Link>
       </div>
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Feedback;

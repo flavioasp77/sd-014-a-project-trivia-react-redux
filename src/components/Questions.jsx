@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Loading from './Loading';
+import { updateScore } from '../actions';
 import '../Game.css';
 
 class Questions extends Component {
@@ -24,7 +25,10 @@ class Questions extends Component {
     // this.shuffleAnswers = this.shuffleAnswers.bind(this);
   }
 
-  componentDidMount() { this.timer(); }
+  componentDidMount() {
+    this.timer();
+    console.log(Object.keys(localStorage));
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { questions } = this.props;
@@ -75,15 +79,14 @@ class Questions extends Component {
     });
   }
 
-  scoreStorage() {
+  async scoreStorage() {
     const { score } = this.state;
-    const storage = JSON.parse(localStorage.getItem('state'));
-    const NEW_STATE = {
-      ...storage,
-      score,
-    };
-    const stateUpdt = JSON.stringify(NEW_STATE);
+    const { changeScore } = this.props;
+    const storage = await JSON.parse(localStorage.getItem('state'));
+    storage.player.score = score;
+    const stateUpdt = await JSON.stringify(storage);
     localStorage.setItem('state', stateUpdt);
+    changeScore(score);
   }
 
   timer() {
@@ -152,6 +155,7 @@ class Questions extends Component {
 Questions.propTypes = {
   questions: PropTypes.arrayOf(Object).isRequired,
   loading: PropTypes.bool.isRequired,
+  changeScore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -159,4 +163,8 @@ const mapStateToProps = (state) => ({
   loading: state.questions.loading,
 });
 
-export default connect(mapStateToProps)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  changeScore: (payload) => dispatch(updateScore(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

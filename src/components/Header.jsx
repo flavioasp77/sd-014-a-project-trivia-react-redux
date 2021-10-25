@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Header extends React.Component {
   constructor() {
     super();
     this.state = {
       username: '',
-      score: 0,
     };
     this.headerDisplay = this.headerDisplay.bind(this);
   }
@@ -16,15 +17,15 @@ class Header extends React.Component {
 
   somaScore() {
     const player = JSON.parse(localStorage.getItem('state'));
-    const { username, score } = player;
+    const { username } = player;
     this.setState({
       username,
-      score,
     });
   }
 
   headerDisplay() {
-    const { score, username } = this.state;
+    const { username } = this.state;
+    const { score } = this.props;
     return (
       <>
         <h3 data-testid="header-player-name">{username}</h3>
@@ -44,4 +45,12 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  score: PropTypes.number.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  score: state.questions.score,
+});
+
+export default connect(mapStateToProps)(Header);

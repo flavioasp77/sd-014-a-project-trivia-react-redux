@@ -14,7 +14,6 @@ class Game extends Component {
     this.state = {
       currentQuestion: 0,
       questionsList: [],
-      isShuffled: false,
       seconds: 30,
       disabled: false,
       classname: '',
@@ -24,19 +23,21 @@ class Game extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.resetSeconds = this.resetSeconds.bind(this);
     this.shuffle = this.shuffle.bind(this);
+    this.createTimer = this.createTimer.bind(this);
   }
 
   componentDidMount() {
-    const ONE_SECOND = 1000;
-    this.cronometerInterval = setInterval(() => {
-      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
-    }, ONE_SECOND);
+    this.createTimer();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const MIN_SECONDS = 0;
+    const { currentQuestion } = this.state;
+    const MIN_SECONDS = 1;
     if (prevState.seconds === MIN_SECONDS) {
       this.resetSeconds();
+    }
+    if (prevState.currentQuestion !== currentQuestion) {
+      this.createTimer();
     }
   }
 
@@ -47,20 +48,30 @@ class Game extends Component {
     });
   }
 
+  createTimer() {
+    const ONE_SECOND = 1000;
+    this.cronometerInterval = setInterval(() => {
+      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+    }, ONE_SECOND);
+  }
+
   resetSeconds() {
     this.setState({
       seconds: 0,
       disabled: true,
+      userResponse: true,
     });
+    clearInterval(this.cronometerInterval);
   }
 
   shuffle(array) {
-    this.setState({
-      isShuffled: true,
-    });
-    return array.map((value) => ({ value, sort: Math.random() }))
+    const answers = array.map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
+    this.setState({
+      isShuffled: true,
+      answers,
+    });
   }
 
   treatAnswersData(questionInfo) {
@@ -77,28 +88,31 @@ class Game extends Component {
 
   handleClick({ target }) {
     const { currentQuestion } = this.state;
+    const BUTTON_ID = target.getAttribute('data-testid');
     const MAX_CLICKS = 4;
-    if (target.getAttribute('data-testid') === 'btn-next'
+    if (BUTTON_ID === 'btn-next'
       && currentQuestion < MAX_CLICKS) {
       this.setState((prevState) => ({
-        isShuffled: false,
         currentQuestion: prevState.currentQuestion + 1,
         classname: '',
         userResponse: false,
         seconds: 30,
+        disabled: false,
+        isShuffled: false,
       }));
     }
-    if (target.getAttribute('data-testid').includes('answer')) {
+    if (BUTTON_ID.includes('answer')) {
       this.setState({
         classname: 'answers-reveal',
         userResponse: true,
       });
+      clearInterval(this.cronometerInterval);
     }
   }
 
   render() {
     const { currentQuestion, questionsList, disabled, seconds,
-      isShuffled, classname, userResponse } = this.state;
+      isShuffled, classname, userResponse, answers } = this.state;
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
     if (questionsList.length < 1) {
@@ -106,8 +120,8 @@ class Game extends Component {
       return (<Loading />);
     }
     const questionInfo = questionsList[currentQuestion];
-    let answers = this.treatAnswersData(questionInfo);
-    if (!isShuffled) { answers = this.shuffle(answers); }
+    const treatedAnswers = this.treatAnswersData(questionInfo);
+    if (!isShuffled) { this.shuffle(treatedAnswers); }
     return (
       <>
         <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
@@ -118,7 +132,8 @@ class Game extends Component {
               <p data-testid="question-text">{questionInfo.question}</p>
             </div>
             <div className="game__alternatives">
-              { answers.map(({ value, alternative }, index) => (
+              { answers
+              && (answers.map(({ value, alternative }, index) => (
                 <Button
                   key={ index }
                   dataTestId={ value }
@@ -126,7 +141,7 @@ class Game extends Component {
                   disabled={ disabled }
                   value={ alternative }
                 />
-              )) }
+              ))) }
             </div>
             <div className="game__options">
               <p>

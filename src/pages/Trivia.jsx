@@ -11,16 +11,33 @@ export default class Trivia extends Component {
       questions: [],
       index: 0,
       className: false,
+      timer: 30,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.sortArray = this.sortArray.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.refreshPage = this.refreshPage.bind(this);
+    this.timer = this.timer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
+    this.timer();
+  }
+
+  timer() {
+    const ONE_SECOND = 1000;
+    setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, ONE_SECOND);
+  }
+
+  resetTimer() {
+    this.setState({ timer: 30 });
   }
 
   sortArray() {
@@ -30,7 +47,7 @@ export default class Trivia extends Component {
   }
 
   async fetchApi() {
-    const TOKEN = '65553a27dab8a0319076652051e7fd436618c2ad3ee3cee08e74dcda21ce6ecd';
+    const TOKEN = 'f287138a2cd0b8e0f82ac32b307be0d26656456b95d347ae12a78a901f17f6f9';
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${TOKEN}`);
     const result = await response.json();
     // console.log('result:', result);
@@ -44,7 +61,7 @@ export default class Trivia extends Component {
   }
 
   styleSelectedMoreAlternatives() {
-    const { questions, index, className } = this.state;
+    const { questions, index, className, timer } = this.state;
     return this.sortArray().map((atual, indice) => {
       const correctOrWrong = atual === questions[index].correct_answer;
       const button = (
@@ -54,6 +71,7 @@ export default class Trivia extends Component {
           data-testid={ correctOrWrong ? 'correct-answer' : `wrong-answer-${indice}` }
           className={ className && `button-${correctOrWrong ? 'correct' : 'wrong'}` }
           onClick={ this.handleClick }
+          disabled={ timer < 0 }
         >
           {atual}
         </button>
@@ -84,7 +102,7 @@ export default class Trivia extends Component {
   }
 
   render() {
-    const { questions, index } = this.state;
+    const { questions, index, timer } = this.state;
     // console.log('Array questions:', questions, index);
 
     return (
@@ -103,6 +121,9 @@ export default class Trivia extends Component {
             </div>
           </div>
         )}
+        <span>
+          { timer <= 0 ? this.refreshPage() : timer }
+        </span>
       </main>
     );
   }

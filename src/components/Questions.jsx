@@ -18,7 +18,7 @@ class Questions extends Component {
     this.timer = this.timer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.setAnswers = this.setAnswers.bind(this);
-    // this.shuffleAnswers = this.shuffleAnswers.bind(this);
+    this.answerRenderer = this.answerRenderer.bind(this);
   }
 
   componentDidMount() { this.timer(); }
@@ -73,9 +73,33 @@ class Questions extends Component {
     }), () => this.resetTimer());
   }
 
+  answerRenderer() {
+    const { questions } = this.props;
+    const { id, timer, answers, answered } = this.state;
+    const ZERO = 0;
+    const answerMapper = answers.map((answer, index, array) => (
+      <button
+        key={ index }
+        data-testid={ questions[id].correct_answer === answer
+          ? 'correct-answer'
+          : `wrong-answer-${array.indexOf(answer)}` }
+        type="button"
+        onClick={ () => this.handleAnswer() }
+        disabled={ (timer <= ZERO) }
+        className={
+          answered
+          && (answer === questions[id].correct_answer ? 'greenBorder' : 'redBorder')
+        }
+      >
+        { answer }
+      </button>
+    ));
+    return answerMapper;
+  }
+
   render() {
     const { questions, loading } = this.props;
-    const { id, timer, answers, answered } = this.state;
+    const { id, timer } = this.state;
     const ZERO = 0;
     if (loading) return <Loading />;
     return (
@@ -87,23 +111,7 @@ class Questions extends Component {
         <h2>
           <span data-testid="question-text">{questions[id].question}</span>
         </h2>
-        { answers.map((answer, index, array) => (
-          <button
-            key={ index }
-            data-testid={ questions[id].correct_answer === answer
-              ? 'correct-answer'
-              : `wrong-answer-${array.indexOf(answer)}` }
-            type="button"
-            onClick={ () => this.handleAnswer() }
-            disabled={ (timer <= ZERO) }
-            className={
-              answered
-              && (answer === questions[id].correct_answer ? 'greenBorder' : 'redBorder')
-            }
-          >
-            { answer }
-          </button>
-        ))}
+        <this.answerRenderer />
       </div>
     );
   }

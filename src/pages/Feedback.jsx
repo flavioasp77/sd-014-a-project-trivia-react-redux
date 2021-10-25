@@ -7,12 +7,12 @@ export default class Feedback extends Component {
   render() {
     const stateStorage = getStateFromStorage();
     const { assertions, score } = stateStorage.player;
-    const MIN_SCORE = 3;
+    const MIN_ASSERTIONS = 3;
     const { history } = this.props;
     return (
       <div>
         <Header />
-        {assertions >= MIN_SCORE
+        {assertions >= MIN_ASSERTIONS
           ? <p data-testid="feedback-text">Mandou bem!</p>
           : <p data-testid="feedback-text">Podia ser melhor...</p>}
         <p data-testid="feedback-total-question">{assertions}</p>

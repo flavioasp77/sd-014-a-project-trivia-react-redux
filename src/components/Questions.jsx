@@ -48,7 +48,7 @@ class Questions extends Component {
       );
     } else {
       clearInterval(timerId);
-      this.setState({ disabled: true });
+      this.setState({ disabled: true, isClick: true });
     }
   }
 
@@ -72,6 +72,8 @@ class Questions extends Component {
     this.setState({
       questionActual: questionNext,
       isClick: false,
+      time: 30,
+      disabled: false,
     });
   }
 

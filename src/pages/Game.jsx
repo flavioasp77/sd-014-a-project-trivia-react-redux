@@ -138,7 +138,7 @@ class Game extends Component {
     if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
       let { score, assertions } = this.state;
-      assertions += assertions + 1;
+      assertions += 1;
       score += (counter * difficulty) + POINTS;
       const player = {
         player: {

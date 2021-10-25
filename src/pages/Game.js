@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
+import { Redirect } from 'react-router-dom';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -18,6 +19,7 @@ class Game extends Component {
       disabled: false,
       classname: '',
       userResponse: false,
+      redirect: false,
     };
     this.setQuestionsInState = this.setQuestionsInState.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -133,6 +135,9 @@ class Game extends Component {
         disabled: false,
         isShuffled: false,
       }));
+    } else if (BUTTON_ID === 'btn-next'
+    && currentQuestion === MAX_CLICKS) {
+      this.setState({ redirect: true });
     }
     if (BUTTON_ID.includes('answer')) {
       this.setState({
@@ -152,7 +157,7 @@ class Game extends Component {
 
   render() {
     const { currentQuestion, questionsList, disabled, seconds,
-      isShuffled, classname, userResponse, answers } = this.state;
+      isShuffled, classname, userResponse, answers, redirect } = this.state;
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
     if (questionsList.length < 1) {
@@ -164,6 +169,7 @@ class Game extends Component {
     if (!isShuffled) { this.shuffle(treatedAnswers); }
     return (
       <>
+        { redirect && <Redirect to="/feedback" />}
         <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
         <main className="game__container">
           <div className={ classname }>
@@ -185,7 +191,6 @@ class Game extends Component {
             </div>
             <div className="game__options">
               <p>
-                Tempo restante:
                 { seconds }
               </p>
               { userResponse && <Button

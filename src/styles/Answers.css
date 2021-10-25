@@ -1,0 +1,36 @@
+.answer {
+  background-color: #c4c4c4;
+  border: none;
+  cursor: pointer;
+  font-size: 2.4rem;
+  padding: 0.2rem;
+}
+
+.answer:hover {
+  opacity: 0.6;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 2rem;
+  width: 80%;
+}
+
+.answers-container * {
+  margin: 0.5rem;
+}
+
+.correct {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wrong {
+  border: 3px solid red;
+}
+
+.correct:hover, .wrong:hover {
+  cursor: default;
+  opacity: 1;
+}

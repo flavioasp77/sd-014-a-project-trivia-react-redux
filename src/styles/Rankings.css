@@ -1,0 +1,14 @@
+.rankings-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.ranking-title {
+  font-size: 4em;
+  font-weight: 400;
+  margin-bottom: 0.5em;
+  text-align: center;
+}

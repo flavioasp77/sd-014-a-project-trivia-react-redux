@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchQuestions } from '../services';
+import CountdownTimer from './CountdownTimer';
 
-export default class QuestionCard extends Component {
+class QuestionCard extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,6 +53,7 @@ export default class QuestionCard extends Component {
 
   renderButtons() {
     const { questions, questionNumber } = this.state;
+    const { disable } = this.props;
     const { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = questions[questionNumber];
@@ -60,6 +64,7 @@ export default class QuestionCard extends Component {
         data-testid="correct-answer"
         key={ questionNumber }
         onClick={ this.switchColors }
+        disabled={ disable }
       >
         { correctAnswer }
       </button>
@@ -72,6 +77,7 @@ export default class QuestionCard extends Component {
           data-testid={ `wrong-answer-${index}` }
           key={ index }
           onClick={ this.switchColors }
+          disabled={ disable }
         >
           { answers }
         </button>
@@ -90,9 +96,20 @@ export default class QuestionCard extends Component {
         <h1 data-testid="question-category">{ questions[questionNumber].category }</h1>
         <h3 data-testid="question-text">{ questions[questionNumber].question }</h3>
         { this.renderButtons() }
+        <CountdownTimer />
       </section>
     );
   }
 }
+
+QuestionCard.propTypes = {
+  disable: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  disable: state.game.disableButton,
+});
+
+export default connect(mapStateToProps)(QuestionCard);
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array

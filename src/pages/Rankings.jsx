@@ -8,7 +8,9 @@ class Rankings extends Component {
     rankings.sort((a, b) => b.score - a.score); // Sort by score in descending order
     return (
       <>
-        <h1 className="rankings-title">Rankings</h1>
+        <h1 className="ranking-title" data-testid="ranking-title">
+          Rankings
+        </h1>
         <div className="rankings-container">
           {rankings.map(({ name, picture, score }, index) => (
             <RankingCard

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GoHomeButton from '../components/GoHomeButton';
 import RankingCard from '../components/RankingCard';
 import '../styles/Rankings.css';
 
@@ -11,6 +12,7 @@ class Rankings extends Component {
         <h1 className="ranking-title" data-testid="ranking-title">
           Rankings
         </h1>
+        <GoHomeButton testId="btn-go-home" />
         <div className="rankings-container">
           {rankings.map(({ name, picture, score }, index) => (
             <RankingCard

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import GoHomeButton from '../components/GoHomeButton';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   render() {
@@ -10,11 +12,10 @@ class Feedback extends Component {
       <>
         <Header score={ scoreFromLocalStorage } />
         <span data-testid="feedback-text">Mandou bem!</span>
-        <Link to="/rankings">
-          <button data-testid="btn-ranking" type="button">
-            VER RANKING
-          </button>
+        <Link className="btn-ranking" data-testid="btn-ranking" to="/rankings">
+          VER RANKING
         </Link>
+        <GoHomeButton testId="btn-play-again" />
       </>
     );
   }

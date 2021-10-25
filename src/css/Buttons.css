@@ -1,21 +1,21 @@
 .answers {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   background-color: #607466;
+  justify-content: space-around;
   color: white;
   width: 300px;
 }
 
 .nextButton {
-  width: 200px;
   height: 35px;
-  background-color: #083D77;
+  width: 200px;
+  background-color: #083d77;
   color: white;
   font-weight: 500;
-  margin-top: 7px;
   margin-bottom: 10px;
-  margin-left: 25%;
+  margin-top: 7px;
   font-size: large;
+  margin-left: 25%;
   justify-content: center;
 }

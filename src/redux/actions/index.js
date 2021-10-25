@@ -1,3 +1,4 @@
+import categoryQuest from '../../services/categoryQuest';
 import questionApi from '../../services/questionApi';
 import triviaApi from '../../services/triviaApi';
 
@@ -8,6 +9,8 @@ export const SET_QUESTION = 'SET_QUESTION';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_GRAVATAR = 'SET_GRAVATAR';
 export const SET_RANKING = 'SET_RANKING';
+export const SET_CATEGORY = 'SET_CATEGORY';
+export const SET_CONFIG = 'SET_CONFIG';
 
 // Actions:
 export const loginAction = ({ name, email }) => ({
@@ -60,6 +63,20 @@ export const rankingAction = (ranking) => ({
   },
 });
 
+export const categoryAction = (category) => ({
+  type: SET_CATEGORY,
+  payload: {
+    category,
+  },
+});
+
+export const configAction = (config) => ({
+  type: SET_CONFIG,
+  payload: {
+    config,
+  },
+});
+
 // Assicronas:
 export const triviaApiThuk = () => async (dispatch) => {
   try {
@@ -70,9 +87,18 @@ export const triviaApiThuk = () => async (dispatch) => {
   }
 };
 
-export const questionApiThunk = (token) => async (dispatch) => {
+export const categoryApiThunk = () => async (dispatch) => {
   try {
-    const payload = await questionApi(token);
+    const payload = await categoryQuest();
+    dispatch(categoryAction(payload));
+  } catch (error) {
+    dispatch(triviaApiErrorAction(error));
+  }
+};
+
+export const questionApiThunk = (token, config) => async (dispatch) => {
+  try {
+    const payload = await questionApi(token, config);
     dispatch(questionAction(payload));
   } catch (error) {
     dispatch(triviaApiErrorAction(error));

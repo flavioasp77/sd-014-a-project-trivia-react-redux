@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import { getQuestionsThunk } from '../actions';
-import updateLocalStorage from '../services/util';
+import { getQuestionsThunk, getScore } from '../actions';
+import { writeLocalStorage, readLocalStorage } from '../services/util';
 import Loading from '../components/Loading';
 
 class Jogo extends Component {
@@ -29,7 +29,6 @@ class Jogo extends Component {
   componentDidMount() {
     this.pegarPerguntas();
     this.iniciarCronometro();
-    console.log('O intervalo está rodando');
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -79,8 +78,18 @@ class Jogo extends Component {
       }));
     }
     const { score, assertions } = this.state;
-    updateLocalStorage('score', score);
-    updateLocalStorage('assertions', assertions);
+    const { sendScore, email } = this.props;
+    let state = readLocalStorage('state');
+    state = {
+      ...state,
+      [email]: {
+        ...state[email],
+        score,
+        assertions,
+      },
+    };
+    writeLocalStorage('state', state);
+    sendScore(score);
   }
 
   iniciarCronometro() {
@@ -203,16 +212,20 @@ class Jogo extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  sendScore: (ponto) => dispatch(getScore(ponto)),
 });
 
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
+  email: state.user.email,
 });
 
 Jogo.propTypes = {
+  email: PropTypes.string.isRequired,
   getQuestions: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  sendScore: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { getTokenThunk, login as loginAction } from '../actions';
-import { writeLocalStorage } from '../services/util';
+import { writeLocalStorage, readLocalStorage } from '../services/util';
 
 class Login extends Component {
   constructor(props) {
@@ -25,14 +25,27 @@ class Login extends Component {
     event.preventDefault();
     const { email, name } = this.state;
     const { sendToken, login } = this.props;
-    const state = {
-      player: {
-        name,
-        assertions: 0,
-        score: 0,
-        gravatarEmail: email,
-      },
-    };
+    let state = readLocalStorage('state');
+    if (state === null) {
+      state = {
+        [email]: {
+          name,
+          assertions: 0,
+          score: 0,
+          gravatarEmail: email,
+        },
+      };
+    } else {
+      state = {
+        ...state,
+        [email]: {
+          name,
+          assertions: 0,
+          score: 0,
+          gravatarEmail: email,
+        },
+      };
+    }
     writeLocalStorage('state', state);
     login(email, name);
 

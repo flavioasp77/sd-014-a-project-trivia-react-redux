@@ -29,7 +29,9 @@ export const getGravatar = (image) => ({
 
 export const getScore = (score) => ({
   type: GET_SCORE,
-  payload: score,
+  payload: {
+    score,
+  },
 });
 
 export const getTokenThunk = () => async (dispatch) => {

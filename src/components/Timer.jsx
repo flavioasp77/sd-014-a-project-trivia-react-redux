@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getTime as getTimeAction } from '../actions';
 
 class Timer extends React.Component {
   constructor() {
@@ -31,10 +33,11 @@ class Timer extends React.Component {
 
   timer() {
     const { timer, updated } = this.state;
-    const { isClicked, updateBtn } = this.props;
+    const { isClicked, updateBtn, getTime } = this.props;
     if (isClicked || timer === 0) {
       clearInterval(this.cronometer);
-      if (!updated) {
+      getTime(timer);
+      if (!updated && !isClicked) {
         updateBtn();
         this.setState({
           updated: true,
@@ -54,6 +57,11 @@ class Timer extends React.Component {
 Timer.propTypes = {
   isClicked: PropTypes.bool.isRequired,
   updateBtn: PropTypes.func.isRequired,
+  getTime: PropTypes.func.isRequired,
 };
 
-export default Timer;
+const mapDispatchToProps = (dispatch) => ({
+  getTime: (timer) => dispatch(getTimeAction(timer)),
+});
+
+export default connect(null, mapDispatchToProps)(Timer);

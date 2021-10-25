@@ -2,7 +2,7 @@ export function writeLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-function readLocalStorage(key) {
+export function readLocalStorage(key) {
   const response = JSON.parse(localStorage.getItem(key));
   return response;
 }

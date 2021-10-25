@@ -4,6 +4,7 @@ export const ADD_TOKEN = 'ADD_TOKEN';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
 export const ADD_TRIVIA = 'ADD_TRIVIA';
 export const GET_USER = 'GET_USER';
+export const GET_PLAYER = 'GET_PLAYER';
 
 export const getUserAction = (payload) => ({
   type: GET_USER,
@@ -23,6 +24,11 @@ export const handleErrorAction = (message) => ({
 export const addTrivia = (data) => ({
   type: ADD_TRIVIA,
   payload: data,
+});
+
+export const registerPlayer = (player) => ({
+  type: GET_PLAYER,
+  payload: player,
 });
 
 export const getTokenActionThunk = () => async (dispatch) => {

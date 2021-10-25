@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { getTriviaActionThunk } from '../actions';
+import { getTriviaActionThunk, registerPlayer } from '../actions';
 import '../styles/Game.css';
 
 const TIME_OUT = 30000;
@@ -99,6 +99,7 @@ class Game extends Component {
 
   handleNext() {
     const { indexNext, questions } = this.state;
+    const { history } = this.props;
     if (indexNext < questions.length - 1) {
       this.setState({
         indexNext: indexNext + 1,
@@ -108,11 +109,14 @@ class Game extends Component {
         disabledBtn: false,
       });
       this.startTimeOut();
+    } else {
+      history.push('/feedback');
     }
   }
 
   handleScore(answer) {
     const { questions, counter, indexNext } = this.state;
+    const { getPlayer } = this.props;
     let difficulty;
     const HARD_SCORE = 3;
 
@@ -144,7 +148,10 @@ class Game extends Component {
       };
       this.setState({
         score,
-      }, () => localStorage.setItem('state', JSON.stringify(player)));
+      }, () => {
+        localStorage.setItem('state', JSON.stringify(player));
+        getPlayer({ ...player });
+      });
     } else {
       console.log('errou!');
     }
@@ -209,12 +216,15 @@ class Game extends Component {
 
 Game.propTypes = {
   getTrivia: PropTypes.func.isRequired,
+  getPlayer: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   token: PropTypes.string.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getTrivia: (token) => dispatch(getTriviaActionThunk(token)),
+  getPlayer: (player) => dispatch(registerPlayer(player)),
 });
 
 const mapStateToProps = (state) => ({

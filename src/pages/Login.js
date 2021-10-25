@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, fetchAPIThunk } from '../actions';
+import '../css/Login.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -39,11 +40,12 @@ class Login extends React.Component {
   render() {
     const { name, email } = this.state;
     return (
-      <>
-        <form onSubmit={ this.handleClick }>
-          <label htmlFor="name">
+      <div className="loginPage">
+        <form className="formFlex" onSubmit={ this.handleClick }>
+          <label className="labelFlex" htmlFor="name">
             Nome:
             <input
+              className="inputFlex"
               type="text"
               id="name"
               name="name"
@@ -52,9 +54,10 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="email">
+          <label className="labelFlex" htmlFor="email">
             Email:
             <input
+              className="inputFlex"
               type="email"
               id="email"
               name="email"
@@ -64,6 +67,7 @@ class Login extends React.Component {
             />
           </label>
           <button
+            className="playButton"
             type="submit"
             data-testid="btn-play"
             disabled={ !name || !email }
@@ -72,13 +76,14 @@ class Login extends React.Component {
           </button>
         </form>
         <button
+          className="confgButton"
           data-testid="btn-settings"
           type="button"
           onClick={ this.handleSettings }
         >
           Configurações
         </button>
-      </>
+      </div>
     );
   }
 }

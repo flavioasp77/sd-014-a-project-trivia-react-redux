@@ -1,0 +1,46 @@
+.mainQuestions {
+  display: flex;
+  flex-direction: row;
+  margin-top: 100px;
+}
+
+.cardQuestion {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #607466;
+  margin-right: 200px;
+  color: white;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  background-color: #488286;
+  color: black;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 90px;
+  font-size: large;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  background-color: #488286;
+  color: white;
+  margin-top: 5px;
+  font-size: x-large;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 100%;
+}

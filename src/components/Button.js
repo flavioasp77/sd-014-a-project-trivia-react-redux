@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import '../css/Buttons.css';
+
 class Button extends React.Component {
   render() {
     const {
@@ -37,6 +39,7 @@ class Button extends React.Component {
           ))}
         </div>
         <button
+          className="nextButton"
           type="button"
           data-testid="btn-next"
           onClick={ handleNextButton }

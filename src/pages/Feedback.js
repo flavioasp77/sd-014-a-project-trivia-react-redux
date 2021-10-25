@@ -4,30 +4,38 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
+import '../css/Feedback.css';
+
 class Feedback extends React.Component {
   render() {
     const { getSource } = this.props;
     const state = localStorage.getItem('state');
     const { player: { name, score, assertions } } = JSON.parse(state);
     return (
-      <div>
+      <main>
         <Header name={ name } score={ score } source={ getSource } />
-        <span data-testid="feedback-text">
-          { assertions <= 2 ? 'Podia ser melhor...' : 'Mandou bem!'}
-        </span>
-        <span data-testid="feedback-total-score">
-          { score }
-        </span>
-        <span data-testid="feedback-total-question">
-          { assertions }
-        </span>
-        <Link to="/" type="button" data-testid="btn-play-again">
-          Jogar novamente
-        </Link>
-        <Link to="/ranking" type="button" data-testid="btn-ranking">
-          Ver Ranking
-        </Link>
-      </div>
+        <div className="mainFeedback">
+          <span className="text" data-testid="feedback-text">
+            { assertions <= 2 ? 'Podia ser melhor...' : 'Mandou bem!'}
+          </span>
+          <span data-testid="feedback-total-score">
+            Pontuação final:
+            { score }
+          </span>
+          <span data-testid="feedback-total-question">
+            Total de acertos:
+            { assertions }
+          </span>
+        </div>
+        <section className="links">
+          <Link className="link" to="/" type="button" data-testid="btn-play-again">
+            Jogar novamente
+          </Link>
+          <Link className="link" to="/ranking" type="button" data-testid="btn-ranking">
+            Ver Ranking
+          </Link>
+        </section>
+      </main>
     );
   }
 }

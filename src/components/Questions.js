@@ -6,6 +6,7 @@ import { questionApiThunk } from '../actions';
 import Button from './Button';
 
 import './questions.css';
+import '../css/Questions.css';
 
 const ANSWER = 4;
 
@@ -131,24 +132,28 @@ class Questions extends React.Component {
     }
 
     return (
-      <main>
-        <h2 data-testid="question-category">
-          { results[questionAtual].category }
-        </h2>
-        <p data-testid="question-text">
-          { results[questionAtual].question }
-        </p>
-        <div>
-          { `${seconds} segundos` }
+      <main className="mainQuestions">
+        <div className="cardQuestion">
+          <h2 className="category" data-testid="question-category">
+            { results[questionAtual].category }
+          </h2>
+          <p className="text" data-testid="question-text">
+            { results[questionAtual].question }
+          </p>
+          <span className="timer">
+            { `${seconds} segundos` }
+          </span>
         </div>
-        <Button
-          handleNextButton={ this.handleNextButton }
-          handleClick={ this.handleClick }
-          order={ order }
-          questionAtual={ questionAtual }
-          results={ results }
-          css={ css }
-        />
+        <div className="answers">
+          <Button
+            handleNextButton={ this.handleNextButton }
+            handleClick={ this.handleClick }
+            order={ order }
+            questionAtual={ questionAtual }
+            results={ results }
+            css={ css }
+          />
+        </div>
       </main>
     );
   }

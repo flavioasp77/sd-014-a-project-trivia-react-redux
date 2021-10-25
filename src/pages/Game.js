@@ -26,7 +26,6 @@ class Game extends React.Component {
 
   timerRunning() {
     const { questions } = this.props;
-    console.log(questions, 'Xablau_question');
     return (questions ? this.setState((prevState) => (
       { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }))
       : 0);
@@ -35,9 +34,12 @@ class Game extends React.Component {
   handleClick() {
     const { index } = this.state;
     const { questions } = this.props;
-    if (index < (questions.length)) {
+    if (index < (questions.length - 1)) {
       this.setState({
         index: index + 1, timer: 30 });
+    } else {
+      const { history } = this.props;
+      history.push('/feedback');
     }
   }
 

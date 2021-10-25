@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/login.css';
-import {
-  setUser as setUserAction, setTokenAPI as setTokenAPIAction,
-  setCategoriesAPI as setCategoriesAPIAction,
-} from '../actions/indexActions';
-import { setInitialStateLS } from '../helpers/index';
+import { setInitialPlayerOfLS } from '../helpers/index';
+import { setCategoriesAPI as setCategoriesAPIAction,
+  setUser as setUserAction } from '../actions/userActions';
+import { setTokenAPI as setTokenAPIAction } from '../actions/gameActions';
 
 class Login extends Component {
   constructor(props) {
@@ -34,14 +33,7 @@ class Login extends Component {
     const { name, email } = this.state;
     setUser({ name, email });
     await setTokenAPI(chosedSettings);
-    const objLocal = { player: {
-      name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
-    } };
-    setInitialStateLS(objLocal);
-    localStorage.setItem('state', JSON.stringify(objLocal));
+    setInitialPlayerOfLS({ name, email });
     history.push('/jogo');
   }
 

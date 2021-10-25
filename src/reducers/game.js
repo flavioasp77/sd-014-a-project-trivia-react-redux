@@ -1,18 +1,13 @@
-import { HANDLE_ANSWER,
-  SET_ANSWERS,
-  SET_QUESTIONS,
-  SET_TIMER,
-  NEXT_QUESTION } from '../actions/indexActions';
+import { HANDLE_ANSWER, NEXT_QUESTION,
+  SET_ANSWERS, SET_QUESTIONS } from '../actions/gameActions';
 
 const INITIAL_STATE = {
   questions: [],
   index: 0,
   infoIsLoaded: false,
   answers: [],
-  timer: {
-    timerValue: 0,
-    stop: false,
-  },
+  nextQuestionBtn: false,
+  score: 0,
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -20,6 +15,7 @@ const game = (state = INITIAL_STATE, action) => {
   case SET_QUESTIONS:
     return {
       ...state,
+      score: 0,
       questions: action.payload.results,
       infoIsLoaded: true,
     };
@@ -31,6 +27,8 @@ const game = (state = INITIAL_STATE, action) => {
   case HANDLE_ANSWER:
     return {
       ...state,
+      score: JSON.parse(localStorage.getItem('state')).player.score,
+      nextQuestionBtn: true,
       answers: state.answers.map((item) => {
         item.border = item.isCorrect
           ? '3px solid rgb(6, 240, 15)' : '3px solid rgb(255, 0, 0)';
@@ -41,15 +39,8 @@ const game = (state = INITIAL_STATE, action) => {
   case NEXT_QUESTION:
     return {
       ...state,
+      nextQuestionBtn: false,
       index: state.index === (state.questions.length - 1) ? 0 : (state.index + 1),
-    };
-  case SET_TIMER:
-    return {
-      ...state,
-      timer: {
-        timerValue: action.payload.timerValue,
-        stop: action.payload.stop,
-      },
     };
   default:
     return state;

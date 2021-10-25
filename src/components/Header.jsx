@@ -7,7 +7,6 @@ class Header extends Component { // comentario
   render() {
     const { img, nome } = this.props;
     const player = readLocalStorage('state');
-    console.log(player);
     return (
       <header>
         <img src={ img } data-testid="header-profile-picture" alt="gravatar" />

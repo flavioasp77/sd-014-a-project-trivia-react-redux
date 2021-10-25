@@ -78,7 +78,7 @@ class GameScreen extends Component {
       alternativesShuffled, indexOfQuestion, visibleButton, className } = this.state;
     const { redirect } = this.state;
     return (
-      <div>
+      <div className="Trivia-question">
         <Header />
         <TriviaQuestion
           question={ questions[indexOfQuestion] }

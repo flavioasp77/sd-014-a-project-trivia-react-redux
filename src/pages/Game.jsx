@@ -37,9 +37,11 @@ class Game extends Component {
     const { results } = data;
 
     const question = document.querySelector('.question-text').innerText;
-    const { difficulty, correct_answer: correctAnswer } = results.find(
-      (curr) => curr.question === question,
-    );
+    const {
+      culty,
+      difficulty,
+      correct_answer: correctAnswer,
+    } = results.find((curr) => curr.question === question);
     const multiplier = {
       hard: 3,
       medium: 2,
@@ -47,7 +49,7 @@ class Game extends Component {
     };
 
     if (target.innerText === correctAnswer) {
-      this.whenAnswersCorrectly(difficulty, multiplier);
+      this.whenAnswersCorrectly(difficulty || culty, multiplier[difficulty || culty]);
     }
 
     this.setState({ shouldShowAnswer: true, timer: 0 });
@@ -65,7 +67,7 @@ class Game extends Component {
     const POINTS_PER_CORRECT = 10;
     const { player } = JSON.parse(localStorage.getItem('state'));
 
-    const newScore = score + (POINTS_PER_CORRECT + timer * multiplier[difficulty]); // Calculate the new score
+    const newScore = score + (POINTS_PER_CORRECT + timer * multiplier); // Calculate the new score
     this.setState({ score: newScore }); // Update the score in the state
 
     localStorage.setItem(

@@ -56,7 +56,6 @@ QuestionCard.propTypes = {
     correct_answer: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string).isRequired,
     question: PropTypes.string.isRequired,
-    difficulty: PropTypes.string.isRequired,
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   onAnswerClick: PropTypes.func.isRequired,

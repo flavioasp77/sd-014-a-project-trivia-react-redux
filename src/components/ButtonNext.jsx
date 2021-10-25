@@ -17,5 +17,5 @@ export default class ButtonNext extends Component {
 }
 
 ButtonNext.propTypes = {
-  onClick: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

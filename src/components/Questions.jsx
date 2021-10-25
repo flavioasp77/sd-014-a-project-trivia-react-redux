@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchQuestions, setScore as scoreAction } from '../redux/actions/index';
+import { fetchQuestions, setScore as scoreAction,
+  setRanking as rankingAction } from '../redux/actions/index';
 
 import './questions.css';
 import Timer from './Timer';
 import ButtonNext from './ButtonNext';
 
 const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
+const LIMIT = 4;
 
 class Questions extends Component {
   constructor() {
@@ -46,7 +49,7 @@ class Questions extends Component {
       );
     } else {
       clearInterval(timerId);
-      this.setState({ disabled: true });
+      this.setState({ disabled: true, isClick: true });
     }
   }
 
@@ -70,13 +73,18 @@ class Questions extends Component {
     this.setState({
       questionActual: questionNext,
       isClick: false,
+      time: 30,
+      disabled: false,
     });
   }
 
   render() {
-    const { questions } = this.props;
+    const { questions, setRanking } = this.props;
     const { isClick, time, disabled, questionActual } = this.state;
-
+    if (questionActual > LIMIT) {
+      setRanking();
+      return <Redirect to="/feedback" />;
+    }
     if (questions.length > 0) {
       return (
         <div>
@@ -125,6 +133,7 @@ Questions.propTypes = {
   fetchQuestionsAPI: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   setScore: PropTypes.func.isRequired,
+  setRanking: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -134,6 +143,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestionsAPI: () => dispatch(fetchQuestions()),
   setScore: (score) => dispatch(scoreAction(score)),
+  setRanking: () => dispatch(rankingAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

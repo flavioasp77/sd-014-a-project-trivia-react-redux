@@ -21,6 +21,7 @@ class Game extends Component {
       indexNext: 0,
       answered: false,
       score: 0,
+      assertions: 0,
     };
 
     this.treatQuestions = this.treatQuestions.bind(this);
@@ -136,18 +137,20 @@ class Game extends Component {
 
     if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
-      let { score } = this.state;
+      let { score, assertions } = this.state;
+      assertions += assertions + 1;
       score += (counter * difficulty) + POINTS;
       const player = {
         player: {
           name: '',
-          assertions: 0,
+          assertions,
           score,
           gravatarEmail: '',
         },
       };
       this.setState({
         score,
+        assertions,
       }, () => {
         localStorage.setItem('state', JSON.stringify(player));
         getPlayer({ ...player });

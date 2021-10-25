@@ -25,14 +25,17 @@ class Game extends React.Component {
   }
 
   timerRunning() {
-    this.setState((prevState) => (
-      { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }));
+    const { questions } = this.props;
+    console.log(questions, 'Xablau_question');
+    return (questions ? this.setState((prevState) => (
+      { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }))
+      : 0);
   }
 
   handleClick() {
     const { index } = this.state;
     const { questions } = this.props;
-    if (index < (questions.length - 1)) {
+    if (index < (questions.length)) {
       this.setState({
         index: index + 1, timer: 30 });
     }
@@ -50,8 +53,8 @@ class Game extends React.Component {
           key={ index }
           questionCurrent={ questions[index] }
           timer={ timer }
+          buttonNext={ this.handleClick }
         /> }
-        <button type="button" onClick={ this.handleClick }>Próxima pergunta</button>
       </main>
     );
   }

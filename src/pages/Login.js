@@ -13,10 +13,29 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.redirectConfig = this.redirectConfig.bind(this);
+    this.resultCorrect = this.resultCorrect.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
+  }
+
+  resultCorrect(name, email) {
+    const state = {
+      player: {
+        name,
+        assertions: '',
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    const stateStorage = JSON.parse(localStorage.getItem('state'));
+    return ((!stateStorage ? localStorage.setItem('state', JSON.stringify(state))
+      : (localStorage.setItem('state', JSON.stringify({
+        ...stateStorage,
+        player: { ...stateStorage.player,
+          name: state.name,
+          gravatarEmail: state.gravatarEmail } })))));
   }
 
   handleClick() {
@@ -25,6 +44,8 @@ class Login extends React.Component {
     setUserInfo(this.state);
     const { setApiTrivia } = this.props;
     setApiTrivia();
+    const { name, email } = this.state;
+    this.resultCorrect(name, email);
     history.push('/jogo');
   }
 

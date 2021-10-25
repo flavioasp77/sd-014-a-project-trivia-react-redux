@@ -6,11 +6,12 @@ import '../styles/Feedback.css';
 
 class Feedback extends Component {
   render() {
-    const scoreFromLocalStorage = JSON.parse(localStorage.getItem('state'))
-      .player.score;
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    const { score } = player;
+
     return (
       <>
-        <Header score={ scoreFromLocalStorage } />
+        <Header score={ score } />
         <span data-testid="feedback-text">Mandou bem!</span>
         <Link className="btn-ranking" data-testid="btn-ranking" to="/rankings">
           VER RANKING

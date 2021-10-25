@@ -42,7 +42,7 @@ class Game extends Component {
       difficulty,
       correct_answer: correctAnswer,
     } = results[questionIndex];
-    console.log(culty, difficulty, correctAnswer);
+
     const multiplier = {
       hard: 3,
       medium: 2,

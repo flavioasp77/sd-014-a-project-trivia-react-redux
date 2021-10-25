@@ -28,7 +28,7 @@ class Question extends React.Component {
     const state = {
       player: {
         name: '',
-        assertions: '',
+        assertions: 0,
         score: scoreCurrent,
         gravatarEmail: '',
       },
@@ -38,7 +38,8 @@ class Question extends React.Component {
       : (localStorage.setItem('state', JSON.stringify({
         ...stateStorage,
         player: { ...stateStorage.player,
-          score: stateStorage.player.score + scoreCurrent } }))),
+          score: stateStorage.player.score + scoreCurrent,
+          assertions: stateStorage.player.assertions + 1 } }))),
     this.newScores(stateStorage, scoreCurrent)));
   }
 

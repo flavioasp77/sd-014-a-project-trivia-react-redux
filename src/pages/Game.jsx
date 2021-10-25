@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import QuestionCard from '../components/QuestionCard';
-import '../styles/Play.css';
+import '../styles/Game.css';
 
-class Play extends Component {
+class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -164,11 +164,11 @@ const mapStateToProps = (state) => ({
   data: state.data,
 });
 
-Play.propTypes = {
+Game.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(Play);
+export default connect(mapStateToProps)(Game);

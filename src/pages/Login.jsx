@@ -40,7 +40,7 @@ class Login extends Component {
 
     localStorage.setItem('state', JSON.stringify(state)); // Save player state in localStorage
     loginUser(this.state); // Dispatch action to login user (fill redux store)
-    history.push('/play'); // Redirect to game
+    history.push('/game'); // Redirect to game
   }
 
   handleChange({ target: { value, name } }) {

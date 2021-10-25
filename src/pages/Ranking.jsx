@@ -13,7 +13,7 @@ class Ranking extends React.Component {
             {rankingList.map((player, index) => (
               <li key={ index }>
                 <img
-                  src={ `https://www.gravatar.com/avatar/${player.picture}` }
+                  src={ player.picture }
                   alt="Imagem do seu avatar"
                   data-testid="header-profile-picture"
                 />

@@ -14,10 +14,11 @@ class Game extends React.Component {
     this.state = {
       name: '',
       score: 0,
+      assertions: 0,
       pictureURL: '',
       questions: [],
       index: 0,
-      clicked: false,
+      answered: false,
       stopwatch: 30,
     };
 
@@ -29,8 +30,9 @@ class Game extends React.Component {
     this.toCheck = this.toCheck.bind(this);
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
-    this.clickAnswer = this.clickAnswer.bind(this);
+    this.handleAnswer = this.handleAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     document.title = 'Trivia-Game';
   }
 
@@ -40,9 +42,9 @@ class Game extends React.Component {
   }
 
   componentDidUpdate() {
-    const { stopwatch, clicked } = this.state;
-    if (stopwatch === 0 && clicked === false) {
-      this.clickAnswer();
+    const { stopwatch, answered } = this.state;
+    if (stopwatch === 0 && !answered) {
+      this.handleAnswer(false);
     }
   }
 
@@ -66,7 +68,7 @@ class Game extends React.Component {
     }
 
     this.setState((prevState) => ({
-      clicked: false,
+      answered: false,
       index: prevState.index + 1,
       stopwatch: 30,
     }), () => { this.initTimer(); });
@@ -90,9 +92,42 @@ class Game extends React.Component {
     });
   }
 
-  clickAnswer() {
-    this.setState({ clicked: true });
+  handleClick({ target }) {
+    const isCorrect = target.dataset.testid.includes('correct');
+    this.handleAnswer(isCorrect);
+  }
+
+  handleAnswer(isCorrect) {
     clearInterval(this.timer);
+
+    this.setState((prevState) => ({
+      answered: true,
+      score: isCorrect ? this.calculateScore(prevState.score) : prevState.score,
+      assertions: isCorrect ? prevState.assertions + 1 : prevState.assertions,
+    }), () => {
+      const { name, score, gravatarEmail, assertions } = this.state;
+      const gameState = {
+        player: {
+          name,
+          assertions,
+          score,
+          gravatarEmail,
+        },
+      };
+      localStorage.setItem('state', JSON.stringify(gameState));
+    });
+  }
+
+  calculateScore(oldScore) {
+    const { questions, index, stopwatch } = this.state;
+    const levels = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+    const BASE_SCORE = 10;
+
+    return oldScore + BASE_SCORE + (stopwatch * levels[questions[index].difficulty]);
   }
 
   initTimer() {
@@ -110,7 +145,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { name, score, pictureURL, questions, index, clicked, stopwatch } = this.state;
+    const { name, score, pictureURL, questions, index, answered, stopwatch } = this.state;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
@@ -129,15 +164,15 @@ class Game extends React.Component {
                       ? 'correct-answer'
                       : `wrong-answer-${indice}`
                   }
-                  onClick={ this.clickAnswer }
-                  disabled={ clicked }
-                  className={ clicked && 'clicked' }
+                  onClick={ this.handleClick }
+                  disabled={ answered }
+                  className={ answered ? 'clicked' : undefined }
                 >
                   { atual }
                 </button>
               ))}
             </div>)}
-          { clicked && index <= FINAL_INDEX && (
+          { answered && index <= FINAL_INDEX && (
             <Button
               label={ index < FINAL_INDEX ? 'Próxima' : 'Ver Resultados' }
               dataTestid="btn-next"

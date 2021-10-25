@@ -10,6 +10,13 @@ export const savePlayerEmail = (gravatarEmail, name, score = 0) => {
       score,
       gravatarEmail,
     },
+    // rank: {
+    //   player0: {
+    //     name,
+    //     score,
+    //     gravatarEmail,
+    //   },
+    // },
   };
   localStorage.setItem('state', JSON.stringify(player));
 };

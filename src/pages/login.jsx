@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
-import getToken from '../services/triviaAPI';
+import { getToken } from '../services/triviaAPI';
+
 import fetchGravatarAPI from '../services/gravatarAPI';
 import { setPlayer as setPlayerAction } from '../actions';
 
@@ -39,8 +41,16 @@ class Login extends React.Component {
     const { history, setPlayer } = this.props;
     const { email, name } = this.state;
     const token = await getToken();
-    const stringf = JSON.stringify(token);
-    localStorage.setItem('token', stringf);
+    const stateObj = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(stateObj));
+    localStorage.setItem('token', JSON.stringify(token));
     const emailHash = md5(email).toString();
     const img = await fetchGravatarAPI(emailHash);
     setPlayer(name, img);
@@ -88,6 +98,11 @@ class Login extends React.Component {
               Jogar
             </button>
           </form>
+          <Link to="/settings">
+            <button type="button" data-testid="btn-settings">
+              Configurações
+            </button>
+          </Link>
         </header>
       </div>
     );

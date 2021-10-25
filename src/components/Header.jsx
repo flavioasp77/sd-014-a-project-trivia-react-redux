@@ -18,9 +18,9 @@ class Header extends Component {
           { name }
         </span>
         <label htmlFor="score">
+          Pontos:
+          {' '}
           <span data-testid="header-score" id="score">
-            Pontos:
-            {' '}
             { score }
           </span>
         </label>

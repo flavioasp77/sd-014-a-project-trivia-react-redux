@@ -29,7 +29,7 @@ class Header extends React.Component {
   render() {
     return (
       <header>
-        <this.headerDisplay />
+        { this.headerDisplay() }
       </header>
     );
   }

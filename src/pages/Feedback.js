@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import PlayAgainBtn from '../components/PlayAgainBtn';
 
@@ -33,6 +34,7 @@ class Feedback extends Component {
 
   render() {
     const { assertions, score } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <Header />
@@ -42,9 +44,22 @@ class Feedback extends Component {
         </h3>
         <h3 data-testid="feedback-total-score">{score}</h3>
         <PlayAgainBtn />
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </div>
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Feedback;

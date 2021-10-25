@@ -12,7 +12,6 @@ class Feedback extends Component {
   render() {
     const { player } = JSON.parse(localStorage.getItem('state'));
     const { score, assertions } = player;
-    // const { score, questions } = this.state;
     const userHash = md5(player.gravatarEmail).toString();
 
     const messages = {
@@ -35,16 +34,17 @@ class Feedback extends Component {
             <h2 data-testid="feedback-text">
               { assertions < NUMBER ? messages.loss : messages.great }
             </h2>
-
             <div>
-              <span data-testid="feedback-total-question">{ messages.question }</span>
-              <span data-testid="feedback-total-score">{ messages.score }</span>
+              <span>Você acertou</span>
+              <span data-testid="feedback-total-question">{ assertions }</span>
+              <span>questões.</span>
+              <span>Um total de</span>
+              <span data-testid="feedback-total-score">{ score }</span>
+              <span>pontos.</span>
             </div>
-
             <Link to="/ranking">
               <Button value="Ver Ranking" dataTestId="btn-ranking" />
             </Link>
-
             <Link to="/">
               <Button
                 value="Jogar Novamente"

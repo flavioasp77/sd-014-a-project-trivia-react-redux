@@ -39,12 +39,12 @@ class MainPage extends React.Component {
   currentScore(score) {
     this.setState((previus) => ({ score: previus.score + score }));
     const localStor = JSON.parse(localStorage.getItem('state'));
-    const { user } = localStor;
+    const { player } = localStor;
     const atualStore = {
-      user: {
-        ...user,
-        score: user.score + score,
-        assertions: user.assertions + 1,
+      player: {
+        ...player,
+        score: player.score + score,
+        assertions: player.assertions + 1,
       },
     };
     localStorage.setItem('state', JSON.stringify(atualStore));

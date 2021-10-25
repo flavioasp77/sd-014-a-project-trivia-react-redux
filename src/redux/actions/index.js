@@ -5,11 +5,10 @@ import fetchQuestions from '../../services/fetchQuestions';
 export const SAVE_USERINFO = 'SAVE_USERINFO';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_ERROR = 'FETCH_ERROR';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const LOADING = 'LOADING';
 
 export const apiRequestAction = () => ({ type: LOADING });
-
-// export const fetchQuestionsAction = (payload) => ({ type: FETCH_QUESTIONS, payload, })
 
 export const saveUserInfoAction = (localState) => async (dispatch) => {
   const { name, assertions, score, gravatarEmail } = localState;
@@ -47,3 +46,7 @@ export const fetchQuestionsAction = () => async (dispatch) => {
     console.error(error);
   }
 };
+
+export const nextQuestionAction = () => ({
+  type: NEXT_QUESTION,
+});

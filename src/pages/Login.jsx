@@ -11,8 +11,8 @@ class Login extends Component {
 
     this.state = {
       name: '',
-      // assertions: 0,
-      // score: 0,
+      assertions: 0,
+      score: 0,
       gravatarEmail: '',
     };
 
@@ -28,8 +28,16 @@ class Login extends Component {
 
   handleLogin() {
     const { history, saveUserInfoToState } = this.props;
+    const { name, assertions, score, gravatarEmail } = this.state;
 
     saveUserInfoToState(this.state);
+
+    localStorage.setItem('state', JSON.stringify({ player: {
+      name,
+      assertions,
+      score,
+      gravatarEmail,
+    } }));
 
     history.push('/game');
   }
@@ -77,7 +85,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.object).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   saveUserInfoToState: PropTypes.func.isRequired,
 };
 

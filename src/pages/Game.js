@@ -12,14 +12,15 @@ class Game extends Component {
   constructor() {
     super();
 
-    const { score } = JSON.parse(localStorage.getItem('state')).player;
+    const { player } = JSON.parse(localStorage.getItem('state'));
     this.state = {
       index: 0,
       answered: false,
-      score,
+      score: player.score,
       assertions: 0,
       timeReset: false,
       feedback: false,
+      player,
     };
     this.handleIndex = this.handleIndex.bind(this);
     this.selectAnswer = this.selectAnswer.bind(this);
@@ -29,7 +30,9 @@ class Game extends Component {
 
   componentDidMount() {
     const halfMinute = 30;
-    localStorage.setItem('timer', halfMinute);
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    if (!ranking) localStorage.setItem('ranking', JSON.stringify({}));
+    sessionStorage.setItem('timer', halfMinute);
   }
 
   // correctAnswer
@@ -37,7 +40,7 @@ class Game extends Component {
     const regex = /correct/i;
     if (regex.test(correctAnswer)) {
       const { assertions } = this.state;
-      const time = Number(localStorage.getItem('timer'));
+      const time = Number(sessionStorage.getItem('timer'));
       const newScore = this.mathPoints(time, difficulty);
       this.setState({
         score: newScore,
@@ -77,6 +80,7 @@ class Game extends Component {
     const { questions } = this.props;
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (index < questions.length - 1) {
       await this.setState({
         index: index + 1,
@@ -87,6 +91,11 @@ class Game extends Component {
       correct.disabled = false;
       wrong.forEach((ans) => ans.classList.remove('wrong'));
     } else {
+      const { player } = JSON.parse(localStorage.getItem('state'));
+      const newPlayer = {
+        [`player${Object.keys(ranking).length}`]: player,
+      };
+      localStorage.setItem('ranking', JSON.stringify({ ...ranking, ...newPlayer }));
       await this.setState({
         feedback: true,
       });

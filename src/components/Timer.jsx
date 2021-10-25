@@ -20,7 +20,7 @@ class Timer extends Component {
     const idInterval = setInterval(() => {
       const { seconds } = this.state;
       this.setState({ seconds: seconds - 1 });
-      localStorage.setItem('timer', seconds - 1);
+      sessionStorage.setItem('timer', seconds - 1);
     }, SECOND);
     sessionStorage.setItem('idInterval', idInterval);
   }

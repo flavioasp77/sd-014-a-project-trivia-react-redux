@@ -10,7 +10,7 @@ class Feedback extends Component {
       assertions: 0,
       score: 0,
     };
-  this.feedbackMsg = this.feedbackMsg.bind(this);
+    this.feedbackMsg = this.feedbackMsg.bind(this);
   }
 
   componentDidMount() {
@@ -27,10 +27,9 @@ class Feedback extends Component {
 
   feedbackMsg() {
     const { assertions } = this.state;
-    const MIN_SCORE= 3;
+    const MIN_SCORE = 3;
     return assertions < MIN_SCORE ? 'Podia ser melhor...' : 'Mandou bem!';
   }
-
 
   render() {
     const { assertions, score } = this.state;

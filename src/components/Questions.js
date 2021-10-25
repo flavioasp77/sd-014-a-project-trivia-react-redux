@@ -32,13 +32,13 @@ class Questions extends React.Component {
     const { token, getQuestion, name, gravatarEmail } = this.props;
     getQuestion(token);
     this.timerCount();
-    const user = { user: {
+    const player = { player: {
       name,
       assertions: 0,
       score: 0,
       gravatarEmail,
     } };
-    localStorage.setItem('state', JSON.stringify(user));
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   randomButtons() {

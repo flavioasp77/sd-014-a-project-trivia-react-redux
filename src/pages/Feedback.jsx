@@ -3,10 +3,12 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
+    const scoreFromLocalStorage = JSON.parse(localStorage.getItem('state'))
+      .player.score;
     return (
       <>
-        <Header />
-        <span data-testid="feedback-text">Mandou muito!</span>
+        <Header score={ scoreFromLocalStorage } />
+        <span data-testid="feedback-text">Mandou bem!</span>
       </>
     );
   }

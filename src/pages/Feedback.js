@@ -1,16 +1,17 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-    const { userName, infoUser } = this.props;
+    const { getSource } = this.props;
     const state = localStorage.getItem('state');
-    const { player: { score, assertions } } = JSON.parse(state);
+    const { player: { name, score, assertions } } = JSON.parse(state);
     return (
       <div>
-        <Header name={ userName } score={ score } source={ infoUser } />
+        <Header name={ name } score={ score } source={ getSource } />
         <span data-testid="feedback-text">
           { assertions <= 2 ? 'Podia ser melhor...' : 'Mandou bem!'}
         </span>
@@ -31,9 +32,12 @@ class Feedback extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  getSource: state.user.infoUser,
+});
+
 Feedback.propTypes = {
-  userName: propTypes.string.isRequired,
-  infoUser: propTypes.string.isRequired,
+  getSource: propTypes.string.isRequired,
 };
 
-export default Feedback;
+export default connect(mapStateToProps)(Feedback);

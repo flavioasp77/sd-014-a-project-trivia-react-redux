@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { gravatarAction } from '../actions';
 import Questions from '../components/Questions';
 
 class MainPage extends React.Component {
@@ -28,12 +29,13 @@ class MainPage extends React.Component {
   }
 
   async fetchAPIGravatar() {
-    const { email } = this.props;
+    const { email, getGravatar } = this.props;
     const hash = this.emailGravatar(email);
     const infoUser = await fetch(`https://www.gravatar.com/avatar/${hash}`);
     this.setState({
       infoUser: infoUser.url,
     });
+    getGravatar(infoUser.url);
   }
 
   currentScore(score) {
@@ -76,10 +78,15 @@ const mapStateToProps = (state) => ({
   token: state.token.success,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  getGravatar: (url) => (dispatch(gravatarAction(url))),
+});
+
 MainPage.propTypes = {
   userName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
+  getGravatar: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

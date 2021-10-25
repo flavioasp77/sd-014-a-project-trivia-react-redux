@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   render() {
-    const { userName, infoUser, score } = this.props;
-    console.log(infoUser);
+    const { name, score, source } = this.props;
     return (
       <header>
-        <h3 data-testid="header-player-name">{ userName }</h3>
+        <h3 data-testid="header-player-name">{ name }</h3>
         <img
           data-testid="header-profile-picture"
-          src={ infoUser }
+          src={ source }
           alt="gravatar"
         />
         <p>
@@ -23,9 +22,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  userName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
-  infoUser: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
 };
 
 export default Header;

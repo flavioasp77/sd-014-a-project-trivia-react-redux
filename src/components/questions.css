@@ -5,33 +5,33 @@
 }
 
 .userInfo {
-  margin-top: 10px;
   margin-right: 50px;
+  margin-top: 10px;
 }
 
 .userInfo, img, span {
-  margin-right: 10px;
   color: #f8f8f8;
+  margin-right: 10px;
 }
 
 .trivia-logo-header {
-  max-width: 150px;
-  margin-top: 10px;
   margin-left: 50px;
+  margin-top: 10px;
+  max-width: 150px;
 }
 
 .questions {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  background-color: whitesmoke;
   border: 3px solid #f8f8f8;
   border-radius: 0.2rem;
-  width: 500px;
-  padding: 10px;
   justify-content: center;
+  left: 50%;
+  padding: 10px;
+  position: absolute;
   text-align: center;
-  background-color: whitesmoke;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
 }
 
 .section-answers {

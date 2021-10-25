@@ -48,6 +48,7 @@ class Login extends Component {
     const { history } = this.props;
     return (
       <main className="containner-login-main">
+        <img className="logo" src="/trivia.png" alt="d" />
         <form className="card-login">
           <h3>Nome Do Jogador:</h3>
           <input
@@ -59,7 +60,7 @@ class Login extends Component {
             name="name"
             data-testid="input-player-name"
           />
-          <h3>Email Do Gravatar:</h3>
+          <h3 className="text-email-gravatar">Email Do Gravatar:</h3>
           <input
             placeholder="Email:"
             className="input-login"

@@ -1,0 +1,38 @@
+.header-containner {
+  align-items: center;
+  background-color: black;
+  border-bottom: 3px solid rgb(155, 7, 240);
+  color: aliceblue;
+  display: flex;
+  font-family: cursive , 'Press Start 2P';
+  justify-content: space-between;
+
+}
+
+.gravatar-img {
+  border: solid 2px rgba(255, 255, 255, 0.787);
+  border-radius: 40px;
+  margin-bottom: 5px;
+  margin-left: 50px;
+  margin-top: 5px;
+}
+
+.score {
+  margin-right: 40px;
+  margin-top: 17px;
+}
+
+.img-name {
+  align-items: center;
+  display: flex;
+}
+
+.name-user {
+  margin-left: 30px;
+  margin-top: 17px;
+}
+
+.text-score {
+  align-items: center;
+  display: flex;
+}

@@ -23,6 +23,10 @@ class Login extends Component {
   componentDidMount() {
     const { fetchGetToken } = this.props;
     fetchGetToken();
+
+    const rankings = JSON.parse(localStorage.getItem('rankings'));
+    if (!rankings) localStorage.setItem('rankings', JSON.stringify([]));
+    // If there is no rankings in localStorage, create an empty array
   }
 
   onLogin() {

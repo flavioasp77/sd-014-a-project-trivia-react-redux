@@ -97,13 +97,33 @@ class Play extends Component {
     this.setState(({ questionIndex }) => {
       const newIndex = questionIndex === results.length - 1 ? 0 : questionIndex + 1;
 
-      if (newIndex === 0) history.push('/feedback');
+      if (newIndex === 0) {
+        this.saveScoreToRankings();
+        history.push('/feedback');
+      }
 
       return {
         questionIndex: newIndex,
         shouldShowAnswer: false,
       };
     });
+  }
+
+  saveScoreToRankings() {
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    const { gravatarEmail: picture, name, score } = player;
+
+    localStorage.setItem(
+      'rankings',
+      JSON.stringify([
+        ...JSON.parse(localStorage.getItem('rankings')), // Get the current rankings
+        {
+          name,
+          picture,
+          score,
+        },
+      ]),
+    );
   }
 
   render() {

@@ -16,3 +16,18 @@
 .btn-ranking:hover {
   opacity: 0.8;
 }
+
+.feedback-text {
+  display: flex;
+  font-size: 4rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.feedback-total {
+  display: flex;
+  flex-flow: column;
+  font-size: 3.2rem;
+  margin: 4rem auto;
+  text-align: center;
+}

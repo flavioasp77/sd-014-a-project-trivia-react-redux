@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getTriviaActionThunk } from '../actions';
-import './Game.css';
+import '../styles/Game.css';
 
 const TIME_OUT = 30000;
 const ONE_SECOND = 1000;
@@ -14,11 +14,12 @@ class Game extends Component {
     this.state = {
       questions: [],
       counter: 30,
-      // timer: false,
       timerId: '',
       counterId: '',
       clickedAnswer: '',
       disabledBtn: false,
+      indexNext: 0,
+      answered: false,
       score: 0,
     };
 
@@ -26,6 +27,7 @@ class Game extends Component {
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleNext = this.handleNext.bind(this);
     this.handleScore = this.handleScore.bind(this);
   }
 
@@ -61,11 +63,12 @@ class Game extends Component {
       clearInterval(counterId);
       this.setState({
         disabledBtn: true,
+        answered: true,
+        clickedAnswer: '',
       });
     }, TIME_OUT);
 
     this.setState({
-      // timer: true,
       timerId,
       counterId,
     });
@@ -90,12 +93,26 @@ class Game extends Component {
     clearInterval(timerId);
     this.setState({
       clickedAnswer: answer,
-    });
-    this.handleScore(answer);
+      answered: true,
+    }, () => this.handleScore(answer));
+  }
+
+  handleNext() {
+    const { indexNext, questions } = this.state;
+    if (indexNext < questions.length - 1) {
+      this.setState({
+        indexNext: indexNext + 1,
+        counter: 30,
+        clickedAnswer: '',
+        answered: false,
+        disabledBtn: false,
+      });
+      this.startTimeOut();
+    }
   }
 
   handleScore(answer) {
-    const { questions, counter } = this.state;
+    const { questions, counter, indexNext } = this.state;
     let difficulty;
     const HARD_SCORE = 3;
 
@@ -113,7 +130,7 @@ class Game extends Component {
       return 0;
     }
 
-    if (answer === questions[0].correct_answer) {
+    if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
       let { score } = this.state;
       score += (counter * difficulty) + POINTS;
@@ -134,21 +151,21 @@ class Game extends Component {
   }
 
   renderQuestion() {
-    const { questions, clickedAnswer, disabledBtn } = this.state;
+    const { questions, clickedAnswer, disabledBtn, indexNext } = this.state;
     return (
       <div>
-        { questions[0].arrayAnswer.sort().map((answer, index, array) => (
+        { questions[indexNext].arrayAnswer.sort().map((answer, index, array) => (
           <button
             disabled={ disabledBtn }
             className={
               (clickedAnswer || disabledBtn) && (
-                answer === questions[0].correct_answer
+                answer === questions[indexNext].correct_answer
                   ? 'correctAnswer' : 'wrongAnswer')
             }
             onClick={ () => this.handleClick(answer) }
             key={ index }
             type="button"
-            data-testid={ questions[0].correct_answer === answer
+            data-testid={ questions[indexNext].correct_answer === answer
               ? 'correct-answer'
               : `wrong-answer-${array.indexOf(answer)}` }
           >
@@ -160,22 +177,32 @@ class Game extends Component {
   }
 
   render() {
-    const { counter, questions } = this.state;
+    const { counter, questions, indexNext, answered } = this.state;
     if (questions.length !== 0) {
       return (
         <div>
           <Header />
-          <h3 data-testid="question-category">{questions[0].category}</h3>
-          <p data-testid="question-text">{questions[0].question}</p>
+          <h3 data-testid="question-category">{questions[indexNext].category}</h3>
+          <p data-testid="question-text">{questions[indexNext].question}</p>
           { this.renderQuestion() }
+          {
+            (answered)
+            && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.handleNext }
+              >
+                Próxima
+              </button>
+            )
+          }
           <h4>{`Tempo: ${counter}`}</h4>
         </div>
       );
     }
     return (
-      <div>
-        Carregando...
-      </div>
+      <p>Carregando ...</p>
     );
   }
 }

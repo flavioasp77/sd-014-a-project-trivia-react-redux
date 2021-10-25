@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Config from './pages/Config';
 import GameScreen from './pages/GameScreen';
 import Feedback from './pages/Feedback';
+import Rank from './pages/Rank';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route exact path="/config" component={ Config } />
       <Route exact path="/game" component={ GameScreen } />
       <Route exact path="/feedback" component={ Feedback } />
+      <Route exact path="/ranking" component={ Rank } />
     </BrowserRouter>
   );
 }

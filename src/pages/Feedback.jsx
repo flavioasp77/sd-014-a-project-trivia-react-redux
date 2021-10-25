@@ -24,6 +24,13 @@ export default class Feedback extends Component {
         >
           Voltar
         </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }

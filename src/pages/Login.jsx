@@ -11,6 +11,7 @@ class Login extends Component {
     this.state = {
       email: '',
       name: '',
+      click: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,10 +42,11 @@ class Login extends Component {
     login(email, name);
 
     sendToken();
+    this.setState({ click: true });
   }
 
   render() {
-    const { email, name } = this.state;
+    const { email, name, click } = this.state;
     const { userToken } = this.props;
     return (
       <form onSubmit={ this.handleSubmit }>
@@ -78,7 +80,7 @@ class Login extends Component {
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
-        { userToken && <Redirect to="/jogo" /> }
+        { click && userToken && <Redirect to="/jogo" /> }
       </form>
     );
   }

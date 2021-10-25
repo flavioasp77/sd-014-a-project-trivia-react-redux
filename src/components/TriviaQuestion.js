@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import '../styles/TriviaQuestion.style.css';
 import { getStateFromStorage, savePlayerScore } from '../services/localStorage';
 
+const correct = 'correct-answer';
+
 export default class TriviaQuestion extends Component {
   constructor() {
     super();
@@ -73,14 +75,16 @@ export default class TriviaQuestion extends Component {
     clearInterval(idInterval);
     console.log(id);
     const stateActual = getStateFromStorage();
-    // const { player: { gravatarEmail, name, score } } = stateActual;
     stateActual.player.score = this.sumScore(id);
-    console.log(stateActual);
-    // localStorage.removeItem('state');
-    // console.log(stateActual);
-    // const testNumber = 10;
-    // savePlayerEmail('oioi', 'oioi', testNumber);
+    stateActual.player.assertions += this.sumAssertions(id);
     savePlayerScore(stateActual.player);
+  }
+
+  sumAssertions(id) {
+    if (id === correct) {
+      return 1;
+    }
+    return 0;
   }
 
   sumScore(id) {
@@ -91,7 +95,7 @@ export default class TriviaQuestion extends Component {
     const medium = 2;
     const hard = 3;
     const incorrect = 0;
-    const correct = 'correct-answer';
+    // const correct = 'correct-answer';
     if (id === correct) {
       switch (difficulty) {
       case 'easy':
@@ -113,7 +117,7 @@ export default class TriviaQuestion extends Component {
     let wrongIndex = 0;
     return scrambledQuestions.map((alternative, index) => {
       const correctOrWrong = alternative === question.correct_answer;
-      const correct = 'correct-answer';
+      // const correct = 'correct-answer';
       const wrong = `wrong-answer-${wrongIndex}`;
       const button = (
         <button

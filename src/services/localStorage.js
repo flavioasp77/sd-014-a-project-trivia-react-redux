@@ -22,3 +22,10 @@ export const savePlayerScore = (player) => {
   };
   localStorage.setItem('state', JSON.stringify(playerFuture));
 };
+
+// export const savePlayerAssertions = (assertions) => {
+//   const playerFuture = {
+//     assertions,
+//   };
+//   localStorage.setItem('state', JSON.stringify(playerFuture));
+// };

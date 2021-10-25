@@ -1,26 +1,30 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import triviaLogo from '../trivia.png';
 
 class Header extends Component {
   render() {
     const { name, score } = this.props;
     return (
-      <>
-        <img src="" alt="user" data-testid="header-profile-picture" />
-        <span>
-          Jogador:
-          <span data-testid="header-player-name">
-            { name }
+      <div className="header">
+        <img className="trivia-logo-header" src={ triviaLogo } alt="Logo do App Trivia" />
+        <div className="userInfo">
+          <img src="" alt="user" data-testid="header-profile-picture" />
+          <span>
+            Jogador:
+            <span data-testid="header-player-name">
+              { ` ${name}` }
+            </span>
           </span>
-        </span>
-        <span>
-          Pontos:
-          <span data-testid="header-score">
-            { score }
+          <span>
+            Pontos:
+            <span data-testid="header-score">
+              { score }
+            </span>
           </span>
-        </span>
-      </>
+        </div>
+      </div>
     );
   }
 }

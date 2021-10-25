@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import triviaLogo from '../trivia.png';
 import fetchTokenApi from '../services/triviaTokenApi';
 import { userInfo as userInfoAction } from '../actions';
+import './login.css';
 
 class Login extends Component {
   constructor() {
@@ -49,8 +51,10 @@ class Login extends Component {
     const { name, email } = this.state;
     return (
       <div>
-        <form>
+        <form className="form-login">
+          <img src={ triviaLogo } alt="Logo do App Trivia" className="trivia-logo" />
           <input
+            className="input-login"
             type="text"
             data-testid="input-player-name"
             onChange={ this.handleChange }
@@ -58,6 +62,7 @@ class Login extends Component {
             placeholder="Nome"
           />
           <input
+            className="input-login"
             type="email"
             data-testid="input-gravatar-email"
             onChange={ this.handleChange }
@@ -66,21 +71,24 @@ class Login extends Component {
           />
           <button
             type="button"
+            className={ name.length <= MIN_CHARACTER
+              || email.length <= MIN_CHARACTER ? 'btn-login-game' : 'btn-login' }
             onClick={ this.handleClick }
             data-testid="btn-play"
             disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
           >
             Jogar
           </button>
+          <Link to="/settings">
+            <button
+              className="btn-login settings"
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configurações
+            </button>
+          </Link>
         </form>
-        <Link to="/settings">
-          <button
-            data-testid="btn-settings"
-            type="button"
-          >
-            Configurações
-          </button>
-        </Link>
       </div>
     );
   }

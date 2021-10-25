@@ -21,6 +21,7 @@ class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.scoreUpdate = this.scoreUpdate.bind(this);
     this.setDifficulty = this.setDifficulty.bind(this);
+    this.historyFeedback = this.historyFeedback.bind(this);
   }
 
   componentDidMount() {
@@ -65,14 +66,29 @@ class Questions extends Component {
     });
   }
 
+  historyFeedback() {
+
+  }
+
   handleNextBtn() {
     const { atualQuestion } = this.state;
+
+    this.historyFeedback();
+    const NUMBER_MAX = 4;
+    const { history } = this.props;
+    if (atualQuestion === NUMBER_MAX) {
+      history.push('/feedback');
+    }
+    this.shuffleButtons();
 
     this.setState({
       atualQuestion: atualQuestion + 1,
       click: false,
       timer: 30,
     });
+
+    // History.push para Feedback
+
     // Ativa o timer nas outras perguntas
     const ONE_SECOND = 1000;
     this.timeOut = setInterval(() => {
@@ -111,7 +127,7 @@ class Questions extends Component {
     const { atualQuestion, order, click, timer } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
-      <div>
+      <div className="questions">
         <section>
           <h3 data-testid="question-category">
             {
@@ -146,6 +162,9 @@ Questions.propTypes = {
   questionResults: PropTypes.shape({
     response: PropTypes.arrayOf().isRequired }).isRequired,
   setTimerAction: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

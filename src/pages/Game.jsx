@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import triviaLogo from '../trivia.png';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { questionsInfoThunk } from '../actions';
@@ -14,11 +13,11 @@ class Game extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
-        <img className="trivia-logo" src={ triviaLogo } alt="Logo do App Trivia" />
-        <Questions />
+        <Questions history={ history } />
       </div>
     );
   }
@@ -26,6 +25,9 @@ class Game extends Component {
 
 Game.propTypes = {
   questionInfo: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

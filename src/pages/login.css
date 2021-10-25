@@ -1,0 +1,75 @@
+body {
+  background-color: #2ec18b;
+}
+
+.trivia-logo {
+  margin-bottom: 10px;
+  max-width: 150px;
+}
+
+.input-login {
+  border: 2px solid #2ec18b;
+  border-radius: 4px;
+  display: flex;
+  font-family: inherit;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 15px;
+  padding: 10px;
+  width: 250px;
+}
+
+.btn-login {
+  background-color: #036b52;
+  border-radius: 4px;
+  border-style: none;
+  color: white;
+  cursor: pointer;
+  display: flexbox;
+  font-family: inherit;
+  font-size: 16px;
+  height: 50px;
+  margin-right: 15px;
+  margin-top: 30px;
+  padding: 10px;
+  transition: background 0.5s 0s ease;
+  width: 275px;
+}
+
+.btn-login, .settings {
+  margin-top: 15px;
+}
+
+.btn-login:hover {
+  background-color: #1d1d1d;
+}
+
+.btn-login-game {
+  background-color: whitesmoke;
+  border: 2px solid #036b52;
+  border-radius: 4px;
+  color: #036b52;
+  display: flexbox;
+  font-family: inherit;
+  font-size: 16px;
+  height: 50px;
+  margin-right: 15px;
+  margin-top: 30px;
+  padding: 10px;
+  width: 275px;
+}
+
+.form-login {
+  background-color: whitesmoke;
+  border: 3px solid #f8f8f8;
+  border-radius: 0.2rem;
+  height: 350px;
+  justify-content: center;
+  left: 50%;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+}

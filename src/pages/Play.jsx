@@ -113,10 +113,14 @@ class Play extends Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     const { gravatarEmail: picture, name, score } = player;
 
+    const rankings = JSON.parse(localStorage.getItem('rankings'));
+    if (!rankings) localStorage.setItem('rankings', JSON.stringify([]));
+    // If there is no rankings in localStorage, create an empty array
+
     localStorage.setItem(
       'rankings',
       JSON.stringify([
-        ...JSON.parse(localStorage.getItem('rankings')), // Get the current rankings
+        ...JSON.parse(localStorage.getItem('rankings')), // Fill the array with the existing rankings
         {
           name,
           picture,

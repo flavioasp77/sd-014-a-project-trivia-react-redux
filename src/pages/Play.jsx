@@ -32,19 +32,23 @@ class Play extends React.Component {
 
   render() {
     const { currentQuestion } = this.state;
-    const { generateQuestions } = this.props;
+    const { generateQuestions, isFetching } = this.props;
     console.log(generateQuestions);
     return (
       <main>
         <Header />
-        <Questions pergunta={ generateQuestions[currentQuestion] } />
+        {/* {
+          isFetching ? <p>Loading</p>
+            : <Questions pergunta={ generateQuestions } />
+        } */}
       </main>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  generateQuestions: state.questions,
+  generateQuestions: state.generateQuestions.questions,
+  isFetching: state.generateQuestions.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -52,11 +56,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Play.propTypes = {
-  getQuestions: PropTypes.func.isRequired,
   generateQuestions: PropTypes.arrayOf(PropTypes.shape({
     question: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
   })).isRequired,
+  getQuestions: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);

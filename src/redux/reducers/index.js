@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import { user, requisitarToken, generateQuestions } from './user';
+import { user, requisitarToken } from './user';
+import generateQuestions from './game';
 
 const rootReducer = combineReducers({ user, requisitarToken, generateQuestions });
 

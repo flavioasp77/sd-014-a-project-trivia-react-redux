@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import Login from './pages/Login';
 import Feedback from './pages/Feedback';
 import Play from './pages/Play';
-import Ranking from './pages/Ranking';
+import Rankings from './pages/Rankings';
 import Settings from './pages/Settings';
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
         <Route exact path="/" component={ Login } />
         <Route path="/feedback" component={ Feedback } />
         <Route path="/play" component={ Play } />
-        <Route path="/ranking" component={ Ranking } />
+        <Route path="/rankings" component={ Rankings } />
         <Route path="/settings" component={ Settings } />
       </Switch>
     );

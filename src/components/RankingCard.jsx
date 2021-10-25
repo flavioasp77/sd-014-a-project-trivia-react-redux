@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 class RankingCard extends Component {
   render() {
-    const { name, score, hash, index } = this.props;
-    const gravatar = `https://www.gravatar.com/avatar/${hash}`;
+    const { index, name, picture, score } = this.props;
+    const gravatar = `https://www.gravatar.com/avatar/${picture}`;
     return (
       <div className="ranking-card">
         <img
@@ -30,7 +30,7 @@ class RankingCard extends Component {
 RankingCard.propTypes = {
   name: PropTypes.string.isRequired,
   score: PropTypes.string.isRequired,
-  hash: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };
 

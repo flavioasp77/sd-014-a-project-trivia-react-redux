@@ -9,6 +9,7 @@ class Question extends React.Component {
       green: '',
       red: '',
       end: false,
+      // scoreState: 0,
     };
     this.correctAnswer = this.correctAnswer.bind(this);
     this.resultCorrect = this.resultCorrect.bind(this);
@@ -16,10 +17,11 @@ class Question extends React.Component {
     this.newScores = this.newScores.bind(this);
   }
 
-  newScores(scoreCurrent) {
-    const stateOld = JSON.parse(localStorage.getItem('state'));
-    document.getElementById('score').innerHTML = (!stateOld ? 0
-      : JSON.stringify(stateOld.score + scoreCurrent));
+  newScores(stateStorage, scoreCurrent) {
+    console.log(scoreCurrent, 'scoreCurrent');
+    console.log(stateStorage, 'stateStorage');
+    document.getElementById('score').innerHTML = (!stateStorage ? scoreCurrent
+      : (stateStorage.score + scoreCurrent));
   }
 
   resultCorrect(scoreCurrent) {
@@ -30,12 +32,11 @@ class Question extends React.Component {
       gravatarEmail: '',
     };
     const stateStorage = JSON.parse(localStorage.getItem('state'));
-
     return ((!stateStorage ? localStorage.setItem('state', JSON.stringify(player))
       : (localStorage.setItem('state', JSON.stringify({
         ...stateStorage,
         score: stateStorage.score + scoreCurrent }))),
-    this.newScores(scoreCurrent)));
+    this.newScores(stateStorage, scoreCurrent)));
   }
 
   numberDifficulty(difficulty, timer) {

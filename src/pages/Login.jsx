@@ -71,7 +71,8 @@ class Login extends Component {
           />
           <button
             type="button"
-            className="btn-login"
+            className={ name.length <= MIN_CHARACTER
+              || email.length <= MIN_CHARACTER ? 'btn-login-game' : 'btn-login' }
             onClick={ this.handleClick }
             data-testid="btn-play"
             disabled={ name.length <= MIN_CHARACTER || email.length <= MIN_CHARACTER }
@@ -80,7 +81,7 @@ class Login extends Component {
           </button>
           <Link to="/settings">
             <button
-              className="btn-login"
+              className="btn-login settings"
               data-testid="btn-settings"
               type="button"
             >

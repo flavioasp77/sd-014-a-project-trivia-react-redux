@@ -14,24 +14,23 @@ class Feedback extends Component {
   }
 
   feedbackMessage() {
-    const { email } = this.props;
     const ASSERTION = 3;
     const player = readLocalStorage('state');
-    if (player[email].assertions < ASSERTION) {
+    if (player.player.assertions < ASSERTION) {
       return (
         <>
           <p data-testid="feedback-text">Podia ser melhor...</p>
-          <p data-testid="feedback-total-score">{ player[email].score }</p>
-          <p data-testid="feedback-total-question">{ player[email].assertions }</p>
+          <p data-testid="feedback-total-score">{ player.player.score }</p>
+          <p data-testid="feedback-total-question">{ player.player.assertions }</p>
         </>
       );
     }
-    if (player[email].assertions >= ASSERTION) {
+    if (player.player.assertions >= ASSERTION) {
       return (
         <>
           <p data-testid="feedback-text">Mandou bem!</p>
-          <p data-testid="feedback-total-score">{ player[email].score }</p>
-          <p data-testid="feedback-total-question">{ player[email].assertions }</p>
+          <p data-testid="feedback-total-score">{ player.player.score }</p>
+          <p data-testid="feedback-total-question">{ player.player.assertions }</p>
         </>
       );
     }
@@ -78,7 +77,6 @@ const mapStateToProps = (state) => ({
 });
 
 Feedback.propTypes = {
-  email: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

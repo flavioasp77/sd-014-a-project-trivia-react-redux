@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import { getQuestionsThunk, getScore } from '../actions';
-import { writeLocalStorage, readLocalStorage } from '../services/util';
+import { readLocalStorage,
+  writeLocalStorage, updateLocalStorage } from '../services/util';
 import Loading from '../components/Loading';
 
 class Jogo extends Component {
@@ -78,17 +80,9 @@ class Jogo extends Component {
       }));
     }
     const { score, assertions } = this.state;
-    const { sendScore, email } = this.props;
-    let state = readLocalStorage('state');
-    state = {
-      ...state,
-      [email]: {
-        ...state[email],
-        score,
-        assertions,
-      },
-    };
-    writeLocalStorage('state', state);
+    const { sendScore } = this.props;
+    updateLocalStorage('score', score);
+    updateLocalStorage('assertions', assertions);
     sendScore(score);
   }
 
@@ -110,10 +104,26 @@ class Jogo extends Component {
   }
 
   changeQuestion() {
-    const { currQuestion } = this.state;
-    const { history } = this.props;
+    const { currQuestion, score } = this.state;
+    const { history, name, email } = this.props;
     const questionsLength = 4;
     if (currQuestion === questionsLength) {
+      let ranking = readLocalStorage('ranking');
+      if (ranking === null) {
+        ranking = [{
+          name,
+          score,
+          picture: `https://www.gravatar.com/avatar/${md5(email).toString()}`,
+        }];
+        writeLocalStorage('ranking', ranking);
+      } else {
+        ranking.push({
+          name,
+          score,
+          picture: `https://www.gravatar.com/avatar/${md5(email).toString()}`,
+        });
+        writeLocalStorage('ranking', ranking);
+      }
       return history.push('/feedback');
     }
     this.setState((prevState) => ({
@@ -218,12 +228,14 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
   email: state.user.email,
+  name: state.user.name,
 });
 
 Jogo.propTypes = {
   email: PropTypes.string.isRequired,
   getQuestions: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  name: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   sendScore: PropTypes.func.isRequired,
 };

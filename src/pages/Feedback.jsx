@@ -32,19 +32,39 @@ class Feedback extends Component {
   showFeedbackScore(score, assertions) {
     if (score === 0) {
       return (
-        <span className="feedback-score" data-testid="feedback-total-score">
-          Não acertou nenhuma pergunta
+        <div className="feedback-score">
+          <span className="feedback-score" data-testid="feedback-total-question">
+            Não acertou nenhuma pergunta
 
-        </span>);
+          </span>
+          <p>
+            Um total de
+            {' '}
+            <span data-testid="feedback-total-score">{score}</span>
+            {' '}
+            pontos
+          </p>
+        </div>
+      );
     }
 
     return (
       <div className="feedback-score">
-        <span data-testid="feedback-total-score">
-          {`Você acertou ${assertions} questões!`}
+        <p>
+          Acertou
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+          {' '}
+          perguntas
 
-        </span>
-        <span>{`Um total de ${score} pontos`}</span>
+        </p>
+        <p>
+          Um total de
+          {' '}
+          <span data-testid="feedback-total-score">{score}</span>
+          {' '}
+          pontos
+        </p>
       </div>);
   }
 

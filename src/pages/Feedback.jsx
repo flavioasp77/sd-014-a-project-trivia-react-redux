@@ -26,13 +26,13 @@ class Feedback extends React.Component {
 
   handleClickRanking() {
     const { player } = this.state;
-    const { history, hashImage } = this.props;
+    const { history, picture } = this.props;
     const { score, name } = player;
     if (!localStorage.ranking) localStorage.ranking = JSON.stringify([]);
     const rankingParse = JSON.parse(localStorage.ranking);
     const updatedArray = [
       ...rankingParse,
-      { name, score, picture: hashImage },
+      { name, score, picture },
     ];
     const sortedArray = updatedArray.sort((cur, next) => next.score - cur.score);
     const sortedTopTenArray = this.grabTopTen(sortedArray);
@@ -70,13 +70,13 @@ class Feedback extends React.Component {
         <span data-testid="feedback-total-question">
           {player.assertions}
         </span>
-        <span>questões!</span>
+        <span> questões!</span>
         <br />
         <span>Com um total de </span>
         <span data-testid="feedback-total-score">
           {player.score}
         </span>
-        <span>Pontos!</span>
+        <span> pontos!</span>
         <br />
         <button
           type="button"
@@ -85,7 +85,6 @@ class Feedback extends React.Component {
           onClick={ this.handleClickPlayAgain }
         >
           Jogar novamente
-
         </button>
         <button
           type="button"
@@ -94,7 +93,6 @@ class Feedback extends React.Component {
           onClick={ this.handleClickRanking }
         >
           Ver Ranking
-
         </button>
       </div>
     );
@@ -102,12 +100,12 @@ class Feedback extends React.Component {
 }
 
 Feedback.propTypes = {
-  hashImage: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  hashImage: state.hashImage.hashImage,
+  picture: state.hashImage.hashImage,
 });
 
 export default connect(mapStateToProps)(Feedback);

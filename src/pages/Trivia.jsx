@@ -107,11 +107,14 @@ class Trivia extends React.Component {
     return (
       <div>
         <Header />
-        <p>Time Left!!:</p>
+        <span>Time Left!!: </span>
         <span>{ timer }</span>
         {perguntas.length > 0
         && (
           <>
+            <p>
+              { `Pergunta: ${indice + 1}/${perguntas.length}`}
+            </p>
             <p data-testid="question-category">
               { decodeURIComponent(perguntas[indice].category) }
             </p>

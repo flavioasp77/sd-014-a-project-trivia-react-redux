@@ -5,7 +5,7 @@ import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
   render() {
-    const { data, nextQuestion, shouldShowAnswer, showAnswer, timer } = this.props;
+    const { data, nextQuestion, onAnswerClick, shouldShowAnswer, timer } = this.props;
 
     const {
       category,
@@ -31,7 +31,7 @@ class QuestionCard extends Component {
           <Answers
             correctAnswer={ correct }
             incorrectAnswers={ incorrect }
-            onAnswerClick={ showAnswer }
+            onAnswerClick={ onAnswerClick }
             showAnswer={ shouldShowAnswer || timer === 0 }
           />
           {(shouldShowAnswer || timer === 0) && (
@@ -59,8 +59,8 @@ QuestionCard.propTypes = {
     difficulty: PropTypes.string.isRequired,
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  onAnswerClick: PropTypes.func.isRequired,
   shouldShowAnswer: PropTypes.bool.isRequired,
-  showAnswer: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
 };
 

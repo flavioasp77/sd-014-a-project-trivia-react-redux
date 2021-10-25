@@ -11,11 +11,12 @@ class Play extends Component {
     super(props);
     this.state = {
       questionIndex: 0,
+      score: 0,
       shouldShowAnswer: false,
-      timer: 5,
+      timer: 30,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.showAnswer = this.showAnswer.bind(this);
+    this.onAnswerClick = this.onAnswerClick.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +32,30 @@ class Play extends Component {
     clearInterval(this.counter);
   }
 
+  onAnswerClick({ target }) {
+    const { data } = this.props;
+    const { results } = data;
+
+    const question = document.querySelector('.question-text').innerText;
+    const { difficulty } = results.find(
+      (result) => result.question === question,
+    );
+    const correctAnswer = results.find(
+      (result) => result.question === question,
+    ).correct_answer;
+    const multiplier = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+
+    if (target.innerText === correctAnswer) {
+      this.whenAnswersCorrectly(difficulty, multiplier);
+    }
+
+    this.setState({ shouldShowAnswer: true, timer: 0 });
+  }
+
   setTimer() {
     const ONE_SECOND = 1000;
     this.counter = setInterval(() => {
@@ -38,17 +63,31 @@ class Play extends Component {
     }, ONE_SECOND);
   }
 
+  whenAnswersCorrectly(difficulty, multiplier) {
+    const { score, timer } = this.state;
+
+    const POINTS_PER_CORRECT = 10;
+    const newScore = score + (POINTS_PER_CORRECT + timer * multiplier[difficulty]); // Calculate the new score
+    this.setState({ score: newScore }); // Update the score in the state
+    localStorage.setItem(
+      // Update the score in the localStorage
+      'state',
+      JSON.stringify({
+        player: {
+          ...JSON.parse(localStorage.getItem('state')).player,
+          score: newScore,
+        },
+      }),
+    );
+  }
+
   nextQuestion() {
-    this.setState({ timer: 5 });
+    this.setState({ timer: 30 });
     // Reset the timer when the user clicks on the next question
 
     this.updateQuestionIndex();
 
     this.setTimer();
-  }
-
-  showAnswer() {
-    this.setState({ shouldShowAnswer: true, timer: 0 });
   }
 
   updateQuestionIndex() {
@@ -69,7 +108,7 @@ class Play extends Component {
 
   render() {
     const { data } = this.props;
-    const { questionIndex, shouldShowAnswer, timer } = this.state;
+    const { questionIndex, score, shouldShowAnswer, timer } = this.state;
 
     const { response_code: responseCode, results } = data;
 
@@ -86,13 +125,13 @@ class Play extends Component {
 
     return (
       <>
-        <Header />
+        <Header score={ score } />
         <QuestionCard
           data={ results[questionIndex] }
           nextQuestion={ this.nextQuestion }
+          onAnswerClick={ this.onAnswerClick }
           shouldShowAnswer={ shouldShowAnswer }
           // Solution to the problem of showing the answer after the timer
-          showAnswer={ this.showAnswer }
           timer={ timer }
         />
       </>

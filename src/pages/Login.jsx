@@ -57,10 +57,11 @@ class login extends Component {
   }
 
   async handleClick() {
-    const { getGame } = this.props;
-    await this.playerSaver();
+    const { getGame, history } = this.props;
     await this.tokenFetcher();
-    getGame();
+    await this.playerSaver();
+    await getGame();
+    history.push('/game');
   }
 
   render() {
@@ -95,16 +96,14 @@ class login extends Component {
                 onChange={ this.handleChange }
               />
             </label>
-            <Link to="/game">
-              <button
-                type="button"
-                data-testid="btn-play"
-                onClick={ this.handleClick }
-                disabled={ this.validateEmail() }
-              >
-                Jogar
-              </button>
-            </Link>
+            <button
+              type="button"
+              data-testid="btn-play"
+              onClick={ this.handleClick }
+              disabled={ this.validateEmail() }
+            >
+              Jogar
+            </button>
           </form>
         </div>
       </div>
@@ -114,6 +113,7 @@ class login extends Component {
 
 login.propTypes = {
   getGame: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

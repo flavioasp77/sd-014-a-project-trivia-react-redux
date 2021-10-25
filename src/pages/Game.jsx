@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import Questions from '../components/Questions';
 import { gravatarAction, rankingAction } from '../redux/actions';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -59,19 +60,11 @@ class Game extends Component {
   }
 
   render() {
-    const { nome, history } = this.props;
+    const { name, history } = this.props;
     const { source, score } = this.state;
     return (
       <>
-        <header>
-          <div data-testid="header-player-name">{ nome }</div>
-          <img
-            data-testid="header-profile-picture"
-            src={ source }
-            alt="gravatar"
-          />
-          <div data-testid="header-score">{ score }</div>
-        </header>
+        <Header name={ name } score={ score } source={ source } />
         <Questions history={ history } updateValue={ this.newScore } />
       </>
     );
@@ -79,7 +72,7 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  nome: state.player.name,
+  name: state.player.name,
   email: state.player.email,
   token: state.token.success,
 });
@@ -93,7 +86,7 @@ Game.propTypes = {
   getGravatar: PropTypes.func.isRequired,
   rankingGlobalState: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  nome: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };

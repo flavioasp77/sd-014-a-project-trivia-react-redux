@@ -2,7 +2,7 @@
   align-items: center;
   background-color: #c4c4c4;
   display: flex;
-  height: 6rem;
+  height: auto;
   margin: 1rem;
   padding: 0 0.5rem;
   width: 70%;
@@ -10,6 +10,7 @@
 
 .ranking-text {
   font-size: 4rem;
+  margin: 1rem;
 }
 
 .ranking-picture {

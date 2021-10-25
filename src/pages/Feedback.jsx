@@ -52,13 +52,16 @@ class Feedback extends Component {
 
   render() {
     const { player } = JSON.parse(localStorage.getItem('state'));
+
     const { score, assertions } = player;
 
     return (
       <>
         <Header score={ score } />
+
         {this.showFeedbackMessage(assertions)}
         {this.showFeedbackScore(score, assertions)}
+
         <Link className="btn-ranking" data-testid="btn-ranking" to="/rankings">
           VER RANKING
         </Link>

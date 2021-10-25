@@ -1,0 +1,21 @@
+.ranking-card {
+  align-items: center;
+  background-color: #c4c4c4;
+  display: flex;
+  height: auto;
+  margin: 1rem;
+  padding: 0 0.5rem;
+  width: 70%;
+}
+
+.ranking-text {
+  font-size: 4rem;
+  margin: 1rem;
+}
+
+.ranking-picture {
+  border-radius: 50%;
+  height: 4rem;
+  margin-right: 1rem;
+  width: 4rem;
+}

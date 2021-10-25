@@ -1,0 +1,18 @@
+.btn-go-home {
+  background-color: #89d662;
+  border: none;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  font-size: 2.8rem;
+  justify-content: center;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  width: 32rem;
+}
+
+.btn-go-home:hover {
+  opacity: 0.8;
+}

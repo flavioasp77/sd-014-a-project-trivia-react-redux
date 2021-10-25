@@ -6,15 +6,9 @@ import '../styles/Header.css';
 
 class Header extends Component {
   render() {
-    const { email, name } = this.props;
+    const { email, name, score } = this.props;
     const hash = md5(email.trim().toLowerCase()).toString();
     const gravatar = `https://www.gravatar.com/avatar/${hash}`;
-    const initialScore = 0;
-    const player = { name,
-      assertions: null,
-      score: initialScore,
-      gravatarEmail: email };
-    localStorage.setItem('player', JSON.stringify(player));
 
     return (
       <header className="header">
@@ -31,11 +25,10 @@ class Header extends Component {
             {name}
           </span>
         </div>
-        <span className="header-score" data-testid="header-score">
-          Pontos:
-          {' '}
-          {initialScore}
-        </span>
+        <div className="header-score">
+          <span>Pontos: </span>
+          <span data-testid="header-score">{score}</span>
+        </div>
       </header>
     );
   }
@@ -49,6 +42,7 @@ const mapStateToProps = (state) => ({
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

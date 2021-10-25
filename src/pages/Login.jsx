@@ -27,8 +27,20 @@ class Login extends Component {
 
   onLogin() {
     const { history, loginUser } = this.props;
-    loginUser(this.state);
-    history.push('/play');
+    const { name, email } = this.state;
+
+    const state = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+
+    localStorage.setItem('state', JSON.stringify(state)); // Save player state in localStorage
+    loginUser(this.state); // Dispatch action to login user (fill redux store)
+    history.push('/game'); // Redirect to game
   }
 
   handleChange({ target: { value, name } }) {

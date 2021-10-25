@@ -37,12 +37,9 @@ class Play extends Component {
     const { results } = data;
 
     const question = document.querySelector('.question-text').innerText;
-    const { difficulty } = results.find(
-      (result) => result.question === question,
+    const { difficulty, correct_answer: correctAnswer } = results.find(
+      (curr) => curr.question === question,
     );
-    const correctAnswer = results.find(
-      (result) => result.question === question,
-    ).correct_answer;
     const multiplier = {
       hard: 3,
       medium: 2,
@@ -65,8 +62,8 @@ class Play extends Component {
 
   whenAnswersCorrectly(difficulty, multiplier) {
     const { score, timer } = this.state;
-
     const POINTS_PER_CORRECT = 10;
+
     const newScore = score + (POINTS_PER_CORRECT + timer * multiplier[difficulty]); // Calculate the new score
     this.setState({ score: newScore }); // Update the score in the state
     localStorage.setItem(
@@ -84,9 +81,7 @@ class Play extends Component {
   nextQuestion() {
     this.setState({ timer: 30 });
     // Reset the timer when the user clicks on the next question
-
     this.updateQuestionIndex();
-
     this.setTimer();
   }
 
@@ -155,7 +150,6 @@ class Play extends Component {
           nextQuestion={ this.nextQuestion }
           onAnswerClick={ this.onAnswerClick }
           shouldShowAnswer={ shouldShowAnswer }
-          // Solution to the problem of showing the answer after the timer
           timer={ timer }
         />
       </>

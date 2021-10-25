@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import { updateScore } from '../actions';
 import '../Game.css';
 import NextQuestionBtn from './NextQuestionBtn';
 
@@ -14,6 +15,7 @@ class Questions extends Component {
       timer: 30,
       answered: '',
       answers: [],
+      score: 0,
       btnOnOff: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -21,16 +23,46 @@ class Questions extends Component {
     this.timer = this.timer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.setAnswers = this.setAnswers.bind(this);
+    this.setScore = this.setScore.bind(this);
+    this.scoreStorage = this.scoreStorage.bind(this);
     // this.shuffleAnswers = this.shuffleAnswers.bind(this);
   }
 
-  componentDidMount() { this.timer(); }
+  componentDidMount() {
+    this.timer();
+    console.log(Object.keys(localStorage));
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { questions } = this.props;
     const { id } = this.state;
     if (prevProps.questions !== questions || prevState.id !== id) {
       this.setAnswers();
+    }
+  }
+
+  setScore(answer) {
+    const { questions } = this.props;
+    const { id, timer } = this.state;
+    const { difficulty } = questions[id];
+    const BASE = 10;
+    const HARD = 3;
+    const MEDIUM = 2;
+    const EASY = 1;
+    if (difficulty === 'hard' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (HARD * timer)),
+      }), () => this.scoreStorage());
+    }
+    if (difficulty === 'medium' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (MEDIUM * timer)),
+      }), () => this.scoreStorage());
+    }
+    if (difficulty === 'easy' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (EASY * timer)),
+      }), () => this.scoreStorage());
     }
   }
 
@@ -51,6 +83,16 @@ class Questions extends Component {
     });
   }
 
+  async scoreStorage() {
+    const { score } = this.state;
+    const { changeScore } = this.props;
+    const storage = await JSON.parse(localStorage.getItem('state'));
+    storage.player.score = score;
+    const stateUpdt = await JSON.stringify(storage);
+    localStorage.setItem('state', stateUpdt);
+    changeScore(score);
+  }
+
   timer() {
     const ONE_SECOND = 1000;
     setInterval(() => {
@@ -62,9 +104,9 @@ class Questions extends Component {
 
   resetTimer() { this.setState({ timer: 30 }); }
 
-  handleAnswer() {
-    this.setState({ answered: true, btnOnOff: true }, () => {
-    });
+  handleAnswer(answer) {
+    this.setScore(answer);
+    this.setState({ answered: true, btnOnOff: true });
   }
 
   nextQuestion() {
@@ -95,7 +137,7 @@ class Questions extends Component {
               ? 'correct-answer'
               : `wrong-answer-${array.indexOf(answer)}` }
             type="button"
-            onClick={ () => this.handleAnswer() }
+            onClick={ () => this.handleAnswer(answer) }
             disabled={ (timer <= ZERO) }
             className={
               answered
@@ -127,6 +169,7 @@ class Questions extends Component {
 Questions.propTypes = {
   questions: PropTypes.arrayOf(Object).isRequired,
   loading: PropTypes.bool.isRequired,
+  changeScore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -134,4 +177,8 @@ const mapStateToProps = (state) => ({
   loading: state.questions.loading,
 });
 
-export default connect(mapStateToProps)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  changeScore: (payload) => dispatch(updateScore(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

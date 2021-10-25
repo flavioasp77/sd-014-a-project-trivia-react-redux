@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import StopWatch from './StopWatch';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Questions extends React.Component {
       <main>
         <p data-testid="question-category">{ cathegory }</p>
         <p data-testid="question-text">{ `${question}` }</p>
+        <StopWatch selectedAnswer={ selectedAnswer } />
         <section>
           {
             answerAlts.map((alt, index) => (
@@ -46,7 +48,7 @@ class Questions extends React.Component {
                     ? 'correctAnswer' : `wrong-answer-${index}`
                 }
                 disabled={ selectedAnswer }
-                className={ selectedAnswer && alt === correctAnswer
+                className={ (selectedAnswer === true) && alt === correctAnswer
                   ? 'correct' : 'incorrect' }
                 type="button"
                 key={ alt }

@@ -34,7 +34,7 @@ class Login extends Component {
     const { userInfo, history } = this.props;
     await fetchTokenApi();
     await userInfo(name, email);
-    history.push('/game');
+    await history.push('/game');
     const player = {
       player: {
         name,

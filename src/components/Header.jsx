@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import triviaLogo from '../trivia.png';
 
 class Header extends Component {
@@ -14,7 +14,7 @@ class Header extends Component {
           <span>
             Jogador:
             <span data-testid="header-player-name">
-              { ` ${name}` }
+              { name }
             </span>
           </span>
           <span>

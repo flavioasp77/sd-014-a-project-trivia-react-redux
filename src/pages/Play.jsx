@@ -63,15 +63,18 @@ class Play extends Component {
   whenAnswersCorrectly(difficulty, multiplier) {
     const { score, timer } = this.state;
     const POINTS_PER_CORRECT = 10;
+    const { player } = JSON.parse(localStorage.getItem('state'));
 
     const newScore = score + (POINTS_PER_CORRECT + timer * multiplier[difficulty]); // Calculate the new score
     this.setState({ score: newScore }); // Update the score in the state
+
     localStorage.setItem(
       // Update the score in the localStorage
       'state',
       JSON.stringify({
         player: {
-          ...JSON.parse(localStorage.getItem('state')).player,
+          ...player,
+          assertions: player.assertions + 1,
           score: newScore,
         },
       }),

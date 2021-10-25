@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import '../Game.css';
 import NextQuestionBtn from './NextQuestionBtn';
@@ -76,6 +77,7 @@ class Questions extends Component {
     const { questions, loading } = this.props;
     const { id, timer, answers, answered, btnOnOff } = this.state;
     const ZERO = 0;
+    const LAST_ID = 4;
     if (loading) return <Loading />;
     return (
       <div>
@@ -103,7 +105,20 @@ class Questions extends Component {
             { answer }
           </button>
         ))}
-        { btnOnOff && <NextQuestionBtn nextQuestion={ this.nextQuestion } /> }
+        { btnOnOff && id !== LAST_ID
+        && <NextQuestionBtn nextQuestion={ this.nextQuestion } /> }
+        { id === LAST_ID
+        && (
+          <Link to="/score">
+            <div>
+              <button
+                data-testid="btn-next"
+                type="button"
+              >
+                Próxima
+              </button>
+            </div>
+          </Link>)}
       </div>
     );
   }

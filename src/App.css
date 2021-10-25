@@ -68,7 +68,17 @@ button {
   width: 22rem;
 }
 
+button:disabled {
+  background: white;
+  color: black;
+  opacity: 0.6;
+}
+
 button:hover {
   opacity: 0.9;
   transform: translateY(-2px);
+}
+
+button:disabled:hover {
+  transform: none;
 }

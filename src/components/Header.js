@@ -12,8 +12,8 @@ class Header extends Component {
   }
 
   getScore() {
-    const scoreStore = JSON.parse(localStorage.getItem('player'));
-    return !scoreStore ? 0 : scoreStore.score;
+    const scoreStore = JSON.parse(localStorage.getItem('state'));
+    return !scoreStore ? 0 : scoreStore.player.score;
   }
 
   perfilGravatar() {

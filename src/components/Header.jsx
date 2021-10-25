@@ -16,8 +16,8 @@ class Header extends Component {
             <Link to="/">
               <Img src={ logo } alt="Logo" />
             </Link>
+            <span>Score:</span>
             <span data-testid="header-score">
-              Score:
               {score}
             </span>
           </div>

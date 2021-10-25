@@ -7,24 +7,16 @@ import Button from '../components/Button';
 import '../css/Feedback.css';
 
 class Feedback extends Component {
-  constructor() {
-    super();
-    this.state = {
-      score: 0,
-      questions: 0,
-    };
-  }
-
   // requisito 13 - para finalizar é preciso
   // que o localStorage retorne o score do player
   render() {
     const { player } = JSON.parse(localStorage.getItem('state'));
-    const { score, questions } = this.state;
+    const { score, assertions } = player;
+    // const { score, questions } = this.state;
     const userHash = md5(player.gravatarEmail).toString();
-    const assertions = 0;
 
     const messages = {
-      question: `Você acertou ${questions} questões`,
+      question: `Você acertou ${assertions} questões`,
       score: `Um total de ${score} pontos`,
       loss: 'Podia ser melhor...',
       great: 'Mandou bem!',

@@ -12,12 +12,15 @@ class Questions extends Component {
       timer: 30,
       answered: '',
       answers: [],
+      score: 0,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
     this.timer = this.timer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.setAnswers = this.setAnswers.bind(this);
+    this.setScore = this.setScore.bind(this);
+    this.scoreStorage = this.scoreStorage.bind(this);
     // this.shuffleAnswers = this.shuffleAnswers.bind(this);
   }
 
@@ -28,6 +31,31 @@ class Questions extends Component {
     const { id } = this.state;
     if (prevProps.questions !== questions || prevState.id !== id) {
       this.setAnswers();
+    }
+  }
+
+  setScore(answer) {
+    const { questions } = this.props;
+    const { id, timer } = this.state;
+    const { difficulty } = questions[id];
+    const BASE = 10;
+    const HARD = 3;
+    const MEDIUM = 2;
+    const EASY = 1;
+    if (difficulty === 'hard' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (HARD * timer)),
+      }), () => this.scoreStorage());
+    }
+    if (difficulty === 'medium' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (MEDIUM * timer)),
+      }), () => this.scoreStorage());
+    }
+    if (difficulty === 'easy' && (answer === questions[id].correct_answer)) {
+      this.setState((prevState) => ({
+        score: prevState.score + (BASE + (EASY * timer)),
+      }), () => this.scoreStorage());
     }
   }
 
@@ -47,6 +75,17 @@ class Questions extends Component {
     });
   }
 
+  scoreStorage() {
+    const { score } = this.state;
+    const storage = JSON.parse(localStorage.getItem('state'));
+    const NEW_STATE = {
+      ...storage,
+      score,
+    };
+    const stateUpdt = JSON.stringify(NEW_STATE);
+    localStorage.setItem('state', stateUpdt);
+  }
+
   timer() {
     const ONE_SECOND = 1000;
     setInterval(() => {
@@ -58,7 +97,8 @@ class Questions extends Component {
 
   resetTimer() { this.setState({ timer: 30 }); }
 
-  handleAnswer() {
+  handleAnswer(answer) {
+    this.setScore(answer);
     const TWO_SECONDS = 2000;
     this.setState({ answered: true }, () => {
       setTimeout(() => {
@@ -94,7 +134,7 @@ class Questions extends Component {
               ? 'correct-answer'
               : `wrong-answer-${array.indexOf(answer)}` }
             type="button"
-            onClick={ () => this.handleAnswer() }
+            onClick={ () => this.handleAnswer(answer) }
             disabled={ (timer <= ZERO) }
             className={
               answered

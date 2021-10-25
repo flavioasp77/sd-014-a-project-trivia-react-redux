@@ -3,20 +3,28 @@ import React from 'react';
 class Header extends React.Component {
   constructor() {
     super();
+    this.state = {
+      username: '',
+      score: 0,
+    };
     this.headerDisplay = this.headerDisplay.bind(this);
   }
 
   componentDidMount() {
-    this.headerDisplay();
+    this.somaScore();
   }
 
-  componentDidUpdate() {
-    this.headerDisplay();
+  somaScore() {
+    const player = JSON.parse(localStorage.getItem('state'));
+    const { username, score } = player;
+    this.setState({
+      username,
+      score,
+    });
   }
 
   headerDisplay() {
-    const player = JSON.parse(localStorage.getItem('state'));
-    const { username, score } = player;
+    const { score, username } = this.state;
     return (
       <>
         <h3 data-testid="header-player-name">{username}</h3>
@@ -29,7 +37,8 @@ class Header extends React.Component {
   render() {
     return (
       <header>
-        { this.headerDisplay() }
+        {/* { this.headerDisplay() } */}
+        <this.headerDisplay />
       </header>
     );
   }

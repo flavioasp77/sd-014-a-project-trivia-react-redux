@@ -48,8 +48,17 @@ class Jogo extends Component {
     return (
       <main>
         <Header />
-        {timerIsOn ? <Timer nextQuestionState={ this.nextQuestionState } />
-          : <span>{`Tempo: ${timerValue}`}</span>}
+        { timerIsOn ? <Timer />
+          : (
+            <div className="circular">
+              <div className="inner" />
+              <div className="outer" />
+              <div className="numb">
+                {timerValue}
+              </div>
+              <div className="circle" style={ { backgroundColor: '#2fc18c ' } } />
+            </div>
+          )}
         {infoIsLoaded
         && <Question
           handleNextQuestion={ this.handleNextQuestion }

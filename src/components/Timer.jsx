@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateTimer as updateTimerAction } from '../actions/questionTimerActions';
 import { handleUserAnswer as handleUserAnswerAction } from '../actions/gameActions';
+import '../styles/timer.css';
 
 class Timer extends Component {
   constructor() {
@@ -37,8 +38,23 @@ class Timer extends Component {
   render() {
     const { timer } = this.state;
     return (
-      <div>
-        <span>{`Tempo: ${timer}`}</span>
+      <div className="circular">
+        <div className="inner" />
+        <div className="outer" />
+        <div className="numb">
+          {timer}
+        </div>
+        <div className="circle">
+          <div className="dot">
+            <span />
+          </div>
+          <div className="bar left">
+            <div className="progress" />
+          </div>
+          <div className="bar right">
+            <div className="progress" />
+          </div>
+        </div>
       </div>
     );
   }

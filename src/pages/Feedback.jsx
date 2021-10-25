@@ -5,67 +5,42 @@ import GoHomeButton from '../components/GoHomeButton';
 import '../styles/Feedback.css';
 
 class Feedback extends Component {
-  constructor() {
-    super();
-    this.showFeedbackMessage = this.showFeedbackMessage.bind(this);
-    this.showFeedbackScore = this.showFeedbackScore.bind(this);
+  feedbackText(assertions) {
+    const MIN_QUESTIONS = 3;
+
+    return assertions < MIN_QUESTIONS ? (
+      <span className="feedback-text" data-testid="feedback-text">
+        Podia ser melhor...
+      </span>
+    ) : (
+      <span className="feedback-text" data-testid="feedback-text">
+        Mandou bem!
+      </span>
+    );
   }
 
-  showFeedbackMessage(assertions) {
-    const QUESTIONS = 3;
-    if (assertions < QUESTIONS) {
-      return (
-        <span className="feedback-text" data-testid="feedback-text">
-          Podia ser melhor...
-        </span>
-      );
-    }
-    if (assertions >= QUESTIONS) {
-      return (
-        <span className="feedback-text" data-testid="feedback-text">
-          Mandou bem!
-        </span>
-      );
-    }
-  }
-
-  showFeedbackScore(score, assertions) {
-    if (score === 0) {
-      return (
-        <div className="feedback-score">
-          <span className="feedback-score" data-testid="feedback-total-question">
-            Não acertou nenhuma pergunta
-
-          </span>
-          <p>
-            Um total de
-            {' '}
-            <span data-testid="feedback-total-score">{score}</span>
-            {' '}
-            pontos
-          </p>
-        </div>
-      );
-    }
-
+  feedbackTotalQuestion(assertions) {
     return (
-      <div className="feedback-score">
-        <p>
-          Acertou
-          {' '}
-          <span data-testid="feedback-total-question">{assertions}</span>
-          {' '}
-          perguntas
+      <span>
+        Você acertou
+        {' '}
+        <span data-testid="feedback-total-question">{assertions}</span>
+        {' '}
+        questões!
+      </span>
+    );
+  }
 
-        </p>
-        <p>
-          Um total de
-          {' '}
-          <span data-testid="feedback-total-score">{score}</span>
-          {' '}
-          pontos
-        </p>
-      </div>);
+  feedbackTotalScore(score) {
+    return (
+      <span>
+        Um total de
+        {' '}
+        <span data-testid="feedback-total-score">{score}</span>
+        {' '}
+        pontos
+      </span>
+    );
   }
 
   render() {
@@ -75,8 +50,11 @@ class Feedback extends Component {
     return (
       <>
         <Header score={ score } />
-        {this.showFeedbackMessage(assertions)}
-        {this.showFeedbackScore(score, assertions)}
+        {this.feedbackText(assertions)}
+        <div className="feedback-total">
+          {this.feedbackTotalQuestion(assertions)}
+          {this.feedbackTotalScore(score)}
+        </div>
         <Link className="btn-ranking" data-testid="btn-ranking" to="/rankings">
           VER RANKING
         </Link>

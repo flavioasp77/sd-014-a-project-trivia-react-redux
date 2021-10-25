@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap') ;
+
+.circular {
+  height: 100px;
+  position: relative;
+  width: 100px;
+}
+
+.circular .inner, .circular .outer, .circular .circle {
+  border-radius: 100%;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 6;
+}
+
+.circular .inner {
+  background-color: #dde6f0;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  height: 80px;
+  left: 50%;
+  margin: -40px 0 0 -40px;
+  top: 50%;
+  width: 80px;
+}
+
+.circular .circle {
+  box-shadow: none;
+  z-index: 1;
+}
+
+.circular .numb {
+  color: #4158d0;
+  font-size: 18px;
+  font-weight: 500;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.circular .bar {
+  background: white;
+  border-radius: 100%;
+  clip: rect(0, 100px, 100px, 50px);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.circle .bar .progress {
+  border-radius: 100%;
+  clip: rect(0, 50px, 100px, 0);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.circle .bar .progress, .dot span {
+  background: #4158d0;
+}
+
+.circle .left .progress {
+  animation: left 15s linear both;
+  z-index: 1;
+}
+
+@keyframes left {
+
+  100% {
+    transform: rotate(180deg);
+  }
+
+}
+
+.circle .right {
+  transform: rotate(180deg);
+  z-index: 3;
+}
+
+.circle .right .progress {
+  animation: right 15s linear both;
+  animation-delay: 15s;
+}
+
+@keyframes right {
+
+  100% {
+    transform: rotate(180deg);
+  }
+
+}
+
+@keyframes dot {
+
+  0% {
+    transform: rotate(-90deg);
+  }
+
+  50% {
+    transform: rotate(90deg);
+    z-index: 4;
+  }
+
+  100% {
+    transform: rotate(270deg);
+    z-index: 4;
+  }
+
+}

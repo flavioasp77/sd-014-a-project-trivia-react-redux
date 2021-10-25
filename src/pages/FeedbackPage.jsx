@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { resetAll as resetAllAction } from '../redux/actions';
 
 const SCORE_LIMIT = 3;
 
@@ -12,7 +13,7 @@ class FeedbackPage extends Component {
   }
 
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, resetAll } = this.props;
     return (
       <div>
         <Header />
@@ -24,6 +25,16 @@ class FeedbackPage extends Component {
         <p data-testid="feedback-total-score">{score}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
 
+        <Link
+          to="/"
+          data-testid="btn-play-again"
+          className="btn btn-primary"
+          onClick={ () => resetAll() }
+        >
+          Jogar novamente
+
+        </Link>
+
       </div>
     );
   }
@@ -32,6 +43,7 @@ class FeedbackPage extends Component {
 FeedbackPage.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
+  resetAll: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -39,4 +51,8 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
 });
 
-export default connect(mapStateToProps)(FeedbackPage);
+const mapDispatchToProps = (dispatch) => ({
+  resetAll: () => dispatch(resetAllAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackPage);

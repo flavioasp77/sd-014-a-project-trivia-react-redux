@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { gravatarAction } from '../actions';
 import Questions from '../components/Questions';
+import { getRanking, setRanking } from '../services/ranking';
 
 class MainPage extends React.Component {
   constructor() {
@@ -50,6 +51,19 @@ class MainPage extends React.Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(atualStore));
+  }
+
+  renderRanking() {
+    const state = localStorage.getItem('state');
+    const { player: { name, score, infoUser } } = JSON.parse(state);
+
+    const ranking = getRanking();
+    if (!ranking) {
+      setRanking([{ name, score, infoUser }]);
+    } else {
+      const newRankings = [...ranking, { name, score, infoUser }];
+      setRanking(newRankings);
+    }
   }
 
   render() {

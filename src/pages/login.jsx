@@ -41,18 +41,19 @@ class Login extends React.Component {
     const { history, setPlayer } = this.props;
     const { email, name } = this.state;
     const token = await getToken();
+    const emailHash = md5(email).toString();
+    const img = await fetchGravatarAPI(emailHash);
     const stateObj = {
       player: {
         name,
         assertions: 0,
         score: 0,
         gravatarEmail: email,
+        img,
       },
     };
     localStorage.setItem('state', JSON.stringify(stateObj));
     localStorage.setItem('token', JSON.stringify(token));
-    const emailHash = md5(email).toString();
-    const img = await fetchGravatarAPI(emailHash);
     setPlayer(name, img);
     history.push('/trivia');
   }

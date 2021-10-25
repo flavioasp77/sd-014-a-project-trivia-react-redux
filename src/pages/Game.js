@@ -25,8 +25,11 @@ class Game extends React.Component {
   }
 
   timerRunning() {
-    this.setState((prevState) => (
-      { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }));
+    const { questions } = this.props;
+    console.log(questions, 'Xablau_question');
+    return (questions ? this.setState((prevState) => (
+      { timer: prevState.timer === 0 ? prevState.timer : prevState.timer - 1 }))
+      : 0);
   }
 
   handleClick() {

@@ -21,21 +21,24 @@ class Question extends React.Component {
     console.log(scoreCurrent, 'scoreCurrent');
     console.log(stateStorage, 'stateStorage');
     document.getElementById('score').innerHTML = (!stateStorage ? scoreCurrent
-      : (stateStorage.score + scoreCurrent));
+      : (stateStorage.player.score + scoreCurrent));
   }
 
   resultCorrect(scoreCurrent) {
-    const player = {
-      name: '',
-      assertions: '',
-      score: scoreCurrent,
-      gravatarEmail: '',
+    const state = {
+      player: {
+        name: '',
+        assertions: '',
+        score: scoreCurrent,
+        gravatarEmail: '',
+      },
     };
     const stateStorage = JSON.parse(localStorage.getItem('state'));
-    return ((!stateStorage ? localStorage.setItem('state', JSON.stringify(player))
+    return ((!stateStorage ? localStorage.setItem('state', JSON.stringify(state))
       : (localStorage.setItem('state', JSON.stringify({
         ...stateStorage,
-        score: stateStorage.score + scoreCurrent }))),
+        player: { ...stateStorage.player,
+          score: stateStorage.player.score + scoreCurrent } }))),
     this.newScores(stateStorage, scoreCurrent)));
   }
 

@@ -33,6 +33,8 @@ class Login extends Component {
       'state',
       JSON.stringify({ player: {
         name: nameInput,
+        assertions: 0,
+        score: 0,
         gravatarEmail: emailInput,
       } }),
     );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
   render() {
@@ -22,6 +23,9 @@ class Feedback extends Component {
           {' '}
           <span data-testid="feedback-total-question">{ assertions }</span>
         </span>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
       </>
     );
   }

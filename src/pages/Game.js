@@ -170,7 +170,7 @@ class Game extends Component {
     return (
       <>
         { redirect && <Redirect to="/feedback" />}
-        <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
+        <Header player={ player.name } score={ player.score } src={ `https://www.gravatar.com/avatar/${userHash}` } />
         <main className="game__container">
           <div className={ classname }>
             <div className="game__headings">

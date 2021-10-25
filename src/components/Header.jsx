@@ -16,8 +16,11 @@ class Header extends Component {
             <Link to="/">
               <Img src={ logo } alt="Logo" />
             </Link>
-            <span data-testid="header-score">
+            <span>
               Score:
+              {' '}
+            </span>
+            <span data-testid="header-score">
               {score}
             </span>
           </div>
@@ -25,6 +28,7 @@ class Header extends Component {
           <div className="header__right">
             <span data-testid="header-player-name">
               Jogador:
+              {' '}
               {player}
             </span>
 

@@ -1,21 +1,21 @@
 .answers {
+  background-color: #607466;
+  color: white;
   display: flex;
   flex-direction: column;
-  background-color: #607466;
   justify-content: space-around;
-  color: white;
   width: 300px;
 }
 
 .nextButton {
-  height: 35px;
-  width: 200px;
   background-color: #083d77;
   color: white;
-  font-weight: 500;
-  margin-bottom: 10px;
-  margin-top: 7px;
   font-size: large;
-  margin-left: 25%;
+  font-weight: 500;
+  height: 35px;
   justify-content: center;
+  margin-bottom: 10px;
+  margin-left: 25%;
+  margin-top: 7px;
+  width: 200px;
 }

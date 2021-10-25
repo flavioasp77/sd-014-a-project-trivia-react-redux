@@ -32,7 +32,7 @@ class Game extends React.Component {
   handleClick() {
     const { index } = this.state;
     const { questions } = this.props;
-    if (index < (questions.length - 1)) {
+    if (index < (questions.length)) {
       this.setState({
         index: index + 1, timer: 30 });
     }

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 class ButtonNext extends React.Component {
   render() {
-    const { buttonNext } = this.props;
+    const { onClick } = this.props;
     return (
-      <button type="button" onClick={ buttonNext } data-testid="btn-next">
+      <button type="button" onClick={ onClick } data-testid="btn-next">
         Próxima
       </button>
     );

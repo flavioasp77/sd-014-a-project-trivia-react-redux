@@ -16,9 +16,9 @@ class Header extends Component { // comentario
 }
 
 Header.propTypes = {
-  img: PropTypes.string,
-  nome: PropTypes.string,
-}.isRequired;
+  img: PropTypes.string.isRequired,
+  nome: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   img: state.user.image,

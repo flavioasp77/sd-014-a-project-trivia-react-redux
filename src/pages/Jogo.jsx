@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { getQuestionsThunk } from '../actions';
 import updateLocalStorage from '../services/util';
+import Loading from '../components/Loading';
 
 class Jogo extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Jogo extends Component {
     console.log('O intervalo está rodando');
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     const MAX_SECONDS = 0;
 
     if (prevState.timer === MAX_SECONDS) {
@@ -140,6 +141,7 @@ class Jogo extends Component {
       <button
         type="button"
         onClick={ this.changeQuestion }
+        data-testid="btn-next"
       >
         Feedback
       </button>
@@ -193,7 +195,7 @@ class Jogo extends Component {
     return (
       <div>
         <Header />
-        {isLoading ? null : this.perguntas()}
+        {isLoading ? <Loading /> : this.perguntas()}
       </div>
     );
   }
@@ -208,8 +210,9 @@ const mapStateToProps = (state) => ({
 });
 
 Jogo.propTypes = {
-  getQuestions: PropTypes.func,
-  questions: PropTypes.any,
-}.isRequired;
+  getQuestions: PropTypes.func.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

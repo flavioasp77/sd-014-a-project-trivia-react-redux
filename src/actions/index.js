@@ -5,13 +5,12 @@ export const LOGIN = 'LOGIN';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_GRAVATAR = 'GET_GRAVATAR';
+export const GET_SCORE = 'GET_SCORE';
 
 export const login = (email, name) => ({
   type: LOGIN,
   payload: { email, name },
 });
-
-// export const username = (name) => ({ type: USER_NAME, name });
 
 const getToken = (token) => ({
   type: GET_TOKEN,
@@ -23,7 +22,15 @@ const getQuestions = (questions) => ({
   payload: { questions },
 });
 
-export const getGravatar = (image) => ({ type: GET_GRAVATAR, payload: image });
+export const getGravatar = (image) => ({
+  type: GET_GRAVATAR,
+  payload: image,
+});
+
+export const getScore = (score) => ({
+  type: GET_SCORE,
+  payload: score,
+});
 
 export const getTokenThunk = () => async (dispatch) => {
   const TOKEN_URL = 'https://opentdb.com/api_token.php?command=request';
@@ -41,13 +48,3 @@ export const getQuestionsThunk = () => async (dispatch) => {
   const questions = response.results;
   dispatch(getQuestions(questions));
 };
-
-// const addExpense = (expense) => ({
-// type: ADD_ACTION,
-// payload: expense,
-// });
-
-// export const addExpenseThank = (expense) => (
-// (dispatch) => getCurrency()
-// .then((data) => dispatch(addExpense({ ...expense, exchangeRates: data })))
-// );

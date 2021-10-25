@@ -18,10 +18,15 @@ class Game extends React.Component {
       questions: [],
       index: 0,
       clicked: false,
+      stopwatch: 30,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.sortArray = this.sortArray.bind(this);
+
+    this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
+    this.initTimer = this.initTimer.bind(this);
+    this.toCheck = this.toCheck.bind(this);
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
@@ -34,6 +39,13 @@ class Game extends React.Component {
     this.fetchApi();
   }
 
+  componentDidUpdate() {
+    const { stopwatch, clicked } = this.state;
+    if (stopwatch === 0 && clicked === false) {
+      this.clickAnswer();
+    }
+  }
+
   async fetchApi() {
     const fetchToken = await fetch('https://opentdb.com/api_token.php?command=request');
     const TOKEN = await fetchToken.json();
@@ -41,6 +53,8 @@ class Game extends React.Component {
     const { results: questions } = await response.json();
     this.setState({
       questions,
+    }, () => {
+      this.initTimer();
     });
   }
 
@@ -54,7 +68,8 @@ class Game extends React.Component {
     this.setState((prevState) => ({
       clicked: false,
       index: prevState.index + 1,
-    }));
+      stopwatch: 30,
+    }), () => { this.initTimer(); });
   }
 
   sortArray() {
@@ -77,10 +92,25 @@ class Game extends React.Component {
 
   clickAnswer() {
     this.setState({ clicked: true });
+    clearInterval(this.timer);
+  }
+
+  initTimer() {
+    const SECOND_TIME = 1000;
+    this.timer = setInterval(() => {
+      this.setState((prevState) => ({
+        stopwatch: prevState.stopwatch - 1,
+      }));
+    }, SECOND_TIME);
+  }
+
+  toCheck() {
+    console.log('botao desabilitar');
+    console.log('mostrar resposta correto');
   }
 
   render() {
-    const { name, score, pictureURL, questions, index, clicked } = this.state;
+    const { name, score, pictureURL, questions, index, clicked, stopwatch } = this.state;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
@@ -113,6 +143,11 @@ class Game extends React.Component {
               dataTestid="btn-next"
               onClick={ this.nextQuestion }
             />)}
+          <div>
+            Tempo restante:
+            {' '}
+            { stopwatch }
+          </div>
         </main>
       </>
     );

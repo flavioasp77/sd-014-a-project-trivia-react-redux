@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import reduce1 from './reduce1';
+import hashImage from './hashImage';
 
 const rootReducer = combineReducers({
-  reduce1,
+  hashImage,
 });
 
 export default rootReducer;

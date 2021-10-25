@@ -92,8 +92,8 @@ class Trivia extends React.Component {
         respondido: false,
         timer: 30,
       }));
-      this.timer();
       clearInterval(this.timeout);
+      this.timer();
     }
   }
 

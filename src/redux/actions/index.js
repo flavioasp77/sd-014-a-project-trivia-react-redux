@@ -1,11 +1,6 @@
-export const CASO_1 = 'CASO_1';
-export const GERAR_QUESTOES = 'GERAR_QUESTOES';
+export const SAVE_IMAGE = 'SAVE_IMAGE';
 
-export const funcCaso1 = () => {
-  //
-};
-
-export const gerarPerguntas = (payload) => ({
-  type: GERAR_QUESTOES,
+export const saveHashImage = (payload) => ({
+  type: SAVE_IMAGE,
   payload,
 });

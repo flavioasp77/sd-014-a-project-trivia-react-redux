@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
@@ -24,8 +25,27 @@ class Feedback extends React.Component {
   }
 
   handleClickRanking() {
-    const { history } = this.props;
+    const { player } = this.state;
+    const { history, hashImage } = this.props;
+    const { score, name } = player;
+    if (!localStorage.ranking) localStorage.ranking = JSON.stringify([]);
+    const rankingParse = JSON.parse(localStorage.ranking);
+    const updatedArray = [
+      ...rankingParse,
+      { name, score, picture: hashImage },
+    ];
+    const sortedArray = updatedArray.sort((cur, next) => next.score - cur.score);
+    const sortedTopTenArray = this.grabTopTen(sortedArray);
+    localStorage.ranking = JSON.stringify(sortedTopTenArray);
     history.push('/ranking');
+  }
+
+  grabTopTen(array) {
+    const MAX_RANKING_QUANTITY = 10;
+    while (array.length > MAX_RANKING_QUANTITY) {
+      array.pop();
+    }
+    return array;
   }
 
   handleClickPlayAgain() {
@@ -82,7 +102,12 @@ class Feedback extends React.Component {
 }
 
 Feedback.propTypes = {
+  hashImage: PropTypes.string.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default (Feedback);
+const mapStateToProps = (state) => ({
+  hashImage: state.hashImage.hashImage,
+});
+
+export default connect(mapStateToProps)(Feedback);

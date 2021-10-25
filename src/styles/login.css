@@ -1,42 +1,51 @@
 .containner-login-main {
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.678);
+  background-attachment: fixed;
+  background-image: url('https://media.istockphoto.com/vectors/question-mark-3d-seamless-wallpaper-pattern-vector-id494094966?k=20&m=494094966&s=612x612&w=0&h=tXbLXNlUjL-jLsZOm7VBjDKY-Pp4yXJRwKv2pmi3TII=');
+  background-repeat: no-repeat;
+  background-size: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
 .card-login {
   align-items: center;
-  background-color: rgb(161, 167, 180);
+  background-color: #7a8a84;
   border: solid 1px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  font-family: monospace;
-  font-size: 15px;
+  font-family: cursive , 'Press Start 2P';
+  font-size: 12px;
   margin-bottom: 200px;
-  margin-top: 220px;
+  margin-top: -90px;
   padding: 80px 30px;
 }
 
 .input-login {
   border-radius: 5px;
-  height: 40px;
+  font-family: cursive , 'Press Start 2P';
+  height: 45px;
   margin-bottom: 20px;
+  margin-top: 20px;
   padding-left: 20px;
-  width: 300px;
+  width: 325px;
 }
 
 .input-login:focus {
   background-color: rgb(183, 183, 207);
-  border-color: rgb(9, 60, 200);
+  border-color: #16f5a3;
   outline: none;
 }
 
 .btn-jogar {
+  background-color: #2fc18c;
   border-radius: 5px;
   cursor: pointer;
-  height: 40px;
+  font-family: cursive , 'Press Start 2P';
+  font-size: 14px;
+  height: 45px;
   margin-bottom: 20px;
   margin-top: 20px;
   padding-left: 20px;
@@ -44,13 +53,17 @@
 }
 
 .btn-jogar:hover {
-  background-color: rgba(160, 156, 165, 0.192);
+  background-color: #04f19a;
+  box-shadow: 0 0 1em #2fc18c;
 }
 
 .btn-config {
+  background-color: #2fc18c;
   border-radius: 5px;
   cursor: pointer;
-  height: 40px;
+  font-family: cursive , 'Press Start 2P';
+  font-size: 10px;
+  height: 45px;
   margin-bottom: 20px;
   margin-top: 20px;
   padding-left: 20px;
@@ -58,7 +71,8 @@
 }
 
 .btn-config:hover {
-  background-color: rgba(160, 156, 165, 0.192);
+  background-color: #04f19a;
+  box-shadow: 0 0 1em #2fc18c;
 }
 
 .input-name {
@@ -67,9 +81,23 @@
 
 .btn-jogar-desab {
   border-radius: 5px;
-  height: 40px;
+  font-family: cursive , 'Press Start 2P';
+  height: 45px;
   margin-bottom: 20px;
   margin-top: 20px;
   padding-left: 20px;
   width: 327px;
+}
+
+.card-login > h3 {
+  font-size: 17px;
+}
+
+.text-email-gravatar {
+  margin-top: 20px;
+}
+
+.logo {
+  height: 400px;
+  margin-top: 10px;
 }

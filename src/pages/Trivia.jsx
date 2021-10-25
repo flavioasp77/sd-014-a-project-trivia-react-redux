@@ -11,19 +11,23 @@ class Trivia extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      nextBtn: false,
       questions: [],
       index: 0,
       loading: true,
       isClicked: false,
       answerArray: [],
       verifyAnswer: false,
+      resetTimer: false,
     };
     this.fetchAPI = this.fetchAPI.bind(this);
+    this.nextFuncBtn = this.nextFuncBtn.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.randomArray = this.randomArray.bind(this);
     this.createBtn = this.createBtn.bind(this);
     this.updateBtn = this.updateBtn.bind(this);
     this.countScore = this.countScore.bind(this);
+    this.funcRenderButton = this.funcRenderButton.bind(this);
   }
 
   componentDidMount() {
@@ -37,15 +41,13 @@ class Trivia extends Component {
 
   async fetchAPI() {
     const questions = await getQuestions();
-    this.setState({
-      questions,
-      loading: false,
-    });
+    this.setState({ questions, loading: false });
   }
 
   handleClick({ target }) {
     const verifyAnswer = target.id.includes('correct');
     this.setState({
+      nextBtn: true,
       isClicked: true,
       verifyAnswer,
     });
@@ -76,9 +78,7 @@ class Trivia extends Component {
 
       setScore(playerScore);
     }
-    // const currentLocarStore = JSON.parse(localStorage.getItem('state'));
     const stateObj = {
-      // ...currentLocarStore,
       player: {
         name: '',
         assertions: 0,
@@ -90,8 +90,13 @@ class Trivia extends Component {
   }
 
   answerMap() {
-    const { answerArray, isClicked } = this.state;
+    const { answerArray, isClicked, resetTimer } = this.state;
     const verify = answerArray.length === 0;
+    if (resetTimer) {
+      this.setState({
+        resetTimer: false,
+      });
+    }
     if (verify) {
       return this.createBtn();
     }
@@ -148,6 +153,7 @@ class Trivia extends Component {
     this.setState({
       answerArray: newAnswerArray,
       isClicked: false,
+      nextBtn: true,
     });
     return newAnswerArray;
   }
@@ -161,8 +167,36 @@ class Trivia extends Component {
     return newArrayAnswers;
   }
 
+  nextFuncBtn() {
+    const { index } = this.state;
+    const { history } = this.props;
+    const quantPerguntas = 4;
+    if (index === quantPerguntas) {
+      history.push('/feedback');
+    }
+    this.setState({
+      verifyAnswer: false,
+      resetTimer: true,
+      answerArray: [],
+      index: index < quantPerguntas ? index + 1 : index,
+      nextBtn: false,
+    });
+  }
+
+  funcRenderButton() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ this.nextFuncBtn }
+      >
+        Próxima
+      </button>
+    );
+  }
+
   renderFunction() {
-    const { questions, index, isClicked, isDisable } = this.state;
+    const { questions, index, isClicked, resetTimer, nextBtn } = this.state;
     const { category, question } = questions[index];
     return (
       <>
@@ -178,8 +212,9 @@ class Trivia extends Component {
         <Timer
           isClicked={ isClicked }
           updateBtn={ this.updateBtn }
-          isDisable={ isDisable }
+          reset={ resetTimer }
         />
+        { nextBtn && this.funcRenderButton() }
       </>
     );
   }
@@ -204,6 +239,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Trivia.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   timer: PropTypes.number.isRequired,
   setScore: PropTypes.func.isRequired,
 };

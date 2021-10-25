@@ -1,6 +1,7 @@
-import { GET_TIME, SET_PLAYER, SET_SCORE } from '../actions';
+import { GET_TIME, SET_PLAYER, SET_SCORE, REST_TIMER } from '../actions';
 
 const INICIAL_STATE = {
+  setTime: '',
   name: '',
   assertions: '',
   score: 0,
@@ -18,6 +19,8 @@ function playerReducer(state = INICIAL_STATE, action) {
     return { ...state, timer: action.timer };
   case SET_SCORE:
     return { ...state, score: state.score + action.score };
+  case REST_TIMER:
+    return { ...state, setTime: action.setTime };
   default:
     return state;
   }

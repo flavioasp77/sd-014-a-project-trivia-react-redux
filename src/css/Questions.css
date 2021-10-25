@@ -24,9 +24,6 @@
 .text {
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: 90px;
-  font-size: large;
 }
 
 .timer {

@@ -1,8 +1,9 @@
-import { REQUEST_QUESTIONS } from '../actions';
+import { REQUEST_QUESTIONS, UPDATE_SCORE } from '../actions';
 
 export const INITIAL_STATE = {
   questions: [],
   loading: true,
+  score: 0,
 };
 
 const questions = (state = INITIAL_STATE, { type, payload }) => {
@@ -12,6 +13,11 @@ const questions = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       questions: payload,
       loading: false,
+    };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: payload,
     };
   default:
     return state;

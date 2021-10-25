@@ -36,13 +36,15 @@ class login extends Component {
 
   playerSaver() {
     const { username, email } = this.state;
-    const player = {
-      username,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
+    const state = {
+      player: {
+        username,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
-    localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   async tokenFetcher() {
@@ -58,8 +60,8 @@ class login extends Component {
 
   async handleClick() {
     const { getGame, history } = this.props;
-    await this.tokenFetcher();
     await this.playerSaver();
+    await this.tokenFetcher();
     await getGame();
     history.push('/game');
   }

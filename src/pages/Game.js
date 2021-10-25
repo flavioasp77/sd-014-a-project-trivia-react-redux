@@ -20,7 +20,6 @@ class Game extends Component {
       assertions: 0,
       timeReset: false,
       feedback: false,
-      player,
     };
     this.handleIndex = this.handleIndex.bind(this);
     this.selectAnswer = this.selectAnswer.bind(this);

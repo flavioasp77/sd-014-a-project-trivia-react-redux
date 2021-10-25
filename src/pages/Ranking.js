@@ -16,7 +16,11 @@ class Ranking extends Component {
     const { localRanking } = this.state;
     const players = Object.keys(localRanking);
     players.sort((a, b) => localRanking[b].score - localRanking[a].score);
-    return players.map((player, index) => <RankingCard key={ index } index={ index } player={ localRanking[player] } />);
+    return players.map((player, index) => (<RankingCard
+      key={ index }
+      index={ index }
+      player={ localRanking[player] }
+    />));
   }
 
   render() {

@@ -6,7 +6,7 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     let message = '';
     const NUMBERTHREE = 3;
 
@@ -21,6 +21,18 @@ class Feedback extends Component {
         <Header />
         <h3>Resultados</h3>
         <p data-testid="feedback-text">{message}</p>
+        <p>
+          Score total:
+          { ' ' }
+          <span data-testid="feedback-total-score">{ score }</span>
+        </p>
+        <p>
+          Acertou:
+          { ' ' }
+          <span data-testid="feedback-total-question">{ assertions }</span>
+          { ' ' }
+          Pergunta(s)!
+        </p>
       </div>
     );
   }
@@ -28,11 +40,13 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     assertions: state.userReducer.assertions,
+    score: state.userReducer.score,
   };
 }
 

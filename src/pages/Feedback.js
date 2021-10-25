@@ -22,6 +22,7 @@ class Feedback extends Component {
     const stateStorage = JSON.parse(localStorage.getItem('state'));
     this.setState({ assertions: stateStorage.player.assertions,
       score: stateStorage.player.score });
+    console.log('con fe');
   }
 
   sendToInitial() {

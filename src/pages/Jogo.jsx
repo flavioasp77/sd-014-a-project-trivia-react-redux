@@ -3,27 +3,31 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { getQuestionsThunk } from '../actions';
+import updateLocalStorage from '../services/util';
 
 class Jogo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoading: true,
       currQuestion: 0,
       clicked: false,
       timer: 30,
+      assertions: 0,
+      score: 0,
     };
     this.pegarPerguntas = this.pegarPerguntas.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
     this.concatQuestions = this.concatQuestions.bind(this);
     this.iniciarCronometro = this.iniciarCronometro.bind(this);
     this.setClass = this.setClass.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
+    this.setScore = this.setScore.bind(this);
   }
 
   componentDidMount() {
     this.pegarPerguntas();
     this.iniciarCronometro();
-
     console.log('O intervalo está rodando');
   }
 
@@ -36,8 +40,46 @@ class Jogo extends Component {
     }
   }
 
-  setClass() {
-    this.setState({ clicked: true });
+  async setClass(e) {
+    clearInterval(this.cronometerInterval);
+    this.setState((prevState) => ({
+      ...prevState,
+      clicked: true,
+      timer: prevState.timer,
+    }));
+    this.checkAnswer(e.target.dataset.testid);
+  }
+
+  setScore() {
+    const { questions } = this.props;
+    const { currQuestion, timer } = this.state;
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    const base = 10;
+    if (questions[currQuestion].difficulty === 'hard') {
+      return base + (timer * hard);
+    }
+    if (questions[currQuestion].difficulty === 'medium') {
+      return base + (timer * medium);
+    }
+    if (questions[currQuestion].difficulty === 'easy') {
+      return base + (timer * easy);
+    }
+  }
+
+  async checkAnswer(answer) {
+    const points = this.setScore();
+    if (answer === 'correct-answer') {
+      await this.setState((prevState) => ({
+        ...prevState,
+        assertions: prevState.assertions + 1,
+        score: prevState.score + points,
+      }));
+    }
+    const { score, assertions } = this.state;
+    updateLocalStorage('score', score);
+    updateLocalStorage('assertions', assertions);
   }
 
   iniciarCronometro() {
@@ -58,6 +100,12 @@ class Jogo extends Component {
   }
 
   changeQuestion() {
+    const { currQuestion } = this.state;
+    const { history } = this.props;
+    const questionsLength = 4;
+    if (currQuestion === questionsLength) {
+      return history.push('/feedback');
+    }
     this.setState((prevState) => ({
       currQuestion: prevState.currQuestion + 1,
       clicked: false,
@@ -75,13 +123,25 @@ class Jogo extends Component {
   }
 
   button() {
+    const { currQuestion } = this.state;
+    const questionsLength = 4;
+    if (currQuestion < questionsLength) {
+      return (
+        <button
+          type="button"
+          onClick={ this.changeQuestion }
+          data-testid="btn-next"
+        >
+          Proxima
+        </button>
+      );
+    }
     return (
       <button
         type="button"
         onClick={ this.changeQuestion }
-        data-testid="btn-next"
       >
-        Proxima
+        Feedback
       </button>
     );
   }
@@ -100,9 +160,10 @@ class Jogo extends Component {
           questao === questions[currQuestion].correct_answer ? (
             <button
               className={ clicked ? 'green-border' : '' }
-              onClick={ this.setClass }
+              onClick={ (e) => this.setClass(e) }
               type="button"
               key={ index }
+              value={ questao }
               data-testid="correct-answer"
               disabled={ clicked }
             >
@@ -111,9 +172,10 @@ class Jogo extends Component {
           ) : (
             <button
               className={ clicked ? 'red-border' : '' }
-              onClick={ this.setClass }
+              onClick={ (e) => this.setClass(e) }
               type="button"
               key={ index }
+              value={ questao }
               data-testid={ `wrong-answers-${index}` }
               disabled={ clicked }
             >

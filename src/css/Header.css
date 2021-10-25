@@ -53,9 +53,3 @@ header span {
   font-size: 14px;
   font-weight: 800;
 }
-
-header span [ data-testid = 'header-score' ] {
-  padding: 5px;
-  background-color: #fff !important;
-}
-

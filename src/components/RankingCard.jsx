@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/RankingCard.css';
 
 class RankingCard extends Component {
   render() {
@@ -7,21 +8,16 @@ class RankingCard extends Component {
     const gravatar = `https://www.gravatar.com/avatar/${picture}`;
     return (
       <div className="ranking-card">
-        <img
-          alt="Player Gravatar"
-          className="ranking-profile-picture"
-          src={ gravatar }
-        />
-        <h3 data-testid={ `player-name-${index}` }>
-          Nome:
+        <img alt="Player Gravatar" className="ranking-picture" src={ gravatar } />
+        <p className="ranking-text">
+          <span data-testid={ `player-name-${index}` }>{name}</span>
           {' '}
-          {name}
-        </h3>
-        <h3 data-testid={ `player-score-${index}` }>
-          Pontuação:
+          -
           {' '}
-          {score}
-        </h3>
+          <span data-testid={ `player-score-${index}` }>{score}</span>
+          {' '}
+          pontos
+        </p>
       </div>
     );
   }

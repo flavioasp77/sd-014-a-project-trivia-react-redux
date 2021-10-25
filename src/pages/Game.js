@@ -107,40 +107,39 @@ class Game extends Component {
     }
     const questionInfo = questionsList[currentQuestion];
     let answers = this.treatAnswersData(questionInfo);
-    if (!isShuffled) {
-      answers = this.shuffle(answers);
-    }
+    if (!isShuffled) { answers = this.shuffle(answers); }
     return (
       <>
         <Header player={ player.name } score="0" src={ `https://www.gravatar.com/avatar/${userHash}` } />
         <main className="game__container">
           <div className={ classname }>
-            <h4 data-testid="question-category">{questionInfo.category}</h4>
-            <p data-testid="question-text">{questionInfo.question}</p>
-            {
-              answers.map(({ value, alternative }, index) => (
-                <button
-                  type="button"
+            <div className="game__headings">
+              <h4 data-testid="question-category">{questionInfo.category}</h4>
+              <p data-testid="question-text">{questionInfo.question}</p>
+            </div>
+            <div className="game__alternatives">
+              { answers.map(({ value, alternative }, index) => (
+                <Button
                   key={ index }
-                  data-testid={ value }
+                  dataTestId={ value }
                   onClick={ this.handleClick }
                   disabled={ disabled }
-                >
-                  {alternative}
-                </button>
-              ))
-            }
-            <p>
-              Tempo restante:
-              { seconds }
-            </p>
-            {
-              userResponse && <Button
+                  value={ alternative }
+                />
+              )) }
+            </div>
+            <div className="game__options">
+              <p>
+                Tempo restante:
+                { seconds }
+              </p>
+              { userResponse && <Button
                 dataTestId="btn-next"
                 value="Next Question"
+                className="next-question-btn"
                 onClick={ this.handleClick }
-              />
-            }
+              /> }
+            </div>
           </div>
         </main>
       </>

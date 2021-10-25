@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Img from './Img';
 import logo from '../trivia.png';
@@ -12,7 +13,9 @@ class Header extends Component {
         <div className="header__container">
 
           <div className="header__left">
-            <Img src={ logo } alt="Logo" />
+            <Link to="/">
+              <Img src={ logo } alt="Logo" />
+            </Link>
             <span data-testid="header-score">
               Score:
               {score}
@@ -20,12 +23,12 @@ class Header extends Component {
           </div>
 
           <div className="header__right">
-            <Img dataTestId="header-profile-picture" src={ src } alt="Avatar" />
-
             <span data-testid="header-player-name">
               Jogador:
               {player}
             </span>
+
+            <Img dataTestId="header-profile-picture" src={ src } alt="Avatar" />
           </div>
         </div>
       </header>

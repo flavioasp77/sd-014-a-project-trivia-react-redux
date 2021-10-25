@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Loading from './Loading';
 import { updateScore } from '../actions';
 import '../Game.css';
+import NextQuestionBtn from './NextQuestionBtn';
 
 class Questions extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Questions extends Component {
       answered: '',
       answers: [],
       score: 0,
+      btnOnOff: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
@@ -76,6 +78,7 @@ class Questions extends Component {
     this.setState({
       answers: points,
       answered: false,
+
     });
   }
 
@@ -102,12 +105,7 @@ class Questions extends Component {
 
   handleAnswer(answer) {
     this.setScore(answer);
-    const TWO_SECONDS = 2000;
-    this.setState({ answered: true }, () => {
-      setTimeout(() => {
-        this.nextQuestion();
-      }, TWO_SECONDS);
-    });
+    this.setState({ answered: true, btnOnOff: true });
   }
 
   nextQuestion() {
@@ -118,7 +116,7 @@ class Questions extends Component {
 
   render() {
     const { questions, loading } = this.props;
-    const { id, timer, answers, answered } = this.state;
+    const { id, timer, answers, answered, btnOnOff } = this.state;
     const ZERO = 0;
     if (loading) return <Loading />;
     return (
@@ -147,6 +145,7 @@ class Questions extends Component {
             { answer }
           </button>
         ))}
+        { btnOnOff && <NextQuestionBtn nextQuestion={ this.nextQuestion } /> }
       </div>
     );
   }

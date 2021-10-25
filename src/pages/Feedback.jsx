@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { readLocalStorage } from '../services/util';
 
@@ -6,6 +7,12 @@ class Feedback extends Component {
   constructor() {
     super();
     this.feedbackMessage = this.feedbackMessage.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { history } = this.props;
+    history.push('/');
   }
 
   feedbackMessage() {
@@ -36,6 +43,13 @@ class Feedback extends Component {
       <div data-testid="feedback-text">
         <Header />
         { this.feedbackMessage() }
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handleClick }
+        >
+          Jogar novamente
+        </button>
       </div>
     );
   }

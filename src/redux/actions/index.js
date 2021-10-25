@@ -35,16 +35,14 @@ export function fetchApiTrivia() {
   };
 }
 
-export const generateQuestions = (questions) => ({
+export const generateQuestions = (payload) => ({
   type: QUESTIONS,
-  questions,
+  payload,
 });
 
-export const fetchQuestions = () => async (dispatch, getState) => {
-  const { player: { token } } = getState();
-
-  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+export const fetchQuestions = async (dispatch) => {
+  const localToken = localStorage.getItem('token');
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${localToken}`);
   const { results } = await response.json();
-
   dispatch(generateQuestions(results));
 };

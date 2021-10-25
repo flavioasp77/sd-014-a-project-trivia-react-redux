@@ -1,23 +1,43 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { generateQuestions } from '../redux/actions';
+
+import Header from '../components/Header';
 import Questions from '../components/Questions';
+import { fetchQuestions } from '../redux/actions';
 
 class Play extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentQuestion: 0,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     const { getQuestions } = this.props;
     getQuestions();
   }
 
-  render() {
-    const { questions } = this.props;
+  handleClick() {
+    const { currentQuestion } = this.state;
+    const { generateQuestions } = this.props;
+    if (currentQuestion < generateQuestions.length - 1) {
+      this.setState((prevState) => ({
+        currentQuestion: prevState.currentQuestion + 1,
+      }));
+    }
+  }
 
+  render() {
+    const { currentQuestion } = this.state;
+    const { generateQuestions } = this.props;
+    console.log(generateQuestions);
     return (
       <main>
-        {
-          questions.length && <Questions { ...questions[0] } />
-        }
+        <Header />
+        <Questions pergunta={ generateQuestions[currentQuestion] } />
       </main>
     );
   }
@@ -28,18 +48,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestions: () => dispatch(generateQuestions()),
+  getQuestions: () => dispatch(fetchQuestions()),
 });
+
 Play.propTypes = {
   getQuestions: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.shape({
-    question: PropTypes.string,
-    category: PropTypes.string,
-  })),
-};
-
-Play.defaultProps = {
-  questions: [],
+  generateQuestions: PropTypes.arrayOf(PropTypes.shape({
+    question: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);

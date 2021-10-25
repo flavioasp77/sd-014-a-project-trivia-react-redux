@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 class Questions extends React.Component {
   constructor(props) {
     super(props);
-
+    const { pergunta } = this.props;
     const {
       correct_answer: correctAnswer,
-      incorrect_answers: incorrecttAnswers } = this.props;
+      incorrect_answers: incorrecttAnswers } = pergunta;
 
     this.state = {
       answerAlts: [correctAnswer, ...incorrecttAnswers]
@@ -25,12 +25,14 @@ class Questions extends React.Component {
   }
 
   render() {
+    const { pergunta } = this.props;
     const {
       question,
       cathegory,
       correct_answer: correctAnswer,
-    } = this.props;
+    } = pergunta;
     const { answerAlts, selectedAnswer } = this.state;
+    console.log(pergunta);
     return (
       <main>
         <p data-testid="question-category">{ cathegory }</p>
@@ -61,17 +63,11 @@ class Questions extends React.Component {
 }
 
 Questions.propTypes = {
-  cathegory: PropTypes.string,
-  correct_answer: PropTypes.string,
-  incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-  question: PropTypes.string,
+  pergunta: PropTypes.shape({
+    cathegory: PropTypes.string.isRequired,
+    correct_answer: PropTypes.string.isRequired,
+    incorrect_answers: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
-Questions.defaultProps = {
-  cathegory: '',
-  correct_answer: '',
-  incorrect_answers: [],
-  question: '',
-};
-
 export default Questions;

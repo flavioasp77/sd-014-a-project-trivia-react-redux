@@ -17,13 +17,6 @@
   opacity: 0.8;
 }
 
-.feedback-text {
-  display: flex;
-  font-size: 2.5rem;
-  justify-content: center;
-  text-align: center;
-}
-
 .feedback-score {
   display: flex;
   flex-flow: column;
@@ -33,3 +26,9 @@
   text-align: center;
 }
 
+.feedback-text {
+  display: flex;
+  font-size: 2.5rem;
+  justify-content: center;
+  text-align: center;
+}

@@ -1,7 +1,7 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
 import { SET_TRIVIA_SUCCESS, SET_TRIVIA_ERROR } from '../actions';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = { questions: null };
 
 const trivia = (state = INITIAL_STATE, action) => {
   switch (action.type) {

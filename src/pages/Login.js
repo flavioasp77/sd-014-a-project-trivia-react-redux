@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getApiTokenThunk, setPlayerInfo } from '../actions';
+import { /* getApiTokenThunk, */ setPlayerInfo, getApiTriviaThunk } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,12 +19,14 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  async handleClick() {
-    const { setApiToken, setUserInfo } = this.props;
-    await setApiToken();
-    const { token, history } = this.props;
-    localStorage.setItem('token', token);
+  handleClick() {
+    const { setUserInfo } = this.props;
+    // setApiToken();
+    const { history } = this.props;
     setUserInfo(this.state);
+    const { setApiTrivia } = this.props;
+    setApiTrivia();
+    // localStorage.setItem('token', token);
     history.push('/jogo');
   }
 
@@ -37,16 +39,6 @@ class Login extends React.Component {
     const { name, email } = this.state;
     return (
       <main>
-
-        <button
-          id="buttonConfig"
-          data-testid="btn-settings"
-          onClick={ this.redirectConfig }
-          type="button"
-        >
-          Configurações
-        </button>
-
         <label htmlFor="input-name">
           Nome:
           <input
@@ -79,6 +71,13 @@ class Login extends React.Component {
         >
           Jogar
         </button>
+        <button
+          data-testid="btn-settings"
+          onClick={ this.redirectConfig }
+          type="button"
+        >
+          Configurações
+        </button>
       </main>
     );
   }
@@ -90,12 +89,14 @@ Login.propTypes = {
 }.isRequired;
 
 const mapDispachToProps = (dispatch) => ({
-  setApiToken: () => dispatch(getApiTokenThunk()),
+  // setApiToken: () => dispatch(getApiTokenThunk()),
   setUserInfo: (payload) => dispatch(setPlayerInfo(payload)),
+  setApiTrivia: () => dispatch(getApiTriviaThunk()),
 });
 
 const mapStateToProps = (state) => ({
   token: state.token.token,
+  state,
 });
 
 export default connect(mapStateToProps, mapDispachToProps)(Login);

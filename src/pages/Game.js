@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Header from '../components/Header';
 import Question from '../components/question';
+import Header from '../components/Header';
 
 class Game extends React.Component {
   render() {
@@ -11,7 +11,8 @@ class Game extends React.Component {
     return (
       <main>
         <Header />
-        { questions.map((question, index) => (
+        { console.log(this.props) }
+        { questions && questions.map((question, index) => (
           <Question key={ index } questionCurrent={ question } />)) }
       </main>
     );
@@ -20,7 +21,6 @@ class Game extends React.Component {
 
 Game.propTypes = {
   setApiTrivia: PropTypes.func,
-  // questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 }.isRequired;
 
 const mapStateToProps = (state) => ({

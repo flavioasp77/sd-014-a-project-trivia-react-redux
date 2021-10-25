@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Header from '../components/Header';
 import '../style/Game.css';
 
 let control = 1;
+let control2 = 1;
 
 const magicNumber = '0.33';
-const timer = 30;
 
 class Game extends React.Component {
   constructor() {
@@ -18,10 +19,17 @@ class Game extends React.Component {
       disabled: false,
       correct: '',
       wrong: '',
+      answered: false,
+      remainingTime: 30,
+      redirect: false,
+      shuffledAnswers: [],
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.nextClick = this.nextClick.bind(this);
+    this.renderAlternatives = this.renderAlternatives.bind(this);
+    this.shuffleQuestions = this.shuffleQuestions.bind(this);
   }
 
   updateRemaingTime(time) {
@@ -38,6 +46,7 @@ class Game extends React.Component {
   }
 
   countdownTimer() {
+    const { remainingTime: timer } = this.state;
     return (
       <section>
         <CountdownCircleTimer
@@ -63,7 +72,28 @@ class Game extends React.Component {
       correct: 'answer-correct',
       wrong: 'answer-incorrect',
       disabled: true,
+      answered: true,
     });
+  }
+
+  nextClick() {
+    const LAST_QUESTION = 4;
+    const { index } = this.state;
+    if (index === LAST_QUESTION) {
+      this.setState({
+        redirect: true,
+      });
+    }
+
+    this.setState({
+      index: index + 1,
+      disabled: false,
+      correct: '',
+      wrong: '',
+      answered: false,
+      remainingTime: 30,
+    });
+    control2 = 1;
   }
 
   shuffleQuestions(array) {
@@ -83,12 +113,12 @@ class Game extends React.Component {
       shufflingArray[i] = shufflingArray[j];
       shufflingArray[j] = k;
     }
-    return shufflingArray;
+    this.setState({ shuffledAnswers: shufflingArray });
+    control2 = 0;
   }
 
-  renderQuestions(answerArray) {
-    const { correct, wrong, disabled } = this.state;
-    const shuffledAnswers = this.shuffleQuestions(answerArray);
+  renderAlternatives(shuffledAnswers) {
+    const { correct, wrong, disabled, answered } = this.state;
 
     return (
       <>
@@ -109,17 +139,38 @@ class Game extends React.Component {
               { answer.answer }
             </button>
           </section>
-        )) }
-        { this.countdownTimer() }
+        ))}
+        { !answered && this.countdownTimer() }
+      </>
+    );
+  }
+
+  renderQuestions(answerArray) {
+    const { answered, shuffledAnswers } = this.state;
+    if (!answered && control2 === 1) this.shuffleQuestions(answerArray);
+
+    return (
+      <>
+        { this.renderAlternatives(shuffledAnswers) }
+        { answered && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.nextClick }
+          >
+            Next
+          </button>)}
       </>
     );
   }
 
   render() {
     const { arrayQuestions } = this.props;
-    const { index } = this.state;
+    const { index, redirect } = this.state;
 
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
+    if (redirect) return <Redirect to="/feedback" />;
+
     const objectQuestion = arrayQuestions[index];
     const {
       category,
@@ -127,6 +178,7 @@ class Game extends React.Component {
       incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer } = objectQuestion;
     const answers = [correctAnswer, ...incorrectAnswers];
+
     return (
       <>
         <Header />

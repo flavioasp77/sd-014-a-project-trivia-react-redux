@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ButtonNext from './ButtonNext';
 
 class Question extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class Question extends React.Component {
     this.state = {
       green: '',
       red: '',
-      buttonNext: false,
+      end: false,
     };
     this.correctAnswer = this.correctAnswer.bind(this);
     this.resultCorrect = this.resultCorrect.bind(this);
@@ -61,7 +62,7 @@ class Question extends React.Component {
     this.setState({
       green: '3px solid rgb(6, 240, 15)',
       red: '3px solid rgb(255, 0, 0)',
-      buttonNext: true,
+      end: true,
     });
     const ten = 10;
     const scoreCurrent = ten + (this.numberDifficulty(difficulty, timer));
@@ -69,7 +70,7 @@ class Question extends React.Component {
   }
 
   render() {
-    const { green, red, buttonNext: end } = this.state;
+    const { green, red, end } = this.state;
     const { questionCurrent:
       { question, category, difficulty }, questionCurrent, timer, buttonNext,
     } = this.props;
@@ -107,7 +108,7 @@ class Question extends React.Component {
             </button>
           ))}
         </div>
-        { end && <button type="button" onClick={ buttonNext }>Próxima pergunta</button>}
+        { end && <ButtonNext onClick={ buttonNext } /> }
       </section>
     );
   }

@@ -17,7 +17,7 @@ class Header extends Component {
   }
 
   render() {
-    const { getEmail, getName } = this.props;
+    const { getEmail, getName, score } = this.props;
     return (
       <header className="header-containner">
         <div className="img-name">
@@ -46,11 +46,13 @@ class Header extends Component {
 Header.propTypes = {
   getEmail: PropTypes.string.isRequired,
   getName: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   getEmail: state.user.email,
   getName: state.user.name,
+  score: state.game.score,
 });
 
 export default connect(mapStateToProps)(Header);

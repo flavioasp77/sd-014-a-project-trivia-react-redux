@@ -1,4 +1,4 @@
-import { SET_CATEGORIES, SET_NEW_SETTINGS } from '../actions/indexActions';
+import { SET_CATEGORIES, SET_NEW_SETTINGS } from '../actions/settingsActions';
 
 const INITIAL_STATE = {
   categories: [],

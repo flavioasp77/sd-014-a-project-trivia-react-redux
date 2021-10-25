@@ -25,7 +25,7 @@ class RankingCard extends Component {
 
 RankingCard.propTypes = {
   name: PropTypes.string.isRequired,
-  score: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
   picture: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };

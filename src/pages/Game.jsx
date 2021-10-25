@@ -34,14 +34,15 @@ class Game extends Component {
 
   onAnswerClick({ target }) {
     const { data } = this.props;
+    const { questionIndex } = this.state;
     const { results } = data;
 
-    const question = document.querySelector('.question-text').innerText;
     const {
       culty,
       difficulty,
       correct_answer: correctAnswer,
-    } = results.find((curr) => curr.question === question);
+    } = results[questionIndex];
+    console.log(culty, difficulty, correctAnswer);
     const multiplier = {
       hard: 3,
       medium: 2,
@@ -49,7 +50,7 @@ class Game extends Component {
     };
 
     if (target.innerText === correctAnswer) {
-      this.whenAnswersCorrectly(difficulty || culty, multiplier[difficulty || culty]);
+      this.whenAnswersCorrectly(multiplier[difficulty || culty]);
     }
 
     this.setState({ shouldShowAnswer: true, timer: 0 });
@@ -62,7 +63,7 @@ class Game extends Component {
     }, ONE_SECOND);
   }
 
-  whenAnswersCorrectly(difficulty, multiplier) {
+  whenAnswersCorrectly(multiplier) {
     const { score, timer } = this.state;
     const POINTS_PER_CORRECT = 10;
     const { player } = JSON.parse(localStorage.getItem('state'));

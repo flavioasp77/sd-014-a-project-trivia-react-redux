@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import shuffleArray from '../services/shuffleArray';
 import scoreCalculator from '../services/scoreCalculator';
 import {
@@ -64,12 +65,13 @@ class Questions extends Component {
       currentQuestion,
       loadingToogle,
       nextQuestionToState,
+      history,
     } = this.props;
     const next = stateQuestions[currentQuestion + 1];
     const maxArray = 4;
 
     if (currentQuestion === maxArray) {
-      console.log('FIM');
+      history.push('/feedback');
     } else {
       loadingToogle();
 
@@ -82,6 +84,7 @@ class Questions extends Component {
         seconds: 30,
         timer: true,
         highlight: false,
+        nextToogle: false,
 
       });
 
@@ -143,35 +146,33 @@ class Questions extends Component {
       <section>
         <span data-testid="question-category">{ category }</span>
         <p data-testid="question-text">{ question }</p>
-        {
-          answers.map((answer, i) => {
-            if (answer === correct) {
-              return (
-                <button
-                  className={ highlight ? 'correct-answer' : 'default-answer' }
-                  type="button"
-                  disabled={ !timer }
-                  key={ i }
-                  onClick={ this.onSelectAnswer }
-                  data-testid="correct-answer"
-                >
-                  { answer }
-                </button>);
-            }
+        { answers.map((answer, i) => {
+          if (answer === correct) {
             return (
               <button
-                className={ highlight ? 'wrong-answer' : 'default-answer' }
+                className={ highlight ? 'correct-answer' : 'default-answer' }
                 type="button"
                 disabled={ !timer }
                 key={ i }
                 onClick={ this.onSelectAnswer }
-                data-testid={ `wrong-answer-${i}` }
+                data-testid="correct-answer"
               >
                 { answer }
-              </button>
-            );
-          })
-        }
+              </button>);
+          }
+          return (
+            <button
+              className={ highlight ? 'wrong-answer' : 'default-answer' }
+              type="button"
+              disabled={ !timer }
+              key={ i }
+              onClick={ this.onSelectAnswer }
+              data-testid={ `wrong-answer-${i}` }
+            >
+              { answer }
+            </button>
+          );
+        })}
         <span>{ seconds }</span>
         { nextToogle
         && (
@@ -194,6 +195,7 @@ Questions.propTypes = {
   loadingToogle: PropTypes.func.isRequired,
   nextQuestionToState: PropTypes.func.isRequired,
   stateQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -208,4 +210,4 @@ const mapDispatchToProps = (dispatch) => ({
   loadingToogle: () => dispatch(apiRequestAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

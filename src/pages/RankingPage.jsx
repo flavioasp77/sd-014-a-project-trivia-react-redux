@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { localGetItem } from '../utils/localStorageAPI';
 import { resetAll as resetAllAction } from '../redux/actions';
+// commit
 
 class Ranking extends Component {
   constructor() {
@@ -45,7 +46,6 @@ class Ranking extends Component {
           onClick={ () => resetAll() }
         >
           Jogar novamente
-
         </Link>
       </div>
     );

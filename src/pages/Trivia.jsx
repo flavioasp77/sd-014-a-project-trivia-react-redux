@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
 
@@ -14,18 +15,29 @@ class Trivia extends React.Component {
     this.sortArray = this.sortArray.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.computeAnswer = this.computeAnswer.bind(this);
+    this.timer = this.timer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
     const { timer } = this.state;
-    const ONE_SECOND = 1000;
     const SECONDS_TO_MILLISECONDS = 1000;
     this.chamaApi();
+    this.timer();
+    this.timeout = setTimeout(
+      () => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS,
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerInterval);
+  }
+
+  timer() {
+    const ONE_SECOND = 1000;
     this.timerInterval = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, ONE_SECOND);
-    setTimeout(() => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS);
   }
 
   computeAnswer() { // Function called after an answer is clicked OR, a timeout happens
@@ -62,17 +74,27 @@ class Trivia extends React.Component {
         .find((diff) => diff === isAnswerCorrect.difficulty));
       const jogador = JSON.parse(localStorage.getItem('state'));
       jogador.player.score += (BASE_SCORE + (timer * difficultyMultiplier));
+      jogador.player.assertions += 1;
       localStorage.state = JSON.stringify(jogador);
     }
     this.computeAnswer();
   }
 
   nextQuestion() {
-    this.setState((atual) => ({
-      indice: atual.indice + 1,
-      respondido: false,
-      timer: 30,
-    }));
+    const LAST_QUESTION = 4;
+    const { indice } = this.state;
+    const { history } = this.props;
+    if (indice === LAST_QUESTION) {
+      history.push('/feedback');
+    } else {
+      this.setState((atual) => ({
+        indice: atual.indice + 1,
+        respondido: false,
+        timer: 30,
+      }));
+      this.timer();
+      clearInterval(this.timeout);
+    }
   }
 
   render() {
@@ -80,9 +102,7 @@ class Trivia extends React.Component {
     return (
       <div>
         <Header />
-        <p>
-          Time Left!!:
-        </p>
+        <p>Time Left!!:</p>
         <span>{ timer }</span>
         {perguntas.length > 0
         && (
@@ -99,14 +119,12 @@ class Trivia extends React.Component {
                 type="submit"
                 key={ i }
                 disabled={ respondido }
-                data-testid={
-                  atual === perguntas[indice].correct_answer
-                    ? 'correct-answer'
-                    : `wrong-answer-${i}`
-                }
-                className={ respondido && (atual === perguntas[indice].correct_answer
+                data-testid={ atual === perguntas[indice].correct_answer
+                  ? 'correct-answer'
+                  : `wrong-answer-${i}` }
+                className={ (respondido && (atual === perguntas[indice].correct_answer
                   ? 'correct'
-                  : 'incorrect') }
+                  : 'incorrect')).toString() }
               >
                 {decodeURIComponent(atual)}
               </button>
@@ -125,5 +143,9 @@ class Trivia extends React.Component {
     );
   }
 }
+
+Trivia.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default Trivia;

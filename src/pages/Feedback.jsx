@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
 
@@ -7,6 +8,8 @@ class Feedback extends React.Component {
     this.state = {
       player: {},
     };
+    this.handleClickRanking = this.handleClickRanking.bind(this);
+    this.handleClickPlayAgain = this.handleClickPlayAgain.bind(this);
   }
 
   componentDidMount() {
@@ -16,8 +19,18 @@ class Feedback extends React.Component {
   playerInfoStart() {
     const player = JSON.parse(localStorage.getItem('state'));
     this.setState({
-      player,
+      player: player.player,
     });
+  }
+
+  handleClickRanking() {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
+  handleClickPlayAgain() {
+    const { history } = this.props;
+    history.push('/');
   }
 
   render() {
@@ -27,21 +40,49 @@ class Feedback extends React.Component {
       <div>
         <Header />
         <h1 data-testid="feedback-text">
-          { player.score >= QUESTIONS_THRESHOLD ? 'Podia ser melhor...' : 'Mandou bem!' }
+          {player.assertions < QUESTIONS_THRESHOLD
+            ? 'Podia ser melhor...'
+            : 'Mandou bem!'}
         </h1>
         <br />
         <br />
+        <span>Você acertou </span>
         <span data-testid="feedback-total-question">
-          {`Você acertou ${player.assertions} questões!`}
+          {player.assertions}
         </span>
+        <span>questões!</span>
         <br />
+        <span>Com um total de </span>
         <span data-testid="feedback-total-score">
-          {`Com um total de ${player.score} pontos!`}
+          {player.score}
         </span>
+        <span>Pontos!</span>
         <br />
+        <button
+          type="button"
+          name="play-again"
+          data-testid="btn-play-again"
+          onClick={ this.handleClickPlayAgain }
+        >
+          Jogar novamente
+
+        </button>
+        <button
+          type="button"
+          name="ranking"
+          data-testid="btn-ranking"
+          onClick={ this.handleClickRanking }
+        >
+          Ver Ranking
+
+        </button>
       </div>
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default (Feedback);

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { questionApiThunk, scoreAction } from '../redux/actions';
 import Btn from './Btn';
@@ -27,8 +26,8 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { token, getQuestion, name, gravatarEmail } = this.props;
-    getQuestion(token);
+    const { token, getQuestion, name, gravatarEmail, config } = this.props;
+    getQuestion(token, config);
     this.shufflebuttons();
     this.timerCount();
     const player = { player: {
@@ -39,6 +38,11 @@ class Questions extends Component {
     } };
 
     localStorage.setItem('state', JSON.stringify(player));
+  }
+
+  componentWillUnmount() {
+    // Source: "https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component "
+    this.setState = () => null;
   }
 
   shufflebuttons() {
@@ -168,6 +172,7 @@ class Questions extends Component {
 
 Questions.propTypes = {
   attScoreGlobal: PropTypes.func.isRequired,
+  config: PropTypes.objectOf(PropTypes.string).isRequired,
   getQuestion: PropTypes.func.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
   history: PropTypes.shape({
@@ -184,14 +189,15 @@ Questions.propTypes = {
 
 const mapStateToProps = (state) => ({
   token: state.token.success,
+  config: state.trivia.config,
   questions: state.trivia.questions,
   name: state.player.name,
   gravatarEmail: state.player.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestion: (token) => dispatch(questionApiThunk(token)),
+  getQuestion: (token, config) => dispatch(questionApiThunk(token, config)),
   attScoreGlobal: (score) => dispatch(scoreAction(score)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

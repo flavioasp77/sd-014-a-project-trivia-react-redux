@@ -59,7 +59,7 @@ class Game extends Component {
   }
 
   render() {
-    const { nome } = this.props;
+    const { nome, history } = this.props;
     const { source, score } = this.state;
     return (
       <>
@@ -72,7 +72,7 @@ class Game extends Component {
           />
           <div data-testid="header-score">{ score }</div>
         </header>
-        <Questions updateValue={ this.newScore } />
+        <Questions history={ history } updateValue={ this.newScore } />
       </>
     );
   }
@@ -92,9 +92,10 @@ const mapDispatchToProps = (dispatch) => ({
 Game.propTypes = {
   getGravatar: PropTypes.func.isRequired,
   rankingGlobalState: PropTypes.func.isRequired,
-  nome: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  nome: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -22,17 +22,17 @@ class Ranking extends Component {
           <div data-testid="ranking-title">
             Ranking
           </div>
-          { ranking.map(({ name, score, picture }, index) => (
-            <tr id={ index } key={ index }>
-              <td>
+          <ul>
+            { ranking.map(({ name, score, picture }, index) => (
+              <li id={ index } key={ index }>
                 <img style={ { height: '20px' } } src={ picture } alt="player" />
                 {' '}
                 <span data-testid={ `player-name-${index}` }>{ name }</span>
                 {' '}
                 <span data-testid={ `player-score-${index}` }>{ score }</span>
-              </td>
-            </tr>
-          ))}
+              </li>
+            ))}
+          </ul>
           <button
             type="button"
             data-testid="btn-go-home"

@@ -5,6 +5,7 @@ import Config from './pages/Config';
 import Feedback from './pages/Feedback';
 import Login from './pages/login';
 import Trivia from './pages/Trivia';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/settings" component={ Config } />
       <Route path="/trivia" component={ Trivia } />
       <Route path="/feedback" component={ Feedback } />
+      <Route path="/ranking" component={ Ranking } />
     </Switch>
   );
 }

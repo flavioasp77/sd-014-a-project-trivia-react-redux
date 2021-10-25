@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import PlayAgain from '../components/PlayAgain';
-// import { connect } from 'react-redux';
+import LinkButton from '../components/LinkButton';
 
 class Feedback extends Component {
   render() {
@@ -19,16 +18,11 @@ class Feedback extends Component {
         <div data-testid="feedback-total-score">
           { score }
         </div>
-        <PlayAgain />
+        <LinkButton route="/" testid="play-again" name="Jogar novamente" />
+        <LinkButton route="/ranking" testid="ranking" name="Ver Ranking" />
       </>
     );
   }
 }
-
-// const mapStateToProps = (state) => ({
-
-// });
-
-// export default connect(mapStateToProps)(Feedback);
 
 export default Feedback;

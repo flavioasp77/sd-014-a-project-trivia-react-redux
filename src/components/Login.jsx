@@ -31,7 +31,8 @@ class Login extends Component {
   render() {
     const { name, gravatarEmail } = this.state;
     return (
-      <form>
+      <form className="login rounded shadow mt-5">
+        <h1 className="text-success">Trybe Trivia</h1>
 
         <input
           type="text"
@@ -39,6 +40,7 @@ class Login extends Component {
           value={ name }
           data-testid="input-player-name"
           onChange={ ({ target: { value } }) => this.setState({ name: value }) }
+          className="form-control"
         />
         <input
           type="text"
@@ -46,6 +48,7 @@ class Login extends Component {
           value={ gravatarEmail }
           data-testid="input-gravatar-email"
           onChange={ ({ target: { value } }) => this.setState({ gravatarEmail: value }) }
+          className="form-control"
         />
 
         <button
@@ -53,6 +56,7 @@ class Login extends Component {
           data-testid="btn-play"
           disabled={ this.disableButton(this.state) }
           onClick={ this.handleClick }
+          className="btn btn-success"
         >
           Jogar
         </button>

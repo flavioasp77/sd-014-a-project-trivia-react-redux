@@ -8,9 +8,9 @@ export default class Home extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <div className="page">
         <header>
-          <h1>Trybe Trivia</h1>
+          
         </header>
         <Login redirect={ history.push } />
         <Link to="/settings" data-testid="btn-settings">Configurações</Link>

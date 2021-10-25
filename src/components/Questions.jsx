@@ -28,6 +28,7 @@ class Questions extends Component {
     this.clock = this.clock.bind(this);
     this.setClock = this.setClock.bind(this);
     this.handleButtonNext = this.handleButtonNext.bind(this);
+    this.stopClock = this.stopClock.bind(this);
   }
 
   componentDidMount() {
@@ -53,8 +54,19 @@ class Questions extends Component {
     }
   }
 
+  stopClock() {
+    const { timerId } = this.state;
+    clearInterval(timerId);
+  }
+
+  resetClock() {
+    this.stopClock();
+    this.setClock();
+  }
+
   handleIncorrect() {
     this.setState({ isClick: true });
+    this.stopClock();
   }
 
   handleCorrect() {
@@ -65,6 +77,7 @@ class Questions extends Component {
     const score = BASE_SCORE + (time * scorePerLevel[difficulty]);
 
     this.setState({ isClick: true }, () => setScore(score));
+    this.stopClock();
   }
 
   handleButtonNext() {
@@ -75,7 +88,7 @@ class Questions extends Component {
       isClick: false,
       time: 30,
       disabled: false,
-    });
+    }, () => this.resetClock());
   }
 
   render() {

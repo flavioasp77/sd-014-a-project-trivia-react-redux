@@ -2,8 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Question extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      green: '',
+      red: '',
+    };
+    this.correctAnswer = this.correctAnswer.bind(this);
+  }
+
+  correctAnswer(verify, question) {
+    return verify === question ? this.setState({
+      green: '3px solid rgb(6, 240, 15)',
+      red: '3px solid rgb(255, 0, 0)',
+    }) : this.setState({ red: '3px solid rgb(255, 0, 0)',
+      green: '3px solid rgb(6, 240, 15)' });
+  }
+
   render() {
-    const { questionCurrent: { question, category }, questionCurrent,
+    const { green, red } = this.state;
+    const { questionCurrent: { question, category }, questionCurrent, timer,
     } = this.props;
     return (
       <section>
@@ -12,14 +30,26 @@ class Question extends React.Component {
           <p data-testid="question-text">{ question }</p>
         </div>
         <div>
-          <button data-testid="correct-answer" type="button">
+          <button
+            data-testid="correct-answer"
+            onClick={ () => this.correctAnswer(questionCurrent.correct_answer,
+              questionCurrent.correct_answer) }
+            type="button"
+            value={ questionCurrent.correct_answer }
+            style={ { border: green } }
+            disabled={ timer === 0 }
+          >
             { questionCurrent.correct_answer }
           </button>
           {questionCurrent.incorrect_answers.map((wrong, index) => (
             <button
+              value={ wrong }
               data-testid={ `wrong-answer-${index}` }
               key={ index }
               type="button"
+              onClick={ () => this.correctAnswer(wrong, questionCurrent.correct_answer) }
+              style={ { border: red } }
+              disabled={ timer === 0 }
             >
               { wrong }
             </button>

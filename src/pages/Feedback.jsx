@@ -16,12 +16,20 @@ class Feedback extends React.Component {
 
     this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.messageFeedback = this.messageFeedback.bind(this);
+    this.handleRanking = this.handleRanking.bind(this);
 
     document.title = 'Trivia-Feedback';
   }
 
   componentDidMount() {
     this.cloneLocalStorageToState();
+  }
+
+  handleRanking() {
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const { name, score, pictureURL } = this.state;
+    const newRanking = [...ranking || [], { name, score, picture: pictureURL }];
+    localStorage.setItem('ranking', JSON.stringify(newRanking));
   }
 
   cloneLocalStorageToState() {
@@ -32,6 +40,8 @@ class Feedback extends React.Component {
       score,
       pictureURL: getGravatar(gravatarEmail),
       assertions,
+    }, () => {
+      this.handleRanking();
     });
   }
 
@@ -50,11 +60,20 @@ class Feedback extends React.Component {
         <p data-testid="feedback-text">{ this.messageFeedback() }</p>
         <h1 data-testid="feedback-text">{ this.messageFeedback() }</h1>
         <br />
-        <h2 data-testid="feedback-total-question">
-          { `Você acertou ${assertions} ${plural}!` }
+        <h2>
+          Você acertou
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+          {' '}
+          {plural}
+          !
         </h2>
-        <h2 data-testid="feedback-total-score">
-          { `Um total de ${score} pontos.`}
+        <h2>
+          Um total de
+          {' '}
+          <span data-testid="feedback-total-score">{ score }</span>
+          {' '}
+          pontos
         </h2>
         <Link to="/">
           <button

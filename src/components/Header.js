@@ -6,7 +6,14 @@ import md5 from 'crypto-js/md5';
 class Header extends Component {
   constructor() {
     super();
+
     this.perfilGravatar = this.perfilGravatar.bind(this);
+    this.getScore = this.getScore.bind(this);
+  }
+
+  getScore() {
+    const scoreStore = JSON.parse(localStorage.getItem('player'));
+    return !scoreStore ? 0 : scoreStore.score;
   }
 
   perfilGravatar() {
@@ -23,7 +30,11 @@ class Header extends Component {
           <p data-testid="header-player-name" id="name">{`Nome: ${nameReceive} `}</p>
         </div>
         <div>
-          <p data-testid="header-score" id="score">Score: 0</p>
+          <p>
+            Score:
+            {' '}
+            <span data-testid="header-score" id="score">{ this.getScore() }</span>
+          </p>
         </div>
       </form>
     );

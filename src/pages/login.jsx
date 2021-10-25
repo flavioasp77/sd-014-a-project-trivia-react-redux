@@ -43,10 +43,10 @@ class Login extends React.Component {
     const token = await getToken();
     const stateObj = {
       player: {
-        name: '',
+        name,
         assertions: 0,
         score: 0,
-        gravatarEmail: '',
+        gravatarEmail: email,
       },
     };
     localStorage.setItem('state', JSON.stringify(stateObj));

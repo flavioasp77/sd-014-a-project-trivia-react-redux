@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from './Header';
 import { getQuestions } from '../services/triviaAPI';
 import '../styles/trivia.css';
 import Timer from '../components/Timer';
 import { setScore as setScoreAction } from '../actions';
+import Header from '../components/Header';
 
 class Trivia extends Component {
   constructor(props) {
@@ -78,12 +78,13 @@ class Trivia extends Component {
 
       setScore(playerScore);
     }
+    const storage = JSON.parse(localStorage.getItem('state'));
     const stateObj = {
       player: {
-        name: '',
-        assertions: 0,
-        score: playerScore,
-        gravatarEmail: '',
+        ...storage.player,
+        assertions: verifyAnswer
+          ? storage.player.assertions + 1 : storage.player.assertions,
+        score: storage.player.score + playerScore,
       },
     };
     localStorage.setItem('state', JSON.stringify(stateObj));

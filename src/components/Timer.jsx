@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -35,8 +36,13 @@ class Timer extends Component {
       callback();
     }
     return (
-      <div>
-        Timer
+      <div className="text-danger">
+        { seconds % 2 === 1
+          ? <i className="fas fa-hourglass-start" />
+          : seconds === 0 ? <i className="fas fa-hourglass-end" />
+            : <i className="fas fa-hourglass-half" /> }
+        {' '}
+        Tempo
         {' '}
         { seconds }
       </div>

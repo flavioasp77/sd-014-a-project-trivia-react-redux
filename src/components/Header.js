@@ -6,19 +6,28 @@ class Header extends Component {
   render() {
     const { gravatarEmail, name } = this.props;
     const { score } = JSON.parse(localStorage.state).player;
-    console.log(JSON.parse(localStorage.state).player.score);
     return (
-      <div>
+      <div className="d-flex flex-column justify-content-around align-items-center">
         <img
           src={ gravatarEmail }
           data-testid="header-profile-picture"
+          className="my-2"
           alt="avatar-user"
         />
-        <p data-testid="header-player-name">
+        <p
+          data-testid="header-player-name"
+          className="my-2"
+        >
           { `${name}` }
           {' '}
         </p>
-        <p data-testid="header-score">{ score }</p>
+        <p
+          className="my-2"
+        >
+          Pontuação
+          {' '}
+          <span data-testid="header-score">{ score }</span>
+        </p>
       </div>
 
     );

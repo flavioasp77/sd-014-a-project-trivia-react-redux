@@ -10,7 +10,7 @@ import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid vh-100 align-items-center">
       {/* <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>

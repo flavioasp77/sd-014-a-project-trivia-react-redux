@@ -5,7 +5,12 @@ class NextQstButton extends React.Component {
   render() {
     const { onClick } = this.props;
     return (
-      <button onClick={ () => onClick() } type="button" data-testid="btn-next">
+      <button
+        className="p-2 btn border rounded bg-success"
+        onClick={ () => onClick() }
+        type="button"
+        data-testid="btn-next"
+      >
         Próxima
       </button>
     );

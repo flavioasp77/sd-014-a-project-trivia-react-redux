@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import QuestionCard from '../components/QuestionCard';
 import '../css/borderAnswer.css';
+import '../css/game.css';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import NextQstButton from '../components/NextQstButton';
@@ -112,14 +113,29 @@ class Game extends Component {
     const { index, answered, timeReset, score, feedback } = this.state;
     if (feedback) return <Redirect to="/feedback" />;
     return (
-      <div>
-        <Header score={ score } />
-        <QuestionCard
-          questionInfo={ questions[index] }
-          handleIndex={ this.handleIndex }
-        />
-        {!timeReset && <Timer answered={ answered } callback={ this.selectAnswer } />}
-        {answered && <NextQstButton onClick={ this.handleNextQuest } />}
+      <div className="d-flex row w-100 h-100 bg-quest align-items-center p-4">
+        <div
+          className="d-flex flex-column bg-light box-game m-auto p-3
+         border shadow p-3 mb-5 bg-body rounded"
+        >
+          <div className="d-flex flex-wrap">
+            <div
+              className="d-flex flex-column
+            align-items-center flex-grow-1 justify-content-between my-3"
+            >
+              <Header score={ score } />
+              {!timeReset
+              && <Timer answered={ answered } callback={ this.selectAnswer } />}
+            </div>
+            <QuestionCard
+              questionInfo={ questions[index] }
+              handleIndex={ this.handleIndex }
+            />
+          </div>
+          <div className="d-flex justify-content-end">
+            {answered && <NextQstButton onClick={ this.handleNextQuest } />}
+          </div>
+        </div>
       </div>
     );
   }

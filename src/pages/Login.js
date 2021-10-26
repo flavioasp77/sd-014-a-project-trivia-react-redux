@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -50,14 +51,21 @@ class Login extends Component {
     const { name, email, settings } = this.state;
     if (settings) return <Redirect to="/settings" />;
     return (
-      <div className="">
-        <fieldset className="form-control d-flex flex-column">
+      <div
+        className="d-flex h-100 align-items-center"
+      >
+        <div
+          className="d-flex flex-column align-items-center
+         m-auto p-4 border rounded px-5
+         shadow-lg p-3 mb-5 bg-body rounded"
+        >
           <label htmlFor="name">
             Nome
             <input
               type="text"
               id="name"
               data-testid="input-player-name"
+              className="form-control mb-3"
               name="name"
               value={ name }
               onChange={ this.handleChange }
@@ -70,14 +78,16 @@ class Login extends Component {
               id="email"
               data-testid="input-gravatar-email"
               name="email"
+              className="form-control mb-2"
               value={ email }
               onChange={ this.handleChange }
             />
           </label>
-          <div>
+          <div className="d-flex justify-content-around">
             <button
               type="button"
               data-testid="btn-play"
+              className="btn btn-success mx-3"
               disabled={ this.verify() }
               onClick={ this.handleClick }
             >
@@ -86,12 +96,13 @@ class Login extends Component {
             <button
               type="button"
               data-testid="btn-settings"
+              className="btn btn-warning mx-3"
               onClick={ () => this.setState({ settings: true }) }
             >
-              Configurações
+              <i className="fas fa-cog" />
             </button>
           </div>
-        </fieldset>
+        </div>
       </div>
     );
   }

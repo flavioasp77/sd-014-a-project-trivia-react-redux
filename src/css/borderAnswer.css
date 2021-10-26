@@ -1,5 +1,9 @@
+.quest-border {
+  border: 1px solid black;
+}
+
 .correct {
-  border: 3px solid rgb(6, 240, 15);
+  border: 3px solid rgb(139, 216, 141);
 }
 
 .wrong {

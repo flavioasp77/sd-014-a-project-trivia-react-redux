@@ -1,0 +1,11 @@
+.bg-quest {
+  background-image: url('../images/quest-bg.png');
+}
+
+.box-game {
+  min-height: 50%;
+}
+
+.quest-button {
+  min-width: 50%;
+}

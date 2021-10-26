@@ -33,10 +33,21 @@ class Feedback extends Component {
             )
           }
         </main>
-        <Link to="/" role="button" data-testid="btn-play-again">
+        <Link
+          to="/"
+          role="button"
+          style={ { textDecoration: 'none' } }
+          data-testid="btn-play-again"
+        >
           Jogar novamente
         </Link>
-        <Link to="/ranking" role="button" data-testid="btn-ranking">
+        {' '}
+        <Link
+          to="/ranking"
+          style={ { textDecoration: 'none' } }
+          role="button"
+          data-testid="btn-ranking"
+        >
           Ranking
         </Link>
       </>

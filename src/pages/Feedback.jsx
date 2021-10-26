@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
-class Feedback extends Component {
+export default class Feedback extends Component {
   render() {
     const playerStorage = JSON.parse(localStorage.getItem('state'));
     const { assertions, score } = playerStorage.player;
@@ -24,7 +24,12 @@ class Feedback extends Component {
           <span data-testid="feedback-total-question">{ assertions }</span>
         </span>
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
         </Link>
         <Link to="/ranking">
           <button type="button" data-testid="btn-ranking">Ver Ranking</button>
@@ -33,5 +38,3 @@ class Feedback extends Component {
     );
   }
 }
-
-export default Feedback;

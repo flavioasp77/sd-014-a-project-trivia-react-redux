@@ -66,6 +66,20 @@ class Questions extends Component {
     });
   }
 
+  handleHanking() {
+    const playerRanking = JSON.parse(localStorage.getItem('ranking'));
+    const playerName = JSON.parse(localStorage.getItem('state')).player.name;
+    const playerScore = JSON.parse(localStorage.getItem('state')).player.score;
+    const playerPicture = JSON.parse(localStorage.getItem('state')).player.gravatarEmail;
+    const userRanking = {
+      name: playerName,
+      score: playerScore,
+      picture: playerPicture,
+    };
+    playerRanking.ranking = [...playerRanking.ranking, userRanking];
+    localStorage.ranking = JSON.stringify(playerRanking);
+  }
+
   historyFeedback() {
 
   }
@@ -77,6 +91,7 @@ class Questions extends Component {
     const NUMBER_MAX = 4;
     const { history } = this.props;
     if (atualQuestion === NUMBER_MAX) {
+      this.handleHanking();
       history.push('/feedback');
     }
     this.shuffleButtons();

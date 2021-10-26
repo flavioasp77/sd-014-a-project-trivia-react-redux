@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { MD5 } from 'crypto-js';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getTriviaActionThunk, registerPlayer } from '../actions';
@@ -23,7 +24,6 @@ class Game extends Component {
       score: 0,
       assertions: 0,
     };
-
     this.treatQuestions = this.treatQuestions.bind(this);
     this.renderMultiple = this.renderQuestion.bind(this);
     this.startTimeOut = this.startTimeOut.bind(this);
@@ -43,6 +43,8 @@ class Game extends Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(player));
+    const getLocal = localStorage.getItem('ranking');
+    if (!getLocal) localStorage.setItem('ranking', JSON.stringify([]));
   }
 
   componentDidUpdate(prevProps) {
@@ -68,7 +70,6 @@ class Game extends Component {
         clickedAnswer: '',
       });
     }, TIME_OUT);
-
     this.setState({
       timerId,
       counterId,
@@ -111,16 +112,23 @@ class Game extends Component {
       });
       this.startTimeOut();
     } else {
+      const { player:
+        { score, gravatarEmail, name } } = JSON.parse(localStorage.getItem('state'));
+      const hash = MD5(gravatarEmail).toString();
+      const picture = `https://www.gravatar.com/avatar/${hash}`;
+      const playerRanking = { name, score, picture };
+      const previousRanking = JSON.parse(localStorage.getItem('ranking'));
+      localStorage
+        .setItem('ranking', JSON.stringify([...previousRanking, playerRanking]));
       history.push('/feedback');
     }
   }
 
   handleScore(answer) {
     const { questions, counter, indexNext } = this.state;
-    const { getPlayer } = this.props;
+    const { getPlayer, email, name } = this.props;
     let difficulty;
     const HARD_SCORE = 3;
-
     switch (questions[0].difficulty) {
     case 'easy':
       difficulty = 1;
@@ -134,30 +142,29 @@ class Game extends Component {
     default:
       return 0;
     }
+    let { score, assertions } = this.state;
+    let objeto = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail: email,
+      },
+    };
 
     if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
-      let { score, assertions } = this.state;
       assertions += 1;
       score += (counter * difficulty) + POINTS;
-      const player = {
-        player: {
-          name: '',
-          assertions,
-          score,
-          gravatarEmail: '',
-        },
-      };
-      this.setState({
-        score,
-        assertions,
-      }, () => {
-        localStorage.setItem('state', JSON.stringify(player));
-        getPlayer({ ...player });
-      });
-    } else {
-      console.log('errou!');
+      objeto = { player: { ...objeto.player, assertions, score } };
     }
+    this.setState({
+      score,
+      assertions,
+    }, () => {
+      localStorage.setItem('state', JSON.stringify(objeto));
+      getPlayer({ ...objeto });
+    });
   }
 
   renderQuestion() {
@@ -166,7 +173,7 @@ class Game extends Component {
       <div>
         { questions[indexNext].arrayAnswer.sort().map((answer, index, array) => (
           <button
-            disabled={ disabledBtn }
+            disabled={ clickedAnswer.length > 0 || disabledBtn }
             className={
               (clickedAnswer || disabledBtn) && (
                 answer === questions[indexNext].correct_answer
@@ -223,6 +230,8 @@ Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   token: PropTypes.string.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -233,6 +242,8 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   token: state.triviaReducer.token,
   questions: state.triviaReducer.questions,
+  name: state.userReducer.name,
+  email: state.userReducer.email,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

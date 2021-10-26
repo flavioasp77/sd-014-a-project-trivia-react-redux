@@ -76,7 +76,7 @@ class login extends Component {
           >
             <img className="App-logo mb-8" src={ logo } alt="logo" />
             <form
-              className="flex flex-col py-4 px-2"
+              className="flex flex-col py-4 px-2 space-y-4"
             >
               <input
                 className="text-center rounded bg-gray-600

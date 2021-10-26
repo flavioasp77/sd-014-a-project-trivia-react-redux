@@ -25,7 +25,7 @@ class Questions extends Component {
     this.setAnswers = this.setAnswers.bind(this);
     this.setScore = this.setScore.bind(this);
     this.scoreStorage = this.scoreStorage.bind(this);
-    // this.shuffleAnswers = this.shuffleAnswers.bind(this);
+    this.setButtonClassName = this.setButtonClassName.bind(this);
   }
 
   componentDidMount() {
@@ -83,6 +83,15 @@ class Questions extends Component {
     });
   }
 
+  setButtonClassName(answer) {
+    const { id, answered } = this.state;
+    const { questions } = this.props;
+    if (answered) {
+      return (answer === questions[id].correct_answer ? 'greenBorder' : 'redBorder');
+    }
+    return 'm-2 p-4 rounded-sm bg-blue-400';
+  }
+
   async scoreStorage() {
     const { score } = this.state;
     const { changeScore } = this.props;
@@ -118,12 +127,12 @@ class Questions extends Component {
 
   render() {
     const { questions, loading } = this.props;
-    const { id, timer, answers, answered, btnOnOff } = this.state;
+    const { id, timer, answers, btnOnOff } = this.state;
     const ZERO = 0;
     const LAST_ID = 4;
     if (loading) return <Loading />;
     return (
-      <div>
+      <div className="flex flex-col justify-center items-center w-100 h-100 game">
         <span data-testid="timer">{(timer > ZERO) ? timer : 'Time is up!'}</span>
         <h1>
           <span data-testid="question-category">{questions[id].category}</span>
@@ -131,23 +140,22 @@ class Questions extends Component {
         <h2>
           <span data-testid="question-text">{questions[id].question}</span>
         </h2>
-        { answers.map((answer, index, array) => (
-          <button
-            key={ index }
-            data-testid={ questions[id].correct_answer === answer
-              ? 'correct-answer'
-              : `wrong-answer-${array.indexOf(answer)}` }
-            type="button"
-            onClick={ () => this.handleAnswer(answer) }
-            disabled={ (timer <= ZERO) }
-            className={
-              answered
-              && (answer === questions[id].correct_answer ? 'greenBorder' : 'redBorder')
-            }
-          >
-            { answer }
-          </button>
-        ))}
+        <div>
+          { answers.map((answer, index, array) => (
+            <button
+              key={ index }
+              data-testid={ questions[id].correct_answer === answer
+                ? 'correct-answer'
+                : `wrong-answer-${array.indexOf(answer)}` }
+              type="button"
+              onClick={ () => this.handleAnswer(answer) }
+              disabled={ (timer <= ZERO) }
+              className={ this.setButtonClassName(answer) }
+            >
+              { answer }
+            </button>
+          ))}
+        </div>
         { btnOnOff && id !== LAST_ID
         && <NextQuestionBtn nextQuestion={ this.nextQuestion } /> }
         { id === LAST_ID

@@ -7,7 +7,9 @@ export default class Game extends Component {
     return (
       <>
         <Header />
-        <Questions />
+        <div className="flex flex-col justify-center items-center h-screen">
+          <Questions />
+        </div>
       </>
     );
   }

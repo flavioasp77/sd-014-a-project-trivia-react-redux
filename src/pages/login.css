@@ -36,8 +36,9 @@ body {
   width: 275px;
 }
 
-.btn-login, .settings {
+.btn-login.settings {
   margin-top: 15px;
+  margin-bottom: 100px;
 }
 
 .btn-login:hover {
@@ -63,7 +64,7 @@ body {
   background-color: whitesmoke;
   border: 3px solid #f8f8f8;
   border-radius: 0.2rem;
-  height: 350px;
+  height: 370px;
   justify-content: center;
   left: 50%;
   padding: 10px;

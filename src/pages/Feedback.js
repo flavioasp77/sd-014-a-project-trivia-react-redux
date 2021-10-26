@@ -19,11 +19,9 @@ class Feedback extends React.Component {
             { assertions <= 2 ? 'Podia ser melhor...' : 'Mandou bem!'}
           </p>
           <p data-testid="feedback-total-score">
-            Pontuação final:
             { score }
           </p>
           <p data-testid="feedback-total-question">
-            Total de acertos:
             { assertions }
           </p>
         </div>

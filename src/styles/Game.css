@@ -8,21 +8,21 @@
 
 [ data-testid = 'question-category' ] {
   background-color: rgb(188, 196, 196);
-  font-weight: 700;
   border-radius: 10px;
+  font-weight: 700;
   padding: 10px;
 }
 
 [ data-testid = 'question-text' ] {
   border-radius: 10px;
-  padding: 10px;
   background-color: rgb(229, 233, 233);
+  padding: 10px;
 }
 
 .question-wrap {
   border-radius: 10px;
-  width: 30%;
   background-color: rgb(229, 233, 233);
+  width: 30%;
   margin: 10px auto;
   padding-bottom: 10px;
 }

@@ -58,7 +58,7 @@
   }
 }
 
-.score::before {
+.score:before {
   content: 'Score: ';
 }
 

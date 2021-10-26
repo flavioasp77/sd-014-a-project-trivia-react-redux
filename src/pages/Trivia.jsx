@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
+import Perguntas from '../components/Perguntas';
 
 class Trivia extends React.Component {
   constructor() {
@@ -104,39 +105,34 @@ class Trivia extends React.Component {
 
   render() {
     const { perguntas, indice, respondido, timer } = this.state;
+    const { player } = JSON.parse(localStorage.state);
     return (
       <div>
-        <Header />
+        <Header score={ player.score } />
         <span>Time Left!!: </span>
         <span>{ timer }</span>
         {perguntas.length > 0
         && (
           <>
-            <p>
-              { `Pergunta: ${indice + 1}/${perguntas.length}`}
-            </p>
-            <p data-testid="question-category">
-              { decodeURIComponent(perguntas[indice].category) }
-            </p>
-            <p data-testid="question-text">
-              { decodeURIComponent(perguntas[indice].question) }
-            </p>
-            {this.sortArray().map((atual, i) => (
-              <button
-                onClick={ this.handleClick }
-                type="submit"
-                key={ i }
-                disabled={ respondido }
-                data-testid={ atual === perguntas[indice].correct_answer
-                  ? 'correct-answer'
-                  : `wrong-answer-${i}` }
-                className={ (respondido && (atual === perguntas[indice].correct_answer
-                  ? 'correct'
-                  : 'incorrect')).toString() }
-              >
-                {decodeURIComponent(atual)}
-              </button>
-            ))}
+            <Perguntas indice={ indice } perguntas={ perguntas } />
+            <div className="botoes">
+              {this.sortArray().map((atual, i) => (
+                <button
+                  onClick={ this.handleClick }
+                  type="submit"
+                  key={ i }
+                  disabled={ respondido }
+                  data-testid={ atual === perguntas[indice].correct_answer
+                    ? 'correct-answer'
+                    : `wrong-answer-${i}` }
+                  className={ (respondido && (atual === perguntas[indice].correct_answer
+                    ? 'correct'
+                    : 'incorrect')).toString() }
+                >
+                  {decodeURIComponent(atual)}
+                </button>
+              ))}
+            </div>
           </>)}
         {respondido && (
           <button

@@ -58,7 +58,7 @@ class Feedback extends React.Component {
     const QUESTIONS_THRESHOLD = 3;
     return (
       <div>
-        <Header />
+        <Header score={ player.score } />
         <h1 data-testid="feedback-text">
           {player.assertions < QUESTIONS_THRESHOLD
             ? 'Podia ser melhor...'
@@ -70,13 +70,17 @@ class Feedback extends React.Component {
         <span data-testid="feedback-total-question">
           {player.assertions}
         </span>
-        <span> questões!</span>
+        <span>
+          {(player.assertions === 1) ? ' questão!' : ' questões!'}
+        </span>
         <br />
         <span>Com um total de </span>
         <span data-testid="feedback-total-score">
           {player.score}
         </span>
-        <span> pontos!</span>
+        <span>
+          {(player.score === 1) ? ' ponto!' : ' pontos!'}
+        </span>
         <br />
         <button
           type="button"

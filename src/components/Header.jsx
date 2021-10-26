@@ -30,15 +30,16 @@ class Header extends React.Component {
 
   render() {
     const { player, hashInfo } = this.state;
+    const { score } = this.props;
     return (
-      <header>
+      <header className="cabecalho">
         <img
           alt="Profile"
           data-testid="header-profile-picture"
           src={ `https://www.gravatar.com/avatar/${hashInfo}` }
         />
         <span data-testid="header-player-name">{ player.name }</span>
-        <span data-testid="header-score">{ player.score }</span>
+        <span data-testid="header-score">{ score }</span>
       </header>
     );
   }
@@ -46,6 +47,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
   saveHashImage: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,6 +3,7 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getToken } from '../services/triviaAPI';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -39,7 +40,8 @@ class Login extends React.Component {
   render() {
     const { userName, email } = this.state;
     return (
-      <div>
+      <div className="loginDiv">
+        <img src={ logo } alt="logo" />
         <form>
           <label htmlFor="input-player-name">
             Nome:

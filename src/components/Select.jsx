@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/settings.css';
 
 export default class Select extends Component {
   render() {
@@ -10,6 +11,7 @@ export default class Select extends Component {
         <label htmlFor="howMuch">
           Quantity:
           <select
+            className="quantity-select"
             name="howMuch"
             id="howMuch"
             onChange={ handleChange }
@@ -24,6 +26,7 @@ export default class Select extends Component {
         <label htmlFor="difficulty">
           Difficulty:
           <select
+            className="difficulty-select"
             name="difficulty"
             id="difficulty"
             onChange={ handleChange }
@@ -37,6 +40,7 @@ export default class Select extends Component {
         <label htmlFor="type">
           Type:
           <select
+            className="type-select"
             name="type"
             id="type"
             onChange={ handleChange }

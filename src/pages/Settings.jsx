@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Select from '../components/Select';
 import { setNewSettings as setNewSettingsAction } from '../actions/settingsActions';
+import '../styles/settings.css';
 
 class Settings extends Component {
   constructor() {
@@ -34,13 +35,22 @@ class Settings extends Component {
     const { settings: { categories } } = this.props;
 
     return (
-      <main>
-        <h2 data-testid="settings-title"> Settings </h2>
-        <form>
+      <main className="main-containner">
+        <h2 className="text-settings" data-testid="settings-title"> Settings </h2>
+        <img
+          className="img-engrenagem"
+          src="/engrenagem.png"
+          alt="imagem de engrenagem"
+        />
+        <form className="containner-settings-form">
           <label htmlFor="category">
             Category:
-            <select name="category" id="category" onChange={ this.handleChange }>
-              <option name="category" value="">Any</option>
+            <select
+              className="category-select"
+              name="category"
+              id="category"
+              onChange={ this.handleChange }
+            >
               {categories.map((category) => (
                 <option
                   key={ category.id }

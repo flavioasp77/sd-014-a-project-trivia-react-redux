@@ -1,16 +1,17 @@
 .login {
-  width: 50%;
+  width: 400px;
   margin: 20px auto;
+  margin-top: 50px;
 }
 
 label {
   display: block;
-  padding: 5px;  
+  padding: 5px;
 }
 
 input {
   margin-left: 5px;
-  width: 40%;
+  width: 240px;
   height: 18px;
 }
 
@@ -22,6 +23,7 @@ button {
   font-weight: 700;
   margin: 10px 20px;
 }
+
 button:hover {
   background-color: rgb(67, 68, 68);
 }

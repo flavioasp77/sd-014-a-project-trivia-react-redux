@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/Rankin.css';
 
 class Ranking extends React.Component {
   render() {
@@ -16,6 +17,7 @@ class Ranking extends React.Component {
                   src={ player.picture }
                   alt="Imagem do seu avatar"
                   data-testid="header-profile-picture"
+                  className="img-jogador"
                 />
                 <h3 data-testid={ `player-name-${index}` }>{player.name}</h3>
                 <h4 data-testid={ `player-score-${index}` }>{player.score}</h4>

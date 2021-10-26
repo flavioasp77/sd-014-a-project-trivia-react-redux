@@ -12,6 +12,7 @@ class Feedback extends Component {
     };
     this.sendToInitial = this.sendToInitial.bind(this);
     this.getAssertions = this.getAssertions.bind(this);
+    this.sendToRanking = this.sendToRanking.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +29,11 @@ class Feedback extends Component {
   sendToInitial() {
     const { history } = this.props;
     history.push('/');
+  }
+
+  sendToRanking() {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -49,6 +55,15 @@ class Feedback extends Component {
             onClick={ this.sendToInitial }
           >
             Jogar Novamente
+          </button>
+        </div>
+        <div>
+          <button
+            data-testid="btn-ranking"
+            type="button"
+            onClick={ this.sendToRanking }
+          >
+            Ver Ranking
           </button>
         </div>
       </div>

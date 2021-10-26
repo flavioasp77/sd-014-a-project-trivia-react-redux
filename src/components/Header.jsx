@@ -16,11 +16,11 @@ class Header extends React.Component {
     const hash = MD5(gravatarEmail).toString();
     console.log(hash);
     return (
-      <>
+      <div>
+        <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
         <h3 data-testid="header-player-name">{username}</h3>
-        <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar${hash}` } alt="Gravatar" />
         <h4 data-testid="header-score">{score}</h4>
-      </>
+      </div>
     );
   }
 

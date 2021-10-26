@@ -67,46 +67,50 @@ class login extends Component {
   }
 
   render() {
-    const { username, email } = this.state;
     return (
       <div className="App">
         <div className="App-header">
-          <Link to="/settings" data-testid="btn-settings">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/settings-3.png" alt="configurações" />
-          </Link>
-          <img className="App-logo" src={ logo } alt="logo" />
-          <form>
-            <label htmlFor="name">
-              Nome
+          <div
+            className="p-10 rounded-md flex flex-col content-evenly
+            items-center border-2 border-gray-700 rounded my-5"
+          >
+            <img className="App-logo mb-8" src={ logo } alt="logo" />
+            <form
+              className="flex flex-col py-4 px-2"
+            >
               <input
+                className="text-center rounded bg-gray-600
+                mb-3 text-gray-900 text-opacity-100"
                 type="text"
                 name="username"
                 data-testid="input-player-name"
-                id="name"
-                value={ username }
+                placeholder="Nome de usuário"
                 onChange={ this.handleChange }
               />
-            </label>
-            <label htmlFor="email">
-              Email
               <input
+                className="text-center rounded bg-gray-600 mb-3
+                text-gray-900 text-opacity-100"
                 type="email"
                 name="email"
                 data-testid="input-gravatar-email"
-                id="email"
-                value={ email }
+                placeholder="Email"
                 onChange={ this.handleChange }
               />
-            </label>
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handleClick }
-              disabled={ this.validateEmail() }
-            >
-              Jogar
-            </button>
-          </form>
+              <button
+                className="px-2 py-1 rounded text-center bg-blue-700
+                opacity-50 hover:opacity-100"
+                type="button"
+                data-testid="btn-play"
+                onClick={ this.handleClick }
+                disabled={ this.validateEmail() }
+              >
+                Jogar
+              </button>
+            </form>
+            <Link to="/settings" data-testid="btn-settings" className="mt-7">
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/settings-3.png" alt="configurações" />
+            </Link>
+          </div>
         </div>
       </div>
     );

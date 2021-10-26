@@ -60,7 +60,6 @@ class Feedback extends Component {
     const MIN_ANSWERS = 3;
     return (
       <>
-        <h1>Feedback</h1>
         <Header name={ name } score={ score } source={ source } />
         <main>
           <p data-testid="feedback-text">

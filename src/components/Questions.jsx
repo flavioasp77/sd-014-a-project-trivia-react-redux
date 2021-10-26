@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { questionApiThunk, scoreAction } from '../redux/actions';
 import Btn from './Btn';
-import './questions.css';
 
 const ANSWER_NUMBER = 4;
 
@@ -119,8 +118,8 @@ class Questions extends Component {
     }
 
     this.setState({
-      atualQuestion: atualQuestion + 1,
       isClicked: false,
+      atualQuestion: atualQuestion + 1,
       second: 30,
       savedSecond: 0,
     });
@@ -133,9 +132,7 @@ class Questions extends Component {
     const { isClicked, order, atualQuestion, second } = this.state;
     const { questions, history } = this.props;
     const { results, response_code: responseCode } = questions;
-
     if (results === undefined) return <p>Carregando...</p>;
-
     if (responseCode === CODE) {
       return (
         <>
@@ -145,28 +142,40 @@ class Questions extends Component {
           </button>
         </>
       );
-    }
-
-    return (
-      <main>
-        <h2 data-testid="question-category">
-          { results[atualQuestion].category }
-        </h2>
-        <p data-testid="question-text">
-          { results[atualQuestion].question }
-        </p>
-        <br />
-        <div>{ `${second} seg` }</div>
-        <Btn
-          handleNextBtn={ this.handleNextBtn }
-          handleClick={ this.handleClick }
-          isClicked={ isClicked }
-          order={ order }
-          atualQuestion={ atualQuestion }
-          results={ results }
-        />
-      </main>
-    );
+    } return (
+      <main className="modal-dialog modal-content rounded-4 shadow">
+        <div className="container px-4 py-5">
+          <h2 className="pb-2 border-bottom" data-testid="question-category">
+            { results[atualQuestion].category }
+          </h2>
+          <div className="row g-1 py-5 row-cols-2 row-cols-lg-2">
+            <div className="">
+              <p className="" data-testid="question-text">
+                { results[atualQuestion].question }
+              </p>
+            </div>
+            <Btn
+              handleClick={ this.handleClick }
+              isClicked={ isClicked }
+              order={ order }
+              atualQuestion={ atualQuestion }
+              results={ results }
+            />
+          </div>
+          <div className="pb-0 border-bottom">{ `${second} seg` }</div>
+          <br />
+          <button
+            className="btn btn-primary btn-lg"
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleNextBtn }
+            style={ { order: 5 } }
+            hidden={ !isClicked }
+          >
+            Próxima
+          </button>
+        </div>
+      </main>);
   }
 }
 

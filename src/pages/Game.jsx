@@ -44,8 +44,9 @@ class Game extends React.Component {
   }
 
   nextQuestion() {
-    const { index } = this.state;
-    const { history } = this.props;
+    const { index, score, assertions } = this.state;
+    const { history, dispatchUpdatePlayer, name, pictureURL } = this.props;
+    dispatchUpdatePlayer({ score, assertions, name, pictureURL });
     if (index === FINAL_INDEX) {
       history.push('/feedback');
     }
@@ -83,24 +84,23 @@ class Game extends React.Component {
 
   handleAnswer(isCorrect) {
     clearInterval(this.timer);
-
     this.setState((prevState) => ({
       answered: true,
       score: isCorrect ? this.calculateScore(prevState.score) : prevState.score,
       assertions: isCorrect ? prevState.assertions + 1 : prevState.assertions,
-    }), () => {
-      const { name, score, gravatarEmail, assertions } = this.state;
-      const gameState = {
-        player: {
-          name,
-          assertions,
-          score,
-          gravatarEmail,
-        },
-      };
-      localStorage.setItem('state', JSON.stringify(gameState));
-    });
+    }));
   }
+  // () => {
+  //   const { name, score, gravatarEmail, assertions } = this.state;
+  //   const gameState = {
+  //     player: {
+  //       name,
+  //       assertions,
+  //       score,
+  //       gravatarEmail,
+  //     },
+  //   };
+  // localStorage.setItem('state', JSON.stringify(gameState));
 
   calculateScore(oldScore) {
     const { index, stopwatch } = this.state;
@@ -178,6 +178,7 @@ Game.propTypes = {
   name: PropTypes.string.isRequired,
   pictureURL: PropTypes.string.isRequired,
   dispatchFetchQuestions: PropTypes.func.isRequired,
+  dispatchUpdatePlayer: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

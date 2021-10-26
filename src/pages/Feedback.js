@@ -30,6 +30,7 @@ class Feedback extends Component {
       loss: 'Podia ser melhor...',
       great: 'Mandou bem!',
     };
+    // const { assertions } = this.props; // vai depender de onde a informação está vindo
 
     return (
       <>

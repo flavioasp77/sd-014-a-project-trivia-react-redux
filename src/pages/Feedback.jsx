@@ -57,24 +57,23 @@ class Feedback extends React.Component {
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
-        <p data-testid="feedback-text">{ this.messageFeedback() }</p>
-        <h1 data-testid="feedback-text">{ this.messageFeedback() }</h1>
+        <h2 data-testid="feedback-text">{ this.messageFeedback() }</h2>
         <br />
-        <h2>
+        <h3>
           Você acertou
           {' '}
           <span data-testid="feedback-total-question">{assertions}</span>
           {' '}
           {plural}
           !
-        </h2>
-        <h2>
+        </h3>
+        <h3>
           Um total de
           {' '}
           <span data-testid="feedback-total-score">{ score }</span>
           {' '}
           pontos
-        </h2>
+        </h3>
         <Link to="/">
           <button
             data-testid="btn-play-again"

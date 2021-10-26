@@ -4,29 +4,25 @@ import { readLocalStorage } from '../services/util';
 
 class Ranking extends Component {
   render() {
-    const jogadores = readLocalStorage('ranking');
-    const jogadoresOrdenados = jogadores
-      .sort((a, b) => b.score - a.score);
-    console.log(jogadores);
-    console.log(jogadoresOrdenados);
+    const players = readLocalStorage('ranking').sort((a, b) => b.score - a.score);
     return (
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
         <ol>
-          {jogadoresOrdenados.map((jogador, index) => (
+          {players.map((player, index) => (
             <li key={ index }>
               <img
-                src={ jogador.picture }
+                src={ player.picture }
                 data-testid="header-profile-picture"
                 alt="gravatar"
               />
-              <p data-testid={ `player-name-${index}` }>{ jogador.name}</p>
-              <p data-testid={ `player-score-${index}` }>{jogador.score}</p>
+              <p data-testid={ `player-name-${index}` }>{ player.name}</p>
+              <p data-testid={ `player-score-${index}` }>{player.score}</p>
             </li>
           ))}
         </ol>
         <Link to="/">
-          <button type="button" data-testid="btn-go-home">Inicio</button>
+          <button type="button" data-testid="btn-go-home">Início</button>
         </Link>
       </div>
     );

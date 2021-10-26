@@ -42,7 +42,7 @@ class Login extends Component {
 
   render() {
     const { email, name, click } = this.state;
-    const { userToken } = this.props;
+    const { token } = this.props;
     return (
       <form onSubmit={ this.handleSubmit }>
         <label htmlFor="email">
@@ -75,7 +75,7 @@ class Login extends Component {
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
-        { click && userToken && <Redirect to="/jogo" /> }
+        { click && token && <Redirect to="/jogo" /> }
       </form>
     );
   }
@@ -86,12 +86,10 @@ const mapDispatchToProps = (dispatch) => ({
   sendToken: () => dispatch(getTokenThunk()),
 });
 
-const mapStateToProps = (state) => ({
-  userToken: state.token.token,
-});
+const mapStateToProps = ({ token: { token } }) => ({ token });
 
 Login.propTypes = {
-  userToken: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
   sendToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
 };

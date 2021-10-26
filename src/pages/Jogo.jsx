@@ -19,18 +19,18 @@ class Jogo extends Component {
       assertions: 0,
       score: 0,
     };
-    this.pegarPerguntas = this.pegarPerguntas.bind(this);
+    this.loadQuestions = this.loadQuestions.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
-    this.concatQuestions = this.concatQuestions.bind(this);
-    this.iniciarCronometro = this.iniciarCronometro.bind(this);
+    this.concatAnswers = this.concatAnswers.bind(this);
+    this.startCronometer = this.startCronometer.bind(this);
     this.setClass = this.setClass.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.setScore = this.setScore.bind(this);
   }
 
   componentDidMount() {
-    this.pegarPerguntas();
-    this.iniciarCronometro();
+    this.loadQuestions();
+    this.startCronometer();
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -55,18 +55,18 @@ class Jogo extends Component {
   setScore() {
     const { questions } = this.props;
     const { currQuestion, timer } = this.state;
-    const hard = 3;
-    const medium = 2;
-    const easy = 1;
-    const base = 10;
+    const HARD = 3;
+    const MEDIUM = 2;
+    const EASY = 1;
+    const BASE = 10;
     if (questions[currQuestion].difficulty === 'hard') {
-      return base + (timer * hard);
+      return BASE + (timer * HARD);
     }
     if (questions[currQuestion].difficulty === 'medium') {
-      return base + (timer * medium);
+      return BASE + (timer * MEDIUM);
     }
     if (questions[currQuestion].difficulty === 'easy') {
-      return base + (timer * easy);
+      return BASE + (timer * EASY);
     }
   }
 
@@ -86,7 +86,7 @@ class Jogo extends Component {
     sendScore(score);
   }
 
-  iniciarCronometro() {
+  startCronometer() {
     const ONE_SECOND = 1000; // Milisegundos
     this.cronometerInterval = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
@@ -94,10 +94,10 @@ class Jogo extends Component {
   }
 
   endTimer() {
-    this.setState({ timer: 'acabou o tempo', clicked: true });
+    this.setState({ timer: 'Acabou o tempo!', clicked: true });
   }
 
-  async pegarPerguntas() {
+  async loadQuestions() {
     const { getQuestions } = this.props;
     await getQuestions();
     this.setState({ isLoading: false });
@@ -106,8 +106,8 @@ class Jogo extends Component {
   changeQuestion() {
     const { currQuestion, score } = this.state;
     const { history, name, email } = this.props;
-    const questionsLength = 4;
-    if (currQuestion === questionsLength) {
+    const QUESTIONS_LENGTH = 4;
+    if (currQuestion === QUESTIONS_LENGTH) {
       let ranking = readLocalStorage('ranking');
       if (ranking === null) {
         ranking = [{
@@ -133,26 +133,26 @@ class Jogo extends Component {
     ));
     this.setState({ timer: 30 }, () => {
       clearInterval(this.cronometerInterval);
-      this.iniciarCronometro();
+      this.startCronometer();
     });
   }
 
-  concatQuestions(correct, incorrect) {
-    const arr1 = [...incorrect, correct];
-    return arr1.sort();
+  concatAnswers(correct, incorrect) {
+    const answers = [...incorrect, correct];
+    return answers.sort();
   }
 
   button() {
     const { currQuestion } = this.state;
-    const questionsLength = 4;
-    if (currQuestion < questionsLength) {
+    const QUESTIONS_LENGTH = 4;
+    if (currQuestion < QUESTIONS_LENGTH) {
       return (
         <button
           type="button"
           onClick={ this.changeQuestion }
           data-testid="btn-next"
         >
-          Proxima
+          Próxima
         </button>
       );
     }
@@ -167,28 +167,31 @@ class Jogo extends Component {
     );
   }
 
-  perguntas() {
+  questions() {
     const { questions } = this.props;
     const { currQuestion, clicked, timer } = this.state;
-    const options = this.concatQuestions(questions[currQuestion].correct_answer,
+    const options = this.concatAnswers(questions[currQuestion].correct_answer,
       questions[currQuestion].incorrect_answers);
     return (
       <div>
-        <p>{timer}</p>
+        <p>
+          {!clicked && 'Tempo restante: '}
+          {timer}
+        </p>
         <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
         <p data-testid="question-text">{questions[currQuestion].question}</p>
-        {options.map((questao, index) => (
-          questao === questions[currQuestion].correct_answer ? (
+        {options.map((question, index) => (
+          question === questions[currQuestion].correct_answer ? (
             <button
               className={ clicked ? 'green-border' : '' }
               onClick={ (e) => this.setClass(e) }
               type="button"
               key={ index }
-              value={ questao }
+              value={ question }
               data-testid="correct-answer"
               disabled={ clicked }
             >
-              {questao}
+              {question}
             </button>
           ) : (
             <button
@@ -196,11 +199,11 @@ class Jogo extends Component {
               onClick={ (e) => this.setClass(e) }
               type="button"
               key={ index }
-              value={ questao }
+              value={ question }
               data-testid={ `wrong-answers-${index}` }
               disabled={ clicked }
             >
-              {questao}
+              {question}
             </button>
           )
         ))}
@@ -214,7 +217,7 @@ class Jogo extends Component {
     return (
       <div>
         <Header />
-        {isLoading ? <Loading /> : this.perguntas()}
+        {isLoading ? <Loading /> : this.questions()}
       </div>
     );
   }
@@ -222,13 +225,13 @@ class Jogo extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
-  sendScore: (ponto) => dispatch(getScore(ponto)),
+  sendScore: (score) => dispatch(getScore(score)),
 });
 
-const mapStateToProps = (state) => ({
-  questions: state.questions.questions,
-  email: state.user.email,
-  name: state.user.name,
+const mapStateToProps = ({ questions: { questions }, user: { email, name } }) => ({
+  questions,
+  email,
+  name,
 });
 
 Jogo.propTypes = {

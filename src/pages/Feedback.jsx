@@ -4,8 +4,8 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { currentScore } = this.props;
-    const { assertions } = JSON.parse(localStorage.getItem('state')).player;
+    // const { currentScore } = this.props;
+    const { assertions, score } = JSON.parse(localStorage.getItem('state')).player;
     const numbFeed = 3;
     const feedback = assertions >= numbFeed ? 'Mandou bem!'
       : 'Podia ser melhor...';
@@ -15,15 +15,29 @@ class Feedback extends Component {
           <Header />
         </header>
         <h1 data-testid="feedback-text">{feedback}</h1>
-        <h2 data-testid="feedback-total-question">
-          {assertions}
-        </h2>
-        <h2 data-testid="feedback-total-score">{currentScore}</h2>
+        <h2 data-testid="feedback-total-score">{score}</h2>
+        {
+          assertions === 0 ? (
+            <span>
+              Não acertou nenhuma pergunta
+              <span data-testid="feedback-total-question">{assertions}</span>
+            </span>
+          ) : (
+            <p>
+              Acertou
+              {' '}
+              <span data-testid="feedback-total-question">{assertions}</span>
+              {' '}
+              Pergunta(s)
+            </p>
 
+          )
+        }
       </>
     );
   }
 }
+
 Feedback.propTypes = {
   currentScore: PropTypes.number.isRequired,
 };

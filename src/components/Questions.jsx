@@ -98,19 +98,23 @@ class Questions extends Component {
       setRanking();
       return <Redirect to="/feedback" />;
     }
-    if (questions.length > 0) {
-      return (
-        <div>
+
+    return questions.length <= 0 ? <h1>Carregando...</h1> : (
+      <div className="questions-container rounded shadow">
+        <div className="headers-container">
           <h2 data-testid="question-category">
             { questions[questionActual].category }
           </h2>
           <p data-testid="question-text">
             { questions[questionActual].question }
           </p>
+          <Timer time={ time } setTimer={ this.setClock } />
+        </div>
+        <div className="options-container">
           <button
             type="button"
             data-testid="correct-answer"
-            className={ isClick ? 'correct-answer' : null }
+            className={ `btn btn-outline-secondary ${(isClick && 'correct-answer') || null}` }
             onClick={ this.handleCorrect }
             disabled={ disabled }
           >
@@ -121,24 +125,20 @@ class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              className={ isClick ? 'incorrect-answers' : null }
+              className={ `btn btn-outline-secondary ${(isClick && 'incorrect-answers') || null}` }
               onClick={ this.handleIncorrect }
               disabled={ disabled }
             >
               { question }
             </button>
           ))}
-          <Timer time={ time } setTimer={ this.setClock } />
-          { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
-        </div>
-      );
-    }
+          <div className="next-btn-container">
+            { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
+          </div>
 
-    return (
-      <div>
-        Carregando...
-      </div>
-    );
+        </div>
+
+      </div>);
   }
 }
 

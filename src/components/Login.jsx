@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { loginPlayer as loginAction } from '../redux/actions';
 
@@ -31,7 +32,7 @@ class Login extends Component {
   render() {
     const { name, gravatarEmail } = this.state;
     return (
-      <form className="login rounded shadow mt-5">
+      <form className="login rounded shadow my-auto">
         <h1 className="text-success">Trybe Trivia</h1>
 
         <input
@@ -60,6 +61,15 @@ class Login extends Component {
         >
           Jogar
         </button>
+
+        <Link
+          to="/settings"
+          data-testid="btn-settings"
+          className="link-success"
+        >
+          Configurações
+
+        </Link>
 
       </form>
     );

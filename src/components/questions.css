@@ -5,3 +5,32 @@
 .incorrect-answers {
   border: 3px solid red;
 }
+
+.questions-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px;
+  width: 70vw;
+  height: 50vh;
+  background-color: white;
+}
+
+.headers-container {
+  width: 45%;
+}
+
+.options-container{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    flex-direction: column;
+}
+
+.next-btn-container{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+}
+

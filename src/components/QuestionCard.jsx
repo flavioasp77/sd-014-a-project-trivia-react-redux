@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 import { fetchQuestions } from '../services';
-import CountdownTimer from './CountdownTimer';
+
+const FINAL_QUESTION = 4;
 
 class QuestionCard extends Component {
   constructor() {
@@ -12,14 +12,28 @@ class QuestionCard extends Component {
       questionNumber: 0,
       loading: true,
       questionBtnClicked: false,
+      redirect: false,
+      time: 30,
     };
     this.setQuestions = this.setQuestions.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.renderNextBtn = this.renderNextBtn.bind(this);
+    this.redirectFeedback = this.redirectFeedback.bind(this);
+    this.timer = 0;
+    this.startTimer = this.startTimer.bind(this);
+    this.countDown = this.countDown.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
     this.setQuestions();
+    this.startTimer();
+  }
+
+  componentDidUpdate() {
+    const { time } = this.state;
+    if (time === 0) { this.stopTimer(); }
   }
 
   async setQuestions() {
@@ -31,10 +45,27 @@ class QuestionCard extends Component {
     });
   }
 
+  startTimer() {
+    const ONE_SECOND = 1000;
+    this.timer = setInterval(this.countDown, ONE_SECOND);
+  }
+
+  countDown() {
+    this.setState((prevState) => ({
+      time: prevState.time - 1,
+    }));
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
   handleClick() {
     this.setState({
       questionBtnClicked: true,
     });
+
+    this.stopTimer();
 
     const correctButton = document.querySelector('.correctButton');
     const incorrectButtons = document.querySelectorAll('.incorrectButtons');
@@ -46,6 +77,7 @@ class QuestionCard extends Component {
   }
 
   nextQuestion() {
+    const { questionNumber } = this.state;
     const correctButton = document.querySelector('.correctButton');
     const incorrectButtons = document.querySelectorAll('.incorrectButtons');
 
@@ -59,7 +91,18 @@ class QuestionCard extends Component {
     this.setState((prevState) => ({
       questionBtnClicked: false,
       questionNumber: prevState.questionNumber + 1,
+      time: 30,
     }));
+
+    this.startTimer();
+
+    if (questionNumber === FINAL_QUESTION) return this.redirectFeedback();
+  }
+
+  redirectFeedback() {
+    this.setState({
+      redirect: true,
+    });
   }
 
   buttonsArray() {
@@ -68,13 +111,13 @@ class QuestionCard extends Component {
       incorrect_answers: incorrectAnswers,
     } = questions[questionNumber];
     const answersButtons = [correctAnswer, ...incorrectAnswers];
+    console.log(answersButtons);
     const shuffleButtons = answersButtons.sort();
     return shuffleButtons;
   }
 
   renderButtons() {
-    const { questions, questionNumber, questionBtnClicked } = this.state;
-    const { disable } = this.props;
+    const { questions, questionNumber, questionBtnClicked, time } = this.state;
     const buttons = questions.length > 0 && (
       this.buttonsArray().map((answers, index) => (
         <button
@@ -84,7 +127,7 @@ class QuestionCard extends Component {
           key={ index }
           className={ answers === questions[questionNumber].correct_answer
             ? 'correctButton' : 'incorrectButtons' }
-          disabled={ questionBtnClicked || disable }
+          disabled={ questionBtnClicked || time === 0 }
           onClick={ this.handleClick }
         >
           {answers}
@@ -94,9 +137,44 @@ class QuestionCard extends Component {
     return buttons;
   }
 
+  renderNextBtn() {
+    const { questionBtnClicked, questionNumber } = this.state;
+
+    if (questionNumber === FINAL_QUESTION && questionBtnClicked) {
+      return (
+        <div>
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.redirectFeedback }
+          >
+            Ver Resultado
+          </button>
+        </div>
+      );
+    }
+    if (questionNumber !== FINAL_QUESTION && questionBtnClicked) {
+      return (
+        <div>
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.nextQuestion }
+          >
+            Próxima
+          </button>
+        </div>
+      );
+    }
+  }
+
   render() {
-    const { questions, questionNumber, loading, questionBtnClicked } = this.state;
+    const { questions, questionNumber, loading, redirect, time } = this.state;
+
     if (loading) return <h1>Loading...</h1>;
+
+    if (redirect) return <Redirect to="/feedback" />;
+
     return (
       <section>
         <div>
@@ -108,27 +186,15 @@ class QuestionCard extends Component {
           <h3 data-testid="question-text">{ questions[questionNumber].question }</h3>
           { this.renderButtons() }
         </div>
-        <CountdownTimer />
-        { questionBtnClicked && (
-          <button
-            data-testid="btn-next"
-            type="button"
-            onClick={ this.nextQuestion }
-          >
-            Próxima
-          </button>
-        )}
+        <div>
+          <section>
+            { time > 0 ? `${time} segundos` : 'Seu tempo acabou!' }
+          </section>
+        </div>
+        { this.renderNextBtn() }
       </section>
     );
   }
 }
 
-QuestionCard.propTypes = {
-  disable: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  disable: state.game.disableButton,
-});
-
-export default connect(mapStateToProps)(QuestionCard);
+export default QuestionCard;

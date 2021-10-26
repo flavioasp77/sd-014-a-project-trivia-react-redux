@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import './questions.css';
 import Buttons from './Buttons';
 import { scoreInfo, setTimer } from '../actions';
+import gravatarImg from '../services/gravatarApi';
 
 class Questions extends Component {
   constructor() {
@@ -70,7 +71,9 @@ class Questions extends Component {
     const playerRanking = JSON.parse(localStorage.getItem('ranking'));
     const playerName = JSON.parse(localStorage.getItem('state')).player.name;
     const playerScore = JSON.parse(localStorage.getItem('state')).player.score;
-    const playerPicture = JSON.parse(localStorage.getItem('state')).player.gravatarEmail;
+    const playerPictureEmail = JSON
+      .parse(localStorage.getItem('state')).player.gravatarEmail;
+    const playerPicture = gravatarImg(playerPictureEmail);
     const userRanking = {
       name: playerName,
       score: playerScore,

@@ -32,6 +32,7 @@
   justify-content: center;
   min-height: 10vh;
   margin-bottom: 2vh;
+  padding: 1.5vh 0;
 }
 
 .App-link {

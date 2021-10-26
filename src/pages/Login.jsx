@@ -54,14 +54,14 @@ class Login extends React.Component {
       <main className="login">
         <Input
           name="name"
-          msg="Nome:"
+          msg="Nome"
           value={ name }
           onChange={ this.handleChange }
           dataTestid="input-player-name"
         />
         <Input
           name="email"
-          msg="Email :"
+          msg="Email"
           value={ email }
           onChange={ this.handleChange }
           dataTestid="input-gravatar-email"

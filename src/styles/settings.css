@@ -1,0 +1,97 @@
+.containner-settings-form {
+  align-items: center;
+  background-color: #7a8a84;
+  border: solid 1px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  font-family: monospace;
+  height: 500px;
+  margin-top: 30px;
+  width: 400px;
+}
+
+.main-containner {
+  align-items: center;
+  background-color: rgb(145, 182, 182);
+  display: flex;
+  flex-direction: column;
+  height: 990px;
+}
+
+.containner-settings-form > label {
+  margin: 20px;
+}
+
+.category-select {
+  cursor: pointer;
+  height: 40px;
+  margin-left: 40px;
+  margin-top: 60px;
+  width: 220px;
+}
+
+.category-select:hover {
+  box-shadow: 0 0 1em #2fc18c;
+}
+
+.quantity-select {
+  cursor: pointer;
+  height: 40px;
+  margin-left: 40px;
+  width: 220px;
+}
+
+.quantity-select:hover {
+  box-shadow: 0 0 1em #2fc18c;
+}
+
+.quantity-select > option::selection {
+  background-color: #04f19a;
+}
+
+.difficulty-select {
+  cursor: pointer;
+  height: 40px;
+  margin-left: 20px;
+  width: 220px;
+}
+
+.difficulty-select:hover {
+  box-shadow: 0 0 1em #2fc18c;
+}
+
+.type-select {
+  cursor: pointer;
+  height: 40px;
+  margin-left: 76px;
+  width: 220px;
+}
+
+.type-select:hover {
+  box-shadow: 0 0 1em #2fc18c;
+}
+
+.text-settings {
+  font-family: cursive , 'Press Start 2P';
+  font-size: 24px;
+  margin-top: 100px;
+}
+
+.img-engrenagem {
+  height: 50px;
+  margin-top: 10px;
+  width: 50px;
+}
+
+.main-containner > button {
+  background-color: #2fc18c;
+  height: 40px;
+  margin-top: -80px;
+  width: 250px;
+}
+
+.main-containner > button:hover {
+  background-color: #04f19a;
+  box-shadow: 0 0 1em #2fc18c;
+}

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap') ;
 
+/* animação: https://www.codingnepalweb.com/circular-progress-bar-html-css-javascript/ */
 .circular {
   height: 100px;
   position: relative;
@@ -57,6 +58,11 @@
   height: 100%;
   position: absolute;
   width: 100%;
+}
+
+.restart {
+  animation: left 15s linear both;
+  z-index: 1;
 }
 
 .circle .bar .progress, .dot span {

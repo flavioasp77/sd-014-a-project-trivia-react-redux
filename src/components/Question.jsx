@@ -48,26 +48,13 @@ class Question extends Component {
 
   render() {
     const { game: { questions, index, nextQuestionBtn },
-      handleNextQuestion, questionTimer: { timerIsOn, timerValue } } = this.props;
+      handleNextQuestion } = this.props;
     const question = questions[index];
     return (
       <div className="background">
         <section className="containner-section-question">
           <div className="card-question">
-            { timerIsOn ? <Timer />
-              : (
-                <div className="circular">
-                  <div className="inner" />
-                  <div className="outer" />
-                  <div className="numb">
-                    {timerValue}
-                  </div>
-                  <div
-                    className="circle"
-                    style={ { backgroundColor: '#273746' } }
-                  />
-                </div>
-              )}
+            <Timer />
             <h3 data-testid="question-category">
               {question.category}
             </h3>
@@ -100,7 +87,6 @@ Question.propTypes = {
   game: PropTypes.objectOf(PropTypes.any).isRequired,
   handleNextQuestion: PropTypes.func.isRequired,
   handleResponse: PropTypes.func.isRequired,
-  questionTimer: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 const mapStateToProps = ({ game, questionTimer }) => ({

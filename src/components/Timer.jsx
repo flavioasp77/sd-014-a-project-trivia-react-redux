@@ -8,51 +8,96 @@ import '../styles/timer.css';
 class Timer extends Component {
   constructor() {
     super();
-    this.state = { interval: null, timer: 30 };
+    this.state = { interval: false, timer: 30 };
     this.verifyTimer = this.verifyTimer.bind(this);
     this.setStateInterval = this.setStateInterval.bind(this);
+    this.verifyRestartAnimation = this.verifyRestartAnimation.bind(this);
   }
 
   componentDidMount() {
     this.setStateInterval();
   }
 
+  componentDidUpdate() {
+    this.verifyRestartAnimation();
+  }
+
   setStateInterval() {
-    const ONE_SECOND = 1000;
-    this.setState({ interval: setInterval(() => {
-      this.setState((prev) => ({ timer: prev.timer - 1 }), () => this.verifyTimer());
-    }, ONE_SECOND) });
+    const { interval } = this.state;
+    if (!interval) {
+      const ONE_SECOND = 1000;
+      this.setState({
+        interval: setInterval(() => {
+          this.setState((prev) => ({ timer: prev.timer - 1 }), () => this.verifyTimer());
+        }, ONE_SECOND) });
+    }
+  }
+
+  verifyRestartAnimation() {
+    const { interval } = this.state;
+    const { game: { timerIsOn }, updateTimer } = this.props;
+    const DELAY = 10;
+    if (timerIsOn && !interval) {
+      document.getElementById('left').classList.remove('progress');
+      document.getElementById('right').classList.remove('progress');
+      document.getElementById('left').classList.add('s');
+      document.getElementById('right').classList.add('s');
+      setTimeout(() => {
+        this.setState({ timer: 30 });
+        updateTimer({ timerValue: 30 });
+        document.getElementById('left').classList.add('progress');
+        document.getElementById('right').classList.add('progress');
+      }, DELAY);
+      this.setStateInterval();
+    }
   }
 
   verifyTimer() {
-    const { questionTimer: { timerIsOn }, updateTimer, handleUserAnswer } = this.props;
+    const { game: { timerIsOn }, updateTimer, handleUserAnswer } = this.props;
     const { interval, timer } = this.state;
     if (timer === 0 || !timerIsOn) {
-      updateTimer({ timerValue: timer, timerIsOn: false });
+      updateTimer({ timerValue: timer + 1 });
+      clearInterval(interval);
       handleUserAnswer();
-      return clearInterval(interval);
+      return this.setState({ interval: false });
     }
     return updateTimer({ timerValue: timer, timerIsOn: true });
   }
 
   render() {
-    const { timer } = this.state;
+    const { questionTimer: { timerValue }, game: { timerIsOn } } = this.props;
+    const { interval } = this.state;
+    const MID_ANIMATION = 15;
     return (
       <div className="circular">
         <div className="inner" />
         <div className="outer" />
         <div className="numb">
-          {timer}
+          {timerValue}
         </div>
         <div className="circle">
           <div className="dot">
             <span />
           </div>
           <div className="bar left">
-            <div className="progress" />
+            <div
+              id="left"
+              className="progress"
+              style={ {
+                animationPlayState: (
+                  (!timerIsOn && timerValue >= MID_ANIMATION) || !interval) && 'paused',
+              } }
+            />
           </div>
           <div className="bar right">
-            <div className="progress" />
+            <div
+              id="right"
+              className="progress"
+              style={ {
+                animationPlayState: (
+                  (!timerIsOn && timerValue < MID_ANIMATION) || !interval) && 'paused',
+              } }
+            />
           </div>
         </div>
       </div>
@@ -64,10 +109,12 @@ Timer.propTypes = {
   questionTimer: PropTypes.objectOf(PropTypes.any).isRequired,
   updateTimer: PropTypes.func.isRequired,
   handleUserAnswer: PropTypes.func.isRequired,
+  game: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-const mapStateToProps = ({ questionTimer }) => ({
+const mapStateToProps = ({ questionTimer, game }) => ({
   questionTimer,
+  game,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -37,7 +37,7 @@
   background-color: #1d1d1d;
 }
 
-.score, .assertions {
+.score, .assertions, .score.span {
   color: black;
   display: inline-block;
   margin-bottom: auto;

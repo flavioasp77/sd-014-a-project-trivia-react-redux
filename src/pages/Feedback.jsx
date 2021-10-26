@@ -14,18 +14,21 @@ export default class Feedback extends Component {
       <section>
         <Header />
         <div className="feedback">
-          <h2 data-testid="feedback-text" className="title">{ message }</h2>
-          <span>
-            <h4 className="score" data-testid="feedback-total-score">
-              Sua pontuação:
-              {' '}
-              { score }
-            </h4>
-            <h4 className="assertions" data-testid="feedback-total-question">
-              Número de acertos:
-              {' '}
+          <h2 data-testid="feedback-text">{ message }</h2>
+          <span className="score">
+            Sua pontuação:
+            {' '}
+            <span data-testid="feedback-total-score" className="score">{ score }</span>
+          </span>
+          <span className="assertions">
+            Número de acertos:
+            {' '}
+            <span
+              data-testid="feedback-total-question"
+              className="assertions"
+            >
               { assertions }
-            </h4>
+            </span>
           </span>
           <div className="buttons-feedback">
             <Link to="/">

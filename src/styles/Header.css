@@ -3,9 +3,9 @@
 }
 
 .jogado {
+  background-color: rgb(229, 233, 233);
+  border-radius: 10px;
   margin: 10px auto;
   width: 30%;
-  border-radius: 10px;
   padding: 10px;
-  background-color: rgb(229, 233, 233);  
 }

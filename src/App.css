@@ -30,8 +30,8 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 10vh;
   margin-bottom: 2vh;
+  min-height: 10vh;
   padding: 1.5vh 0;
 }
 
@@ -59,6 +59,6 @@
 }
 
 .score::before {
-  content: "Score: "
-  }
+  content: 'Score: ';
+}
 

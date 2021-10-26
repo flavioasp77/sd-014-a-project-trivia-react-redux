@@ -2,6 +2,7 @@ import { UPDATE_TIMER } from '../actions/questionTimerActions';
 
 const INITIAL_STATE = {
   timerValue: 30,
+  timerIsOn: true,
 };
 
 const questionTimer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,7 @@ const questionTimer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       timerValue: action.payload.timerValue,
+      timerIsOn: action.payload.timerIsOn,
     };
   default:
     return state;

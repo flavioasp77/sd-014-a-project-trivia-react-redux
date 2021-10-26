@@ -25,15 +25,17 @@ class Jogo extends Component {
 
   handleResponse({ target: { value } }) {
     const { handleUserAnswer, game: { answers },
-      questionTimer } = this.props;
+      questionTimer, updateTimer } = this.props;
+    updateTimer({ timerValue: questionTimer.timerValue, timerIsOn: false });
     attPlayerfromLS(answers[value], questionTimer.timerValue);
     handleUserAnswer();
   }
 
   handleNextQuestion() {
     const { game: { questions, index },
-      setAnswers, history, nextQuestion } = this.props;
+      setAnswers, history, nextQuestion, updateTimer } = this.props;
     nextQuestion();
+    updateTimer({ timerValue: 30, timerIsOn: true });
     return index + 1 !== questions.length
       ? setAnswers(generateRandomAnswers(questions, (index + 1)))
       : history.push('/feedback');
@@ -62,6 +64,7 @@ Jogo.propTypes = {
   handleUserAnswer: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  updateTimer: PropTypes.func.isRequired,
   questionTimer: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

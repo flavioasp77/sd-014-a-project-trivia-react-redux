@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import triviaLogo from '../trivia.png';
 import fetchTokenApi from '../services/triviaTokenApi';
-import { userInfo as userInfoAction } from '../actions';
+import { userInfo as userInfoAction, scoreInfo } from '../actions';
 import './login.css';
 
 class Login extends Component {
@@ -18,11 +18,6 @@ class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // componentDidMount() {
-  //   const { questionInfo } = this.props;
-  //   questionInfo();
-  // }
-
   handleChange({ target: { value, name } }) {
     this.setState({
       [name]: value,
@@ -31,10 +26,10 @@ class Login extends Component {
 
   async handleClick() {
     const { name, email } = this.state;
-    const { userInfo, history } = this.props;
+    const { userInfo, history, scoreActionInfo } = this.props;
     await fetchTokenApi();
     await userInfo(name, email);
-    history.push('/game');
+    await history.push('/game');
     const player = {
       player: {
         name,
@@ -43,7 +38,19 @@ class Login extends Component {
         gravatarEmail: email,
       },
     };
+    const ranking = {
+      ranking: [],
+    };
+
     localStorage.state = JSON.stringify(player);
+
+    // se não existir o ranking no localstorage, este é criado
+    if (!localStorage.getItem('ranking')) {
+      localStorage.ranking = JSON.stringify(ranking);
+    }
+
+    // zera a pontuação do usuário
+    scoreActionInfo(0);
   }
 
   render() {
@@ -98,12 +105,14 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  scoreActionInfo: PropTypes.func.isRequired,
   userInfo: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   userInfo: (name, email) => (
     dispatch(userInfoAction(name, email))),
+  scoreActionInfo: (scoreNum) => dispatch(scoreInfo(scoreNum)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

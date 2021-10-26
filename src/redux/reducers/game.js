@@ -2,7 +2,7 @@ import { QUESTIONS, REQUEST_QUESTIONS } from '../actions/actionTypes';
 
 const GAME_INITIALSTATE = {
   questions: [],
-  isFetching: false,
+  isFetching: true,
 };
 
 export default function generateQuestions(state = GAME_INITIALSTATE, action) {

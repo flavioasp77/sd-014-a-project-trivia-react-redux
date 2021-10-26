@@ -98,6 +98,7 @@ class Game extends React.Component {
       const result = basePoints + (time * multiple);
       const player = localStorage.getObj('state');
       player.player.score += result;
+      player.player.assertions += 1;
       this.setState({ score: player.player.score });
       localStorage.setObj('state', player);
     }

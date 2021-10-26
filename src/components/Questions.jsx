@@ -7,7 +7,9 @@ import scoreCalculator from '../services/scoreCalculator';
 import {
   fetchQuestionsAction,
   nextQuestionAction,
-  apiRequestAction } from '../redux/actions';
+  apiRequestAction,
+  updateScoreAction,
+} from '../redux/actions';
 import '../styles/questions.css';
 
 class Questions extends Component {
@@ -37,12 +39,15 @@ class Questions extends Component {
   }
 
   onSelectAnswer(event) {
+    const { updateScore } = this.props;
     const { correct, seconds, difficulty } = this.state;
     const { innerHTML } = event.target;
 
     const score = scoreCalculator(innerHTML, correct, seconds, difficulty);
 
     const currentLocalStorage = JSON.parse(localStorage.getItem('state'));
+
+    updateScore(score);
 
     if (score) {
       currentLocalStorage.player.assertions += 1;
@@ -195,6 +200,7 @@ Questions.propTypes = {
   loadingToogle: PropTypes.func.isRequired,
   nextQuestionToState: PropTypes.func.isRequired,
   stateQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateScore: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
@@ -208,6 +214,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchQuestionsToState: () => dispatch(fetchQuestionsAction()),
   nextQuestionToState: () => dispatch(nextQuestionAction()),
   loadingToogle: () => dispatch(apiRequestAction()),
+  updateScore: (score) => dispatch(updateScoreAction(score)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

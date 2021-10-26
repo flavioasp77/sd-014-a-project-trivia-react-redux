@@ -8,7 +8,6 @@ const INITIAL_STATE = {
   answers: [],
   nextQuestionBtn: false,
   score: 0,
-  timerIsOn: true,
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -29,7 +28,6 @@ const game = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: JSON.parse(localStorage.getItem('state')).player.score,
-      timerIsOn: false,
       nextQuestionBtn: true,
       answers: state.answers.map((item) => {
         item.border = item.isCorrect
@@ -41,7 +39,6 @@ const game = (state = INITIAL_STATE, action) => {
   case NEXT_QUESTION:
     return {
       ...state,
-      timerIsOn: true,
       nextQuestionBtn: false,
       index: state.index === (state.questions.length - 1) ? 0 : (state.index + 1),
     };

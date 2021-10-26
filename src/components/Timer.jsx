@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -26,6 +25,15 @@ class Timer extends Component {
     sessionStorage.setItem('idInterval', idInterval);
   }
 
+  iconTimer(seconds) {
+    if (seconds % 2 === 1) {
+      return <i className="fas fa-hourglass-start" />;
+    } if (seconds === 0) {
+      return <i className="fas fa-hourglass-end" />;
+    }
+    return <i className="fas fa-hourglass-half" />;
+  }
+
   render() {
     const { answered, callback } = this.props;
     const { seconds } = this.state;
@@ -37,10 +45,7 @@ class Timer extends Component {
     }
     return (
       <div className="text-danger">
-        { seconds % 2 === 1
-          ? <i className="fas fa-hourglass-start" />
-          : seconds === 0 ? <i className="fas fa-hourglass-end" />
-            : <i className="fas fa-hourglass-half" /> }
+        { this.iconTimer(seconds) }
         {' '}
         Tempo
         {' '}

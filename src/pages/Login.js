@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -47,6 +46,23 @@ class Login extends Component {
     history.push('/game');
   }
 
+  emailInput(email) {
+    return (
+      <label htmlFor="email">
+        Email
+        <input
+          type="email"
+          id="email"
+          data-testid="input-gravatar-email"
+          name="email"
+          className="form-control mb-2"
+          value={ email }
+          onChange={ this.handleChange }
+        />
+      </label>
+    );
+  }
+
   render() {
     const { name, email, settings } = this.state;
     if (settings) return <Redirect to="/settings" />;
@@ -71,18 +87,7 @@ class Login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="email">
-            Email
-            <input
-              type="email"
-              id="email"
-              data-testid="input-gravatar-email"
-              name="email"
-              className="form-control mb-2"
-              value={ email }
-              onChange={ this.handleChange }
-            />
-          </label>
+          { this.emailInput(email) }
           <div className="d-flex justify-content-around">
             <button
               type="button"

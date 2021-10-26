@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    // const { currentScore } = this.props;
     const { assertions, score } = JSON.parse(localStorage.getItem('state')).player;
     const numbFeed = 3;
     const feedback = assertions >= numbFeed ? 'Mandou bem!'
@@ -14,31 +13,32 @@ class Feedback extends Component {
         <header>
           <Header />
         </header>
-        <h1 data-testid="feedback-text">{feedback}</h1>
-        <h2 data-testid="feedback-total-score">{score}</h2>
-        {
-          assertions === 0 ? (
-            <span>
-              Não acertou nenhuma pergunta
-              <span data-testid="feedback-total-question">{assertions}</span>
-            </span>
-          ) : (
-            <p>
-              Acertou
-              {' '}
-              <span data-testid="feedback-total-question">{assertions}</span>
-              {' '}
-              Pergunta(s)
-            </p>
-
-          )
-        }
+        <main>
+          <h1 data-testid="feedback-text">{feedback}</h1>
+          <h2 data-testid="feedback-total-score">{score}</h2>
+          {
+            assertions === 0 ? (
+              <span>
+                Não acertou nenhuma pergunta
+                <span data-testid="feedback-total-question">{assertions}</span>
+              </span>
+            ) : (
+              <p>
+                Acertou
+                {' '}
+                <span data-testid="feedback-total-question">{assertions}</span>
+                {' '}
+                Pergunta(s)
+              </p>
+            )
+          }
+        </main>
+        <Link to="/" role="button" data-testid="btn-play-again">
+          Jogar novamente
+        </Link>
       </>
     );
   }
 }
 
-Feedback.propTypes = {
-  currentScore: PropTypes.number.isRequired,
-};
 export default Feedback;

@@ -6,7 +6,7 @@ import '../utils/localstorage';
 const magicNumber = 3;
 class Feedback extends Component {
   render() {
-    const { player: { assertions } } = localStorage.getObj('state');
+    const { player: { assertions, score } } = localStorage.getObj('state');
     const message = assertions < magicNumber ? 'Podia ser melhor...' : 'Mandou bem!';
     return (
       <main>
@@ -14,7 +14,11 @@ class Feedback extends Component {
         <div data-testid="feedback-text">
           { message }
         </div>
-        <Link to="/login">
+        <div>
+          <h2 data-testid="feedback-total-score">{ score }</h2>
+          <h2 data-testid="feedback-total-question">{ assertions }</h2>
+        </div>
+        <Link to="/">
           <button
             type="button"
             data-testid="btn-play-again"

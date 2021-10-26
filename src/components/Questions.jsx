@@ -4,18 +4,36 @@ import PropTypes from 'prop-types';
 class Questions extends React.Component {
   constructor(props) {
     super(props);
-    const { pergunta } = this.props;
-    const {
-      correct_answer: correctAnswer,
-      incorrect_answers: incorrecttAnswers } = pergunta;
-
     this.state = {
-      answerAlts: [correctAnswer, ...incorrecttAnswers]
-        .map((alt) => ({ alt, position: Math.random() }))
-        .sort((a, b) => a.position - b.position).map(({ alt }) => alt),
+      answerAlts: [],
       selectedAnswer: false,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.altShuffler = this.altShuffler.bind(this);
+    this.mainQuestion = this.mainQuestion.bind(this);
+  }
+
+  componentDidMount() {
+    const {
+      incorrect_answers: incorrectAnswers,
+    } = this.props;
+    if (incorrectAnswers) {
+      this.altShuffler();
+    }
+  }
+
+  altShuffler() {
+    const {
+      incorrect_answers: incorrectAnswers,
+    } = this.props;
+    const { answerAlts } = this.state;
+
+    this.setState({
+      answerAlts: [incorrectAnswers]
+        .map((alt) => ({ alt, position: Math.random() }))
+        .sort((a, b) => a.position - b.position).map(({ alt }) => alt),
+    });
+    console.log(answerAlts);
   }
 
   handleClick() {
@@ -24,50 +42,74 @@ class Questions extends React.Component {
     });
   }
 
-  render() {
-    const { pergunta } = this.props;
+  mainQuestion() {
     const {
-      question,
-      cathegory,
       correct_answer: correctAnswer,
-    } = pergunta;
-    const { answerAlts, selectedAnswer } = this.state;
-    console.log(pergunta);
+      incorrect_answers: incorrectAnswers,
+    } = this.props;
+    const { selectedAnswer } = this.state;
+    if (!incorrectAnswers) {
+      return (
+        <button
+          data-testid="`wrong-answer 0"
+          type="button"
+        >
+          { null }
+        </button>
+      );
+    }
     return (
       <main>
-        <p data-testid="question-category">{ cathegory }</p>
-        <p data-testid="question-text">{ `${question}` }</p>
-        <section>
-          {
-            answerAlts.map((alt, index) => (
-              <button
-                data-testid={
-                  selectedAnswer === correctAnswer
-                    ? 'correctAnswer' : `wrong-answer-${index}`
-                }
-                disabled={ selectedAnswer }
-                className={ selectedAnswer && alt === correctAnswer
-                  ? 'correct' : 'incorrect' }
-                type="button"
-                key={ alt }
-                onClick={ this.handleClick }
-              >
-                { alt }
-              </button>
-            ))
-          }
-        </section>
+        { incorrectAnswers.map((alt, index) => (
+          <button
+            data-testid={ `wrong-answer${index}` }
+            disabled={ selectedAnswer }
+            className={ selectedAnswer && alt === correctAnswer
+              ? 'correct' : 'incorrect' }
+            type="button"
+            key={ alt }
+            onClick={ this.handleClick }
+          >
+            {alt}
+          </button>
+        ))}
+      </main>
+    );
+  }
+
+  render() {
+    const {
+      question,
+      category,
+      correct_answer: correctAnswer,
+    } = this.props;
+    const { selectedAnswer } = this.state;
+    return (
+      <main>
+        <p data-testid="question-category">{`${category}`}</p>
+        <p data-testid="question-text">{`${question}`}</p>
+        <button
+          data-testid="correct-answer"
+          disabled={ selectedAnswer }
+          className={ selectedAnswer
+            ? 'correct' : 'incorrect' }
+          type="button"
+          key={ correctAnswer }
+          onClick={ this.handleClick }
+        >
+          {correctAnswer}
+        </button>
+        { this.mainQuestion() }
       </main>
     );
   }
 }
 
 Questions.propTypes = {
-  pergunta: PropTypes.shape({
-    cathegory: PropTypes.string.isRequired,
-    correct_answer: PropTypes.string.isRequired,
-    incorrect_answers: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-  }).isRequired,
+  category: PropTypes.string.isRequired,
+  correct_answer: PropTypes.string.isRequired,
+  incorrect_answers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  question: PropTypes.string.isRequired,
 };
+
 export default Questions;

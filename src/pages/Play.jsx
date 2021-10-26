@@ -37,10 +37,10 @@ class Play extends React.Component {
     return (
       <main>
         <Header />
-        {/* {
-          isFetching ? <p>Loading</p>
-            : <Questions pergunta={ generateQuestions } />
-        } */}
+        {
+          isFetching
+            ? <p>Loading</p> : <Questions { ...generateQuestions[currentQuestion] } />
+        }
       </main>
     );
   }

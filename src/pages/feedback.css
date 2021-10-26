@@ -1,0 +1,47 @@
+.feedback {
+  align-items: center;
+  background-color: whitesmoke;
+  border: 3px solid #f8f8f8;
+  border-radius: 0.2rem;
+  color: black;
+  height: auto;
+  justify-content: center;
+  left: 50%;
+  max-width: auto;
+  padding: 30px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.buttons-feedback {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.btn-feedback {
+  background-color: #036b52;
+  border-radius: 4px;
+  border-style: none;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  transition: background 0.5s 0s ease;
+}
+
+.btn-feedback:hover {
+  background-color: #1d1d1d;
+}
+
+.score, .assertions, .score.span {
+  color: black;
+  display: inline-block;
+  margin-bottom: auto;
+  margin-right: 10px;
+  margin-top: auto;
+  width: auto;
+}

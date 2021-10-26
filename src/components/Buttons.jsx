@@ -12,7 +12,7 @@ class Buttons extends React.Component {
             type="button"
             data-testid="correct-answer"
             style={ { order } }
-            className={ (timer === 0 || click) && 'rightanswer' }
+            className={ (timer === 0 || click) ? 'rightanswer' : 'answer-btn' }
             onClick={ scoreUpdate }
             disabled={ timer === 0 || click }
           >
@@ -26,7 +26,7 @@ class Buttons extends React.Component {
                   type="button"
                   style={ { order: index } }
                   data-testid={ `wrong-answer-${index}` }
-                  className={ (timer === 0 || click) && 'wronganswer' }
+                  className={ (timer === 0 || click) ? 'wronganswer' : 'answer-btn' }
                   onClick={ handleClickAnswer }
                   disabled={ timer === 0 || click }
                 >
@@ -39,6 +39,7 @@ class Buttons extends React.Component {
           type="button"
           onClick={ handleNextBtn }
           data-testid="btn-next"
+          className="continue-btn"
           style={ { visibility: click || timer === 0 ? 'visible' : 'hidden' } }
         >
           Continue

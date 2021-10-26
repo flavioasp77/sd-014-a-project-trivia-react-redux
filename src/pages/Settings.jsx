@@ -23,6 +23,8 @@ class Settings extends React.Component {
 
     this.fetchCategories = this.fetchCategories.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+    document.title = 'Trivia-Settings';
   }
 
   componentDidMount() {

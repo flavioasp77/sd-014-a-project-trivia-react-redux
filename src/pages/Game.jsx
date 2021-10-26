@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import '../styles/Game.css';
-import { updatePlayer } from '../redux/actions';
+import { updatePlayer, fetchQuestions } from '../redux/actions';
 
 const FINAL_INDEX = 4;
 
@@ -31,7 +31,9 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatchFetchQuestions } = this.props;
     this.initTimer();
+    dispatchFetchQuestions();
   }
 
   componentDidUpdate() {
@@ -175,6 +177,7 @@ Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   name: PropTypes.string.isRequired,
   pictureURL: PropTypes.string.isRequired,
+  dispatchFetchQuestions: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -188,6 +191,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatchUpdatePlayer: (player) => dispatch(updatePlayer(player)),
+    dispatchFetchQuestions: () => dispatch(fetchQuestions()),
   };
 }
 

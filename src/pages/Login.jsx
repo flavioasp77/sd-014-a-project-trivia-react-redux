@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { createPlayer, fetchQuestions } from '../redux/actions';
+import { createPlayer } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -16,6 +16,7 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.emailValidation = this.emailValidation.bind(this);
+    document.title = 'Trivia-Login';
   }
 
   handleChange({ target }) {
@@ -27,10 +28,7 @@ class Login extends React.Component {
 
   handleClick() {
     const { email, name } = this.state;
-    const { dispatchCreatePlayer, dispatchFetchQuestions } = this.props;
-
-    console.log('handleclick');
-    dispatchFetchQuestions();
+    const { dispatchCreatePlayer } = this.props;
     dispatchCreatePlayer(name, email);
   }
 
@@ -80,13 +78,11 @@ class Login extends React.Component {
 
 Login.propTypes = {
   dispatchCreatePlayer: PropTypes.func.isRequired,
-  dispatchFetchQuestions: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatchCreatePlayer: (name, email) => dispatch(createPlayer(name, email)),
-    dispatchFetchQuestions: () => dispatch(fetchQuestions()),
   };
 }
 

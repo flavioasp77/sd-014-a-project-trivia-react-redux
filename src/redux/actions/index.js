@@ -39,11 +39,13 @@ export const fetchQuestions = () => (
     const TOKEN = await fetchToken.json();
     localStorage.setItem('token', JSON.stringify(TOKEN));
     const { category, difficulty, type } = getState().settings;
+    console.log(category);
     const urlSettings = `&category=${category}&difficulty=${difficulty}&type=${type}`;
-    const questions = await fetch(`https://opentdb.com/api.php?amount=5&token=${TOKEN.token}${urlSettings}`);
+    const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${TOKEN.token}${urlSettings}`);
+    const json = await response.json();
     dispatch({
       type: FETCH_QUESTIONS,
-      questions: JSON.parse(questions),
+      questions: json.results,
     });
   }
 );

@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
+  constructor() {
+    super();
+    document.title = 'Trivia-Ranking';
+  }
+
   render() {
     const rankingList = JSON.parse(localStorage.getItem('ranking'))
       .sort((a, b) => b.score - a.score);

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { localGetItem } from '../utils/localStorageAPI';
 import { resetAll as resetAllAction } from '../redux/actions';
-import Header from '../components/Header';
 
 class Ranking extends Component {
   constructor() {

@@ -114,7 +114,8 @@ class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            className={ `btn btn-outline-secondary ${(isClick && 'correct-answer') || null}` }
+            className={ `btn btn-outline-secondary ${(isClick && 'correct-answer')
+            || null}` }
             onClick={ this.handleCorrect }
             disabled={ disabled }
           >
@@ -125,7 +126,8 @@ class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              className={ `btn btn-outline-secondary ${(isClick && 'incorrect-answers') || null}` }
+              className={ `btn btn-outline-secondary ${(isClick && 'incorrect-answers')
+              || null}` }
               onClick={ this.handleIncorrect }
               disabled={ disabled }
             >
@@ -135,9 +137,7 @@ class Questions extends Component {
           <div className="next-btn-container">
             { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
           </div>
-
         </div>
-
       </div>);
   }
 }

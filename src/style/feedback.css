@@ -1,0 +1,35 @@
+.feedback {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to right, #c0c0aa, #1cefff);
+  height: 100vh;
+}
+
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.cont2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #DDD8C4;
+  padding: 40px;
+  margin-top: 40px;
+  border: 2px solid gray;
+}
+
+.cont2 p {
+  font-size: 25px;
+}
+
+.cont2 button {
+  font-size: 20px;
+}
+
+.jogarNVM {
+  margin-bottom: 30px;
+}

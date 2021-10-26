@@ -1,0 +1,49 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(to right, #c0c0aa, #1cefff);
+} 
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ccc;
+  background-color: whitesmoke;
+}
+
+.formContainer__logo {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.formEmail, .formName {
+  padding: 20px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.formEmail input, .formName input {
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.btnJogar {
+  margin-top: 10px;
+}
+
+.btnJogar, .btnConfig {
+  border: 2px solid #ccc;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}

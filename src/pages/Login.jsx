@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { getTokenThunk, login as loginAction } from '../actions';
 import { writeLocalStorage } from '../services/util';
+import '../style/login.css';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor(props) {
@@ -44,38 +46,47 @@ class Login extends Component {
     const { email, name, click } = this.state;
     const { token } = this.props;
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <label htmlFor="email">
-          {'Email: '}
-          <input
-            data-testid="input-gravatar-email"
-            value={ email }
-            name="email"
-            type="email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="name">
-          {'Nome: '}
-          <input
-            data-testid="input-player-name"
-            value={ name }
-            name="name"
-            type="text"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ !(email && name) }
-        >
-          Jogar
-        </button>
-        <Link to="/settings">
-          <button type="button" data-testid="btn-settings">Configurações</button>
-        </Link>
-        { click && token && <Redirect to="/jogo" /> }
+      <form onSubmit={ this.handleSubmit } className="login">
+        <fieldset className="formContainer">
+          <img src={ logo } alt="Trivia" className="formContainer__logo" />
+          <label htmlFor="email" className="formEmail">
+            {'Email: '}
+            <input
+              data-testid="input-gravatar-email"
+              value={ email }
+              name="email"
+              type="email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="name" className="formName">
+            {'Nome: '}
+            <input
+              data-testid="input-player-name"
+              value={ name }
+              name="name"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            className="btnJogar"
+            type="submit"
+            data-testid="btn-play"
+            disabled={ !(email && name) }
+          >
+            Jogar
+          </button>
+          <Link to="/settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+              className="btnConfig"
+            >
+              Configurações
+            </button>
+          </Link>
+          { click && token && <Redirect to="/jogo" /> }
+        </fieldset>
       </form>
     );
   }

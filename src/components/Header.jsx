@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import '../style/header.css';
+import logo from '../trivia.png';
 
 class Header extends Component {
   render() {
@@ -9,9 +11,14 @@ class Header extends Component {
     const userEmail = md5(email).toString();
     return (
       <header>
-        <img src={ `https://www.gravatar.com/avatar/${userEmail}` } data-testid="header-profile-picture" alt="gravatar" />
-        <span data-testid="header-player-name">{ name }</span>
-        <p data-testid="header-score">{ score }</p>
+        <div className="image-container">
+          <img src={ logo } alt="logo" />
+        </div>
+        <div className="user-info">
+          <img src={ `https://www.gravatar.com/avatar/${userEmail}` } data-testid="header-profile-picture" alt="gravatar" />
+          <span data-testid="header-player-name">{ name }</span>
+          <p data-testid="header-score">{ `Pontos: ${score}` }</p>
+        </div>
       </header>
     );
   }

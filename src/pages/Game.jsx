@@ -9,7 +9,9 @@ import '../style/Game.css';
 
 let control = 1;
 let control2 = 1;
-
+const hardPoints = 3;
+const mediumPoints = 2;
+const basePoints = 10;
 const ONE_SECOND = 1000;
 const magicNumber = '0.33';
 
@@ -38,24 +40,21 @@ class Game extends React.Component {
     this.createInterval = this.createInterval.bind(this);
     this.updateScore = this.updateScore.bind(this);
   }
-  
+
   //  https://medium.com/@staceyzander/setinterval-and-clearinterval-in-react-b1d0ee1e1a6a
   componentDidMount() {
-    this.createInterval()
+    this.createInterval();
   }
 
   createInterval() {
     const id = setInterval(() => {
-      this.setState(function(localState) {
-        return { time: localState.time - 1 };
-      });
+      this.setState((localState) => ({ time: localState.time - 1 }));
     }, ONE_SECOND);
     this.setState({ intervalId: id });
   }
 
   updateRemaingTime(time) {
     const { remainingTime } = this.state;
-
     if (time === 0 && control === 1) {
       this.setState({
         remainingTime: 0,
@@ -94,13 +93,11 @@ class Game extends React.Component {
     const { difficulty } = objectQuestion;
     if (target.className === 'answer-correct') {
       let multiple = 1;
-      if (difficulty === 'hard') multiple = 3;
-      if (difficulty === 'medium') multiple = 2;
-      const result = 10 + (time * multiple);
+      if (difficulty === 'hard') multiple = hardPoints;
+      if (difficulty === 'medium') multiple = mediumPoints;
+      const result = basePoints + (time * multiple);
       const player = localStorage.getObj('state');
-      console.log(player.player);
       player.player.score += result;
-      console.log(player.player.score);
       this.setState({ score: player.player.score });
       localStorage.setObj('state', player);
     }
@@ -210,7 +207,7 @@ class Game extends React.Component {
 
   render() {
     const { arrayQuestions } = this.props;
-    const { index, redirect } = this.state;
+    const { index, redirect, score } = this.state;
 
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     if (redirect) return <Redirect to="/feedback" />;
@@ -225,7 +222,7 @@ class Game extends React.Component {
 
     return (
       <>
-        <Header />
+        <Header score={ score } />
         <section>
           <section data-testid="question-category">{ category }</section>
           <br />

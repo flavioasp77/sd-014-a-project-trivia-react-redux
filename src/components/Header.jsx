@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import '../utils/localstorage';
 import md5 from 'crypto-js/md5';
 
 // md5(emailDoUsuário).toString();
 // https://www.gravatar.com/avatar/${hash-gerada}
 class Header extends Component {
-  componentDidMount() {
-  }
-
   render() {
-    const { player: { gravatarEmail, name, score } } = localStorage.getObj('state');
+    const { score } = this.props;
+    const { player: { gravatarEmail, name } } = localStorage.getObj('state');
     const hashEmail = md5(gravatarEmail).toString();
     const imgPath = `https://www.gravatar.com/avatar/${hashEmail}`;
     return (
@@ -26,5 +24,9 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  score: PropTypes.number.isRequired,
+};
 
 export default Header;

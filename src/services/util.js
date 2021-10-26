@@ -7,7 +7,7 @@ export function readLocalStorage(key) {
   return response;
 }
 
-export default function updateLocalStorage(name, attr) {
+export function updateLocalStorage(name, attr) {
   const state = readLocalStorage('state');
   const { player } = state;
   const newState = {

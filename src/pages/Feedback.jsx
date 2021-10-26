@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { readLocalStorage } from '../services/util';
+import { getScore } from '../actions';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.feedbackMessage = this.feedbackMessage.bind(this);
+    this.zerar = this.zerar.bind(this);
   }
 
   feedbackMessage() {
@@ -33,6 +36,11 @@ class Feedback extends Component {
     }
   }
 
+  zerar() {
+    const { sendScore } = this.props;
+    sendScore(0);
+  }
+
   render() {
     return (
       <div data-testid="feedback-text">
@@ -42,6 +50,7 @@ class Feedback extends Component {
           <button
             type="button"
             data-testid="btn-play-again"
+            onClick={ this.zerar }
           >
             Jogar novamente
           </button>
@@ -59,10 +68,19 @@ class Feedback extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  sendScore: (ponto) => dispatch(getScore(ponto)),
+});
+
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+});
+
 Feedback.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  sendScore: PropTypes.func.isRequired,
 };
 
-export default Feedback;
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

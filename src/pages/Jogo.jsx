@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
-import { getQuestionsThunk } from '../actions';
-import updateLocalStorage from '../services/util';
+import { getQuestionsThunk, getScore } from '../actions';
+import { readLocalStorage,
+  writeLocalStorage, updateLocalStorage } from '../services/util';
 import Loading from '../components/Loading';
 
 class Jogo extends Component {
@@ -29,7 +31,6 @@ class Jogo extends Component {
   componentDidMount() {
     this.pegarPerguntas();
     this.iniciarCronometro();
-    console.log('O intervalo está rodando');
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -79,8 +80,10 @@ class Jogo extends Component {
       }));
     }
     const { score, assertions } = this.state;
+    const { sendScore } = this.props;
     updateLocalStorage('score', score);
     updateLocalStorage('assertions', assertions);
+    sendScore(score);
   }
 
   iniciarCronometro() {
@@ -101,10 +104,26 @@ class Jogo extends Component {
   }
 
   changeQuestion() {
-    const { currQuestion } = this.state;
-    const { history } = this.props;
+    const { currQuestion, score } = this.state;
+    const { history, name, email } = this.props;
     const questionsLength = 4;
     if (currQuestion === questionsLength) {
+      let ranking = readLocalStorage('ranking');
+      if (ranking === null) {
+        ranking = [{
+          name,
+          score,
+          picture: `https://www.gravatar.com/avatar/${md5(email).toString()}`,
+        }];
+        writeLocalStorage('ranking', ranking);
+      } else {
+        ranking.push({
+          name,
+          score,
+          picture: `https://www.gravatar.com/avatar/${md5(email).toString()}`,
+        });
+        writeLocalStorage('ranking', ranking);
+      }
       return history.push('/feedback');
     }
     this.setState((prevState) => ({
@@ -203,16 +222,22 @@ class Jogo extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  sendScore: (ponto) => dispatch(getScore(ponto)),
 });
 
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
+  email: state.user.email,
+  name: state.user.name,
 });
 
 Jogo.propTypes = {
+  email: PropTypes.string.isRequired,
   getQuestions: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  name: PropTypes.string.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  sendScore: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

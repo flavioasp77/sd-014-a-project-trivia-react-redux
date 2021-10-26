@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { categoryApiThunk, configAction } from '../redux/actions';
 
+import './css/settings.css';
+
 class Settings extends Component {
   constructor() {
     super();
@@ -38,22 +40,36 @@ class Settings extends Component {
     const { category: { trivia_categories: categories } } = this.props;
     return categories === undefined ? <p>Carregando...</p>
       : (
-        <div>
-          <h1 data-testid="settings-title">Configurações</h1>
+        <div className="form-container">
+          <h3 data-testid="settings-title" className="pb-3 border-bottom">
+            Configurações
+          </h3>
           <form>
-            <select name="category" onChange={ this.handleChange }>
+            <select
+              name="category"
+              onChange={ this.handleChange }
+              className="form-select form-select-lg mb-3 settings"
+            >
               <option value="">Todas as categorias</option>
               {categories.map(({ name, id }) => (
                 <option key={ id } value={ id }>{name}</option>
               ))}
             </select>
-            <select name="difficulty" onChange={ this.handleChange }>
+            <select
+              name="difficulty"
+              onChange={ this.handleChange }
+              className="form-select form-select-lg mb-3 settings"
+            >
               <option value="">Todas as dificuldades</option>
               <option value="easy">Fácil</option>
               <option value="medium">Médio</option>
               <option value="hard">Difícil</option>
             </select>
-            <select name="type" onChange={ this.handleChange }>
+            <select
+              name="type"
+              onChange={ this.handleChange }
+              className="form-select form-select-lg mb-3 settings"
+            >
               <option value="">Todos os tipos</option>
               <option value="multiple">Múltipla escolha</option>
               <option value="boolean">Verdadeiro/Falso</option>
@@ -61,12 +77,12 @@ class Settings extends Component {
             <button
               type="button"
               onClick={ this.handleClick }
+              className="btn btn-primary btn-lg settings"
             >
               Salvar configurações
             </button>
           </form>
         </div>
-
       );
   }
 }

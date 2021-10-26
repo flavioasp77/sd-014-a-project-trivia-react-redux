@@ -18,13 +18,20 @@ class Header extends Component {
           </span>
         </span>
         <div className="userInfo">
-          <img src={ gravatarUserImg } alt="user" data-testid="header-profile-picture" />
-          <span>
+          <div>
+            <img
+              src={ gravatarUserImg }
+              alt="user"
+              data-testid="header-profile-picture"
+              className="profile-picture"
+            />
+          </div>
+          <div className="name-player">
             Jogador:
-            <span data-testid="header-player-name">
+            <span data-testid="header-player-name" className="name-player">
               { name }
             </span>
-          </span>
+          </div>
         </div>
       </div>
     );

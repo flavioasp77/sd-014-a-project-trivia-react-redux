@@ -6,6 +6,7 @@
   height: 100vh;
   justify-content: center;
   overflow: hidden;
+  overflow-y: hidden;
   width: 100vw;
 }
 

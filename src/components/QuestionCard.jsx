@@ -17,7 +17,7 @@ class QuestionCard extends Component {
     const {
       category,
       correct_answer: correct,
-      incorrect_answers: incorrect,
+      incorrect_answers: incorrects,
       question,
     } = data;
 
@@ -36,8 +36,8 @@ class QuestionCard extends Component {
         </div>
         <div className="container-question-card">
           <Answers
+            answers={ [...incorrects, correct] }
             correctAnswer={ correct }
-            incorrectAnswers={ incorrect }
             onAnswerClick={ onAnswerClick }
             showAnswer={ shouldShowAnswer || timer === 0 }
           />

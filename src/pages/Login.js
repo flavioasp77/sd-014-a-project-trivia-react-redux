@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { addUser, getToken } from '../actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor(props) {
@@ -68,13 +69,14 @@ class Login extends Component {
     if (settings) return <Redirect to="/settings" />;
     return (
       <div
-        className="d-flex h-100 align-items-center"
+        className="d-flex flex-column h-100 justify-content-center"
       >
         <div
           className="d-flex flex-column align-items-center
          m-auto p-4 border rounded px-5
          shadow-lg bg-body rounded"
         >
+          <img src={ logo } className="App-logo mb-3" alt="logo" />
           <label htmlFor="name">
             Nome
             <input

@@ -43,7 +43,7 @@ class Feedback extends Component {
         >
           <Header />
           <p data-testid="feedback-text">{ this.feedbackMsg() }</p>
-          <p className="text-center">
+          <p className="text-center mb-4 mt-2">
             <p className="h3">Acertos</p>
             <span data-testid="feedback-total-question" className="text-success h2">
               {assertions}

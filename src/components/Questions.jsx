@@ -65,7 +65,7 @@ class Questions extends React.Component {
             data-testid={ `wrong-answer${index}` }
             disabled={ selectedAnswer }
             className={ selectedAnswer && alt === correctAnswer
-              ? 'correct' : 'incorrect' }
+              ? 'correct' : 'border: 3px solid rgb(255,0,0);' }
             type="button"
             key={ alt }
             onClick={ this.handleClick }
@@ -91,8 +91,8 @@ class Questions extends React.Component {
         <button
           data-testid="correct-answer"
           disabled={ selectedAnswer }
-          className={ selectedAnswer
-            ? 'correct' : 'incorrect' }
+          style={ selectedAnswer
+            ? 'correct' : 'border: 3px solid rgb(255,0,0);' }
           type="button"
           key={ correctAnswer }
           onClick={ this.handleClick }

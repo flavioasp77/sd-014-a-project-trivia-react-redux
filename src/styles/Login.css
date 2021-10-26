@@ -15,29 +15,29 @@ input {
   border-radius: 4px;
   display: block;
   font-size: 2.5vh;
-  margin: 10px auto;
-  text-align: center;
   height: 4vh;
+  margin: 10px auto;
   outline-style: none;
+  text-align: center;
   width: 60%;
 }
 
 button {
   background-color: rgb(34, 34, 36);
-  padding: 10px;
   color: white;
-  width: 130px;
   font-weight: 700;
   margin: 10px 20px;
+  padding: 10px;
+  width: 130px;
 }
 
 .big-button {
   background-color: rgb(34, 34, 36);
-  padding: 10px;
   color: white;
-  width: 200px;
   font-weight: 700;
   margin-right: -5px;
+  padding: 10px;
+  width: 200px;
 }
 
 button:hover {

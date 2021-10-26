@@ -14,17 +14,17 @@
 }
 
 [ data-testid = 'question-text' ] {
-  border-radius: 10px;
   background-color: rgb(229, 233, 233);
+  border-radius: 10px;
   padding: 10px;
 }
 
 .question-wrap {
-  border-radius: 10px;
   background-color: rgb(229, 233, 233);
-  width: 30%;
+  border-radius: 10px;
   margin: 10px auto;
   padding-bottom: 10px;
+  width: 30%;
 }
 
 .time {

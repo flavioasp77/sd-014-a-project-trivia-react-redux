@@ -9,6 +9,7 @@ import '../style/Game.css';
 let control = 1;
 let control2 = 1;
 
+const ONE_SECOND = 1000;
 const magicNumber = '0.33';
 
 class Game extends React.Component {
@@ -23,6 +24,8 @@ class Game extends React.Component {
       remainingTime: 30,
       redirect: false,
       shuffledAnswers: [],
+      time: 30,
+      intervalId: 0,
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
@@ -30,6 +33,21 @@ class Game extends React.Component {
     this.nextClick = this.nextClick.bind(this);
     this.renderAlternatives = this.renderAlternatives.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
+    this.createInterval = this.createInterval.bind(this);
+  }
+  
+  //  https://medium.com/@staceyzander/setinterval-and-clearinterval-in-react-b1d0ee1e1a6a
+  componentDidMount() {
+    this.createInterval()
+  }
+
+  createInterval() {
+    const id = setInterval(() => {
+      this.setState(function(localState) {
+        return { time: localState.time - 1 };
+      });
+    }, ONE_SECOND);
+    this.setState({ intervalId: id });
   }
 
   updateRemaingTime(time) {
@@ -42,7 +60,7 @@ class Game extends React.Component {
       });
       control = remainingTime;
     }
-    console.log(remainingTime);
+    //  console.log(remainingTime);
   }
 
   countdownTimer() {
@@ -68,12 +86,14 @@ class Game extends React.Component {
   }
 
   handleClick() {
+    const { intervalId } = this.state;
     this.setState({
       correct: 'answer-correct',
       wrong: 'answer-incorrect',
       disabled: true,
       answered: true,
     });
+    clearInterval(intervalId);
   }
 
   nextClick() {
@@ -92,8 +112,11 @@ class Game extends React.Component {
       wrong: '',
       answered: false,
       remainingTime: 30,
+      time: 30,
+      intervalId: 0,
     });
     control2 = 1;
+    this.createInterval();
   }
 
   shuffleQuestions(array) {

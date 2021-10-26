@@ -9,18 +9,18 @@ class Header extends Component {
     return (
       <div className="header">
         <img className="trivia-logo-header" src={ triviaLogo } alt="Logo do App Trivia" />
+        <span className="points">
+          Pontos:
+          <span data-testid="header-score">
+            {score}
+          </span>
+        </span>
         <div className="userInfo">
           <img src="" alt="user" data-testid="header-profile-picture" />
           <span>
             Jogador:
             <span data-testid="header-player-name">
               { name }
-            </span>
-          </span>
-          <span>
-            Pontos:
-            <span data-testid="header-score">
-              { score }
             </span>
           </span>
         </div>

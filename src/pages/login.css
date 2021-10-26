@@ -37,8 +37,8 @@ body {
 }
 
 .btn-login.settings {
-  margin-top: 15px;
   margin-bottom: 100px;
+  margin-top: 15px;
 }
 
 .btn-login:hover {

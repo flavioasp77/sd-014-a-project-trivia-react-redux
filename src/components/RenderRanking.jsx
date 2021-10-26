@@ -8,9 +8,14 @@ export default class RenderRanking extends Component {
         { playerRankings
           .sort((playerA, playerB) => playerB.score - playerA.score)
           .map((player, index) => (
-            <li key={ index }>
-              <span data-testid={ `player-name-${index}` }>{ player.name }</span>
-              <span>
+            <li key={ index } className="user-ranking">
+              <span
+                data-testid={ `player-name-${index}` }
+                className="user-name"
+              >
+                { player.name }
+              </span>
+              <span className="user-points">
                 - Pontos:
                 {' '}
                 <span data-testid={ `player-score-${index}` }>

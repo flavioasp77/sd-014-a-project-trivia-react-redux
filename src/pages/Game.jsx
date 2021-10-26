@@ -4,11 +4,15 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Header from '../components/Header';
+import '../utils/localstorage';
 import '../style/Game.css';
 
 let control = 1;
 let control2 = 1;
-
+const hardPoints = 3;
+const mediumPoints = 2;
+const basePoints = 10;
+const ONE_SECOND = 1000;
 const magicNumber = '0.33';
 
 class Game extends React.Component {
@@ -23,6 +27,9 @@ class Game extends React.Component {
       remainingTime: 30,
       redirect: false,
       shuffledAnswers: [],
+      time: 30,
+      intervalId: 0,
+      score: 0,
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
@@ -30,11 +37,24 @@ class Game extends React.Component {
     this.nextClick = this.nextClick.bind(this);
     this.renderAlternatives = this.renderAlternatives.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
+    this.createInterval = this.createInterval.bind(this);
+    this.updateScore = this.updateScore.bind(this);
+  }
+
+  //  https://medium.com/@staceyzander/setinterval-and-clearinterval-in-react-b1d0ee1e1a6a
+  componentDidMount() {
+    this.createInterval();
+  }
+
+  createInterval() {
+    const id = setInterval(() => {
+      this.setState((localState) => ({ time: localState.time - 1 }));
+    }, ONE_SECOND);
+    this.setState({ intervalId: id });
   }
 
   updateRemaingTime(time) {
     const { remainingTime } = this.state;
-
     if (time === 0 && control === 1) {
       this.setState({
         remainingTime: 0,
@@ -42,7 +62,6 @@ class Game extends React.Component {
       });
       control = remainingTime;
     }
-    console.log(remainingTime);
   }
 
   countdownTimer() {
@@ -67,13 +86,32 @@ class Game extends React.Component {
     );
   }
 
-  handleClick() {
+  updateScore(target) {
+    const { arrayQuestions } = this.props;
+    const { index, time } = this.state;
+    const objectQuestion = arrayQuestions[index];
+    const { difficulty } = objectQuestion;
+    if (target.className === 'answer-correct') {
+      let multiple = 1;
+      if (difficulty === 'hard') multiple = hardPoints;
+      if (difficulty === 'medium') multiple = mediumPoints;
+      const result = basePoints + (time * multiple);
+      const player = localStorage.getObj('state');
+      player.player.score += result;
+      this.setState({ score: player.player.score });
+      localStorage.setObj('state', player);
+    }
+  }
+
+  handleClick({ target }) {
+    const { intervalId } = this.state;
     this.setState({
       correct: 'answer-correct',
       wrong: 'answer-incorrect',
       disabled: true,
       answered: true,
-    });
+    }, () => this.updateScore(target));
+    clearInterval(intervalId);
   }
 
   nextClick() {
@@ -92,8 +130,11 @@ class Game extends React.Component {
       wrong: '',
       answered: false,
       remainingTime: 30,
+      time: 30,
+      intervalId: 0,
     });
     control2 = 1;
+    this.createInterval();
   }
 
   shuffleQuestions(array) {
@@ -166,7 +207,7 @@ class Game extends React.Component {
 
   render() {
     const { arrayQuestions } = this.props;
-    const { index, redirect } = this.state;
+    const { index, redirect, score } = this.state;
 
     if (arrayQuestions.length === 0) return <h1>... Loading</h1>;
     if (redirect) return <Redirect to="/feedback" />;
@@ -181,7 +222,7 @@ class Game extends React.Component {
 
     return (
       <>
-        <Header />
+        <Header score={ score } />
         <section>
           <section data-testid="question-category">{ category }</section>
           <br />

@@ -6,8 +6,11 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import { getQuestions } from '../services/requests';
 import '../css/Game.css';
+import Footer from '../components/Footer';
 
 const correctAnswer = 'correct-answer';
+// const { player } = JSON.parse(localStorage.getItem('state'));
+// const userHash = md5(player.gravatarEmail).toString();
 
 class Game extends Component {
   constructor() {
@@ -143,6 +146,7 @@ class Game extends Component {
       this.setState({
         classname: 'answers-reveal',
         userResponse: true,
+        disabled: true,
       });
       clearInterval(this.cronometerInterval);
       this.handleRightAnswer(BUTTON_ID);
@@ -155,11 +159,20 @@ class Game extends Component {
     }
   }
 
+  renderTimer() {
+    const { seconds } = this.state;
+    return (
+      <p>
+        { `Tempo restante: ${seconds}` }
+      </p>
+    );
+  }
+
   render() {
-    const { currentQuestion, questionsList, disabled, seconds,
-      isShuffled, classname, userResponse, answers, redirect } = this.state;
     const { player } = JSON.parse(localStorage.getItem('state'));
     const userHash = md5(player.gravatarEmail).toString();
+    const { currentQuestion, questionsList, disabled,
+      isShuffled, classname, userResponse, answers, redirect } = this.state;
     if (questionsList.length < 1) {
       this.setQuestionsInState();
       return (<Loading />);
@@ -190,9 +203,7 @@ class Game extends Component {
               ))) }
             </div>
             <div className="game__options">
-              <p>
-                { seconds }
-              </p>
+              { this.renderTimer() }
               { userResponse && <Button
                 dataTestId="btn-next"
                 value="Next Question"
@@ -202,6 +213,7 @@ class Game extends Component {
             </div>
           </div>
         </main>
+        <Footer />
       </>
     );
   }

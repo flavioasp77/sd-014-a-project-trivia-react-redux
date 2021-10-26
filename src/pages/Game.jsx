@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
-import getGravatar from '../helpers/getGravatar';
 import Button from '../components/Button';
 import '../styles/Game.css';
+import { updatePlayer } from '../redux/actions';
 
 const FINAL_INDEX = 4;
 
@@ -12,24 +13,17 @@ class Game extends React.Component {
     super();
 
     this.state = {
-      name: '',
       score: 0,
       assertions: 0,
-      pictureURL: '',
-      questions: [],
       index: 0,
       answered: false,
       stopwatch: 30,
     };
 
-    this.fetchApi = this.fetchApi.bind(this);
     this.sortArray = this.sortArray.bind(this);
 
-    this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.initTimer = this.initTimer.bind(this);
-    this.toCheck = this.toCheck.bind(this);
 
-    this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -37,8 +31,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    this.cloneLocalStorageToState();
-    this.fetchApi();
+    this.initTimer();
   }
 
   componentDidUpdate() {
@@ -46,18 +39,6 @@ class Game extends React.Component {
     if (stopwatch === 0 && !answered) {
       this.handleAnswer(false);
     }
-  }
-
-  async fetchApi() {
-    const fetchToken = await fetch('https://opentdb.com/api_token.php?command=request');
-    const TOKEN = await fetchToken.json();
-    const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${TOKEN.token}`);
-    const { results: questions } = await response.json();
-    this.setState({
-      questions,
-    }, () => {
-      this.initTimer();
-    });
   }
 
   nextQuestion() {
@@ -75,22 +56,23 @@ class Game extends React.Component {
   }
 
   sortArray() {
-    const { questions, index } = this.state;
+    const { index } = this.state;
+    const { questions } = this.props;
     const {
       correct_answer: correct,
       incorrect_answers: incorrect } = questions[index];
     return [...incorrect, correct].sort();
   }
 
-  cloneLocalStorageToState() {
-    const playerInfo = JSON.parse(localStorage.getItem('state'));
-    const { player: { name, score, gravatarEmail } } = playerInfo;
-    this.setState({
-      name,
-      score,
-      pictureURL: getGravatar(gravatarEmail),
-    });
-  }
+  // cloneLocalStorageToState() {
+  //   const playerInfo = JSON.parse(localStorage.getItem('state'));
+  //   const { player: { name, score, gravatarEmail } } = playerInfo;
+  //   this.setState({
+  //     name,
+  //     score,
+  //     pictureURL: getGravatar(gravatarEmail),
+  //   });
+  // }
 
   handleClick({ target }) {
     const isCorrect = target.dataset.testid.includes('correct');
@@ -119,7 +101,8 @@ class Game extends React.Component {
   }
 
   calculateScore(oldScore) {
-    const { questions, index, stopwatch } = this.state;
+    const { index, stopwatch } = this.state;
+    const { questions } = this.props;
     const levels = {
       hard: 3,
       medium: 2,
@@ -139,13 +122,9 @@ class Game extends React.Component {
     }, SECOND_TIME);
   }
 
-  toCheck() {
-    console.log('botao desabilitar');
-    console.log('mostrar resposta correto');
-  }
-
   render() {
-    const { name, score, pictureURL, questions, index, answered, stopwatch } = this.state;
+    const { score, index, answered, stopwatch } = this.state;
+    const { name, questions, pictureURL } = this.props;
     return (
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
@@ -193,6 +172,23 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name: PropTypes.string.isRequired,
+  pictureURL: PropTypes.string.isRequired,
 };
 
-export default Game;
+function mapStateToProps(state) {
+  return {
+    questions: state.questions,
+    name: state.player.name,
+    pictureURL: state.player.pictureURL,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatchUpdatePlayer: (player) => dispatch(updatePlayer(player)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

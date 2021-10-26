@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     assertions: 0,
     score: 0,
     gravatarEmail: '',
+    pictureURL: '',
   },
   ranking: [],
   questions: [],

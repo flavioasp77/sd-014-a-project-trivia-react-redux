@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { getTriviaToken, getTriviaQuestions } from '../helpers/getTrivia';
+import { createPlayer, fetchQuestions } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -23,21 +25,13 @@ class Login extends React.Component {
     });
   }
 
-  async handleClick() {
+  handleClick() {
     const { email, name } = this.state;
-    const state = {
-      player: {
-        name,
-        assertions: 0,
-        score: 0,
-        gravatarEmail: email,
-      },
-    };
-    localStorage.setItem('state', JSON.stringify(state));
+    const { dispatchCreatePlayer, dispatchFetchQuestions } = this.props;
 
-    const token = await getTriviaToken();
-    localStorage.setItem('token', JSON.stringify(token));
-    getTriviaQuestions(token);
+    console.log('handleclick');
+    dispatchFetchQuestions();
+    dispatchCreatePlayer(name, email);
   }
 
   emailValidation() {
@@ -84,4 +78,16 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatchCreatePlayer: PropTypes.func.isRequired,
+  dispatchFetchQuestions: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatchCreatePlayer: (name, email) => dispatch(createPlayer(name, email)),
+    dispatchFetchQuestions: () => dispatch(fetchQuestions()),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Login);

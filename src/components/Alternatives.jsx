@@ -48,8 +48,6 @@ Alternatives.propTypes = {
   isClick: PropTypes.bool.isRequired,
   options: PropTypes.shape({
     correct_answer: PropTypes.string,
-    incorrect_answers: PropTypes.shape({
-      map: PropTypes.func,
-    }),
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };

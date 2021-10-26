@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { loginPlayer as loginAction } from '../redux/actions';
+import Settings from './Settings';
 
 const EMAIL_PATTERN = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const NAME_PATTERN = /\w+/;
@@ -63,13 +64,16 @@ class Login extends Component {
         </button>
 
         <Link
-          to="/settings"
+          to="#settings"
           data-testid="btn-settings"
           className="link-success"
+          data-bs-toggle="modal"
+          data-bs-target="#settings"
         >
           Configurações
 
         </Link>
+        <Settings />
 
       </form>
     );

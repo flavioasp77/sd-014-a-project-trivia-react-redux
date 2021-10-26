@@ -1,9 +1,15 @@
-import { IS_FETCHING, SET_TOKEN, SET_QUESTIONS, RESET_GAME } from '../actions';
+import { IS_FETCHING, SET_TOKEN, SET_QUESTIONS,
+  RESET_GAME, SET_SETTINGS } from '../actions';
 
 const INITIAL_STATE = {
   token: '',
   isFetching: false,
   questions: [],
+  settings: {
+    category: 'any',
+    difficulty: 'any',
+    type: 'any',
+  },
 };
 
 export default function game(state = INITIAL_STATE, action) {
@@ -16,6 +22,8 @@ export default function game(state = INITIAL_STATE, action) {
     return { ...state, questions: action.payload };
   case RESET_GAME:
     return INITIAL_STATE;
+  case SET_SETTINGS:
+    return { ...state, settings: action.settings };
   default:
     return state;
   }

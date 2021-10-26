@@ -10,6 +10,12 @@ export const SET_SCORE = 'SET_SCORE';
 export const RESET_PLAYER = 'RESET_PLAYER';
 export const RESET_GAME = 'RESET_GAME';
 export const SET_RANKING = 'SET_RANKING';
+export const SET_SETTINGS = 'SET_SETTINGS';
+
+export const setSettings = (settings) => ({
+  type: SET_SETTINGS,
+  settings,
+});
 
 export const setRanking = () => ({ type: SET_RANKING });
 
@@ -60,10 +66,10 @@ export const loginPlayer = (player) => (
   }
 );
 
-export const fetchQuestions = () => (
+export const fetchQuestions = (settings) => (
   async (dispatch) => {
     const token = localGetItem('token');
-    const questions = await getQuestions(token);
+    const questions = await getQuestions(token, settings);
     dispatch(setQuestions(questions));
   }
 );

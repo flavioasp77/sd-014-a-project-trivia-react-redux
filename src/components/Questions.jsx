@@ -32,8 +32,8 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { fetchQuestionsAPI } = this.props;
-    fetchQuestionsAPI();
+    const { fetchQuestionsAPI, settings } = this.props;
+    fetchQuestionsAPI(settings);
   }
 
   setClock() {
@@ -128,14 +128,20 @@ Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   setScore: PropTypes.func.isRequired,
   setRanking: PropTypes.func.isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.string,
+    difficulty: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  settings: state.game.settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchQuestionsAPI: () => dispatch(fetchQuestions()),
+  fetchQuestionsAPI: (settings) => dispatch(fetchQuestions(settings)),
   setScore: (score) => dispatch(scoreAction(score)),
   setRanking: () => dispatch(rankingAction()),
 });

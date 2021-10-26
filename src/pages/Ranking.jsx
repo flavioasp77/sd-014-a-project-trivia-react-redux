@@ -20,7 +20,12 @@ class Ranking extends React.Component {
                   className="img-jogador"
                 />
                 <h3 data-testid={ `player-name-${index}` }>{player.name}</h3>
-                <h4 data-testid={ `player-score-${index}` }>{player.score}</h4>
+                <h4
+                  className="score"
+                  data-testid={ `player-score-${index}` }
+                >
+                  {player.score}
+                </h4>
               </li>))}
           </ul>
         </section>

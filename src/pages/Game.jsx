@@ -150,7 +150,6 @@ class Game extends React.Component {
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
         <main>
-          <p>Game</p>
           {questions.length > 0 && (
             <div>
               <p data-testid="question-category">{ questions[index].category }</p>

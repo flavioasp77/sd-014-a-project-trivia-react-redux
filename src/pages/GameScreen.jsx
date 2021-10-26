@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import TriviaQuestion from '../components/TriviaQuestion';
 import { useToken } from '../services/APIrequests';
-import shuffleArray from '../services/functions';
+import { shuffleArray, filtraEstadoGameScreen } from '../services/functions';
 import { getLocalToken } from '../services/localStorage';
 
 class GameScreen extends Component {
@@ -11,21 +11,50 @@ class GameScreen extends Component {
     super();
     this.state = {
       questions: [],
-      alternativesShuffled: [],
       indexOfQuestion: 0,
+      redirect: false,
+      alternativesShuffled: [],
       visibleButton: false,
       className: false,
-      redirect: false,
+      timer: 30,
+      timeDisableButton: false,
+      idInterval: null,
     };
     this.saveQuestions = this.saveQuestions.bind(this);
     this.scrambleAlternatives = this.scrambleAlternatives.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.visibleButton = this.visibleButton.bind(this);
     this.handleClickQuestion = this.handleClickQuestion.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
+    this.setIntervalFunction = this.setIntervalFunction.bind(this);
+    this.delayToResponse = this.delayToResponse.bind(this);
   }
 
   componentDidMount() {
     this.saveQuestions();
+  }
+
+  // função para gerar o tempo
+  setIntervalFunction() {
+    const TIME_INTERVAL = 1000;
+    const idSetInterval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1, idInterval: idSetInterval }));
+    }, TIME_INTERVAL);
+  }
+
+  // reset do timer
+  resetTimer() {
+    this.setState({ timer: 0, timeDisableButton: true });
+  }
+
+  delayToResponse() {
+    const TIMEOUT = 5000;
+    this.setState({ timeDisableButton: true });
+    setTimeout(() => {
+      this.setIntervalFunction();
+      this.setState({ timeDisableButton: false });
+    }, TIMEOUT);
   }
 
   async saveQuestions() {
@@ -59,6 +88,8 @@ class GameScreen extends Component {
     } else {
       this.setState({ redirect: true });
     }
+    this.setState({ timer: 30 });
+    this.delayToResponse();
   }
 
   handleClickQuestion() {
@@ -74,18 +105,18 @@ class GameScreen extends Component {
 
   render() {
     const {
-      questions,
-      alternativesShuffled, indexOfQuestion, visibleButton, className } = this.state;
+      questions, indexOfQuestion, visibleButton } = this.state;
     const { redirect } = this.state;
     return (
       <div className="Trivia-question">
         <Header />
         <TriviaQuestion
+          stateActual={ filtraEstadoGameScreen(this.state) }
           question={ questions[indexOfQuestion] }
-          scrambledQuestions={ alternativesShuffled }
-          visibleButton={ this.visibleButton }
+          // visibleButton={ this.visibleButton }
           handleClickQuestion={ this.handleClickQuestion }
-          className={ className }
+          delayToResponse={ this.delayToResponse }
+          resetTimer={ this.resetTimer }
         />
         {visibleButton && (
           <button
@@ -94,7 +125,6 @@ class GameScreen extends Component {
             data-testid="btn-next"
           >
             Próxima
-
           </button>
         )}
         { redirect && <Redirect to="/feedback" /> }

@@ -2,60 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/TriviaQuestion.style.css';
 import { getStateFromStorage, savePlayerScore } from '../services/localStorage';
+import { sumScore, sumAssertions } from '../services/functions';
 
 const correct = 'correct-answer';
 
 export default class TriviaQuestion extends Component {
   constructor() {
     super();
-    this.state = {
-      // estados do timer
-      timer: 30,
-      timeDisableButton: false,
-      idInterval: null,
-    };
     this.handleClick = this.handleClick.bind(this);
-    this.resetTimer = this.resetTimer.bind(this);
-    this.setIntervalFunction = this.setIntervalFunction.bind(this);
-    this.delayToResponse = this.delayToResponse.bind(this);
-    this.sumScore = this.sumScore.bind(this);
   }
 
   componentDidMount() {
-    this.delayToResponse();
+    const { delayToResponse } = this.props;
+    delayToResponse();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { idInterval } = this.state;
+  componentDidUpdate(prevProps) {
+    const { stateActual: { idInterval }, resetTimer } = this.props;
     const MIN_SECONDS = 1;
-
-    if (prevState.timer === MIN_SECONDS) {
-      this.resetTimer();
+    if (prevProps.stateActual.timer === MIN_SECONDS) {
+      resetTimer();
       clearInterval(idInterval);
     }
-  }
-
-  // função para gerar o tempo
-  setIntervalFunction() {
-    const TIME_INTERVAL = 1000;
-    const idSetInterval = setInterval(() => {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1, idInterval: idSetInterval }));
-    }, TIME_INTERVAL);
-  }
-
-  delayToResponse() {
-    const TIMEOUT = 5000;
-    this.setState({ timeDisableButton: true });
-    setTimeout(() => {
-      this.setIntervalFunction();
-      this.setState({ timeDisableButton: false });
-    }, TIMEOUT);
-  }
-
-  // reset do timer
-  resetTimer() {
-    this.setState({ timer: 0, timeDisableButton: true });
   }
 
   questionRender() {
@@ -71,51 +39,24 @@ export default class TriviaQuestion extends Component {
   }
 
   handleClick({ target: { id } }) {
-    const { idInterval } = this.state;
+    const { stateActual: { idInterval, timer } } = this.props;
+    const { question: { difficulty } } = this.props;
+    // const FIVE_SECONDS = 5000;
     clearInterval(idInterval);
     console.log(id);
     const stateActual = getStateFromStorage();
-    stateActual.player.score = this.sumScore(id);
-    stateActual.player.assertions += this.sumAssertions(id);
+    stateActual.player.score += sumScore(id, timer, difficulty);
+    stateActual.player.assertions += sumAssertions(id);
     savePlayerScore(stateActual.player);
   }
 
-  sumAssertions(id) {
-    if (id === correct) {
-      return 1;
-    }
-    return 0;
-  }
-
-  sumScore(id) {
-    const { question: { difficulty } } = this.props;
-    const { timer } = this.state;
-    const ten = 10;
-    const easy = 1;
-    const medium = 2;
-    const hard = 3;
-    const incorrect = 0;
-    // const correct = 'correct-answer';
-    if (id === correct) {
-      switch (difficulty) {
-      case 'easy':
-        return ten + (timer * easy);
-      case 'medium':
-        return ten + (timer * medium);
-      case 'hard':
-        return ten + (timer * hard);
-      default:
-        break;
-      }
-    }
-    return incorrect;
-  }
-
   mapAlternatives() {
-    const { question, scrambledQuestions, className, handleClickQuestion } = this.props;
-    const { timeDisableButton } = this.state;
+    const { question, handleClickQuestion, stateActual: {
+      alternativesShuffled,
+      className,
+      timeDisableButton } } = this.props;
     let wrongIndex = 0;
-    return scrambledQuestions.map((alternative, index) => {
+    return alternativesShuffled.map((alternative, index) => {
       const correctOrWrong = alternative === question.correct_answer;
       // const correct = 'correct-answer';
       const wrong = `wrong-answer-${wrongIndex}`;
@@ -126,8 +67,8 @@ export default class TriviaQuestion extends Component {
           data-testid={ correctOrWrong ? correct : wrong }
           className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
           onClick={ (event) => {
-            this.handleClick(event);
             handleClickQuestion();
+            this.handleClick(event);
           } }
           disabled={ timeDisableButton }
           id={ correctOrWrong ? correct : wrong }
@@ -143,7 +84,7 @@ export default class TriviaQuestion extends Component {
 
   render() {
     const { question } = this.props;
-    const { timer } = this.state;
+    const { stateActual: { timer } } = this.props;
     // console.log(question);
     return (
       <div>
@@ -156,7 +97,15 @@ export default class TriviaQuestion extends Component {
 
 TriviaQuestion.propTypes = {
   question: PropTypes.arrayOf(PropTypes.any).isRequired,
-  scrambledQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  className: PropTypes.bool.isRequired,
+  stateActual: PropTypes.shape({
+    alternativesShuffled: PropTypes.arrayOf(PropTypes.any),
+    visibleButton: PropTypes.bool,
+    className: PropTypes.bool,
+    timer: PropTypes.number,
+    timeDisableButton: PropTypes.bool,
+    idInterval: PropTypes.objectOf(PropTypes.any),
+  }).isRequired,
   handleClickQuestion: PropTypes.func.isRequired,
+  delayToResponse: PropTypes.func.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };

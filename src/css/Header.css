@@ -1,0 +1,10 @@
+.headerFeedback {
+  align-items: center;
+  background-color: #21897e;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  justify-content: space-evenly;
+  width: 100%;
+}

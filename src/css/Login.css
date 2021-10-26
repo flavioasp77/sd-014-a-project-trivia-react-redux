@@ -1,0 +1,57 @@
+body {
+  background: #083d77 url('../trivia.png') no-repeat;
+  background-position-x: 50%;
+  background-position-y: -30%;
+  background-size: 500px;
+}
+
+.loginPage {
+  align-items: center;
+  background-color: #bcb6ff;
+  display: flex;
+  flex-direction: column;
+  margin-left: 25%;
+  margin-top: -80px;
+  position: absolute;
+  top: 50%;
+  width: 50%;
+}
+
+.formFlex {
+  background-color: #bcb6ff;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+}
+
+.labelFlex {
+  background-color: #bcb6ff;
+
+}
+
+.inputFlex {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  width: 200px;
+}
+
+.confgButton {
+  background-color: #74776b;
+  color: white;
+  height: 30px;
+  width: 100px;
+}
+
+.playButton {
+  background-color: #27fb6b;
+  color: black;
+  font-size: large;
+  font-weight: 500;
+  height: 40px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 208px;
+}

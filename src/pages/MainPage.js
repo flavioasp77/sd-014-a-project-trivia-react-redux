@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { gravatarAction } from '../actions';
 import Questions from '../components/Questions';
+import '../css/MainPage.css';
 
 class MainPage extends React.Component {
   constructor() {
@@ -56,18 +57,26 @@ class MainPage extends React.Component {
     const { userName } = this.props;
     const { infoUser, score } = this.state;
     return (
-      <>
-        <header>
-          <div data-testid="header-player-name">{userName}</div>
+      <div className="mainPage">
+        <header className="headerGame">
+          <div data-testid="header-player-name">
+            Name:
+            {' '}
+            {userName}
+          </div>
           <img
             data-testid="header-profile-picture"
             src={ infoUser }
             alt="gravatar"
           />
-          <div data-testid="header-score">{score}</div>
+          <div data-testid="header-score">
+            Score:
+            {' '}
+            {score}
+          </div>
         </header>
         <Questions updatePoints={ this.currentScore } />
-      </>
+      </div>
     );
   }
 }

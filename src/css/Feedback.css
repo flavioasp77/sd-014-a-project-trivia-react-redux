@@ -1,0 +1,40 @@
+.mainFeedback {
+  align-content: center;
+  align-items: center;
+  background-color: #27fb6b;
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+  height: 300px;
+  width: 100%;
+}
+
+.text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: xx-large;
+  margin-top: 50px;
+}
+
+.links {
+  align-items: center;
+  background-color: #27fb6b;
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+  height: 100px;
+  width: 100%;
+}
+
+.link {
+  align-items: center;
+  background-color: #083d77;
+  border: 2px solid black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  text-decoration: none;
+  width: 200px;
+}

@@ -1,0 +1,19 @@
+.mainPage {
+  align-content: center;
+  align-items: center;
+  background-color: #ffe2d1;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 100%;
+}
+
+.headerGame {
+  align-items: center;
+  background-color: #21897e;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}

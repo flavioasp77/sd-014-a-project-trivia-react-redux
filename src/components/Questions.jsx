@@ -7,6 +7,7 @@ class Questions extends React.Component {
     this.state = {
       answerAlts: [],
       selectedAnswer: false,
+      scoreCounter: 0,
     };
     this.handleClick = this.handleClick.bind(this);
     this.altShuffler = this.altShuffler.bind(this);
@@ -47,9 +48,9 @@ class Questions extends React.Component {
     const medium = 2;
     const hard = 3;
     if (event.target === 'correct-answer');
-    if (event.target.value === 'easy') console.log(numeroFixo + (1 * easy));
-    if (event.target.value === 'medium') console.log(numeroFixo + (1 * medium));
-    if (event.target.value === 'hard') console.log(numeroFixo + (1 * hard));
+    if (event.target.value === 'easy') this.setState({ scoreCounter: numeroFixo + (1 * easy)});
+    if (event.target.value === 'medium') this.setState({scoreCounter: numeroFixo + (1 * medium)});
+    if (event.target.value === 'hard') this.setState({ scoreCounter: numeroFixo + (1 * hard)  });
   }
 
   mainQuestion() {

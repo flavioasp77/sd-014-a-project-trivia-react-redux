@@ -7,7 +7,7 @@ import { fetchQuestions, setScore as scoreAction,
 
 import './questions.css';
 import Timer from './Timer';
-import ButtonNext from './ButtonNext';
+import Alternatives from './Alternatives';
 
 const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
 const LIMIT = 4;
@@ -110,34 +110,15 @@ class Questions extends Component {
           </p>
           <Timer time={ time } setTimer={ this.setClock } />
         </div>
-        <div className="options-container">
-          <button
-            type="button"
-            data-testid="correct-answer"
-            className={ `btn btn-outline-secondary ${(isClick && 'correct-answer')
-            || null}` }
-            onClick={ this.handleCorrect }
-            disabled={ disabled }
-          >
-            { questions[questionActual].correct_answer }
-          </button>
-          { questions[questionActual].incorrect_answers.map((question, index) => (
-            <button
-              key={ index }
-              type="button"
-              data-testid={ `wrong-answer-${index}` }
-              className={ `btn btn-outline-secondary ${(isClick && 'incorrect-answers')
-              || null}` }
-              onClick={ this.handleIncorrect }
-              disabled={ disabled }
-            >
-              { question }
-            </button>
-          ))}
-          <div className="next-btn-container">
-            { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
-          </div>
-        </div>
+        <Alternatives
+          options={ questions[questionActual] }
+          isClick={ isClick }
+          disabled={ disabled }
+          handleCorrect={ this.handleCorrect }
+          handleIncorrect={ this.handleIncorrect }
+          handleButtonNext={ this.handleButtonNext }
+        />
+
       </div>);
   }
 }

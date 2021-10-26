@@ -4,6 +4,13 @@ import Answers from './Answers';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
+  htmlDecode(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.documentElement.textContent;
+  }
+  // Reference: https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
+  // Tip from Ivan Zignoi
+
   render() {
     const { data, nextQuestion, onAnswerClick, shouldShowAnswer, timer } = this.props;
 
@@ -22,7 +29,7 @@ class QuestionCard extends Component {
               {category}
             </p>
             <p className="question-text" data-testid="question-text">
-              {question}
+              {this.htmlDecode(question)}
             </p>
           </div>
           <span className="timer">{`Tempo: ${timer}`}</span>

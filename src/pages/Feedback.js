@@ -15,17 +15,17 @@ class Feedback extends React.Component {
       <main>
         <Header name={ name } score={ score } source={ getSource } />
         <div className="mainFeedback">
-          <span className="text" data-testid="feedback-text">
+          <p className="text" data-testid="feedback-text">
             { assertions <= 2 ? 'Podia ser melhor...' : 'Mandou bem!'}
-          </span>
-          <span data-testid="feedback-total-score">
+          </p>
+          <p data-testid="feedback-total-score">
             Pontuação final:
             { score }
-          </span>
-          <span data-testid="feedback-total-question">
+          </p>
+          <p data-testid="feedback-total-question">
             Total de acertos:
             { assertions }
-          </span>
+          </p>
         </div>
         <section className="links">
           <Link className="link" to="/" type="button" data-testid="btn-play-again">

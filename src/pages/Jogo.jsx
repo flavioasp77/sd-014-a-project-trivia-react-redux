@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import Timer from '../components/Timer';
 import generateRandomAnswers,
 { attPlayerfromLS } from '../helpers/index';
 import Question from '../components/Question';
@@ -43,28 +42,18 @@ class Jogo extends Component {
   }
 
   render() {
-    const { game: { infoIsLoaded },
-      questionTimer: { timerIsOn, timerValue } } = this.props;
+    const { game: { infoIsLoaded } } = this.props;
     return (
-      <main>
+      <>
         <Header />
-        { timerIsOn ? <Timer />
-          : (
-            <div className="circular">
-              <div className="inner" />
-              <div className="outer" />
-              <div className="numb">
-                {timerValue}
-              </div>
-              <div className="circle" style={ { backgroundColor: '#2fc18c ' } } />
-            </div>
-          )}
-        {infoIsLoaded
+        <main>
+          {infoIsLoaded
         && <Question
           handleNextQuestion={ this.handleNextQuestion }
           handleResponse={ this.handleResponse }
         />}
-      </main>
+        </main>
+      </>
     );
   }
 }

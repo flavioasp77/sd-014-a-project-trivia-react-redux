@@ -1,0 +1,86 @@
+.containner-section-question {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-question {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  margin-top: 50px;
+  width: 650px;
+}
+
+.card-options {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  margin-top: 50px;
+  width: 650px;
+}
+
+.circular {
+  margin-bottom: 35px;
+  margin-top: 60px;
+}
+
+.card-options > ul {
+  list-style-type: none;
+  margin-top: 50px;
+}
+
+.card-options > ul > li {
+  margin-top: 20px;
+}
+
+.card-options > ul > li > button {
+  background-color: #ccd1d1;
+  color: black;
+  font-family: monospace;
+  font-size: 15px;
+  height: 50px;
+  width: 400px;
+}
+
+.card-options > ul > li > button:hover {
+  background-color: rgb(155, 7, 240);
+}
+
+.card-question > h3 {
+  color: aliceblue;
+  font-family: cursive , 'Press Start 2P';
+  font-size: 17px;
+  padding-top: 20px;
+}
+
+.card-question > p {
+  color: aliceblue;
+  font-family: monospace;
+  font-size: 17px;
+  margin: 40px;
+}
+
+.btn-next {
+  background-color: #2fc18c;
+  font-family: cursive , 'Press Start 2P';
+  height: 50px;
+  margin-left: 40%;
+  margin-top: 30px;
+  width: 360px;
+}
+
+.btn-next:hover {
+  background-color: #04f19a;
+  box-shadow: 0 0 1em #2fc18c;
+}
+
+.background {
+  background-attachment: fixed;
+  background-image: url('https://wallpaperboat.com/wp-content/uploads/2020/10/23/57899/question-mark-04-920x518.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  height: 900px;
+}
+

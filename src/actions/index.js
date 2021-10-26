@@ -12,16 +12,6 @@ export const login = (email, name) => ({
   payload: { email, name },
 });
 
-const getToken = (token) => ({
-  type: GET_TOKEN,
-  payload: { token },
-});
-
-const getQuestions = (questions) => ({
-  type: GET_QUESTIONS,
-  payload: { questions },
-});
-
 export const getGravatar = (image) => ({
   type: GET_GRAVATAR,
   payload: image,
@@ -32,6 +22,16 @@ export const getScore = (score) => ({
   payload: {
     score,
   },
+});
+
+const getToken = (token) => ({
+  type: GET_TOKEN,
+  payload: { token },
+});
+
+const getQuestions = (questions) => ({
+  type: GET_QUESTIONS,
+  payload: { questions },
 });
 
 export const getTokenThunk = () => async (dispatch) => {

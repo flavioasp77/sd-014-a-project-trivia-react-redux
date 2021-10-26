@@ -1,32 +1,11 @@
-// No localStorage do navegador:
-
-// A chave state deve conter a seguinte estrutura:
-// player: {
-//   name,
-//   assertions,
-//   score,
-//   gravatarEmail
-// }
-// name é o nome da pessoa que joga
-
-// assertions é o número de acertos
-
-// score é a pontuação
-
-// gravatarEmail é o email da pessoa que joga
-
-// A chave ranking deve conter a seguinte estrutura:
-// [
-//   { name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar }
-// ]
-// A chave token deve conter o valor do token recebido na API do Trivia.
-
 import {
   SAVE_USERINFO,
   FETCH_QUESTIONS,
   LOADING,
   NEXT_QUESTION,
   UPDATE_SCORE,
+  RESET_SCORE,
+  RESET,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -67,6 +46,16 @@ function player(state = INITIAL_STATE, { type, payload }) {
       ...state,
       currentQuestion: state.currentQuestion + 1,
       loading: false,
+    };
+  case RESET:
+    return {
+      ...state,
+      currentQuestion: 0,
+    };
+  case RESET_SCORE:
+    return {
+      ...state,
+      score: 0,
     };
   case UPDATE_SCORE:
     return {

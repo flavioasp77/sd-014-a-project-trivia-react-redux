@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginAction, triviaApiThuk } from '../redux/actions';
+import './css/login.css';
+import logoTrivia from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -38,12 +40,14 @@ class Login extends Component {
     const { email, name } = this.state;
     return (
       <form onSubmit={ this.handleClick }>
-        <fieldset>
+        <fieldset className="form-login">
+          <img src={ logoTrivia } alt="Logomarca jogo de trivia" className="img-login" />
           <input
             data-testid="input-player-name"
             type="text"
             name="name"
             value={ name }
+            className="field-login"
             onChange={ this.handleChange }
             placeholder="digite seu nome:"
           />
@@ -52,6 +56,7 @@ class Login extends Component {
             type="email"
             name="email"
             value={ email }
+            className="field-login"
             onChange={ this.handleChange }
             placeholder="digite seu email:"
           />
@@ -59,6 +64,7 @@ class Login extends Component {
             disabled={ !name || !email }
             data-testid="btn-play"
             type="submit"
+            className="field-login btn btn-secondary"
           >
             Jogar
           </button>
@@ -66,6 +72,7 @@ class Login extends Component {
         <button
           data-testid="btn-settings"
           type="button"
+          className="btn-config btn btn-primary"
           onClick={ this.handleSettingsClick }
         >
           Configurações

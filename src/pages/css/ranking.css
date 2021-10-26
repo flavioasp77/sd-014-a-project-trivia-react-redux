@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main-ranking {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  text-align: center;
+}
+
+h3 {
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+
+.list-ranking {
+  counter-reset: item;
+  line-height: 1.7rem;
+  margin: 10px 36%;
+  max-width: 34%;
+  padding-left: 10px;
+}
+
+.li-ranking {
+  display: block;
+  margin-left: 15%;
+  text-align: left;
+}
+
+li:before {
+  content: counter(item) 'º ';
+  counter-increment: item;
+}
+
+.li-ranking:hover {
+  box-shadow: inset 1px 1px 8px #0b1721;
+}
+
+.btn-ranking {
+  box-shadow: inset 1px 1px 8px #0b1721;
+  line-height: 1.7rem;
+  margin: 10px 42%;
+  max-width: 16%;
+  padding-left: 10px;
+}

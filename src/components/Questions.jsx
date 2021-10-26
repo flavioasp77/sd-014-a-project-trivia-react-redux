@@ -9,7 +9,6 @@ import {
   nextQuestionAction,
   apiRequestAction,
   updateScoreAction,
-  resetGameAction,
 } from '../redux/actions';
 import '../styles/questions.css';
 
@@ -71,7 +70,6 @@ class Questions extends Component {
       currentQuestion,
       loadingToogle,
       nextQuestionToState,
-      resetCurrentQuestion,
       history,
     } = this.props;
     const next = stateQuestions[currentQuestion + 1];
@@ -87,8 +85,6 @@ class Questions extends Component {
       });
 
       localStorage.setItem('ranking', JSON.stringify(ranking));
-
-      resetCurrentQuestion();
 
       history.push('/feedback');
     } else {
@@ -215,7 +211,6 @@ Questions.propTypes = {
   nextQuestionToState: PropTypes.func.isRequired,
   stateQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateScore: PropTypes.func.isRequired,
-  resetCurrentQuestion: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
@@ -236,7 +231,6 @@ const mapDispatchToProps = (dispatch) => ({
   nextQuestionToState: () => dispatch(nextQuestionAction()),
   loadingToogle: () => dispatch(apiRequestAction()),
   updateScore: (score) => dispatch(updateScoreAction(score)),
-  resetCurrentQuestion: () => dispatch(resetGameAction()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

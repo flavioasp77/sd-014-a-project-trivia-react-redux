@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { resetScoreAction, saveUserInfoAction } from '../redux/actions';
+import { resetGameAction, resetScoreAction, saveUserInfoAction } from '../redux/actions';
 import settingsIcon from '../assets/settings.svg';
 
 class Login extends Component {
@@ -21,9 +21,11 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const { resetScoreState } = this.props;
+    const { resetScoreState, resetCurrentQuestion } = this.props;
 
     resetScoreState();
+    resetCurrentQuestion();
+
     localStorage.removeItem('state');
     localStorage.removeItem('token');
   }
@@ -99,12 +101,13 @@ Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   saveUserInfoToState: PropTypes.func.isRequired,
   resetScoreState: PropTypes.func.isRequired,
+  resetCurrentQuestion: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   saveUserInfoToState: (userinfo) => dispatch(saveUserInfoAction(userinfo)),
   resetScoreState: () => dispatch(resetScoreAction()),
-
+  resetCurrentQuestion: () => dispatch(resetGameAction()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

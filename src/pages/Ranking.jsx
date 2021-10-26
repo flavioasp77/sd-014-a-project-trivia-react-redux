@@ -20,17 +20,20 @@ class Ranking extends Component {
       ranking.sort((a, b) => (b.score - a.score));
       return (
         <main className="main-ranking">
-          <h3 data-testid="ranking-title" className="pb-3 border-bottom">
+          <h1 data-testid="ranking-title" className="">
             Ranking
-          </h3>
-          <ol className="list-ranking">
+          </h1>
+          <hr className="my-4" />
+          <br />
+          <ol className="list-ranking fs-4">
             { ranking.map(({ name, score, picture }, index) => (
               <li id={ index } key={ index } className="li-ranking">
-                <img style={ { height: '20px' } } src={ picture } alt="player" />
+                <img style={ { height: '40px' } } src={ picture } alt="player" />
                 {' '}
                 <span data-testid={ `player-name-${index}` }>{ name }</span>
-                {' '}
+                {' - '}
                 <span data-testid={ `player-score-${index}` }>{ score }</span>
+                {' Pontos'}
               </li>
             ))}
           </ol>

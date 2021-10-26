@@ -5,7 +5,7 @@ import { questionApiThunk, scoreAction } from '../redux/actions';
 import Btn from './Btn';
 
 const ANSWER_NUMBER = 4;
-
+const CODE = 3;
 class Questions extends Component {
   constructor() {
     super();
@@ -128,19 +128,19 @@ class Questions extends Component {
   }
 
   render() {
-    const CODE = 3;
     const { isClicked, order, atualQuestion, second } = this.state;
     const { questions, history } = this.props;
     const { results, response_code: responseCode } = questions;
+    if (responseCode === 1) return <p>Não temos essas perguntas! Desculpe.</p>;
     if (results === undefined) return <p>Carregando...</p>;
     if (responseCode === CODE) {
       return (
-        <>
+        <main>
           <p>O tempo expirou! Inicie o jogo novamente</p>
           <button type="button" onClick={ () => history.push('/') }>
             Voltar para o inicio
           </button>
-        </>
+        </main>
       );
     } return (
       <main className="modal-dialog modal-content rounded-4 shadow">

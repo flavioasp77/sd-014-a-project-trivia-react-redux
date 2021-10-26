@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { rankingAction, scoreAction } from '../redux/actions';
+import Assertions from '../components/Assertions';
+import './css/feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -47,7 +49,6 @@ class Feedback extends Component {
   render() {
     const { name, source } = this.props;
     const state = JSON.parse(localStorage.getItem('state'));
-
     if (state === null) {
       return (
         <button type="button" onClick={ this.handleClick }>
@@ -55,41 +56,41 @@ class Feedback extends Component {
         </button>
       );
     }
-
     const { player: { score, assertions } } = state;
     const MIN_ANSWERS = 3;
     return (
-      <>
+      <div>
         <Header name={ name } score={ score } source={ source } />
-        <main>
-          <p data-testid="feedback-text">
-            {assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'}
-          </p>
-          <p data-testid="feedback-total-score">{ score }</p>
-          {
-            assertions === 0 ? (
-              <p>
-                Não acertou nenhuma pergunta
-                <span hidden data-testid="feedback-total-question">{assertions}</span>
-              </p>
-            ) : (
-              <p>
-                Acertou
-                {' '}
-                <span data-testid="feedback-total-question">{assertions}</span>
-                {' '}
-                Pergunta(s)
-              </p>
-            )
-          }
+        <main className="container margin py-5">
+          <div>
+            <h3 data-testid="feedback-text" className="fs-1 fw-bold mb-4">
+              {assertions < MIN_ANSWERS ? 'Podia ser melhor...' : 'Mandou bem!'}
+            </h3>
+            <hr className="my-4" />
+            <br />
+            <Assertions assertions={ assertions } score={ score } />
+          </div>
+          <br />
+          <div className="d-grid gap-2 col-6 mx-auto">
+            <button
+              type="button"
+              onClick={ this.handleClick }
+              data-testid="btn-play-again"
+              className="py-2 mb-2 btn btn-outline-primary"
+            >
+              Jogar Novamente
+            </button>
+            <button
+              type="button"
+              onClick={ this.handleClick }
+              data-testid="btn-ranking"
+              className="py-2 mb-4 btn btn-outline-primary"
+            >
+              Ver Ranking
+            </button>
+          </div>
         </main>
-        <button type="button" onClick={ this.handleClick } data-testid="btn-play-again">
-          Jogar Novamente
-        </button>
-        <button type="button" onClick={ this.handleClick } data-testid="btn-ranking">
-          Ver Ranking
-        </button>
-      </>
+      </div>
     );
   }
 }

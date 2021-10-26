@@ -5,6 +5,7 @@
   color: aliceblue;
   display: flex;
   font-family: cursive , 'Press Start 2P';
+  height: 90px;
   justify-content: space-between;
 
 }
@@ -12,9 +13,11 @@
 .gravatar-img {
   border: solid 2px rgba(255, 255, 255, 0.787);
   border-radius: 40px;
+  height: 60px;
   margin-bottom: 5px;
   margin-left: 50px;
   margin-top: 5px;
+  width: 60px;
 }
 
 .score {

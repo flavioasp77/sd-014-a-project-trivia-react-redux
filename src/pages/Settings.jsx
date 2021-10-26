@@ -51,6 +51,7 @@ class Settings extends Component {
               id="category"
               onChange={ this.handleChange }
             >
+              <option name="category" value="">Any</option>
               {categories.map((category) => (
                 <option
                   key={ category.id }

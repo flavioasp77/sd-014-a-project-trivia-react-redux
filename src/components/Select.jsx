@@ -16,7 +16,6 @@ export default class Select extends Component {
             id="howMuch"
             onChange={ handleChange }
           >
-            <option name="howMuch" value="">Any</option>
             <option name="howMuch" value="5">5</option>
             <option name="howMuch" value="10">10</option>
             <option name="howMuch" value="15">15</option>

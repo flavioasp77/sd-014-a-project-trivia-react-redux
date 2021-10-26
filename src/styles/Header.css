@@ -1,27 +1,25 @@
-@import url('https://fonts.googleapis.com/css2? family = Architects + Daughter & display=swap');
-
 header {
-  display: flex;
-  flex-direction: row;
-  position: fixed;
-  top: 0;
-  height: 80px;
-  width: 100%;
-  flex-wrap: nowrap;
   align-content: space-around;
-  justify-content: space-between;
   align-items: center;
   background-color: #a29bfe;
-  font-family: 'Architects Daughter', cursive;
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  font-family: Architects Daughter , cursive;
+  height: 80px;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .div-img-and-username {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
   align-content: space-around;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .header-score {
@@ -31,3 +29,5 @@ header {
 .header-player-name {
   margin: 10px;
 }
+
+@import url('https://fonts.googleapis.com/css2? family = Architects + Daughter & display=swap') ;

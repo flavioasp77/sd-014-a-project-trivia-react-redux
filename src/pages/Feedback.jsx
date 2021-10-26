@@ -34,6 +34,9 @@ class Feedback extends Component {
           { ' ' }
           Pergunta(s)!
         </p>
+        <Link to="/ranking">
+          <button data-testid="btn-ranking" type="button">Ver Ranking</button>
+        </Link>
         <Link to="/">
           <button data-testid="btn-play-again" type="button">Jogar novamente</button>
         </Link>

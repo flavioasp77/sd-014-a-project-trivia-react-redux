@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Answers.css';
+import htmlDecode from '../services/htmlDecode';
 
 class Answers extends Component {
   className(answer) {
@@ -29,7 +30,7 @@ class Answers extends Component {
             onClick={ onAnswerClick }
             type="button"
           >
-            {answer}
+            {htmlDecode(answer)}
           </button>
         ))}
       </div>

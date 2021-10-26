@@ -10,7 +10,7 @@ class GamePage extends Component {
     const { isFetching } = this.props;
 
     return (
-      <div>
+      <div className="page">
         <Header />
         { !isFetching && <Questions /> }
       </div>

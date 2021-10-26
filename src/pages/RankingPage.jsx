@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { localGetItem } from '../utils/localStorageAPI';
 import { resetAll as resetAllAction } from '../redux/actions';
-// commit
 
 class Ranking extends Component {
   constructor() {
@@ -28,25 +27,27 @@ class Ranking extends Component {
     const { ranking } = this.state;
     const { resetAll } = this.props;
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <div>
+      <div className="page">
+        <div className="ranking-container rounded shadow">
+          <h1 data-testid="ranking-title" className="text-success">Ranking</h1>
           { ranking.map(({ name, score, picture }, index) => (
-            <div key={ index }>
-              <img src={ picture } alt="avatar" />
+            <div key={ index } className="ranking-item">
+              <span>{index + 1}</span>
+              <img src={ picture } alt="avatar" className="rounded-circle" />
               <p data-testid={ `player-name-${index}` }>{name}</p>
               <span data-testid={ `player-score-${index}` }>{score}</span>
             </div>
           ))}
+          <Link
+            to="/"
+            data-testid="btn-go-home"
+            className="btn btn-primary mt-3"
+            onClick={ () => resetAll() }
+          >
+            Jogar novamente
+          </Link>
         </div>
-        <Link
-          to="/"
-          data-testid="btn-go-home"
-          className="btn btn-primary"
-          onClick={ () => resetAll() }
-        >
-          Jogar novamente
-        </Link>
+
       </div>
     );
   }

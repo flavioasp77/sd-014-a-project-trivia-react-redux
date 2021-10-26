@@ -15,25 +15,42 @@ class FeedbackPage extends Component {
   render() {
     const { assertions, score, resetAll } = this.props;
     return (
-      <div>
+      <div className="page">
         <Header />
-        <h1 data-testid="feedback-text">Feedback</h1>
-        <Link to="/ranking" data-testid="btn-ranking">Ver Ranking</Link>
+        <div className="feedback-container rounded shadow mt-5 p-5">
+          <h1 data-testid="feedback-text">Seu resultado</h1>
+          <h3 data-testid="feedback-text">{this.renderScoreMessage(assertions)}</h3>
 
-        <h3 data-testid="feedback-text">{this.renderScoreMessage(assertions)}</h3>
+          <p>
+            Score:
+            {' '}
+            <span data-testid="feedback-total-score">{score}</span>
+          </p>
+          <p>
+            Acertos:
+            {' '}
+            <span data-testid="feedback-total-question">{assertions}</span>
+          </p>
 
-        <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
+          <Link
+            to="/"
+            data-testid="btn-play-again"
+            className="btn btn-success m-2"
+            onClick={ () => resetAll() }
+          >
+            Jogar novamente
 
-        <Link
-          to="/"
-          data-testid="btn-play-again"
-          className="btn btn-primary"
-          onClick={ () => resetAll() }
-        >
-          Jogar novamente
+          </Link>
+          <Link
+            to="/ranking"
+            data-testid="btn-ranking"
+            className="btn btn-secondary m-2"
+          >
+            Ver Ranking
 
-        </Link>
+          </Link>
+
+        </div>
 
       </div>
     );

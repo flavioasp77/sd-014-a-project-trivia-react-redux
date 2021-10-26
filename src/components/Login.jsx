@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { loginPlayer as loginAction } from '../redux/actions';
+import Settings from './Settings';
 
 const EMAIL_PATTERN = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const NAME_PATTERN = /\w+/;
@@ -31,7 +33,8 @@ class Login extends Component {
   render() {
     const { name, gravatarEmail } = this.state;
     return (
-      <form>
+      <form className="login rounded shadow my-auto">
+        <h1 className="text-success">Trybe Trivia</h1>
 
         <input
           type="text"
@@ -39,6 +42,7 @@ class Login extends Component {
           value={ name }
           data-testid="input-player-name"
           onChange={ ({ target: { value } }) => this.setState({ name: value }) }
+          className="form-control"
         />
         <input
           type="text"
@@ -46,6 +50,7 @@ class Login extends Component {
           value={ gravatarEmail }
           data-testid="input-gravatar-email"
           onChange={ ({ target: { value } }) => this.setState({ gravatarEmail: value }) }
+          className="form-control"
         />
 
         <button
@@ -53,9 +58,22 @@ class Login extends Component {
           data-testid="btn-play"
           disabled={ this.disableButton(this.state) }
           onClick={ this.handleClick }
+          className="btn btn-success"
         >
           Jogar
         </button>
+
+        <Link
+          to="#settings"
+          data-testid="btn-settings"
+          className="link-success"
+          data-bs-toggle="modal"
+          data-bs-target="#settings"
+        >
+          Configurações
+
+        </Link>
+        <Settings />
 
       </form>
     );

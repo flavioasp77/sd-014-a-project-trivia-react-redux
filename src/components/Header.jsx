@@ -30,17 +30,24 @@ class Header extends Component {
     const { gravatarImg } = this.state;
 
     return (
-      <div>
-        <img
-          src={ gravatarImg }
-          alt="userImage"
-          data-testid="header-profile-picture"
-        />
-        <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">
-          { score }
-        </p>
-      </div>
+      <header className="header">
+        <div className="d-flex align-items-center">
+          <img
+            src={ gravatarImg }
+            alt="userImage"
+            data-testid="header-profile-picture"
+            className="rounded-circle me-3"
+          />
+          <h4 data-testid="header-player-name">{ name }</h4>
+
+        </div>
+
+        <h4>
+          Score:
+          {' '}
+          <span data-testid="header-score">{ score }</span>
+        </h4>
+      </header>
     );
   }
 }

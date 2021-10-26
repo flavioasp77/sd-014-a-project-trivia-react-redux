@@ -9,6 +9,7 @@ export default class ButtonNext extends Component {
         type="button"
         data-testid="btn-next"
         onClick={ onClick }
+        className="btn btn-success"
       >
         Próxima Questão
       </button>

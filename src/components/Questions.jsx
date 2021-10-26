@@ -7,7 +7,7 @@ import { fetchQuestions, setScore as scoreAction,
 
 import './questions.css';
 import Timer from './Timer';
-import ButtonNext from './ButtonNext';
+import Alternatives from './Alternatives';
 
 const scorePerLevel = { hard: 3, medium: 2, easy: 1 };
 const LIMIT = 4;
@@ -28,11 +28,12 @@ class Questions extends Component {
     this.clock = this.clock.bind(this);
     this.setClock = this.setClock.bind(this);
     this.handleButtonNext = this.handleButtonNext.bind(this);
+    this.stopClock = this.stopClock.bind(this);
   }
 
   componentDidMount() {
-    const { fetchQuestionsAPI } = this.props;
-    fetchQuestionsAPI();
+    const { fetchQuestionsAPI, settings } = this.props;
+    fetchQuestionsAPI(settings);
   }
 
   setClock() {
@@ -53,8 +54,19 @@ class Questions extends Component {
     }
   }
 
+  stopClock() {
+    const { timerId } = this.state;
+    clearInterval(timerId);
+  }
+
+  resetClock() {
+    this.stopClock();
+    this.setClock();
+  }
+
   handleIncorrect() {
     this.setState({ isClick: true });
+    this.stopClock();
   }
 
   handleCorrect() {
@@ -65,6 +77,7 @@ class Questions extends Component {
     const score = BASE_SCORE + (time * scorePerLevel[difficulty]);
 
     this.setState({ isClick: true }, () => setScore(score));
+    this.stopClock();
   }
 
   handleButtonNext() {
@@ -75,7 +88,7 @@ class Questions extends Component {
       isClick: false,
       time: 30,
       disabled: false,
-    });
+    }, () => this.resetClock());
   }
 
   render() {
@@ -85,47 +98,28 @@ class Questions extends Component {
       setRanking();
       return <Redirect to="/feedback" />;
     }
-    if (questions.length > 0) {
-      return (
-        <div>
+
+    return questions.length <= 0 ? <h1>Carregando...</h1> : (
+      <div className="questions-container rounded shadow">
+        <div className="headers-container">
           <h2 data-testid="question-category">
             { questions[questionActual].category }
           </h2>
           <p data-testid="question-text">
             { questions[questionActual].question }
           </p>
-          <button
-            type="button"
-            data-testid="correct-answer"
-            className={ isClick ? 'correct-answer' : null }
-            onClick={ this.handleCorrect }
-            disabled={ disabled }
-          >
-            { questions[questionActual].correct_answer }
-          </button>
-          { questions[questionActual].incorrect_answers.map((question, index) => (
-            <button
-              key={ index }
-              type="button"
-              data-testid={ `wrong-answer-${index}` }
-              className={ isClick ? 'incorrect-answers' : null }
-              onClick={ this.handleIncorrect }
-              disabled={ disabled }
-            >
-              { question }
-            </button>
-          ))}
           <Timer time={ time } setTimer={ this.setClock } />
-          { isClick && <ButtonNext onClick={ this.handleButtonNext } /> }
         </div>
-      );
-    }
+        <Alternatives
+          options={ questions[questionActual] }
+          isClick={ isClick }
+          disabled={ disabled }
+          handleCorrect={ this.handleCorrect }
+          handleIncorrect={ this.handleIncorrect }
+          handleButtonNext={ this.handleButtonNext }
+        />
 
-    return (
-      <div>
-        Carregando...
-      </div>
-    );
+      </div>);
   }
 }
 
@@ -134,14 +128,20 @@ Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   setScore: PropTypes.func.isRequired,
   setRanking: PropTypes.func.isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.string,
+    difficulty: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  settings: state.game.settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchQuestionsAPI: () => dispatch(fetchQuestions()),
+  fetchQuestionsAPI: (settings) => dispatch(fetchQuestions(settings)),
   setScore: (score) => dispatch(scoreAction(score)),
   setRanking: () => dispatch(rankingAction()),
 });

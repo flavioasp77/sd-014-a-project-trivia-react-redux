@@ -7,7 +7,9 @@ import { disableButton } from '../redux/actions';
 class CountdownTimer extends Component {
   constructor() {
     super();
-    this.state = { time: 30 };
+    this.state = {
+      time: 30,
+    };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);

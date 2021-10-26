@@ -11,10 +11,11 @@ class QuestionCard extends Component {
       questions: [],
       questionNumber: 0,
       loading: true,
+      questionBtnClicked: false,
     };
     this.setQuestions = this.setQuestions.bind(this);
-    this.switchColors = this.switchColors.bind(this);
-    this.handdleClick = this.handdleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -30,18 +31,11 @@ class QuestionCard extends Component {
     });
   }
 
-  shuffleButtons(buttons) {
-    for (let i = buttons.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [buttons[i], buttons[j]] = [buttons[j], buttons[i]];
-    }
-  }
+  handleClick() {
+    this.setState({
+      questionBtnClicked: true,
+    });
 
-  handdleClick() {
-    this.switchColors();
-  }
-
-  switchColors() {
     const correctButton = document.querySelector('.correctButton');
     const incorrectButtons = document.querySelectorAll('.incorrectButtons');
 
@@ -51,59 +45,86 @@ class QuestionCard extends Component {
     });
   }
 
-  renderButtons() {
+  nextQuestion() {
+    const correctButton = document.querySelector('.correctButton');
+    const incorrectButtons = document.querySelectorAll('.incorrectButtons');
+
+    correctButton.style.border = '1px solid';
+    correctButton.style.borderRadius = '2px';
+    incorrectButtons.forEach((element) => {
+      element.style.border = '1px solid';
+      element.style.borderRadius = '2px';
+    });
+
+    this.setState((prevState) => ({
+      questionBtnClicked: false,
+      questionNumber: prevState.questionNumber + 1,
+    }));
+  }
+
+  buttonsArray() {
     const { questions, questionNumber } = this.state;
-    const { disable } = this.props;
     const { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = questions[questionNumber];
-    const correctButton = (
-      <button
-        className="correctButton"
-        type="button"
-        data-testid="correct-answer"
-        key={ questionNumber }
-        onClick={ this.switchColors }
-        disabled={ disable }
-      >
-        { correctAnswer }
-      </button>
-    );
-    const incorrectButtons = (
-      incorrectAnswers.map((answers, index) => (
+    const answersButtons = [correctAnswer, ...incorrectAnswers];
+    const shuffleButtons = answersButtons.sort();
+    return shuffleButtons;
+  }
+
+  renderButtons() {
+    const { questions, questionNumber, questionBtnClicked } = this.state;
+    const { disable } = this.props;
+    const buttons = questions.length > 0 && (
+      this.buttonsArray().map((answers, index) => (
         <button
-          className="incorrectButtons"
+          data-testid={ answers === questions[questionNumber].correct_answer
+            ? 'correct-answer' : `wrong-answer-${index}` }
           type="button"
-          data-testid={ `wrong-answer-${index}` }
           key={ index }
-          onClick={ this.switchColors }
-          disabled={ disable }
+          className={ answers === questions[questionNumber].correct_answer
+            ? 'correctButton' : 'incorrectButtons' }
+          disabled={ questionBtnClicked || disable }
+          onClick={ this.handleClick }
         >
-          { answers }
+          {answers}
         </button>
       ))
     );
-    const answersButtons = [correctButton, ...incorrectButtons];
-    this.shuffleButtons(answersButtons);
-    return answersButtons;
+    return buttons;
   }
 
   render() {
-    const { questions, questionNumber, loading } = this.state;
+    const { questions, questionNumber, loading, questionBtnClicked } = this.state;
     if (loading) return <h1>Loading...</h1>;
     return (
       <section>
-        <h1 data-testid="question-category">{ questions[questionNumber].category }</h1>
-        <h3 data-testid="question-text">{ questions[questionNumber].question }</h3>
-        { this.renderButtons() }
+        <div>
+          <h1
+            data-testid="question-category"
+          >
+            { questions[questionNumber].category }
+          </h1>
+          <h3 data-testid="question-text">{ questions[questionNumber].question }</h3>
+          { this.renderButtons() }
+        </div>
         <CountdownTimer />
+        { questionBtnClicked && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.nextQuestion }
+          >
+            Próxima
+          </button>
+        )}
       </section>
     );
   }
 }
 
 QuestionCard.propTypes = {
-  disable: PropTypes.func.isRequired,
+  disable: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -111,5 +132,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(QuestionCard);
-
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array

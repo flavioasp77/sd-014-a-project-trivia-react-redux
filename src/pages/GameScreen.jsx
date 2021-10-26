@@ -124,6 +124,7 @@ class GameScreen extends Component {
             type="button"
             onClick={ this.handleClick }
             data-testid="btn-next"
+            className="next"
           >
             Próxima
           </button>

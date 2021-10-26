@@ -7,8 +7,9 @@
 }
 
 .Trivia-question {
+  align-items: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 80px;
   width: 100%;
 }
@@ -41,6 +42,11 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.next {
+  height: 40px;
+  width: 100px;
 }
 
 @import url('https://fonts.googleapis.com/css2? family = Architects + Daughter & display=swap') ;

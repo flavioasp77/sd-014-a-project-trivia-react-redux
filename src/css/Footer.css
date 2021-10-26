@@ -1,0 +1,19 @@
+footer {
+  align-items: center;
+  background-color: transparent;
+  bottom: 0;
+  color: white;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  letter-spacing: 1.2px;
+  line-height: 15px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+footer p {
+  font-size: 10px;
+  font-weight: 200;
+}

@@ -10,12 +10,35 @@ import Footer from '../components/Footer';
 class Feedback extends Component {
   updateRanking({ name, score }, picture) {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    const updatedRanking = [...ranking, {
-      name,
-      score,
-      picture,
-    }];
+    const updatedRanking = [
+      ...ranking,
+      {
+        name,
+        score,
+        picture,
+      },
+    ];
     localStorage.setItem('ranking', JSON.stringify(updatedRanking));
+  }
+
+  feedbackMessage() {
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    const { score, assertions } = player;
+
+    return (
+      <p>
+        Você acertou
+        {' '}
+        <span data-testid="feedback-total-question">{assertions}</span>
+        {' '}
+        questões.
+        Um total de
+        {' '}
+        <span data-testid="feedback-total-score">{score}</span>
+        {' '}
+        pontos.
+      </p>
+    );
   }
 
   render() {
@@ -34,24 +57,14 @@ class Feedback extends Component {
 
     return (
       <>
-        <Header
-          player={ player.name }
-          score={ score }
-          src={ imgLink }
-        />
+        <Header player={ player.name } score={ score } src={ imgLink } />
         <main className="feedback__container">
           <section>
             <h2 data-testid="feedback-text">
-              { assertions < NUMBER ? messages.loss : messages.great }
+              {assertions < NUMBER ? messages.loss : messages.great}
             </h2>
-            <div>
-              <span>Você acertou</span>
-              <span data-testid="feedback-total-question">{ assertions }</span>
-              <span>questões.</span>
-              <span>Um total de</span>
-              <span data-testid="feedback-total-score">{ score }</span>
-              <span>pontos.</span>
-            </div>
+            <div className="feedback__text">{ this.feedbackMessage() }</div>
+
             <Link to="/ranking">
               <Button value="Ver Ranking" dataTestId="btn-ranking" />
             </Link>

@@ -28,6 +28,21 @@
   margin-bottom: 20px;
 }
 
+.feedback__text {
+  align-items: center;
+  display: flex;
+  font-weight: 300;
+  justify-content: center;
+  letter-spacing: 1.4px;
+  text-align: center;
+  width: 100%;
+}
+
+.feedback__text span {
+  color: rgb(0, 45, 143);
+  font-weight: 900;
+}
+
 .btn-play-again {
   background-color: transparent;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
@@ -38,4 +53,3 @@
 .btn-play-again:hover {
   color: rgb(0, 255, 200);
 }
-

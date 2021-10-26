@@ -7,6 +7,7 @@ import Button from '../components/Button';
 import logo from '../trivia.png';
 import '../css/Login.css';
 import { setToken } from '../redux/actions';
+import Footer from '../components/Footer';
 
 class Login extends Component {
   constructor() {
@@ -80,6 +81,7 @@ class Login extends Component {
           </Link>
 
         </div>
+        <Footer />
       </div>
     );
   }

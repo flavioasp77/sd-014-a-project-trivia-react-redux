@@ -2,8 +2,16 @@
   text-align: center;
 }
 
+body {
+  height: 100%;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
 .App-logo {
-  height: 40vmin;
+  height: 60px;
   pointer-events: none;
 }
 

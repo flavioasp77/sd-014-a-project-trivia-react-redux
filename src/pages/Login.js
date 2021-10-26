@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { addUser, getToken } from '../actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor(props) {
@@ -46,50 +47,69 @@ class Login extends Component {
     history.push('/game');
   }
 
+  emailInput(email) {
+    return (
+      <label htmlFor="email">
+        Email
+        <input
+          type="email"
+          id="email"
+          data-testid="input-gravatar-email"
+          name="email"
+          className="form-control mb-2"
+          value={ email }
+          onChange={ this.handleChange }
+        />
+      </label>
+    );
+  }
+
   render() {
     const { name, email, settings } = this.state;
     if (settings) return <Redirect to="/settings" />;
     return (
-      <div>
-        <fieldset>
+      <div
+        className="d-flex flex-column h-100 justify-content-center"
+      >
+        <div
+          className="d-flex flex-column align-items-center
+         m-auto p-4 border rounded px-5
+         shadow-lg bg-body rounded"
+        >
+          <img src={ logo } className="App-logo mb-3" alt="logo" />
           <label htmlFor="name">
             Nome
             <input
               type="text"
               id="name"
               data-testid="input-player-name"
+              className="form-control mb-3"
               name="name"
               value={ name }
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="email">
-            Email
-            <input
-              type="email"
-              id="email"
-              data-testid="input-gravatar-email"
-              name="email"
-              value={ email }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ this.verify() }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ () => this.setState({ settings: true }) }
-          >
-            Configurações
-          </button>
-        </fieldset>
+          { this.emailInput(email) }
+          <div className="d-flex justify-content-around">
+            <button
+              type="button"
+              data-testid="btn-play"
+              className="btn btn-success mx-3"
+              disabled={ this.verify() }
+              onClick={ this.handleClick }
+            >
+              Jogar
+            </button>
+            <button
+              type="button"
+              data-testid="btn-settings"
+              className="btn btn-warning mx-3"
+              onClick={ () => this.setState({ settings: true }) }
+            >
+              <i className="fas fa-cog" />
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

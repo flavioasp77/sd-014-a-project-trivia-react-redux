@@ -25,6 +25,15 @@ class Timer extends Component {
     sessionStorage.setItem('idInterval', idInterval);
   }
 
+  iconTimer(seconds) {
+    if (seconds % 2 === 1) {
+      return <i className="fas fa-hourglass-start" />;
+    } if (seconds === 0) {
+      return <i className="fas fa-hourglass-end" />;
+    }
+    return <i className="fas fa-hourglass-half" />;
+  }
+
   render() {
     const { answered, callback } = this.props;
     const { seconds } = this.state;
@@ -35,8 +44,10 @@ class Timer extends Component {
       callback();
     }
     return (
-      <div>
-        Timer
+      <div className="text-danger">
+        { this.iconTimer(seconds) }
+        {' '}
+        Tempo
         {' '}
         { seconds }
       </div>

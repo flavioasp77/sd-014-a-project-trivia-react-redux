@@ -25,25 +25,30 @@ class QuestionCard extends Component {
     } = questionInfo;
     const arrayOfAnswers = [...incorrect, correct];
     return (
-      <div>
-        <h2 data-testid="question-category">{category}</h2>
-        <h3 data-testid="question-text">{question}</h3>
-        {arrayOfAnswers.map((item, index) => {
-          const verify = this.verifyCorrectAnswer(item, index);
-          return (
-            <button
-              key={ index }
-              t
-              type="button"
-              onClick={ () => handleIndex(verify, difficulty) }
-              data-testid={ verify }
-              className={ /correct/.test(verify)
-                ? 'correct-answer' : 'wrong-answer' }
-            >
-              { item }
-            </button>
-          );
-        })}
+      <div
+        className="d-flex w-75 m-auto flex-column
+      justify-content-around align-items-center"
+      >
+        <h2 data-testid="question-category" className="text-center">{category}</h2>
+        <h3 data-testid="question-text" className="text-center">{question}</h3>
+        <div className="d-flex w-75 justify-content-center flex-wrap">
+          {arrayOfAnswers.map((item, index) => {
+            const verify = this.verifyCorrectAnswer(item, index);
+            return (
+              <button
+                key={ index }
+                type="button"
+                onClick={ () => handleIndex(verify, difficulty) }
+                data-testid={ verify }
+                className={ `btn around mx-2 quest-border quest-button
+                ${/correct/.test(verify)
+                ? 'correct-answer' : 'wrong-answer'}  m-2 ` }
+              >
+                { item }
+              </button>
+            );
+          })}
+        </div>
       </div>
     );
   }

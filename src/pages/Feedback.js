@@ -36,21 +36,37 @@ class Feedback extends Component {
     const { assertions, score } = this.state;
     const { history } = this.props;
     return (
-      <div>
-        <Header />
-        <p data-testid="feedback-text">{ this.feedbackMsg() }</p>
-        <h3 data-testid="feedback-total-question">
-          {assertions}
-        </h3>
-        <h3 data-testid="feedback-total-score">{score}</h3>
-        <PlayAgainBtn />
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ () => history.push('/ranking') }
+      <div className="w-100 h-100 row d-flex justify-content-center align-items-center">
+        <div
+          className="d-flex flex-column shadow p-3 mb-5
+        bg-body rounded px-5 align-items-center col-md-8"
         >
-          Ranking
-        </button>
+          <Header />
+          <p data-testid="feedback-text">{ this.feedbackMsg() }</p>
+          <p className="text-center mb-4 mt-2">
+            <p className="h3">Acertos</p>
+            <span data-testid="feedback-total-question" className="text-success h2">
+              {assertions}
+            </span>
+
+          </p>
+          <h3
+            data-testid="feedback-total-score"
+            className="border p-3 border-dark"
+          >
+            {score}
+
+          </h3>
+          <PlayAgainBtn />
+          <button
+            type="button"
+            className="btn btn-warning px-5"
+            data-testid="btn-ranking"
+            onClick={ () => history.push('/ranking') }
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }

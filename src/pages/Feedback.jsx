@@ -10,9 +10,7 @@ class Feedback extends Component {
       : 'Podia ser melhor...';
     return (
       <>
-        <header>
-          <Header />
-        </header>
+        <header><Header /></header>
         <main>
           <h1 data-testid="feedback-text">{feedback}</h1>
           <h2 data-testid="feedback-total-score">{score}</h2>

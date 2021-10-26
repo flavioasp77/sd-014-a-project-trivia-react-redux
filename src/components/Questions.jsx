@@ -74,8 +74,18 @@ class Questions extends Component {
     } = this.props;
     const next = stateQuestions[currentQuestion + 1];
     const maxArray = 4;
+    const { picture, name, score } = this.props;
 
     if (currentQuestion === maxArray) {
+      const ranking = JSON.parse(localStorage.getItem('ranking'));
+      ranking.push({
+        name,
+        score,
+        picture,
+      });
+
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+
       history.push('/feedback');
     } else {
       loadingToogle();
@@ -202,9 +212,15 @@ Questions.propTypes = {
   stateQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateScore: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  picture: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  name: state.player.name,
+  score: state.player.score,
+  picture: state.player.thumbnail,
   stateQuestions: state.player.questions,
   currentQuestion: state.player.currentQuestion,
   loadingState: state.player.loading,

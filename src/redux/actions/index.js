@@ -8,8 +8,12 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const LOADING = 'LOADING';
+export const RESET_SCORE = 'RESET_SCORE';
+export const RESET = 'RESET';
 
 export const apiRequestAction = () => ({ type: LOADING });
+export const resetGameAction = () => ({ type: RESET });
+export const resetScoreAction = () => ({ type: RESET_SCORE });
 
 export const saveUserInfoAction = (localState) => async (dispatch) => {
   const { name, assertions, score, gravatarEmail } = localState;

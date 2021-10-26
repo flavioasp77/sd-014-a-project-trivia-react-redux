@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { saveUserInfoAction } from '../redux/actions';
+import { resetGameAction, resetScoreAction, saveUserInfoAction } from '../redux/actions';
 import settingsIcon from '../assets/settings.svg';
 
 class Login extends Component {
@@ -20,6 +20,16 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  componentDidMount() {
+    const { resetScoreState, resetCurrentQuestion } = this.props;
+
+    resetScoreState();
+    resetCurrentQuestion();
+
+    localStorage.removeItem('state');
+    localStorage.removeItem('token');
+  }
+
   handleChange({ target: { name, value } }) {
     this.setState({
       [name]: value,
@@ -29,6 +39,7 @@ class Login extends Component {
   handleLogin() {
     const { history, saveUserInfoToState } = this.props;
     const { name, assertions, score, gravatarEmail } = this.state;
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
 
     saveUserInfoToState(this.state);
 
@@ -38,6 +49,8 @@ class Login extends Component {
       score,
       gravatarEmail,
     } }));
+
+    if (!ranking) localStorage.setItem('ranking', JSON.stringify([]));
 
     history.push('/game');
   }
@@ -87,10 +100,14 @@ class Login extends Component {
 Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   saveUserInfoToState: PropTypes.func.isRequired,
+  resetScoreState: PropTypes.func.isRequired,
+  resetCurrentQuestion: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   saveUserInfoToState: (userinfo) => dispatch(saveUserInfoAction(userinfo)),
+  resetScoreState: () => dispatch(resetScoreAction()),
+  resetCurrentQuestion: () => dispatch(resetGameAction()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

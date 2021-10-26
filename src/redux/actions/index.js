@@ -1,4 +1,10 @@
-import { LOGIN, TOKEN_API, FALHA_TOKEN } from './actionTypes';
+import {
+  LOGIN,
+  TOKEN_API,
+  FALHA_TOKEN,
+  QUESTIONS,
+  REQUEST_QUESTIONS,
+} from './actionTypes';
 
 const URL = 'https://opentdb.com/api_token.php?command=request';
 
@@ -34,3 +40,25 @@ export function fetchApiTrivia() {
     }
   };
 }
+
+export const generateQuestions = (payload) => ({
+  type: QUESTIONS,
+  payload,
+});
+
+function requestQuestion() {
+  return {
+    type: REQUEST_QUESTIONS,
+  };
+}
+
+export const fetchQuestions = () => {
+  const localToken = localStorage.getItem('token');
+  return async (dispatch) => {
+    dispatch(requestQuestion());
+    const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${localToken}`);
+    const { results } = await response.json();
+    console.log(results);
+    return dispatch(generateQuestions(results));
+  };
+};

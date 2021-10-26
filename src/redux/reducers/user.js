@@ -1,9 +1,10 @@
 import { LOGIN, TOKEN_API } from '../actions/actionTypes';
 
 const USER_INITIALSTATE = {
-  user: {
+  player: {
     name: '',
     email: '',
+    token: '',
   },
 };
 
@@ -16,11 +17,7 @@ export const user = (state = USER_INITIALSTATE, action) => {
   }
 };
 
-const TOKEN_INITIALSTATE = {
-  token: '',
-};
-
-export function requisitarToken(state = TOKEN_INITIALSTATE, action) {
+export function requisitarToken(state = USER_INITIALSTATE, action) {
   switch (action.type) {
   case TOKEN_API:
     return { ...state, token: action.payload };

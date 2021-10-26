@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import Header from '../components/Header';
+import '../utils/localstorage';
 import '../style/Game.css';
 
 let control = 1;
@@ -26,6 +27,7 @@ class Game extends React.Component {
       shuffledAnswers: [],
       time: 30,
       intervalId: 0,
+      score: 0,
     };
     this.countdownTimer = this.countdownTimer.bind(this);
     this.updateRemaingTime = this.updateRemaingTime.bind(this);
@@ -34,6 +36,7 @@ class Game extends React.Component {
     this.renderAlternatives = this.renderAlternatives.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
     this.createInterval = this.createInterval.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
   
   //  https://medium.com/@staceyzander/setinterval-and-clearinterval-in-react-b1d0ee1e1a6a
@@ -60,7 +63,6 @@ class Game extends React.Component {
       });
       control = remainingTime;
     }
-    //  console.log(remainingTime);
   }
 
   countdownTimer() {
@@ -85,14 +87,33 @@ class Game extends React.Component {
     );
   }
 
-  handleClick() {
+  updateScore(target) {
+    const { arrayQuestions } = this.props;
+    const { index, time } = this.state;
+    const objectQuestion = arrayQuestions[index];
+    const { difficulty } = objectQuestion;
+    if (target.className === 'answer-correct') {
+      let multiple = 1;
+      if (difficulty === 'hard') multiple = 3;
+      if (difficulty === 'medium') multiple = 2;
+      const result = 10 + (time * multiple);
+      const player = localStorage.getObj('state');
+      console.log(player.player);
+      player.player.score += result;
+      console.log(player.player.score);
+      this.setState({ score: player.player.score });
+      localStorage.setObj('state', player);
+    }
+  }
+
+  handleClick({ target }) {
     const { intervalId } = this.state;
     this.setState({
       correct: 'answer-correct',
       wrong: 'answer-incorrect',
       disabled: true,
       answered: true,
-    });
+    }, () => this.updateScore(target));
     clearInterval(intervalId);
   }
 

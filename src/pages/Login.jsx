@@ -51,10 +51,12 @@ class Login extends React.Component {
     };
 
     const player = {
-      name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
 
     localStorage.setObj('state', player);

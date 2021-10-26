@@ -10,7 +10,7 @@ class Header extends Component {
   }
 
   render() {
-    const { gravatarEmail, name, score } = localStorage.getObj('state');
+    const { player: { gravatarEmail, name, score } } = localStorage.getObj('state');
     const hashEmail = md5(gravatarEmail).toString();
     const imgPath = `https://www.gravatar.com/avatar/${hashEmail}`;
     return (

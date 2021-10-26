@@ -6,6 +6,7 @@ export const SAVE_USERINFO = 'SAVE_USERINFO';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_ERROR = 'FETCH_ERROR';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const LOADING = 'LOADING';
 
 export const apiRequestAction = () => ({ type: LOADING });
@@ -49,4 +50,9 @@ export const fetchQuestionsAction = () => async (dispatch) => {
 
 export const nextQuestionAction = () => ({
   type: NEXT_QUESTION,
+});
+
+export const updateScoreAction = (payload) => ({
+  type: UPDATE_SCORE,
+  payload,
 });

@@ -21,7 +21,13 @@
 // ]
 // A chave token deve conter o valor do token recebido na API do Trivia.
 
-import { SAVE_USERINFO, FETCH_QUESTIONS, LOADING, NEXT_QUESTION } from '../actions';
+import {
+  SAVE_USERINFO,
+  FETCH_QUESTIONS,
+  LOADING,
+  NEXT_QUESTION,
+  UPDATE_SCORE,
+} from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -61,6 +67,11 @@ function player(state = INITIAL_STATE, { type, payload }) {
       ...state,
       currentQuestion: state.currentQuestion + 1,
       loading: false,
+    };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: state.score + payload,
     };
   default:
     return state;

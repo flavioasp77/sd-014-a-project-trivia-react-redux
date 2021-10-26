@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { userName, thumbnail } = this.props;
+    const { userName, thumbnail, currentScore } = this.props;
 
     return (
       <>
@@ -18,7 +18,7 @@ class Header extends Component {
             { userName }
           </span>
         </div>
-        <span data-testid="header-score"> Placar: 0</span>
+        <span data-testid="header-score">{ currentScore }</span>
       </>
     );
   }
@@ -27,11 +27,13 @@ class Header extends Component {
 Header.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
+  currentScore: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   userName: state.player.name,
   thumbnail: state.player.thumbnail,
+  currentScore: state.player.score,
 });
 
 export default connect(mapStateToProps, null)(Header);

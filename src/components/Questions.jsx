@@ -55,12 +55,14 @@ class Questions extends React.Component {
           <button
             data-testid="wrong-answer 0"
             type="button"
+            className={ selectedAnswer === true ? 'notSelected' : 'incorrect' }
           >
             {null}
           </button>
           <button
             data-testid="correct-answer"
             type="button"
+            className={ selectedAnswer === true ? 'notSelected' : 'correct' }
           >
             {null}
           </button>

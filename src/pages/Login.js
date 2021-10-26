@@ -50,8 +50,8 @@ class Login extends Component {
     const { name, email, settings } = this.state;
     if (settings) return <Redirect to="/settings" />;
     return (
-      <div>
-        <fieldset>
+      <div className="">
+        <fieldset className="form-control d-flex flex-column">
           <label htmlFor="name">
             Nome
             <input
@@ -74,21 +74,23 @@ class Login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ this.verify() }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ () => this.setState({ settings: true }) }
-          >
-            Configurações
-          </button>
+          <div>
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ this.verify() }
+              onClick={ this.handleClick }
+            >
+              Jogar
+            </button>
+            <button
+              type="button"
+              data-testid="btn-settings"
+              onClick={ () => this.setState({ settings: true }) }
+            >
+              Configurações
+            </button>
+          </div>
         </fieldset>
       </div>
     );

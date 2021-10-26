@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { readLocalStorage } from '../services/util';
 import { getScore } from '../actions';
+import '../style/feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -20,8 +21,8 @@ class Feedback extends Component {
       return (
         <>
           <p data-testid="feedback-text">Podia ser melhor...</p>
-          <p data-testid="feedback-total-score">{ player.player.score }</p>
-          <p data-testid="feedback-total-question">{ player.player.assertions }</p>
+          <p data-testid="feedback-total-score">{ `Pontos Totais: ${player.player.score}` }</p>
+          <p data-testid="feedback-total-question">{ `Acertos: ${player.player.assertions}` }</p>
         </>
       );
     }
@@ -29,8 +30,8 @@ class Feedback extends Component {
       return (
         <>
           <p data-testid="feedback-text">Mandou bem!</p>
-          <p data-testid="feedback-total-score">{ player.player.score }</p>
-          <p data-testid="feedback-total-question">{ player.player.assertions }</p>
+          <p data-testid="feedback-total-score">{ `Pontos Totais: ${player.player.score}` }</p>
+          <p data-testid="feedback-total-question">{ `Acertos: ${player.player.assertions}` }</p>
         </>
       );
     }
@@ -43,26 +44,31 @@ class Feedback extends Component {
 
   render() {
     return (
-      <div data-testid="feedback-text">
+      <div data-testid="feedback-text" className="feedback">
         <Header />
-        { this.feedbackMessage() }
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ this.zerar }
-          >
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ver Ranking
-          </button>
-        </Link>
+        <div className="feedback-container">
+          <div className="cont2">
+            { this.feedbackMessage() }
+            <Link to="/">
+              <button
+                type="button"
+                data-testid="btn-play-again"
+                onClick={ this.zerar }
+                className="jogarNVM"
+              >
+                Jogar novamente
+              </button>
+            </Link>
+            <Link to="/ranking">
+              <button
+                type="button"
+                data-testid="btn-ranking"
+              >
+                Ver Ranking
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

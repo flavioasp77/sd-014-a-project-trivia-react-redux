@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import { getQuestionsThunk, getScore } from '../actions';
 import { readLocalStorage,
   writeLocalStorage, updateLocalStorage } from '../services/util';
 import Loading from '../components/Loading';
+import '../style/jogo.css';
 
 class Jogo extends Component {
   constructor(props) {
@@ -173,41 +175,62 @@ class Jogo extends Component {
     const options = this.concatAnswers(questions[currQuestion].correct_answer,
       questions[currQuestion].incorrect_answers);
     return (
-      <div>
-        <p>
-          {!clicked && 'Tempo restante: '}
-          {timer}
-        </p>
-        <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
-        <p data-testid="question-text">{questions[currQuestion].question}</p>
-        {options.map((question, index) => (
-          question === questions[currQuestion].correct_answer ? (
-            <button
-              className={ clicked ? 'green-border' : '' }
-              onClick={ (e) => this.setClass(e) }
-              type="button"
-              key={ index }
-              value={ question }
-              data-testid="correct-answer"
-              disabled={ clicked }
-            >
-              {question}
-            </button>
-          ) : (
-            <button
-              className={ clicked ? 'red-border' : '' }
-              onClick={ (e) => this.setClass(e) }
-              type="button"
-              key={ index }
-              value={ question }
-              data-testid={ `wrong-answers-${index}` }
-              disabled={ clicked }
-            >
-              {question}
-            </button>
-          )
-        ))}
-        {clicked && this.button()}
+      <div className="jogo">
+        <div className="tempo">
+          <p>
+            {!clicked && 'Tempo restante: '}
+            {timer}
+          </p>
+        </div>
+        <div className="container">
+          <div className="questions">
+            <div className="pergunta">
+              <h2>{`${currQuestion + 1}ª Pergunta`}</h2>
+            </div>
+            <div className="category">
+              <h2>Categoria</h2>
+              <h4 data-testid="question-category">{questions[currQuestion].category}</h4>
+            </div>
+            <div className="text">
+              <p data-testid="question-text">{questions[currQuestion].question}</p>
+            </div>
+          </div>
+          <div>
+            <div className="alternativas">
+              <div className="alt-container">
+                <h4>Alternativas</h4>
+              </div>
+              {options.map((question, index) => (
+                question === questions[currQuestion].correct_answer ? (
+                  <button
+                    className={ clicked ? 'green-border' : '' }
+                    onClick={ (e) => this.setClass(e) }
+                    type="button"
+                    key={ index }
+                    value={ question }
+                    data-testid="correct-answer"
+                    disabled={ clicked }
+                  >
+                    {question}
+                  </button>
+                ) : (
+                  <button
+                    className={ clicked ? 'red-border' : '' }
+                    onClick={ (e) => this.setClass(e) }
+                    type="button"
+                    key={ index }
+                    value={ question }
+                    data-testid={ `wrong-answers-${index}` }
+                    disabled={ clicked }
+                  >
+                    {question}
+                  </button>
+                )
+              ))}
+              {clicked && this.button()}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

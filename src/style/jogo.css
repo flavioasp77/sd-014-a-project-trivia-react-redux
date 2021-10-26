@@ -1,0 +1,101 @@
+.jogo {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to right, #c0c0aa, #1cefff);
+  height: calc(100vh - 99px);
+}
+
+.questions {
+  margin-right: 40px;
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  border: 2px solid gray;
+  width: 400px;
+}
+
+.pergunta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #DDD8C4;
+  border-bottom: 2px solid gray;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid gray;
+}
+
+.category h2, h4 {
+  margin: 0;
+}
+
+.category h2 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.category h4 {
+  margin-bottom: 15px;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.alternativas {
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  border: 2px solid gray;
+  margin-left: 40px;
+}
+
+.alt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #DDD8C4;
+  border-bottom: 2px solid gray;
+  height: 50px;
+  
+}
+
+.alternativas button {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 10px;
+  font-size: 20px;
+}
+
+.tempo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tempo p {
+  background-color: #DDD8C4;
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid gray;
+}

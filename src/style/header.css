@@ -1,0 +1,37 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-image: linear-gradient(to right, #67B26F, #4ca2cd);
+  border-bottom: 3px solid gray;
+  height: 95px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-left: 3%;
+}
+
+
+.image-container img {
+  max-width: 150px;
+  height: auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+  padding: 10px;
+  font-size: 20px;
+  margin-right: 4%;
+}
+
+.user-info img {
+  max-width: 60px;
+  border-radius: 50%;
+  border: 2px solid gray;
+}

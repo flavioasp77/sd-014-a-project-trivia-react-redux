@@ -24,12 +24,13 @@ class Questions extends React.Component {
 
   altShuffler() {
     const {
+      correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = this.props;
     const { answerAlts } = this.state;
 
     this.setState({
-      answerAlts: [incorrectAnswers]
+      answerAlts: [...incorrectAnswers, correctAnswer]
         .map((alt) => ({ alt, position: Math.random() }))
         .sort((a, b) => a.position - b.position).map(({ alt }) => alt),
     });
@@ -47,22 +48,33 @@ class Questions extends React.Component {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = this.props;
-    const { selectedAnswer } = this.state;
+    const { selectedAnswer, answerAlts } = this.state;
     if (!incorrectAnswers) {
       return (
-        <button
-          data-testid="`wrong-answer 0"
-          type="button"
-        >
-          { null }
-        </button>
+        <>
+          <button
+            data-testid="wrong-answer 0"
+            type="button"
+          >
+            {null}
+          </button>
+          <button
+            data-testid="correct-answer"
+            type="button"
+          >
+            {null}
+          </button>
+
+        </>
       );
     }
     return (
       <main>
-        { incorrectAnswers.map((alt, index) => (
+        { answerAlts.map((alt, index) => (
           <button
-            data-testid={ `wrong-answer${index}` }
+            data-testid={ alt === correctAnswer
+              ? 'correct-answer'
+              : `wrong-answer${index}` }
             disabled={ selectedAnswer }
             className={ selectedAnswer && alt === correctAnswer
               ? 'correct' : 'incorrect' }
@@ -81,24 +93,11 @@ class Questions extends React.Component {
     const {
       question,
       category,
-      correct_answer: correctAnswer,
     } = this.props;
-    const { selectedAnswer } = this.state;
     return (
       <main>
         <p data-testid="question-category">{`${category}`}</p>
         <p data-testid="question-text">{`${question}`}</p>
-        <button
-          data-testid="correct-answer"
-          disabled={ selectedAnswer }
-          className={ selectedAnswer
-            ? 'correct' : 'incorrect' }
-          type="button"
-          key={ correctAnswer }
-          onClick={ this.handleClick }
-        >
-          {correctAnswer}
-        </button>
         { this.mainQuestion() }
       </main>
     );

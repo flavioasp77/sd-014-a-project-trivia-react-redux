@@ -11,7 +11,6 @@ function App() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/play" component={ Play } />
       <Route exact path="/settings" component={ Settings } />
-      <Route path="/play" component={ Play } />
     </Switch>
   );
 }

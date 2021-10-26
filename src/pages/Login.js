@@ -57,7 +57,7 @@ class Login extends Component {
         <div
           className="d-flex flex-column align-items-center
          m-auto p-4 border rounded px-5
-         shadow-lg p-3 mb-5 bg-body rounded"
+         shadow-lg bg-body rounded"
         >
           <label htmlFor="name">
             Nome

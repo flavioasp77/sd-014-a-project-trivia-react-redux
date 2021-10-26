@@ -1,0 +1,19 @@
+.min-w-75 {
+  min-width: 75%;
+}
+
+.first {
+  color: gold;
+}
+
+.second {
+  color: silver;
+}
+
+.third {
+  color: #b08d57;
+}
+
+p {
+  margin: 0;
+}

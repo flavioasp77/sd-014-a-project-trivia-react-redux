@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RankingCard from '../components/RankingCard';
+import '../css/ranking.css';
 
 class Ranking extends Component {
   constructor() {
@@ -26,17 +27,21 @@ class Ranking extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
-        <h2 data-testid="ranking-title">Ranking</h2>
-
-        { this.handlePlayers() }
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ () => history.push('/') }
-        >
-          Play Again
-        </button>
+      <div className="h-100 w-100 d-flex justify-content-center bg-light">
+        <div className="d-flex flex-column min-w-75">
+          <h2 data-testid="ranking-title" className="text-center py-3">Ranking</h2>
+          <div className="h-75 overflow-auto mb-3">
+            { this.handlePlayers() }
+          </div>
+          <button
+            type="button"
+            className="btn btn-success py-2"
+            data-testid="btn-go-home"
+            onClick={ () => history.push('/') }
+          >
+            Play Again
+          </button>
+        </div>
       </div>
     );
   }

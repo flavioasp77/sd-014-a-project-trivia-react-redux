@@ -40,9 +40,9 @@ class QuestionCard extends Component {
                 type="button"
                 onClick={ () => handleIndex(verify, difficulty) }
                 data-testid={ verify }
-                className={ `btn around mx-2 quest-border
+                className={ `btn around mx-2 quest-border quest-button
                 ${/correct/.test(verify)
-                ? 'correct-answer' : 'wrong-answer'} quest-button m-2 ` }
+                ? 'correct-answer' : 'wrong-answer'}  m-2 ` }
               >
                 { item }
               </button>

@@ -113,10 +113,10 @@ class Game extends Component {
     const { index, answered, timeReset, score, feedback } = this.state;
     if (feedback) return <Redirect to="/feedback" />;
     return (
-      <div className="d-flex row w-100 h-100 bg-quest align-items-center p-4">
+      <div className="d-flex row w-100 h-100 bg-quest align-items-center m-1">
         <div
-          className="d-flex flex-column bg-light box-game m-auto p-3
-         border shadow p-3 mb-5 bg-body rounded"
+          className="d-flex flex-column bg-light col-md-10 box-game m-auto col-12
+         border shadow p-3 bg-body rounded"
         >
           <div className="d-flex flex-wrap">
             <div

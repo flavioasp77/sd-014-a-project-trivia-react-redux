@@ -33,7 +33,6 @@ class Play extends React.Component {
   render() {
     const { currentQuestion } = this.state;
     const { generateQuestions, isFetching } = this.props;
-    console.log(generateQuestions);
     return (
       <main>
         <Header />

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import StopWatch from './StopWatch';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Questions extends React.Component {
     const {
       incorrect_answers: incorrectAnswers,
     } = this.props;
+    console.log(incorrectAnswers);
     if (incorrectAnswers) {
       this.altShuffler();
     }
@@ -28,7 +30,7 @@ class Questions extends React.Component {
       incorrect_answers: incorrectAnswers,
     } = this.props;
     const { answerAlts } = this.state;
-
+    console.log('Taokay');
     this.setState({
       answerAlts: [...incorrectAnswers, correctAnswer]
         .map((alt) => ({ alt, position: Math.random() }))
@@ -56,6 +58,7 @@ class Questions extends React.Component {
             data-testid="wrong-answer 0"
             type="button"
             className={ selectedAnswer === true ? 'notSelected' : 'incorrect' }
+            disabled={ selectedAnswer }
           >
             {null}
           </button>
@@ -63,6 +66,7 @@ class Questions extends React.Component {
             data-testid="correct-answer"
             type="button"
             className={ selectedAnswer === true ? 'notSelected' : 'correct' }
+            disabled={ selectedAnswer }
           >
             {null}
           </button>
@@ -92,6 +96,7 @@ class Questions extends React.Component {
   }
 
   render() {
+    const { selectedAnswer } = this.state;
     const {
       question,
       category,
@@ -101,6 +106,10 @@ class Questions extends React.Component {
         <p data-testid="question-category">{`${category}`}</p>
         <p data-testid="question-text">{`${question}`}</p>
         { this.mainQuestion() }
+        <StopWatch
+          selectedAnswer={ selectedAnswer }
+          stopTimer={ () => this.handleClick() }
+        />
       </main>
     );
   }

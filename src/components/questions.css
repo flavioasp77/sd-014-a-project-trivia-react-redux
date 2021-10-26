@@ -5,9 +5,9 @@
 }
 
 .userInfo {
+  display: flex;
   margin-right: 50px;
   margin-top: 10px;
-  display: flex;
 }
 
 .points {
@@ -15,8 +15,8 @@
 }
 
 .name-player {
-  margin-top: 16px;
   justify-content: center;
+  margin-top: 16px;
 }
 
 .userInfo, span {

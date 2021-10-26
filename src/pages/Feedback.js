@@ -5,6 +5,7 @@ import { NUMBER } from '../services/data';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import '../css/Feedback.css';
+import Footer from '../components/Footer';
 
 class Feedback extends Component {
   updateRanking({ name, score }, picture) {
@@ -30,7 +31,6 @@ class Feedback extends Component {
       loss: 'Podia ser melhor...',
       great: 'Mandou bem!',
     };
-    // const { assertions } = this.props; // vai depender de onde a informação está vindo
 
     return (
       <>
@@ -64,6 +64,7 @@ class Feedback extends Component {
             </Link>
           </section>
         </main>
+        <Footer />
       </>
     );
   }

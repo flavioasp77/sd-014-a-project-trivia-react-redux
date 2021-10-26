@@ -88,6 +88,7 @@ class Questions extends Component {
     const { changeScore } = this.props;
     const storage = await JSON.parse(localStorage.getItem('state'));
     storage.player.score = score;
+    storage.player.assertions += 1;
     const stateUpdt = await JSON.stringify(storage);
     localStorage.setItem('state', stateUpdt);
     changeScore(score);

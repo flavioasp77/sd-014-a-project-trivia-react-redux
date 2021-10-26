@@ -21,7 +21,6 @@ class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.scoreUpdate = this.scoreUpdate.bind(this);
     this.setDifficulty = this.setDifficulty.bind(this);
-    this.historyFeedback = this.historyFeedback.bind(this);
   }
 
   componentDidMount() {
@@ -87,7 +86,6 @@ class Questions extends Component {
   handleNextBtn() {
     const { atualQuestion } = this.state;
 
-    this.historyFeedback();
     const NUMBER_MAX = 4;
     const { history } = this.props;
     if (atualQuestion === NUMBER_MAX) {
@@ -142,30 +140,34 @@ class Questions extends Component {
     const { atualQuestion, order, click, timer } = this.state;
     if (isFetching) return <p>Loading</p>;
     return (
-      <div className="questions">
-        <section>
-          <h3 data-testid="question-category">
-            {
-              questionResults.response[atualQuestion].category
-            }
-          </h3>
-          <p>{ timer }</p>
-          <p data-testid="question-text">
-            {
-              questionResults.response[atualQuestion].question
-            }
-          </p>
+      <div>
+        <section className="question-wrapper">
+          <section className="questions">
+            <h3 data-testid="question-category">
+              {
+                questionResults.response[atualQuestion].category
+              }
+            </h3>
+            <p>{ timer }</p>
+            <p data-testid="question-text">
+              {
+                questionResults.response[atualQuestion].question
+              }
+            </p>
+          </section>
+          <section className="questions">
+            <Buttons
+              order={ order }
+              handleClickAnswer={ this.handleClickAnswer }
+              scoreUpdate={ this.scoreUpdate }
+              click={ click }
+              atualQuestion={ atualQuestion }
+              questionResults={ questionResults }
+              handleNextBtn={ this.handleNextBtn }
+              timer={ timer }
+            />
+          </section>
         </section>
-        <Buttons
-          order={ order }
-          handleClickAnswer={ this.handleClickAnswer }
-          scoreUpdate={ this.scoreUpdate }
-          click={ click }
-          atualQuestion={ atualQuestion }
-          questionResults={ questionResults }
-          handleNextBtn={ this.handleNextBtn }
-          timer={ timer }
-        />
       </div>
     );
   }

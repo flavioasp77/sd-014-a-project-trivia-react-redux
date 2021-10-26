@@ -6,31 +6,23 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import '../css/Feedback.css';
 
-const { player } = JSON.parse(localStorage.getItem('state'));
-const userHash = md5(player.gravatarEmail).toString();
-const imgLink = `https://www.gravatar.com/avatar/${userHash}`;
 class Feedback extends Component {
-  // requisito 13 - para finalizar é preciso
-  // que o localStorage retorne o score do player
-
-  componentDidMount() {
-    this.pushRanking();
-  }
-
-  pushRanking() {
-    localStorage.setItem(
-      'ranking', JSON.stringify([
-        {
-          name: player.name,
-          score: player.score,
-          picture: imgLink,
-        },
-      ]),
-    );
+  updateRanking({ name, score }, picture) {
+    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    const updatedRanking = [...ranking, {
+      name,
+      score,
+      picture,
+    }];
+    localStorage.setItem('ranking', JSON.stringify(updatedRanking));
   }
 
   render() {
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    const userHash = md5(player.gravatarEmail).toString();
+    const imgLink = `https://www.gravatar.com/avatar/${userHash}`;
     const { score, assertions } = player;
+    this.updateRanking(player, imgLink);
 
     const messages = {
       question: `Você acertou ${assertions} questões`,
@@ -38,7 +30,6 @@ class Feedback extends Component {
       loss: 'Podia ser melhor...',
       great: 'Mandou bem!',
     };
-    // const { assertions } = this.props; // vai depender de onde a informação está vindo
 
     return (
       <>

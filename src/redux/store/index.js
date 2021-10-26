@@ -15,5 +15,3 @@ export default store;
 if (window.Cypress) {
   window.store = store;
 }
-
-// "npm install --save redux-devtools-extension"

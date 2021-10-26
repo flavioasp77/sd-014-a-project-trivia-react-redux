@@ -16,17 +16,14 @@ class Trivia extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.computeAnswer = this.computeAnswer.bind(this);
     this.timer = this.timer.bind(this);
+    this.timeoutClock = this.timeoutClock.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
-    const { timer } = this.state;
-    const SECONDS_TO_MILLISECONDS = 1000;
     this.chamaApi();
     this.timer();
-    this.timeout = setTimeout(
-      () => (this.computeAnswer()), timer * SECONDS_TO_MILLISECONDS,
-    );
+    this.timeoutClock();
   }
 
   componentWillUnmount() {
@@ -40,8 +37,16 @@ class Trivia extends React.Component {
     }, ONE_SECOND);
   }
 
+  timeoutClock() {
+    const THIRTY_SECONDS = 30000;
+    this.timeout = setTimeout(
+      () => (this.computeAnswer()), THIRTY_SECONDS,
+    );
+  }
+
   computeAnswer() { // Function called after an answer is clicked OR, a timeout happens
     this.setState({ respondido: true });
+    clearTimeout(this.timeout);
     clearInterval(this.timerInterval);
   }
 
@@ -93,7 +98,7 @@ class Trivia extends React.Component {
         timer: 30,
       }));
       this.timer();
-      clearInterval(this.timeout);
+      this.timeoutClock();
     }
   }
 
@@ -102,11 +107,14 @@ class Trivia extends React.Component {
     return (
       <div>
         <Header />
-        <p>Time Left!!:</p>
+        <span>Time Left!!: </span>
         <span>{ timer }</span>
         {perguntas.length > 0
         && (
           <>
+            <p>
+              { `Pergunta: ${indice + 1}/${perguntas.length}`}
+            </p>
             <p data-testid="question-category">
               { decodeURIComponent(perguntas[indice].category) }
             </p>

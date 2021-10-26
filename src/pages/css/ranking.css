@@ -4,30 +4,33 @@
 }
 
 .main-ranking {
+  align-items: center;
   display: flex;
   flex-direction: column;
   margin-top: 5%;
   text-align: center;
 }
 
-h3 {
-  margin: auto;
+hr {
+  margin: 20px auto;
   text-align: center;
-  width: 80%;
+  width: 60%;
 }
 
 .list-ranking {
   counter-reset: item;
   line-height: 1.7rem;
-  margin: 10px 36%;
-  max-width: 34%;
+  margin: 10px 40%;
+  max-width: 50%;
   padding-left: 10px;
 }
 
 .li-ranking {
   display: block;
+  margin-bottom: 10px;
   margin-left: 15%;
   text-align: left;
+  width: 20em;
 }
 
 li:before {

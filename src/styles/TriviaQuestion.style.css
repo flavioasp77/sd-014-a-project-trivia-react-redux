@@ -7,7 +7,40 @@
 }
 
 .Trivia-question {
+  display: flex;
+  flex-direction: row;
   margin-top: 80px;
+  width: 100%;
+}
+
+.div-question {
+  align-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.div-question-and-timer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.div-alternative-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 80%;
+}
+
+.timer {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 @import url('https://fonts.googleapis.com/css2? family = Architects + Daughter & display=swap') ;

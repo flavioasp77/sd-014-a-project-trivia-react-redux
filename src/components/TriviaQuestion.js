@@ -29,10 +29,10 @@ export default class TriviaQuestion extends Component {
   questionRender() {
     const { question } = this.props;
     return (
-      <div>
+      <div className="div-question">
         <h2 data-testid="question-category">{ question.category }</h2>
         <p data-testid="question-text">{ question.question }</p>
-        <div>
+        <div className="div-alternative-buttons">
           {this.mapAlternatives()}
         </div>
       </div>);
@@ -87,9 +87,9 @@ export default class TriviaQuestion extends Component {
     const { stateActual: { timer } } = this.props;
     // console.log(question);
     return (
-      <div>
+      <div className="div-question-and-timer">
         {question !== undefined && this.questionRender()}
-        <h3>{`Timer: ${timer}`}</h3>
+        <h3 className="timer">{`Timer: ${timer}`}</h3>
       </div>
     );
   }

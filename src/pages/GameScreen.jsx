@@ -5,6 +5,7 @@ import TriviaQuestion from '../components/TriviaQuestion';
 import { useToken } from '../services/APIrequests';
 import { shuffleArray, filtraEstadoGameScreen } from '../services/functions';
 import { getLocalToken } from '../services/localStorage';
+import '../styles/TriviaQuestion.style.css';
 
 class GameScreen extends Component {
   constructor() {

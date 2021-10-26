@@ -33,7 +33,13 @@ export default class Header extends Component {
     return (
       <header>
         <div className="div-img-and-username">
-          <img src={ url } alt="Gravatar Imagem" data-testid="header-profile-picture" />
+          <img
+            src={ url }
+            alt="Gravatar Imagem"
+            className="img-gravatar"
+            data-testid="header-profile-picture"
+            height="60px"
+          />
           <span data-testid="header-player-name" className="header-player-name">
             {name}
           </span>

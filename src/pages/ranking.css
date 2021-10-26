@@ -6,13 +6,10 @@
   color: black;
   height: auto;
   justify-content: center;
-  left: 50%;
   max-width: auto;
   padding: 30px;
-  position: absolute;
   text-align: center;
   top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .user-ranking, .user-ranking span {

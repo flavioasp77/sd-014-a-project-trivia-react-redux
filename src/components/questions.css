@@ -65,7 +65,7 @@
 
 .answer-btn, .rightanswer, .wronganswer {
   background-color: whitesmoke;
-  border: 3px solid #036b52;
+  border: 3px solid #1d1d1d;
   border-radius: 4px;
   color: #1d1d1d;
   cursor: pointer;

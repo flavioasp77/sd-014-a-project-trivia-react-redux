@@ -4,6 +4,7 @@ import {
   FALHA_TOKEN,
   QUESTIONS,
   REQUEST_QUESTIONS,
+  SALVAR_PONTUAÇÃO,
 } from './actionTypes';
 
 const URL = 'https://opentdb.com/api_token.php?command=request';
@@ -62,3 +63,11 @@ export const fetchQuestions = () => {
     return dispatch(generateQuestions(results));
   };
 };
+
+export function salvarPontuacao(score, assertions) {
+  return {
+    type: SALVAR_PONTUAÇÃO,
+    score,
+    assertions,
+  };
+}

@@ -1,9 +1,11 @@
-import { LOGIN, TOKEN_API } from '../actions/actionTypes';
+import { LOGIN, TOKEN_API, SALVAR_PONTUAÇÃO } from '../actions/actionTypes';
 
 const USER_INITIALSTATE = {
   player: {
-    name: '',
-    email: '',
+    // name: '',
+    assertions: 0,
+    gravatarEmail: '',
+    score: 0,
     token: '',
   },
 };
@@ -11,17 +13,29 @@ const USER_INITIALSTATE = {
 export const user = (state = USER_INITIALSTATE, action) => {
   switch (action.type) {
   case LOGIN:
-    return { email: action.email, name: action.name };
+    return { gravatarEmail: action.email, name: action.name };
   default:
     return state;
   }
 };
 
-export function requisitarToken(state = USER_INITIALSTATE, action) {
+export const requisitarToken = (state = USER_INITIALSTATE, action) => {
   switch (action.type) {
   case TOKEN_API:
     return { ...state, token: action.payload };
   default:
     return state;
   }
-}
+};
+
+export const updateScore = (state = USER_INITIALSTATE, action) => {
+  switch (action.type) {
+  case SALVAR_PONTUAÇÃO:
+    return { ...state,
+      player: { ...state.player,
+        score: action.score,
+        assertions: action.assertions } };
+  default:
+    return state;
+  }
+};

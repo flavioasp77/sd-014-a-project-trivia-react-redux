@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import StopWatch from './StopWatch';
+import { salvarPontuacao } from '../redux/actions';
+
+const MIN_SCORE = 10;
+const EASY = 1;
+const MEDIUM = 2;
+const HARD = 3;
 
 class Questions extends React.Component {
   constructor(props) {
@@ -8,10 +15,13 @@ class Questions extends React.Component {
     this.state = {
       answerAlts: [],
       selectedAnswer: false,
+      scoreCounter: 0,
+      assertions: 0,
     };
     this.handleClick = this.handleClick.bind(this);
     this.altShuffler = this.altShuffler.bind(this);
     this.mainQuestion = this.mainQuestion.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
@@ -29,20 +39,54 @@ class Questions extends React.Component {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = this.props;
-    const { answerAlts } = this.state;
-    console.log('Taokay');
     this.setState({
       answerAlts: [...incorrectAnswers, correctAnswer]
         .map((alt) => ({ alt, position: Math.random() }))
         .sort((a, b) => a.position - b.position).map(({ alt }) => alt),
     });
-    console.log(answerAlts);
   }
 
-  handleClick() {
+  stopTimer() {
     this.setState({
       selectedAnswer: true,
     });
+  }
+
+  async handleClick(target) {
+    const { difficulty, correct_answer: correctAnswer, atualizaPontos } = this.props;
+    const timer = (document.getElementById('timer')).innerText;
+    this.setState({ selectedAnswer: true });
+    if (target.value === correctAnswer) {
+      if (difficulty === 'easy') {
+        await this.setState((prevState) => ({
+          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (EASY * timer)),
+          assertions: prevState.assertions + 1,
+        }));
+      }
+      if (difficulty === 'medium') {
+        await this.setState((prevState) => ({
+          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (MEDIUM * timer)),
+          assertions: prevState.assertions + 1,
+        }));
+      }
+      if (difficulty === 'hard') {
+        await this.setState((prevState) => ({
+          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (HARD * timer)),
+          assertions: prevState.assertions + 1,
+        }));
+      }
+      const { scoreCounter, assertions } = this.state;
+      const { name, gravatarEmail } = this.props;
+      atualizaPontos(scoreCounter, assertions);
+      const player = { player: {
+        name,
+        assertions,
+        score: scoreCounter,
+        gravatarEmail,
+      } };
+
+      localStorage.setItem('player', JSON.stringify(player));
+    }
   }
 
   mainQuestion() {
@@ -70,7 +114,6 @@ class Questions extends React.Component {
           >
             {null}
           </button>
-
         </>
       );
     }
@@ -86,7 +129,8 @@ class Questions extends React.Component {
               ? 'correct' : 'incorrect' }
             type="button"
             key={ alt }
-            onClick={ this.handleClick }
+            value={ alt }
+            onClick={ ({ target }) => this.handleClick(target) }
           >
             {alt}
           </button>
@@ -108,7 +152,7 @@ class Questions extends React.Component {
         { this.mainQuestion() }
         <StopWatch
           selectedAnswer={ selectedAnswer }
-          stopTimer={ () => this.handleClick() }
+          stopTimer={ () => this.stopTimer() }
         />
       </main>
     );
@@ -120,6 +164,17 @@ Questions.propTypes = {
   correct_answer: PropTypes.string.isRequired,
   incorrect_answers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   question: PropTypes.string.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  atualizaPontos: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
 };
+const mapStateToProps = (state) => ({
+  name: state.user.name,
+  gravatarEmail: state.user.gravatarEmail,
+});
 
-export default Questions;
+const mapDispatchToProps = (dispatch) => ({
+  atualizaPontos: (score, assertions) => dispatch(salvarPontuacao(score, assertions)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

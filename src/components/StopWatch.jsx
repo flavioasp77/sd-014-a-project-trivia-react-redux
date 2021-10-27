@@ -39,7 +39,7 @@ export default class StopWatch extends Component {
   render() {
     const { timer } = this.state;
     return (
-      <p>
+      <p id="timer">
         { timer }
       </p>
     );

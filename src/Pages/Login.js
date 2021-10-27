@@ -81,7 +81,7 @@ class Login extends Component {
           onClick={ () => history.push('/settings') }
           data-testid="btn-settings"
         >
-          Settings
+          Configuração
         </button>
       </form>
     );

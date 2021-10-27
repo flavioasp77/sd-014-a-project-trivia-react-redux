@@ -1,9 +1,24 @@
 .button-wrong {
+  background-color: #74b9ff;
   border: 3px solid rgb(6, 240, 15);
+  border-radius: 8px;
+  height: 50px;
+  width: 100px;
 }
 
 .button-correct {
+  background-color: #74b9ff;
   border: 3px solid red;
+  border-radius: 8px;
+  height: 50px;
+  width: 100px;
+}
+
+.button-alternative {
+  background-color: #74b9ff;
+  border-radius: 8px;
+  height: 50px;
+  width: 100px;
 }
 
 .Trivia-question {
@@ -33,6 +48,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin-bottom: 10px;
   width: 80%;
 }
 
@@ -44,7 +60,9 @@
   justify-content: center;
 }
 
-.next {
+.button-next {
+  background-color: #74b9ff;
+  border-radius: 8px;
   height: 40px;
   width: 100px;
 }

@@ -27,7 +27,7 @@ export default class TriviaQuestion extends Component {
   }
 
   questionRender() {
-    const { question } = this.props;
+    const { question, handleClickNext, stateActual: { visibleButton } } = this.props;
     return (
       <div className="div-question">
         <h2 data-testid="question-category">{ question.category }</h2>
@@ -35,6 +35,16 @@ export default class TriviaQuestion extends Component {
         <div className="div-alternative-buttons">
           {this.mapAlternatives()}
         </div>
+        {visibleButton && (
+          <button
+            type="button"
+            onClick={ handleClickNext }
+            data-testid="btn-next"
+            className="button-next"
+          >
+            Próxima
+          </button>
+        )}
       </div>);
   }
 
@@ -65,7 +75,8 @@ export default class TriviaQuestion extends Component {
           key={ index }
           type="button"
           data-testid={ correctOrWrong ? correct : wrong }
-          className={ className && `button-${correctOrWrong ? 'wrong' : 'correct'}` }
+          className={ className
+            ? `button-${correctOrWrong ? 'wrong' : 'correct'}` : 'button-alternative' }
           onClick={ (event) => {
             handleClickQuestion();
             this.handleClick(event);
@@ -108,4 +119,5 @@ TriviaQuestion.propTypes = {
   handleClickQuestion: PropTypes.func.isRequired,
   delayToResponse: PropTypes.func.isRequired,
   resetTimer: PropTypes.func.isRequired,
+  handleClickNext: PropTypes.func.isRequired,
 };

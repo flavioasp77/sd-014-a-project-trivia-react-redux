@@ -23,7 +23,7 @@ class GameScreen extends Component {
     };
     this.saveQuestions = this.saveQuestions.bind(this);
     this.scrambleAlternatives = this.scrambleAlternatives.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
     this.visibleButton = this.visibleButton.bind(this);
     this.handleClickQuestion = this.handleClickQuestion.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
@@ -77,7 +77,7 @@ class GameScreen extends Component {
     this.setState({ alternativesShuffled });
   }
 
-  async handleClick() {
+  async handleClickNext() {
     const { indexOfQuestion } = this.state;
     const INDEX_LIMIT_OF_QUESTIONS = 4;
     if (indexOfQuestion < INDEX_LIMIT_OF_QUESTIONS) {
@@ -118,17 +118,18 @@ class GameScreen extends Component {
           handleClickQuestion={ this.handleClickQuestion }
           delayToResponse={ this.delayToResponse }
           resetTimer={ this.resetTimer }
+          handleClickNext={ this.handleClickNext }
         />
-        {visibleButton && (
+        {/* {visibleButton && (
           <button
             type="button"
-            onClick={ this.handleClick }
+            onClick={ this.handleClickNext }
             data-testid="btn-next"
-            className="next"
+            className="button-next"
           >
             Próxima
           </button>
-        )}
+        )} */}
         { redirect && <Redirect to="/feedback" /> }
       </div>
     );

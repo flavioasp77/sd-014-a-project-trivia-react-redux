@@ -9,7 +9,7 @@ class Header extends Component {
     const emailHash = MD5(email).toString();
 
     return (
-      <header>
+      <header className="header-div">
         <img
           data-testid="header-profile-picture"
           src={ `https://www.gravatar.com/avatar/${emailHash}` }
@@ -17,7 +17,7 @@ class Header extends Component {
         />
         <p data-testid="header-player-name">{ name }</p>
         <p>
-          score:
+          Score:
           <span
             data-testid="header-score"
           >

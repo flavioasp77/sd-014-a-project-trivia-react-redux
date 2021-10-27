@@ -61,7 +61,6 @@ class Game extends Component {
       counter -= 1;
       this.setState({ counter });
     }, ONE_SECOND);
-
     const timerId = setTimeout(() => {
       clearInterval(counterId);
       this.setState({
@@ -151,17 +150,13 @@ class Game extends Component {
         gravatarEmail: email,
       },
     };
-
     if (answer === questions[indexNext].correct_answer) {
       const POINTS = 10;
       assertions += 1;
       score += (counter * difficulty) + POINTS;
       objeto = { player: { ...objeto.player, assertions, score } };
     }
-    this.setState({
-      score,
-      assertions,
-    }, () => {
+    this.setState({ score, assertions }, () => {
       localStorage.setItem('state', JSON.stringify(objeto));
       getPlayer({ ...objeto });
     });
@@ -197,29 +192,34 @@ class Game extends Component {
     const { counter, questions, indexNext, answered } = this.state;
     if (questions.length !== 0) {
       return (
-        <div>
+        <div className="game-background">
           <Header />
-          <h3 data-testid="question-category">{questions[indexNext].category}</h3>
-          <p data-testid="question-text">{questions[indexNext].question}</p>
-          { this.renderQuestion() }
-          {
-            (answered)
-            && (
-              <button
-                type="button"
-                data-testid="btn-next"
-                onClick={ this.handleNext }
-              >
-                Próxima
-              </button>
-            )
-          }
-          <h4>{`Tempo: ${counter}`}</h4>
+          <div className="game-box">
+            <h3 data-testid="question-category">{questions[indexNext].category}</h3>
+            <p data-testid="question-text">{questions[indexNext].question}</p>
+            { this.renderQuestion() }
+            {
+              (answered)
+              && (
+                <button
+                  className="next-button"
+                  type="button"
+                  data-testid="btn-next"
+                  onClick={ this.handleNext }
+                >
+                  Próxima
+                </button>
+              )
+            }
+            <h4>{`Tempo: ${counter}`}</h4>
+          </div>
         </div>
       );
     }
     return (
-      <p>Carregando ...</p>
+      <div className="game-background loading">
+        <h3>Carregando ...</h3>
+      </div>
     );
   }
 }

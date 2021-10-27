@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getTokenActionThunk, getUserAction } from '../actions';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor() {
     super();
-
     this.state = {
       name: '',
       email: '',
@@ -48,7 +48,8 @@ class Login extends Component {
     const { name, email, disabled } = this.state;
     const { error, message } = this.props;
     return (
-      <div>
+      <div className="login-background">
+        <h1>Trybe Trivia</h1>
         <form>
           <label htmlFor="name">
             Nome

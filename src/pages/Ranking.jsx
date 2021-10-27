@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/Ranking.css';
 
 class Ranking extends Component {
   getFromLocal() {
@@ -8,23 +9,28 @@ class Ranking extends Component {
     return (
       finalRanking.map(({ name, picture, score }, index) => (
         <li key={ index }>
+          <div>
+            <h1>{`${index + 1}°`}</h1>
+          </div>
           <img src={ picture } alt={ `Avatar de ${name}` } />
-          <p data-testid={ `player-name-${index}` }>{ name}</p>
-          <p data-testid={ `player-score-${index}` }>{ score }</p>
+          <div>
+            <p data-testid={ `player-name-${index}` }>{ name}</p>
+            <p data-testid={ `player-score-${index}` }>{ score }</p>
+          </div>
         </li>))
     );
   }
 
   render() {
     return (
-      <div>
-        <h3 data-testid="ranking-title">Ranking!</h3>
+      <div className="ranking-background">
+        <h2 data-testid="ranking-title">Ranking!</h2>
+        <Link to="/">
+          <button data-testid="btn-go-home" type="button">Jogar Novamente!</button>
+        </Link>
         <ul>
           {this.getFromLocal()}
         </ul>
-        <Link to="/">
-          <button data-testid="btn-go-home" type="button">Go Home!</button>
-        </Link>
       </div>
     );
   }

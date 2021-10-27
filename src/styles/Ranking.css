@@ -1,0 +1,59 @@
+.ranking-background {
+  align-items: center;
+  background-color: #0fa36b;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.ranking-background h2 {
+  color: white;
+  font-size: 40px;
+  text-shadow: 3px 3px black;
+}
+
+ul {
+  align-content: center;
+  display: flex;
+  flex-flow: column nowrap;
+  list-style: none;
+  padding-left: 0;
+  width: 80%;
+}
+
+.ranking-background button {
+  background-color: #0c8355;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 1px 3px black;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+li {
+  background-color: honeydew;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgb(27, 27, 27);
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
+
+li:nth-child( 1 ) {
+  background-color: rgb(200, 172, 10);
+}
+
+li:nth-child( 2 ) {
+  background-color: silver;
+}
+
+li:nth-child( 3 ) {
+  background-color: #cd7f32;
+}
+
+li img {
+  border-radius: 12px;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gravatarAPI from '../services/gravatarAPI';
+import '../styles/Header.css';
 
 class Header extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Header extends React.Component {
     const { player: { name, score } } = this.props;
     const { src } = this.state;
     return (
-      <div>
+      <div className="header">
         <h2 data-testid="header-player-name">{ `Olá, ${name}` }</h2>
         { src && <img
           data-testid="header-profile-picture"

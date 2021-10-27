@@ -1,11 +1,45 @@
+.question-card {
+  min-height: 400px;
+  bottom: 80px;
+  position: relative;
+  top: 20px;
+}
+
 .standard-button {
   border: 1px solid black;
 }
 
 .correct-answer {
   border: 3px solid rgb(6, 240, 15);
+  background-color: green;
 }
 
 .wrong-answer {
   border: 3px solid red;
+  background-color: orange;
+}
+
+.question-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.question-header p {
+  border-radius: 5px;
+  border: 1px solid rgb(6, 240, 15);
+  padding: 2%;
+  font-size: 24px;
+  font-weight: 900;
+  background-color: aliceblue;
+}
+
+.question {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.question h2{
+  font-size: 50px;
 }

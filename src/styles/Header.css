@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  height: 80px;
+  justify-content: flex-start;
+  background-color: rgb(180, 250, 180);
+  align-items: center;
+}
+
+.header h2 {
+  margin: auto 2%;
+}
+
+.header img {
+  height: 50%;
+  margin: auto 1%;
+}
+
+.header p {
+  color: green;
+  font-weight: 900;
+  padding: 1%;
+  background-color: white;
+  border-radius: 5px;
+  margin-left: 5%;
+}

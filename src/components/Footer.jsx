@@ -15,7 +15,8 @@ export default class Footer extends React.Component {
           Projeto&nbsp;
           <strong>Trivia React Redux</strong>
           , Grupo 5, Turma 14-A
-          <br />
+        </p>
+        <p>
           { members.map(({ name, user }, index) => (
             <span key={ index }>
               <a href={ `"https://github.com/${user}"` }>

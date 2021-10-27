@@ -90,7 +90,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 500px;  
+  min-height: 400px;
 } 
 
 footer {
@@ -101,6 +101,25 @@ footer {
   padding: 10px;
   position: fixed;
   width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  height: 40px;
+  align-items: center;
+}
+
+footer p {
+  font-style: italic;
+}
+
+footer a {
+  color: green;
+  font-weight: 700;
+}
+
+footer a:hover {
+  text-shadow: 1px 1px black;
+  color: white;
 }
 
 h1 {

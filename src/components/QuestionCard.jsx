@@ -117,15 +117,17 @@ class QuestionCard extends React.Component {
     } = this.props;
 
     return (
-      <div>
-        <div>
+      <div className="question-card">
+        <div className="question-header">
           <p data-testid="question-category">
             { category }
           </p>
           <p>{ timer }</p>
-          <p data-testid="question-text">
+        </div>
+        <div className="question">
+          <h2 data-testid="question-text">
             { this.htmlDecode(question) }
-          </p>
+          </h2>
         </div>
         <div>
           { options.map((option, index) => {

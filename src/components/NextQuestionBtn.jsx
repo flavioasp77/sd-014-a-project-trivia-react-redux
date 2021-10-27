@@ -7,6 +7,7 @@ export default class NextQuestionBtn extends Component {
     return (
       <div>
         <button
+          className="mt-5 p-4 rounded-md bg-blue-400"
           data-testid="btn-next"
           type="button"
           onClick={ nextQuestion }

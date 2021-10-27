@@ -14,13 +14,18 @@ class Header extends React.Component {
     const { player: { username, gravatarEmail } } = state;
     const { score } = this.props;
     const hash = MD5(gravatarEmail).toString();
-    console.log(hash);
     return (
-      <>
-        <h3 data-testid="header-player-name">{username}</h3>
-        <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
-        <h4 data-testid="header-score">{score}</h4>
-      </>
+      <div className="flex justify-center space-x-20 items-center py-2 bg-gray-700">
+        <img className="rounded-full h-12 w-12" data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
+        <h3>
+          <span data-testid="header-player-name">{username}</span>
+        </h3>
+        <h4>
+          Score:
+          {' '}
+          <span data-testid="header-score">{score}</span>
+        </h4>
+      </div>
     );
   }
 

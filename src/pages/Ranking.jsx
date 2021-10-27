@@ -47,10 +47,10 @@ export default class Ranking extends Component {
     const rankList = localRankings.map((player, index) => {
       const { name, score, picture } = player;
       return (
-        <li key={ index }>
+        <li className="flex space-x-10" key={ index }>
+          <img className="rounded-full h-12 w-12" src={ picture } alt="Gravatar Fail" />
           <p data-testid={ `player-name-${index}` }>{name}</p>
           <p data-testid={ `player-score-${index}` }>{score}</p>
-          <img src={ picture } alt="Gravatar Fail" />
         </li>
       );
     });
@@ -77,10 +77,13 @@ export default class Ranking extends Component {
   render() {
     const { loading } = this.state;
     return (
-      <div>
-        <span data-testid="ranking-title">Ranking</span>
+      <div
+        className="flex flex-col justify-center items-center
+        w-screen h-screen border-2 border-gray-500 rounded-md"
+      >
+        <span className="text-3xl" data-testid="ranking-title">Ranking</span>
         { loading ? <Loading /> : <this.rankingFetcher /> }
-        <Link to="/">
+        <Link to="/" className="m-5 p-4 rounded-md bg-gray-400 hover:bg-blue-400">
           <button type="button" data-testid="btn-go-home">
             Jogar novamente
           </button>

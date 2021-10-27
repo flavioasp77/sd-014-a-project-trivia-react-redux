@@ -1,0 +1,185 @@
+.containner-podio {
+  align-items: center;
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 800px;
+}
+
+.main-containner-ranking {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.podio-space {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 180px;
+}
+
+.podio-space > p {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.position0 {
+  align-items: center;
+  background-color: cornflowerblue;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  width: 130px;
+  z-index: 1;
+}
+
+.position0 > p {
+  margin: 50px;
+}
+
+.position1 {
+  align-items: center;
+  background-color: cornflowerblue;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  width: 130px;
+  z-index: 2;
+}
+
+.position1 > p {
+  margin-top: 40px;
+}
+
+.position2 {
+  align-items: center;
+  background-color: cornflowerblue;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 130px;
+  z-index: 3;
+}
+
+.position2 > p {
+  margin-top: 13px;
+}
+
+.containner-podio > :nth-child( 1 ) {
+  order: 2;
+}
+
+.containner-podio > :nth-child( 2 ) {
+  order: 1;
+}
+
+.containner-podio > :nth-child( 3 ) {
+  order: 3;
+}
+
+.img-gravatar0 {
+  border-radius: 50%;
+  height: 70px;
+  margin-bottom: 20px;
+  margin-top: 60px;
+  width: 70px;
+}
+
+.img-gravatar1 {
+  border-radius: 50%;
+  height: 70px;
+  margin-bottom: 20px;
+  margin-top: 180px;
+  width: 70px;
+}
+
+.img-gravatar2 {
+  border-radius: 50%;
+  height: 70px;
+  margin-bottom: 20px;
+  margin-top: 240px;
+  width: 70px;
+}
+
+.img-podio0 {
+  background-image: url('https://img.icons8.com/emoji/48/000000/trophy-emoji.png');
+  height: 40px;
+  width: 40px;
+}
+
+.img-podio1 {
+  background-image: url('https://img.icons8.com/emoji/48/000000/2nd-place-medal-emoji.png');
+  height: 50px;
+  width: 40px;
+}
+
+.img-podio2 {
+  background-image: url('https://img.icons8.com/emoji/48/000000/3rd-place-medal-emoji.png');
+  height: 50px;
+  width: 40px;
+}
+
+.main-containner-ranking > h2 {
+  font-family: cursive , 'Press Start 2P';
+  margin-top: 20px;
+}
+
+.containner-raking-geral {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+}
+
+.card-podio {
+  border: solid 1px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+  padding: 10px;
+  width: 800px;
+}
+
+.infor-player-containner {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  width: 400px;
+}
+
+.card-podio > img {
+  border-radius: 50%;
+}
+
+.infor-player-containner > h3 {
+  font-size: 17px;
+}
+
+.containner-btn {
+  width: 100%;
+}
+
+.btn-ranking {
+  background-color: #7bc3fd;
+  border-radius: 5px;
+  bottom: 70px;
+  cursor: pointer;
+  font-family: cursive , 'Press Start 2P';
+  font-size: 10px;
+  height: 45px;
+  margin-bottom: 20px;
+  margin-left: 30px;
+  margin-top: 20px;
+  position: relative;
+  width: 160px;
+}
+
+.btn-ranking:hover {
+  background-color: #2480cc;
+  box-shadow: 0 0 1em #2f87c1;
+}

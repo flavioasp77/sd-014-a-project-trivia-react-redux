@@ -10,9 +10,9 @@ import Timer from '../components/Timer';
 import NextQstButton from '../components/NextQstButton';
 
 class Game extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    this.shuffleQuestions(props.questions);
     const { player } = JSON.parse(localStorage.getItem('state'));
     this.state = {
       index: 0,
@@ -26,6 +26,7 @@ class Game extends Component {
     this.selectAnswer = this.selectAnswer.bind(this);
     this.handleNextQuest = this.handleNextQuest.bind(this);
     this.handleBtnColor = this.handleBtnColor.bind(this);
+    this.shuffleQuestions = this.shuffleQuestions.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +34,21 @@ class Game extends Component {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (!ranking) localStorage.setItem('ranking', JSON.stringify({}));
     sessionStorage.setItem('timer', halfMinute);
+  }
+
+  shuffleQuestions(questions) {
+    Object.keys(questions).map((item) => {
+      const { incorrect_answers:
+        incorrect, correct_answer: correct } = questions[item];
+      questions[item].answers = this.shuffle([...incorrect, correct]);
+      return item;
+    });
+  }
+
+  // https://javascript.info/array-methods#shuffle-an-array
+  shuffle(array) {
+    const half = 0.5;
+    return array.sort(() => Math.random() - half);
   }
 
   // correctAnswe r

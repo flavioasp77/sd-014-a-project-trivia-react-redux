@@ -18,8 +18,6 @@ const requestTrivia = (payload) => ({
 export function getToken(token) {
   return async (dispatch) => {
     const response = await (await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)).json();
-    console.log(token);
-    console.log(response);
     dispatch(requestTrivia(response.results));
   };
 }

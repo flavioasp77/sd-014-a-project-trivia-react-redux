@@ -3,6 +3,7 @@
   background-color: #0fa36b;
   display: flex;
   flex-flow: column nowrap;
+  height: 100%;
 }
 
 .ranking-background h2 {

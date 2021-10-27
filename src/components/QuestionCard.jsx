@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+
+import { attScore } from '../redux/actions';
 import { fetchQuestions } from '../services';
+import { setDifficulty, saveLocalStorage } from '../auxiliaryFuncs/funcs';
 
 const FINAL_QUESTION = 4;
 
@@ -24,6 +29,7 @@ class QuestionCard extends Component {
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   componentDidMount() {
@@ -60,12 +66,13 @@ class QuestionCard extends Component {
     clearInterval(this.timer);
   }
 
-  handleClick() {
+  async handleClick({ target }) {
     this.setState({
       questionBtnClicked: true,
     });
 
     this.stopTimer();
+    await this.updateScore(target);
 
     const correctButton = document.querySelector('.correctButton');
     const incorrectButtons = document.querySelectorAll('.incorrectButtons');
@@ -74,6 +81,27 @@ class QuestionCard extends Component {
     incorrectButtons.forEach((element) => {
       element.style.border = '3px solid rgb(255, 0, 0)';
     });
+
+    const { name, assertions, score, gravatarEmail } = this.props;
+    const player = {
+      name,
+      assertions,
+      score,
+      gravatarEmail,
+    };
+    saveLocalStorage(player);
+  }
+
+  async updateScore(target) {
+    const { time, questions, questionNumber } = this.state;
+    const { setAttScore } = this.props;
+
+    const PONTUACAO_ACERTO = 10;
+    const totalScore = time * setDifficulty(questions, questionNumber) + PONTUACAO_ACERTO;
+
+    if (target.className === 'correctButton') {
+      await setAttScore(totalScore);
+    }
   }
 
   nextQuestion() {
@@ -197,4 +225,23 @@ class QuestionCard extends Component {
   }
 }
 
-export default QuestionCard;
+QuestionCard.propTypes = {
+  setAttScore: PropTypes.func,
+  score: PropTypes.number,
+  name: PropTypes.string,
+  gravatarEmail: PropTypes.string,
+  assertions: PropTypes.number,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  name: state.player.name,
+  assertions: state.player.assertions,
+  score: state.player.score,
+  gravatarEmail: state.player.gravatarEmail,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setAttScore: (time, difficulty) => dispatch(attScore(time, difficulty)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

@@ -69,16 +69,29 @@ button {
   padding: 10px;
 }
 
+button:hover {
+  cursor: pointer;
+  background-color: rgb(90, 250, 90);
+  color: white;
+  font-weight: 900;
+  text-shadow: 2px 2px #282c34;
+}
+
 fieldset {
   background-color: rgb(180, 250, 180);
   border: none;
+  border-radius: 12px;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 form {
   align-items: center;
   display: flex;
   flex-direction: column;
-}
+  justify-content: center;
+  height: 500px;  
+} 
 
 footer {
   background-color: rgb(180, 250, 180);
@@ -100,6 +113,8 @@ input {
   border-radius: 5px;
   margin-left: 5px;
   padding: 10px;
+  width: 80%;
+
 }
 
 input:hover {

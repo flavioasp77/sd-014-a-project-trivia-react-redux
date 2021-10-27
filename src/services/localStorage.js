@@ -10,18 +10,13 @@ export const savePlayerEmail = (gravatarEmail, name, score = 0) => {
       score,
       gravatarEmail,
     },
-    // rank: {
-    //   player0: {
-    //     name,
-    //     score,
-    //     gravatarEmail,
-    //   },
-    // },
   };
   localStorage.setItem('state', JSON.stringify(player));
 };
 
 export const getStateFromStorage = () => JSON.parse(localStorage.getItem('state'));
+
+export const getRankFromStorage = () => JSON.parse(localStorage.getItem('ranking'));
 
 export const savePlayerScore = (player) => {
   const playerFuture = {
@@ -29,10 +24,3 @@ export const savePlayerScore = (player) => {
   };
   localStorage.setItem('state', JSON.stringify(playerFuture));
 };
-
-// export const savePlayerAssertions = (assertions) => {
-//   const playerFuture = {
-//     assertions,
-//   };
-//   localStorage.setItem('state', JSON.stringify(playerFuture));
-// };

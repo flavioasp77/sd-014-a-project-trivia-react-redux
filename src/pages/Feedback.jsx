@@ -1,9 +1,40 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import { getStateFromStorage } from '../services/localStorage';
+import { getStateFromStorage, getRankFromStorage } from '../services/localStorage';
 
 export default class Feedback extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { history } = this.props;
+    history.push('/ranking');
+    const rankStorage = getRankFromStorage();
+    const stateActual = getStateFromStorage();
+    if (!rankStorage) {
+      console.log('verdadeiro');
+      const player = [
+        {
+          name: stateActual.player.name,
+          score: stateActual.player.score,
+          picture: stateActual.player.gravatarEmail,
+        },
+      ];
+      localStorage.setItem('ranking', JSON.stringify(player));
+    } else {
+      console.log('falso');
+      const playerRank = {
+        name: stateActual.player.name,
+        score: stateActual.player.score,
+        picture: stateActual.player.gravatarEmail,
+      };
+      localStorage.setItem('ranking', JSON.stringify([...rankStorage, playerRank]));
+    }
+  }
+
   render() {
     const stateStorage = getStateFromStorage();
     const { assertions, score } = stateStorage.player;
@@ -27,7 +58,7 @@ export default class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-ranking"
-          onClick={ () => history.push('/ranking') }
+          onClick={ this.handleClick }
         >
           Ver Ranking
         </button>

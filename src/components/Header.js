@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getGravatarEmailUrl } from '../services/APIrequests';
 import { getStateFromStorage } from '../services/localStorage';
+import '../styles/Header.css';
 
 export default class Header extends Component {
   constructor() {
@@ -30,11 +31,21 @@ export default class Header extends Component {
   render() {
     const { url, name, score } = this.state;
     return (
-      <div>
-        <img src={ url } alt="Gravatar Imagem" data-testid="header-profile-picture" />
-        <span data-testid="header-player-name">{name}</span>
-        <p data-testid="header-score">{score}</p>
-      </div>
+      <header>
+        <div className="div-img-and-username">
+          <img
+            src={ url }
+            alt="Gravatar Imagem"
+            className="img-gravatar"
+            data-testid="header-profile-picture"
+            height="60px"
+          />
+          <span data-testid="header-player-name" className="header-player-name">
+            {name}
+          </span>
+        </div>
+        <p data-testid="header-score" className="header-score">{score}</p>
+      </header>
     );
   }
 }

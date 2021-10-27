@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { getToken } from '../services/APIrequests';
 import { savePlayerEmail, saveToken } from '../services/localStorage';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor() {
@@ -51,8 +52,8 @@ class Login extends Component {
     const { history } = this.props;
     const { disabled } = this.state;
     return (
-      <form>
-        <label htmlFor="input-name">
+      <form className="form-login">
+        <label htmlFor="input-name" className="label-player-name">
           Name
           <input
             id="input-name"
@@ -60,9 +61,10 @@ class Login extends Component {
             name="name"
             onChange={ this.handleChange }
             data-testid="input-player-name"
+            className="input-player-name"
           />
         </label>
-        <label htmlFor="input-email">
+        <label htmlFor="input-email" className="label-gravatar-email">
           Email
           <input
             id="input-email"
@@ -70,6 +72,7 @@ class Login extends Component {
             name="email"
             onChange={ this.handleChange }
             data-testid="input-gravatar-email"
+            className="input-gravatar-email"
           />
         </label>
         <button
@@ -78,6 +81,7 @@ class Login extends Component {
           data-testid="btn-play"
           id="botao-submit"
           onClick={ this.handleClick }
+          className="btn-play"
         >
           Jogar
         </button>
@@ -87,6 +91,7 @@ class Login extends Component {
           onClick={ () => {
             history.push('/config');
           } }
+          className="btn-settings"
         >
           ...
         </button>

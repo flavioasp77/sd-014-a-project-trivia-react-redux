@@ -1,0 +1,33 @@
+header {
+  align-content: space-around;
+  align-items: center;
+  background-color: #a29bfe;
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  font-family: Architects Daughter , cursive;
+  height: 80px;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.div-img-and-username {
+  align-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header-score {
+  margin-right: 40px;
+}
+
+.header-player-name {
+  margin: 10px;
+}
+
+@import url('https://fonts.googleapis.com/css2? family = Architects + Daughter & display=swap') ;

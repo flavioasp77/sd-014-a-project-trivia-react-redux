@@ -46,7 +46,10 @@ class Score extends React.Component {
                 Jogar novamente
               </button>
             </Link>
-            <Link to="/ranking" className="m-2 p-4 rounded-md bg-gray-400 hover:bg-blue-400">
+            <Link
+              to="/ranking"
+              className="m-2 p-4 rounded-md bg-gray-400 hover:bg-blue-400"
+            >
               <button type="button" data-testid="btn-ranking">
                 Ver Ranking
               </button>

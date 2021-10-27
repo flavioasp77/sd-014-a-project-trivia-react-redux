@@ -9,11 +9,11 @@ class Ranking extends Component {
     return (
       finalRanking.map(({ name, picture, score }, index) => (
         <li key={ index }>
-          <div>
+          <div className="ranking-image">
             <h1>{`${index + 1}°`}</h1>
+            <img src={ picture } alt={ `Avatar de ${name}` } />
           </div>
-          <img src={ picture } alt={ `Avatar de ${name}` } />
-          <div>
+          <div className="ranking-user">
             <p data-testid={ `player-name-${index}` }>{ name}</p>
             <p data-testid={ `player-score-${index}` }>{ score }</p>
           </div>

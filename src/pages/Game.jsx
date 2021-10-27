@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { MD5 } from 'crypto-js';
 import { connect } from 'react-redux';
+import { decode } from 'html-entities';
 import Header from '../components/Header';
 import { getTriviaActionThunk, registerPlayer } from '../actions';
 import '../styles/Game.css';
@@ -69,10 +70,7 @@ class Game extends Component {
         clickedAnswer: '',
       });
     }, TIME_OUT);
-    this.setState({
-      timerId,
-      counterId,
-    });
+    this.setState({ timerId, counterId });
   }
 
   treatQuestions() {
@@ -181,7 +179,7 @@ class Game extends Component {
               ? 'correct-answer'
               : `wrong-answer-${array.indexOf(answer)}` }
           >
-            { answer }
+            { decode(answer) }
           </button>
         )) }
       </div>
@@ -196,7 +194,7 @@ class Game extends Component {
           <Header />
           <div className="game-box">
             <h3 data-testid="question-category">{questions[indexNext].category}</h3>
-            <p data-testid="question-text">{questions[indexNext].question}</p>
+            <p data-testid="question-text">{decode(questions[indexNext].question)}</p>
             { this.renderQuestion() }
             {
               (answered)

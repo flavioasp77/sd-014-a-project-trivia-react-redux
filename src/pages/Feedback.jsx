@@ -3,41 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { updateRanking } from '../redux/actions';
 
 class Feedback extends React.Component {
   constructor() {
     super();
-
-    // this.cloneLocalStorageToState = this.cloneLocalStorageToState.bind(this);
     this.messageFeedback = this.messageFeedback.bind(this);
-    this.handleRanking = this.handleRanking.bind(this);
-
     document.title = 'Trivia-Feedback';
   }
 
-  // componentDidMount() {
-  //   this.cloneLocalStorageToState();
-  // }
-
-  handleRanking() {
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    const { name, score, pictureURL } = this.props;
-    const newRanking = [...ranking || [], { name, score, picture: pictureURL }];
-    localStorage.setItem('ranking', JSON.stringify(newRanking));
+  componentDidMount() {
+    const { dispatchUpdateRanking, name, score, pictureURL } = this.props;
+    dispatchUpdateRanking({ name, score, pictureURL });
   }
-
-  // cloneLocalStorageToState() {
-  //   const playerInfo = JSON.parse(localStorage.getItem('state'));
-  //   const { player: { name, score, gravatarEmail, assertions } } = playerInfo;
-  //   this.setState({
-  //     name,
-  //     score,
-  //     pictureURL: getGravatar(gravatarEmail),
-  //     assertions,
-  //   }, () => {
-  //     this.handleRanking();
-  //   });
-  // }
 
   messageFeedback() {
     const { assertions } = this.props;
@@ -97,11 +75,16 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  dispatchUpdateRanking: (newPlayer) => dispatch(updateRanking(newPlayer)),
+});
+
 Feedback.propTypes = {
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   pictureURL: PropTypes.string.isRequired,
   assertions: PropTypes.number.isRequired,
+  dispatchUpdateRanking: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

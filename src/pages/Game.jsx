@@ -11,7 +11,6 @@ const FINAL_INDEX = 4;
 class Game extends React.Component {
   constructor() {
     super();
-
     this.state = {
       score: 0,
       assertions: 0,
@@ -19,11 +18,8 @@ class Game extends React.Component {
       answered: false,
       stopwatch: 30,
     };
-
     this.sortArray = this.sortArray.bind(this);
-
     this.initTimer = this.initTimer.bind(this);
-
     this.handleAnswer = this.handleAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -67,16 +63,6 @@ class Game extends React.Component {
     return [...incorrect, correct].sort();
   }
 
-  // cloneLocalStorageToState() {
-  //   const playerInfo = JSON.parse(localStorage.getItem('state'));
-  //   const { player: { name, score, gravatarEmail } } = playerInfo;
-  //   this.setState({
-  //     name,
-  //     score,
-  //     pictureURL: getGravatar(gravatarEmail),
-  //   });
-  // }
-
   handleClick({ target }) {
     const isCorrect = target.dataset.testid.includes('correct');
     this.handleAnswer(isCorrect);
@@ -90,17 +76,6 @@ class Game extends React.Component {
       assertions: isCorrect ? prevState.assertions + 1 : prevState.assertions,
     }));
   }
-  // () => {
-  //   const { name, score, gravatarEmail, assertions } = this.state;
-  //   const gameState = {
-  //     player: {
-  //       name,
-  //       assertions,
-  //       score,
-  //       gravatarEmail,
-  //     },
-  //   };
-  // localStorage.setItem('state', JSON.stringify(gameState));
 
   calculateScore(oldScore) {
     const { index, stopwatch } = this.state;

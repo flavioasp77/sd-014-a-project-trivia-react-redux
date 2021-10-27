@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
@@ -8,8 +10,8 @@ class Ranking extends React.Component {
   }
 
   render() {
-    const rankingList = JSON.parse(localStorage.getItem('ranking'))
-      .sort((a, b) => b.score - a.score);
+    const { ranking } = this.props;
+    const rankingList = ranking.sort((a, b) => b.score - a.score);
     return (
       <>
         <section data-testid="ranking-list-section">
@@ -40,4 +42,12 @@ class Ranking extends React.Component {
   }
 }
 
-export default Ranking;
+const mapStateToProps = (state) => ({
+  ranking: state.ranking,
+});
+
+Ranking.propTypes = {
+  ranking: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStateToProps)(Ranking);

@@ -23,7 +23,7 @@ const triviaReducer = (state = INITIAL_STATE, action) => {
   case UPDATE_PLAYER:
     return { ...state, player: action.player };
   case UPDATE_RANKING:
-    return { ...state, ranking: action.ranking };
+    return { ...state, ranking: action.newRanking };
   case FETCH_QUESTIONS:
     return { ...state, questions: action.questions };
   case CHANGE_SETTINGS:

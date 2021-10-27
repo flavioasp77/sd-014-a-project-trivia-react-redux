@@ -11,8 +11,10 @@ class Play extends React.Component {
     super(props);
     this.state = {
       currentQuestion: 0,
+      score: 0,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.atualizarScore = this.atualizarScore.bind(this);
   }
 
   componentDidMount() {
@@ -30,15 +32,25 @@ class Play extends React.Component {
     }
   }
 
+  atualizarScore(score) {
+    this.setState((prevState) => ({ score: prevState.score + score }));
+  }
+
   render() {
-    const { currentQuestion } = this.state;
-    const { generateQuestions, isFetching, score } = this.props;
+    const { currentQuestion, score } = this.state;
+    const { generateQuestions, isFetching } = this.props;
+    if (generateQuestions === undefined) return <p>Carregando</p>;
     return (
       <main>
         <Header score={ score } />
         {
           isFetching
-            ? <p>Loading</p> : <Questions { ...generateQuestions[currentQuestion] } />
+            ? <p>Loading</p>
+            : (
+              <Questions
+                { ...generateQuestions[currentQuestion] }
+                attScore={ this.atualizarScore }
+              />)
         }
       </main>
     );

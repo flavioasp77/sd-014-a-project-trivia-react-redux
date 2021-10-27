@@ -52,41 +52,45 @@ class Questions extends React.Component {
     });
   }
 
+  async somaScore(difficulty) {
+    const timer = (document.getElementById('timer')).innerText;
+    if (difficulty === 'easy') {
+      await this.setState((prevState) => ({
+        scoreCounter: prevState.scoreCounter + (MIN_SCORE + (EASY * timer)),
+        assertions: prevState.assertions + 1,
+      }));
+    }
+    if (difficulty === 'medium') {
+      await this.setState((prevState) => ({
+        scoreCounter: prevState.scoreCounter + (MIN_SCORE + (MEDIUM * timer)),
+        assertions: prevState.assertions + 1,
+      }));
+    }
+    if (difficulty === 'hard') {
+      await this.setState((prevState) => ({
+        scoreCounter: prevState.scoreCounter + (MIN_SCORE + (HARD * timer)),
+        assertions: prevState.assertions + 1,
+      }));
+    }
+  }
+
   async handleClick(target) {
     const { difficulty, correct_answer: correctAnswer, atualizaPontos } = this.props;
-    const timer = (document.getElementById('timer')).innerText;
     this.setState({ selectedAnswer: true });
     if (target.value === correctAnswer) {
-      if (difficulty === 'easy') {
-        await this.setState((prevState) => ({
-          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (EASY * timer)),
-          assertions: prevState.assertions + 1,
-        }));
-      }
-      if (difficulty === 'medium') {
-        await this.setState((prevState) => ({
-          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (MEDIUM * timer)),
-          assertions: prevState.assertions + 1,
-        }));
-      }
-      if (difficulty === 'hard') {
-        await this.setState((prevState) => ({
-          scoreCounter: prevState.scoreCounter + (MIN_SCORE + (HARD * timer)),
-          assertions: prevState.assertions + 1,
-        }));
-      }
-      const { scoreCounter, assertions } = this.state;
-      const { name, gravatarEmail } = this.props;
-      atualizaPontos(scoreCounter, assertions);
-      const player = { player: {
-        name,
-        assertions,
-        score: scoreCounter,
-        gravatarEmail,
-      } };
-
-      localStorage.setItem('player', JSON.stringify(player));
+      await this.somaScore(difficulty);
     }
+    const { scoreCounter, assertions } = this.state;
+    const { name, gravatarEmail, attScore } = this.props;
+    atualizaPontos(scoreCounter, assertions);
+    const player = { player: {
+      name,
+      assertions,
+      score: scoreCounter,
+      gravatarEmail,
+    } };
+    attScore(scoreCounter);
+    localStorage.setItem('player', JSON.stringify(player));
   }
 
   mainQuestion() {
@@ -168,6 +172,7 @@ Questions.propTypes = {
   atualizaPontos: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
+  attScore: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   name: state.user.name,

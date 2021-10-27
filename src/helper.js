@@ -4,6 +4,8 @@ export const ONE_SECOND = 1000;
 export const CLOCK_TIME = 30;
 export const INCREASER = 1;
 export const DECREASER = 1;
+export const RED = '3px solid rgb(255, 0, 0)';
+export const GREEN = '3px solid rgb(6, 240, 15)';
 
 export function emailValidation(email) {
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
@@ -85,7 +87,7 @@ export function updateRanking(score, name, picture) {
       { name, score, picture },
     ].sort((a, b) => b.score - a.score)));
     return;
-  } // [a, b, c, d]
+  }
 
   localStorage.setItem('ranking', JSON.stringify([
     { name, score, picture },

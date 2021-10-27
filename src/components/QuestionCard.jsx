@@ -5,15 +5,57 @@ import htmlDecode from '../services/htmlDecode';
 import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      question: '',
+      shuffledAnswers: [],
+    };
+  }
+
+  componentDidMount() {
+    const { data } = this.props;
+
+    const shuffledAnswers = [...data.incorrect_answers, data.correct_answer];
+    this.shuffle(shuffledAnswers);
+
+    this.updateState({
+      question: data.question,
+      shuffledAnswers,
+    });
+  }
+
+  componentDidUpdate() {
+    const { data } = this.props;
+    const { question } = this.state;
+
+    if (data.question !== question) {
+      const shuffledAnswers = [...data.incorrect_answers, data.correct_answer];
+      this.shuffle(shuffledAnswers);
+
+      this.updateState({
+        question: data.question,
+        shuffledAnswers,
+      });
+    }
+  }
+
+  updateState(state) {
+    this.setState(state);
+  }
+
+  shuffle(array) {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements array[i] and array[j]
+    }
+  }
+  // Reference: https://javascript.info/array-methods#shuffle-an-array
+
   render() {
     const { data, nextQuestion, onAnswerClick, shouldShowAnswer, timer } = this.props;
-
-    const {
-      category,
-      correct_answer: correct,
-      incorrect_answers: incorrects,
-      question,
-    } = data;
+    const { category, correct_answer: correct, question } = data;
+    const { shuffledAnswers } = this.state;
 
     return (
       <div className="question-card">
@@ -30,7 +72,7 @@ class QuestionCard extends Component {
         </div>
         <div className="container-question-card">
           <Answers
-            answers={ [...incorrects, correct] }
+            answers={ shuffledAnswers }
             correctAnswer={ correct }
             onAnswerClick={ onAnswerClick }
             showAnswer={ shouldShowAnswer || timer === 0 }

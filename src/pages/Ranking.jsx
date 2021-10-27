@@ -20,7 +20,7 @@ class Ranking extends React.Component {
             {rankingList.map((player, index) => (
               <li key={ index }>
                 <img
-                  src={ player.picture }
+                  src={ player.pictureURL }
                   alt="Imagem do seu avatar"
                   data-testid="header-profile-picture"
                 />

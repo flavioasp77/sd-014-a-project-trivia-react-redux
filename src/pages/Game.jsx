@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import '../styles/Game.css';
 import { updatePlayer, fetchQuestions } from '../redux/actions';
+import htmlDecode from '../helpers/htmlDecode';
 
 const FINAL_INDEX = 4;
 
@@ -114,7 +115,7 @@ class Game extends React.Component {
           {questions.length > 0 && (
             <div>
               <p data-testid="question-category">{ questions[index].category }</p>
-              <p data-testid="question-text">{questions[index].question}</p>
+              <p data-testid="question-text">{ htmlDecode(questions[index].question)}</p>
               {this.sortArray().map((atual, indice) => (
                 <button
                   type="button"
@@ -128,7 +129,8 @@ class Game extends React.Component {
                   disabled={ answered }
                   className={ answered ? 'clicked' : undefined }
                 >
-                  { atual }
+                  {/* https://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript */}
+                  { htmlDecode(atual) }
                 </button>
               ))}
             </div>)}

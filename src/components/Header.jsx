@@ -14,7 +14,6 @@ class Header extends React.Component {
     const { player: { username, gravatarEmail } } = state;
     const { score } = this.props;
     const hash = MD5(gravatarEmail).toString();
-    console.log(hash);
     return (
       <div className="flex justify-center space-x-20 items-center py-2 bg-gray-700">
         <img className="rounded-full h-12 w-12" data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />

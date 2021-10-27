@@ -30,7 +30,7 @@ class Questions extends Component {
 
   componentDidMount() {
     this.timer();
-    console.log(Object.keys(localStorage));
+    // console.log(Object.keys(localStorage));
   }
 
   componentDidUpdate(prevProps, prevState) {

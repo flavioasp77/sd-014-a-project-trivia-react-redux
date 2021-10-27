@@ -14,8 +14,8 @@ class Rank extends React.Component {
           {
             rank.map((elemento, index) => (
               <div key={ index }>
-                <p date-testid={ `player-name-${index}` }>{ elemento.name }</p>
-                <p date-testid={ `player-score-${index}` }>{ elemento.score }</p>
+                <p data-testid={ `player-name-${index}` }>{ elemento.name }</p>
+                <p data-testid={ `player-score-${index}` }>{ elemento.score }</p>
                 <img
                   src={
                     getGravatarEmailUrl + elemento.picture

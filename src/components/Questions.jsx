@@ -79,7 +79,6 @@ class Questions extends Component {
     this.setState({
       answers: points,
       answered: false,
-
     });
   }
 
@@ -87,9 +86,11 @@ class Questions extends Component {
     const { id, answered } = this.state;
     const { questions } = this.props;
     if (answered) {
-      return (answer === questions[id].correct_answer ? 'greenBorder' : 'redBorder');
+      return (answer === questions[id].correct_answer
+        ? 'm-2 p-4 rounded-md bg-gray-400 greenBorder'
+        : 'm-2 p-4 rounded-md bg-gray-400 redBorder');
     }
-    return 'm-2 p-4 rounded-sm bg-blue-400';
+    return 'm-2 p-4 rounded-md bg-gray-400';
   }
 
   async scoreStorage() {
@@ -133,13 +134,13 @@ class Questions extends Component {
     if (loading) return <Loading />;
     return (
       <div className="flex flex-col justify-center items-center w-100 h-100 game">
-        <span data-testid="timer">{(timer > ZERO) ? timer : 'Time is up!'}</span>
-        <h1>
-          <span data-testid="question-category">{questions[id].category}</span>
-        </h1>
-        <h2>
-          <span data-testid="question-text">{questions[id].question}</span>
-        </h2>
+        <span className="text-5xl mb-7 text-blue-400" data-testid="timer">
+          {(timer > ZERO) ? timer : 'Time is up!'}
+        </span>
+        <span data-testid="question-category">{questions[id].category}</span>
+        <span className="text-3xl mb-3 font-semibold" data-testid="question-text">
+          {questions[id].question}
+        </span>
         <div>
           { answers.map((answer, index, array) => (
             <button
@@ -163,6 +164,7 @@ class Questions extends Component {
           <Link to="/score">
             <div>
               <button
+                className="m-2 p-4 rounded-sm bg-blue-400"
                 data-testid="btn-next"
                 type="button"
               >

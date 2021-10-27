@@ -21,30 +21,39 @@ class Score extends React.Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     const { assertions, score } = player;
     return (
-      <div>
+      <>
         <Header />
-        <div>
-          <h1 data-testid="feedback-text">{ this.getScore() }</h1>
-          <h2>
+        <div
+          className="flex flex-col justify-center items-center
+          w-100 h-screen border-2 border-gray-500 rounded-md"
+        >
+          <h1 className="text-3xl mb-5" data-testid="feedback-text">
+            { this.getScore() }
+          </h1>
+          <h2 className="text-2xl mb-4">
             Acertos:
+            {' '}
             <span data-testid="feedback-total-question">{assertions}</span>
           </h2>
-          <h2>
+          <h2 className="text-2xl mb-4">
             Pontuação:
+            {' '}
             <span data-testid="feedback-total-score">{score}</span>
           </h2>
+          <div className="flex">
+            <Link to="/" className="m-2 p-4 rounded-md bg-gray-400 hover:bg-blue-400">
+              <button type="button" data-testid="btn-play-again">
+                Jogar novamente
+              </button>
+            </Link>
+            <Link to="/ranking" className="m-2 p-4 rounded-md bg-gray-400 hover:bg-blue-400">
+              <button type="button" data-testid="btn-ranking">
+                Ver Ranking
+              </button>
+            </Link>
+          </div>
         </div>
-        <Link to="/">
-          <button type="button" data-testid="btn-play-again">
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking">
-            Ver Ranking
-          </button>
-        </Link>
-      </div>
+      </>
     );
   }
 }

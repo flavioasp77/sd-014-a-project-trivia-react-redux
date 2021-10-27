@@ -1,5 +1,13 @@
 .feedback {
   text-align: center;
+  top: 40px;
+  position: relative;
+  background-color: forestgreen;
+  color: white;
+  width: fit-content;
+  margin: 4% auto;
+  padding: 2%;
+  border-radius: 12px;
 }
 
 .btn-play-again {
@@ -9,7 +17,7 @@
 
 .btn-ranking {
   background-color: lightgray;
-  margin-top: 50px;
+  margin-top: 150px; 
 }
 
 a {

@@ -5,3 +5,29 @@
 [ data-testid |= 'wrong-answer' ].clicked {
   border: 3px solid red;
 }
+
+[ data-testid = 'question-category' ] {
+  background-color: rgb(188, 196, 196);
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 10px;
+}
+
+[ data-testid = 'question-text' ] {
+  background-color: rgb(229, 233, 233);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.question-wrap {
+  background-color: rgb(229, 233, 233);
+  border-radius: 10px;
+  margin: 10px auto;
+  padding-bottom: 10px;
+  width: 30%;
+}
+
+.time {
+  color: red;
+  font-weight: 600;
+}

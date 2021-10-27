@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { createPlayer } from '../redux/actions';
+import '../styles/Login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -42,17 +43,17 @@ class Login extends React.Component {
     const { name, email } = this.state;
     const MIN_CARACTER = 2;
     return (
-      <main>
+      <main className="login">
         <Input
           name="name"
-          msg="Nome:"
+          msg="Nome"
           value={ name }
           onChange={ this.handleChange }
           dataTestid="input-player-name"
         />
         <Input
           name="email"
-          msg="Email:"
+          msg="Email"
           value={ email }
           onChange={ this.handleChange }
           dataTestid="input-gravatar-email"

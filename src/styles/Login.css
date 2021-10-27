@@ -1,0 +1,45 @@
+.login {
+  background-color: rgb(229, 233, 233);
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 20px;
+  width: 30%;
+}
+
+label {
+  font-size: 4vh;
+  font-weight: 600;
+}
+
+input {
+  border-radius: 4px;
+  display: block;
+  font-size: 2.5vh;
+  height: 4vh;
+  margin: 10px auto;
+  outline-style: none;
+  text-align: center;
+  width: 60%;
+}
+
+button {
+  background-color: rgb(34, 34, 36);
+  color: white;
+  font-weight: 700;
+  margin: 10px 20px;
+  padding: 10px;
+  width: 130px;
+}
+
+.big-button {
+  background-color: rgb(34, 34, 36);
+  color: white;
+  font-weight: 700;
+  margin-right: -5px;
+  padding: 10px;
+  width: 200px;
+}
+
+button:hover {
+  background-color: rgb(67, 68, 68);
+}

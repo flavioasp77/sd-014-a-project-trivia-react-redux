@@ -1,0 +1,11 @@
+.img-jogador {
+  border-radius: 50%;
+}
+
+.jogado {
+  background-color: rgb(229, 233, 233);
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 10px;
+  width: 30%;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/Answers.css';
 import htmlDecode from '../services/htmlDecode';
+import '../styles/Answers.css';
 
 class Answers extends Component {
   className(answer) {

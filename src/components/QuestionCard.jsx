@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Answers from './Answers';
-import '../styles/QuestionCard.css';
 import htmlDecode from '../services/htmlDecode';
+import '../styles/QuestionCard.css';
 
 class QuestionCard extends Component {
   render() {

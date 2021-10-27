@@ -21,7 +21,7 @@ const INITIAL_STATE = {
 const triviaReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case UPDATE_PLAYER:
-    return { ...state, player: action.player };
+    return { ...state, player: { ...state.player, ...action.player } };
   case UPDATE_RANKING:
     return { ...state, ranking: action.newRanking };
   case FETCH_QUESTIONS:

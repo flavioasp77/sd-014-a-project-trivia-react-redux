@@ -13,7 +13,7 @@ export const updatePlayer = (player) => (dispatch) => {
       pictureURL: getGravatar(player.gravatarEmail),
     },
   });
-  localStorage.setItem('state', JSON.stringify({ state: { player } }));
+  localStorage.setItem('state', JSON.stringify({ player }));
 };
 
 export const createPlayer = (name, gravatarEmail) => (dispatch) => {

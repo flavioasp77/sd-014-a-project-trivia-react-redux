@@ -70,11 +70,15 @@ class Game extends React.Component {
 
   handleAnswer(isCorrect) {
     clearInterval(this.timer);
+    const { dispatchUpdatePlayer } = this.props;
     this.setState((prevState) => ({
       answered: true,
       score: isCorrect ? this.calculateScore(prevState.score) : prevState.score,
       assertions: isCorrect ? prevState.assertions + 1 : prevState.assertions,
-    }));
+    }), () => {
+      const { score, assertions } = this.state;
+      dispatchUpdatePlayer({ score, assertions });
+    });
   }
 
   calculateScore(oldScore) {

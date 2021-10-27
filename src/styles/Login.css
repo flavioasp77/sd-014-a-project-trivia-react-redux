@@ -1,0 +1,37 @@
+.login-background {
+  align-items: center;
+  background-color: #0fa36b;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+}
+
+.login-background h1 {
+  color: white;
+  font-size: 40px;
+  text-shadow: 3px 3px black;
+}
+
+input, button {
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.login-background button {
+  background-color: #0c8355;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 1px 3px black;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+button:disabled {
+  background-color: grey;
+}
+
+.login-background form {
+  display: flex;
+  flex-flow: column nowrap;
+}

@@ -33,16 +33,25 @@ class Login extends Component {
       });
   }
 
-  handleClick(event) {
+  async handleClick(event) {
     event.preventDefault();
-    const { token } = this.props;
-    const { history } = this.props;
+    const { token, history, user } = this.props;
     const { username, email } = this.state;
-    const { user } = this.props;
     user(username, email);
-    this.tokenApi();
-    token(this.state);
+    await this.tokenApi();
+    await token(this.state);
     history.push('/Trivia');
+
+    const userDetails = {
+      user: {
+        username,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+
+    localStorage.state = JSON.stringify(userDetails);
   }
 
   async tokenApi() {

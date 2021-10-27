@@ -1,0 +1,112 @@
+.header {
+  background-color: #036b52;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  margin-right: 50px;
+  margin-top: 10px;
+}
+
+.points {
+  margin-top: 25px;
+}
+
+.name-player {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.userInfo, span {
+  color: #f8f8f8;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 50px;
+}
+
+.trivia-logo-header {
+  margin-bottom: 10px;
+  margin-left: 50px;
+  margin-top: 10px;
+  max-width: 150px;
+}
+
+.question-wrapper {
+  display: flex;
+  flex-direction: row;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.questions {
+  background-color: whitesmoke;
+  border: 3px solid #f8f8f8;
+  border-radius: 0.2rem;
+  float: left;
+  height: 280px;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: center;
+  top: 50%;
+  width: 350px;
+}
+
+.question-category {
+  background-color: #1d1d1d;
+  border-radius: 0.2rem;
+  color: white;
+  padding: 10px;
+}
+
+.section-answers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.answer-btn, .rightanswer, .wronganswer {
+  background-color: whitesmoke;
+  border: 3px solid #1d1d1d;
+  border-radius: 4px;
+  color: #1d1d1d;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px;
+  transition: background 0.2s 0s ease;
+}
+
+.rightanswer {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wronganswer {
+  border: 3px solid red;
+}
+
+.answer-btn:hover, .rightanswer:hover, .wronganswer:hover {
+  background-color: #1d1d1d;
+  color: white;
+}
+
+.continue-btn {
+  background-color: #036b52;
+  border-style: none;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 10px;
+  transition: background 0.5s 0s ease;
+}
+
+.continue-btn:hover {
+  background-color: #1d1d1d;
+}

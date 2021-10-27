@@ -1,9 +1,9 @@
-import { USER } from '../actions';
+import { USER, SCORE_COUNT } from '../actions';
 
 const INITIAL_STATE = {
   username: '',
   assertions: '',
-  score: '',
+  score: 0,
   email: '',
 };
 
@@ -14,6 +14,11 @@ function user(state = INITIAL_STATE, action) {
       ...state,
       username: action.payload.username,
       email: action.payload.email,
+    };
+  case SCORE_COUNT:
+    return {
+      ...state,
+      score: action.score,
     };
   default:
     return state;

@@ -6,13 +6,13 @@ export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
 
 export const updatePlayer = (player) => (dispatch) => {
-  dispatch({
-    type: UPDATE_PLAYER,
-    player: {
-      ...player,
-      pictureURL: getGravatar(player.gravatarEmail),
-    },
-  });
+  dispatch({ type: UPDATE_PLAYER, player });
+  if (player.gravatarEmail) {
+    dispatch({
+      type: UPDATE_PLAYER,
+      player: { pictureURL: getGravatar(player.gravatarEmail) },
+    });
+  }
   localStorage.setItem('state', JSON.stringify({ player }));
 };
 
@@ -39,7 +39,6 @@ export const fetchQuestions = () => (
     const TOKEN = await fetchToken.json();
     localStorage.setItem('token', JSON.stringify(TOKEN));
     const { category, difficulty, type } = getState().settings;
-    console.log(category);
     const urlSettings = `&category=${category}&difficulty=${difficulty}&type=${type}`;
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${TOKEN.token}${urlSettings}`);
     const json = await response.json();

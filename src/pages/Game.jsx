@@ -150,11 +150,17 @@ class Game extends React.Component {
       <>
         <Header name={ name } score={ score } pictureURL={ pictureURL } />
         <main>
-          <p>Game</p>
           {questions.length > 0 && (
             <div>
-              <p data-testid="question-category">{ questions[index].category }</p>
-              <p data-testid="question-text">{questions[index].question}</p>
+              <div className="question-wrap">
+                <p data-testid="question-category">{ questions[index].category }</p>
+                <p data-testid="question-text">{questions[index].question}</p>
+                <div className="time">
+                  Tempo restante:
+                  {' '}
+                  { stopwatch }
+                </div>
+              </div>
               {this.sortArray().map((atual, indice) => (
                 <button
                   type="button"
@@ -178,11 +184,6 @@ class Game extends React.Component {
               dataTestid="btn-next"
               onClick={ this.nextQuestion }
             />)}
-          <div>
-            Tempo restante:
-            {' '}
-            { stopwatch }
-          </div>
         </main>
       </>
     );

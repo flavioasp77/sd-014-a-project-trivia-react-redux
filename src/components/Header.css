@@ -1,0 +1,35 @@
+.header-img {
+  height: auto;
+  max-height: 120px;
+  max-width: 150px;
+  width: auto;
+}
+
+.header-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 130px;
+  justify-content: space-between;
+  margin: auto;
+  width: 70%;
+}
+
+.img-name-container {
+  text-align: center;
+}
+
+.header-container h1 {
+  font-size: 50px;
+}
+
+.header-container h2 {
+  font-size: 30px;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+}

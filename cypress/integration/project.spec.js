@@ -670,11 +670,11 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
 
     const ranking = [name1, name3, name2];
-
+// name1 = nome da pessoa, name2 = outra pessoa, name3 = mais uma pessoa
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(3);
     });
-
+    // const RANKING_PLAYERS_NAME_SELECTOR = '[data-testid*="player-name"]';
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).each(($el, $index) => {
       expect($el.text()).to.be.eq(ranking[$index]);
     });

@@ -14,6 +14,8 @@ import {
   CLOCK_TIME,
   INCREASER,
   DECREASER,
+  GREEN,
+  RED,
 } from '../helper';
 
 class Game extends React.Component {
@@ -25,7 +27,6 @@ class Game extends React.Component {
       index: 0,
       clock: CLOCK_TIME,
       answered: false,
-      clear: false,
     };
   }
 
@@ -37,8 +38,8 @@ class Game extends React.Component {
     const token = JSON.parse(localStorage.getItem('token'));
     const questions = await fetchTriviaQuestions(token);
     this.setState({ questions, question: questions[0] }, () => {
+      this.showNextQuestionButton();
       this.setQuestionTimer();
-      this.hiddenCheckButton();
     });
   }
 
@@ -47,8 +48,8 @@ class Game extends React.Component {
       const { clock, answered } = this.state;
 
       if (clock === 0 || answered) {
-        console.log(answered);
-        this.setState({ clear: true });
+        this.highlightCorrectAnswers();
+        this.showNextQuestionButton();
         clearInterval(timer);
         return;
       }
@@ -66,56 +67,49 @@ class Game extends React.Component {
       clock: CLOCK_TIME,
       question: questions[prev.index + INCREASER],
     }), () => {
-      document.querySelectorAll('.wrong').forEach((button) => {
-        button.removeAttribute('style');
-      });
-      document.querySelector('.correct').removeAttribute('style');
-      this.hiddenCheckButton();
+      this.hideCorrectAnswers();
+      this.showNextQuestionButton();
       this.setQuestionTimer();
     });
   }
 
-  disableButton = () => {
+  questionDisableCheck = () => {
     const { clock, answered } = this.state;
-    if (clock === 0 || answered) {
-      this.highlightAnswers();
-      this.hiddenCheckButton();
-      return true;
-    }
-    return false;
+    return (clock === 0 || answered);
   }
 
-  highlightAnswers = () => {
+  hideCorrectAnswers = () => {
+    const wrongAnswers = document.querySelectorAll('.wrong');
+    const rightAnswer = document.querySelector('.correct');
+    wrongAnswers.forEach((answer) => answer.removeAttribute('style'));
+    rightAnswer.removeAttribute('style');
+  }
+
+  highlightCorrectAnswers = () => {
     const wrongAnswers = document.querySelectorAll('.wrong');
     const rightAnswers = document.querySelector('.correct');
-
-    if (wrongAnswers && rightAnswers) {
-      wrongAnswers.forEach((button) => {
-        button.style.border = '3px solid rgb(255, 0, 0)';
-      });
-      rightAnswers.style.border = '3px solid rgb(6, 240, 15)';
-    }
+    wrongAnswers.forEach((answer) => { answer.style.border = RED; });
+    rightAnswers.style.border = GREEN;
   }
 
-  handleChoice = (result, difficulty) => {
+  handleChoice = (userGotRight, difficulty) => {
     this.setState({ answered: true }, () => {
       const { clock } = this.state;
       const { scoreToState } = this.props;
-      this.highlightAnswers();
-      this.hiddenCheckButton();
-      if (result) {
+      this.highlightCorrectAnswers();
+      if (userGotRight) {
         scoreToState(calculateScore(clock, difficulty));
       }
     });
   }
 
-  hiddenCheckButton = () => {
-    const { clock, clear } = this.state;
+  showNextQuestionButton = () => {
+    const { clock, answered } = this.state;
     const button = document.querySelector('.btn-next');
-    button.style.display = (clear || clock === 0 ? 'block' : 'none');
+    button.style.display = (answered || clock === 0 ? 'block' : 'none');
   }
 
-  handleNextButton = () => {
+  nextQuestionButtonOnClick = () => {
     const { history, score, name, img } = this.props;
     const { questions, index } = this.state;
 
@@ -124,16 +118,15 @@ class Game extends React.Component {
       history.push('/feedback');
       return;
     }
-    this.setState({ answered: true, clear: false }, () => {
-      this.nextQuestion();
-    });
+
+    this.nextQuestion();
   }
 
   nextQuestionButton = () => (
     <button
       type="button"
       className="btn-next"
-      onClick={ this.handleNextButton }
+      onClick={ this.nextQuestionButtonOnClick }
       data-testid="btn-next"
     >
       Próxima
@@ -149,7 +142,7 @@ class Game extends React.Component {
         <Question
           question={ question }
           handleChoice={ this.handleChoice }
-          handleDisabled={ this.disableButton }
+          handleDisabled={ this.questionDisableCheck }
         />
         { this.nextQuestionButton() }
         <p>{clock}</p>

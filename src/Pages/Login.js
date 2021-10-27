@@ -34,7 +34,7 @@ class Login extends Component {
     userToState(login, email, img);
   }
 
-  handleDisabled = (email, login) => {
+  checkStartButtonDisable = (email, login) => {
     if (emailValidation(email) && loginValidation(login)) {
       return false;
     }
@@ -72,7 +72,7 @@ class Login extends Component {
           type="button"
           onClick={ this.handleLogin }
           data-testid="btn-play"
-          disabled={ this.handleDisabled(email, login) }
+          disabled={ this.checkStartButtonDisable(email, login) }
         >
           Jogar
         </button>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { resetScore } from '../Redux/actions';
 
 class Ranking extends Component {
-  redirect = (history) => {
+  redirectToHome = (history) => {
     const { resetStateScore } = this.props;
     resetStateScore();
     history.push('/');
@@ -31,7 +31,7 @@ class Ranking extends Component {
         <button
           type="button"
           data-testid="btn-go-home"
-          onClick={ () => this.redirect(history) }
+          onClick={ () => this.redirectToHome(history) }
         >
           Jogar Novamente
         </button>

@@ -31,13 +31,18 @@ class Ranking extends Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
+      <div className="container-ranking">
         <h1 data-testid="ranking-title">Ranking</h1>
         { ranking.map((rank, index) => (
-          <li key={ index }>
-            <img src={ rank.picture } alt={ `Player rank: ${index}` } />
-            <h3 data-testid={ `player-name-${index}` }>{rank.name}</h3>
-            <h4 data-testid={ `player-score-${index}` }>{rank.score}</h4>
+          <li key={ index } className="ranking-list-item">
+            <div className="ranking-order-picture">
+              {`${index + 1}. `}
+              <img src={ rank.picture } alt={ `Player rank: ${index}` } />
+            </div>
+            <div className="ranking-name-points">
+              <h3 data-testid={ `player-name-${index}` }>{rank.name}</h3>
+              <h4 data-testid={ `player-score-${index}` }>{rank.score}</h4>
+            </div>
           </li>
         ))}
         <button

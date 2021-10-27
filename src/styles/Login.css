@@ -1,0 +1,46 @@
+.form-login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 15%;
+  width: 100%;
+}
+
+.label-player-name {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.input-player-name {
+  height: 25px;
+  margin-top: 10px;
+  width: 200px;
+}
+
+.label-gravatar-email {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.input-gravatar-email {
+  height: 25px;
+  margin-top: 10px;
+  width: 200px;
+}
+
+.btn-settings {
+  height: 25px;
+  margin-top: 10px;
+  width: 150px;
+}
+
+.btn-play {
+  height: 25px;
+  margin-top: 10px;
+  width: 150px;
+}

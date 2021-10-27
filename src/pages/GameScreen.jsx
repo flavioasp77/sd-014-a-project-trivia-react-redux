@@ -106,7 +106,7 @@ class GameScreen extends Component {
 
   render() {
     const {
-      questions, indexOfQuestion, visibleButton } = this.state;
+      questions, indexOfQuestion } = this.state;
     const { redirect } = this.state;
     return (
       <div className="Trivia-question">
